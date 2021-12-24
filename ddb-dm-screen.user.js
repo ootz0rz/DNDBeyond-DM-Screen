@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name			ootz D&DBeyond DM Screen
 // @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version			1.0.3
+// @version			1.0.4
 // @description		Advanced DM screen for D&DBeyond campaigns
 // @author			ootz0rz
 // @match			https://www.dndbeyond.com/campaigns/*
