@@ -178,6 +178,15 @@ $gm_money_pp: rgb(98, 171, 255);
                     span {white-space: nowrap;}
                 }
             }
+
+            tfoot {
+                td {
+                    &.col_name {
+                        vertical-align: middle;
+                        text-align: right;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name			ootz D&DBeyond DM Screen
 // @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version			1.0.2
+// @version			1.0.3
 // @description		Advanced DM screen for D&DBeyond campaigns
 // @author			ootz0rz
 // @match			https://www.dndbeyond.com/campaigns/*
@@ -138,6 +138,31 @@ var mainTableHTML = `
     <tbody id="gm_table_body">
     </tbody>
     <tfoot>
+        <tr id="totals">
+            <td class="col_name">
+                Totals:
+            </td>
+            <td class="col_hp"></td>
+            <td class="col_ac"></td>
+            <td class="col_speed"></td>
+            <td class="col_stat"></td>
+            <td class="col_stat"></td>
+            <td class="col_stat"></td>
+            <td class="col_stat"></td>
+            <td class="col_stat"></td>
+            <td class="col_stat"></td>
+            <td class="col_passives"></td>
+            <td class="col_money">
+                <span class="total"></span><hr />
+                <span class="ppc"><span class="pp"></span> pp</span>
+                <span class="epc"><span class="ep"></span> ep </span>
+                <span class="gpc"><span class="gp"></span> gp </span>
+                <span class="spc"><span class="sp"></span> sp </span>
+                <span class="cpc"><span class="cp"></span> cp </span>
+            </td>
+            <td class="col_skills"></td>
+            <td class="col_languages"></td>
+        </tr>
         <tr>
             <td colspan="14" class='gs-controls'>
                     <span class="gs-form-field gs-row-container">
@@ -596,7 +621,12 @@ function updateAllCharData() {
 function updateCharData(url) {
 
     return new Promise(function (resolve, reject) {
-        console.log("Retriving Char Data");
+        console.log("Retrieving Char Data");
+
+        var totalsRow = $("#totals", $("#gmstats"));
+        globalCurrencies = {};
+        globalLanguages = [];
+
         getJSONfromURLs([url]).then((js) => {
             //window.jstest = js;
             js.forEach(function(charJSON, index){
@@ -611,6 +641,24 @@ function updateCharData(url) {
                         updateElementData(charactersData[charId]);
                         console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
                         console.log(charactersData[charId]);
+
+                        // update global counters
+                        // -------------------------------------------------------
+                        var charData = charactersData[charId].data;
+
+                        // money
+                        $.each(charData.currencies, (key, val) => {
+                            if (key in globalCurrencies) {
+                                globalCurrencies[key] += val;
+                            } else {
+                                globalCurrencies[key] = val;
+                            }
+                        });
+                        updateMoney(totalsRow, globalCurrencies);
+
+                        // languages
+                        updateLanguages(totalsRow, charData.proficiencyGroups, globalLanguages);
+
                         resolve();
                     });
                 } else {
@@ -1214,20 +1262,27 @@ function updateSkillProfs(parent, skills) {
         }
     });
 
+    allskills.sort();
     $(".col_skills", parent).html(allskills.join(", "));
 }
 
-function updateLanguages(parent, profGroups) {
-    var langs = [];
+function updateLanguages(parent, profGroups, langs = []) {
     profGroups.forEach((item, idx) => {
         if (item.label == "Languages") {
             item.modifierGroups.forEach((lang, lidx) => {
-                langs.push("<span>{0}</span>".format(lang.label));
+                var l = "<span>{0}</span>".format(lang.label);
+
+                if (!langs.includes(l)) {
+                    langs.push(l);
+                }
             });
         }
     });
 
+    langs.sort();
     $(".col_languages", parent).html(langs.join(", "));
+
+    return langs;
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
