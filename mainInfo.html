@@ -1,0 +1,170 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+    integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+</script>
+
+<link rel="stylesheet" href="dm-screen.css">
+
+<div id="gmstats">
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col_name">
+                <span class="name">Name</span><br />
+                <span class="exhaust"><span>E</span>xhaust</span><br />
+                <span class="spellsavedc">Spell Save <span>DC</span></span>
+            </th>
+            <th class="col_hp">
+                HP<hr />
+                <span class="save">D</span>eath <span class="fail">S</span>aves
+            </th>
+            <th class="col_ac">AC</th>
+            <th class="col_speed">
+                Speed<hr />
+                Dark Vis
+            </th>
+            <th class="col_stat">S<br />T<br />R</th>
+            <th class="col_stat">D<br />E<br />X</th>
+            <th class="col_stat">C<br />O<br />N</th>
+            <th class="col_stat">I<br />N<br />T</th>
+            <th class="col_stat">W<br />I<br />S</th>
+            <th class="col_stat">C<br />H<br />A</th>
+            <th class="col_passives">
+                Passives:<br />
+                <span>per</span>cept<br />
+                <span>inv</span>est<br />
+                <span>ins</span>ight<br />
+            </th>
+            <th class="col_money">$$$</th>
+            <th class="col_skills">Skill Proficiences</th>
+            <th class="col_languages">Languages</th>
+        </tr>
+    </thead>
+    <tbody id="gm_table_body">
+        <tr id="player_000">
+            <td class="col_name">
+                <span class="name">blah</span><br/>
+                <span class="exhaust"><span>• • •</span> - - -</span><br/>
+                <span class="spellsavedc">Cleric DC: <span>13</span></span>
+            </td>
+            <td class="col_hp">
+                <span class="good">10/10 100%</span>
+            </td>
+            <td class="col_ac">13</td>
+            <td class="col_speed">
+                0<hr />
+                0 ft
+            </td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_passives">
+                per: <span>10</span><br />
+                inv: <span>11</span><br />
+                ins: <span>12</span>
+            </td>
+            <td class="col_money">
+                <span class="gp">15</span> gp
+                <span class="sp">4</span> sp
+            </td>
+            <td class="col_skills">acrobatics, deception, insight, performance, persuasion, stealth</td>
+            <td class="col_languages">common, dwarvish, elvish, celestial</td>
+        </tr>
+        <tr id="player_001">
+            <td class="col_name">
+                <span class="name">blah2</span><br/>
+                <span class="exhaust"><span>•</span> - - - - -</span><br/>
+                <span class="spellsavedc">Bard DC: <span>14</span></span>
+            </td>
+            <td class="col_hp">
+                <span class="hurt">8/10 80%</span>
+            </td>
+            <td class="col_ac">16</td>
+            <td class="col_speed">
+                0<hr />
+                0 ft
+            </td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_passives">
+                per: <span>10</span><br />
+                inv: <span>11</span><br />
+                ins: <span>12</span>
+            </td>
+            <td class="col_money">
+                <span class="pp">1</span> pp
+                <span class="ep">1</span> ep 
+                <span class="gp">1</span> gp
+                <span class="sp">1</span> sp
+                <span class="cp">1</span> cp
+            </td>
+            <td class="col_skills">acrobatics, deception, insight, performance, persuasion, stealth</td>
+            <td class="col_languages">common, dwarvish, elvish, celestial</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<hr />
+
+<div class="gs-main-info gs-wrapper gs-infobox">
+    <div class="gs-infobox-item1 gs-infobox-item gs-container gs-grid-container gs-row-fill">
+        <div class="gs-main-able gs-container-line gs-container-spaces">
+            <div class="gs-header gs-header-able">Abilities</div>
+            <div class="gs-container gs-row-container"></div>
+        </div>
+        <div class="gs-main-saves gs-container-line gs-container-spaces">
+            <div class="gs-header gs-header-saves">Saving Throws</div>
+            <div class="gs-container gs-row-container"></div>
+        </div>
+    </div>
+    <div class="gs-infobox-item2 gs-infobox-item gs-container gs-grid-container gs-row-fill">
+    </div>
+    <div class="gs-infobox-item3 gs-infobox-item gs-container gs-col-container">
+        <div class="gs-senses gs-col-container gs-container-spaces">
+            <div class="gs-header gs-header-senses">Senses</div>
+            <div class="gs-passives">
+                <div class="gs-subheader gs-header-passives">Passives</div>
+                <div class="gs-container gs-col-container">
+                    <div class="gs-box gs-box-callout gs-passivePerception">
+                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
+                        <div class="gs-number gs-passives-number"></div>
+                        <div class="gs-label gs-passives-label">Perception</div>
+                    </div>
+                    <div class="gs-box gs-box-callout gs-passiveInvestigation">
+                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
+                        <div class="gs-number gs-passives-number"></div>
+                        <div class="gs-label gs-passives-label">Investigation</div>
+                    </div>
+                    <div class="gs-box gs-box-callout gs-passiveInsight">
+                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
+                        <div class="gs-number gs-passives-number"></div>
+                        <div class="gs-label gs-passives-label">Insight</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gs-additonal-senses">
+                <div class="gs-subheader gs-header-additonal-senses">Additional Senses</div>
+                <div class="gs-container gs-col-container"></div>
+            </div>
+        </div>
+        <div class="gs-classes gs-col-container gs-container-spaces">
+            <div class="gs-header gs-header-classes">Classes</div>
+            <div class="gs-container gs-col-container"></div>
+        </div>
+        <div class="gs-resources gs-col-container gs-container-spaces">
+            <div class="gs-header gs-header-resources">Resources</div>
+            <div class="gs-container gs-col-container"></div>
+        </div>
+    </div>
+</div>

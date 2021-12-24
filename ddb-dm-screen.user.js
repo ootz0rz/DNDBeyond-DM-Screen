@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name			D&DBeyond DM Screen
+// @name			ootz D&DBeyond DM Screen
 // @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
 // @version			1.0
 // @description		Advanced DM screen for D&DBeyond campaigns
@@ -11,6 +11,9 @@
 // @grant			GM_setValue
 // @grant			GM_getValue
 // @license			MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
+// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
+// @grant           GM_getResourceText
+// @grant           GM_addStyle
 // ==/UserScript==
 console.log("D&DBeyond DM Screen Starting");
 
@@ -24,7 +27,10 @@ const campaignElementTarget = '.ddb-campaigns-detail-header-secondary';
 const rulesUrls = ["https://character-service.dndbeyond.com/character/v4/rule-data", "https://gamedata-service.dndbeyond.com/vehicles/v3/rule-data"];
 const charJSONurlBase = "https://character-service.dndbeyond.com/character/v4/character/";
 
-const stylesheetUrls = ["https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css"]
+const stylesheetUrls = [
+    "https://raw.githubusercontent.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css",
+    "https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css", // TODO temp for dev
+]
 
 const gameCollectionUrl = {prefix :"https://character-service.dndbeyond.com/character/v4/game-data/", postfix: "/collection"}
 const optionalRules = {
@@ -62,6 +68,19 @@ const currenciesMainDefault = 'gold';
 
 var $ = window.jQuery;
 var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders ={};
+
+// string format check
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+                ;
+        });
+    };
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        SVG Data
@@ -179,102 +198,83 @@ var controlsHTML = `
 	</div>
   `;
 
-//base html that the code gets added to
-var mainInfoHTML = `
-    <div class="gs-main-info gs-wrapper gs-infobox">
-      <div class="gs-infobox-item1 gs-infobox-item gs-container gs-grid-container gs-row-fill">
-	    <div class="gs-main-able gs-container-line gs-container-spaces">
-		  <div class="gs-header gs-header-able">Abilities</div>
-		  <div class="gs-container gs-row-container"></div>
-		</div>
-		<div class="gs-main-saves gs-container-line gs-container-spaces">
-		  <div class="gs-header gs-header-saves">Saving Throws</div>
-		  <div class="gs-container gs-row-container"></div>
-		</div>
-      </div>
-      <div class="gs-infobox-item2 gs-infobox-item gs-container gs-grid-container gs-row-fill">
-      </div>
-      <div class="gs-infobox-item3 gs-infobox-item gs-container gs-col-container">
-		<div class="gs-senses gs-col-container gs-container-spaces">
-		  <div class="gs-header gs-header-senses">Senses</div>
-		  <div class="gs-passives">
-		    <div class="gs-subheader gs-header-passives">Passives</div>
-			<div class="gs-container gs-col-container">
-   		      <div class="gs-box gs-box-callout gs-passivePerception">
-   		        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-   		        <div class="gs-number gs-passives-number"></div>
-   		        <div class="gs-label gs-passives-label">Perception</div>
-   			  </div>
-   		      <div class="gs-box gs-box-callout gs-passiveInvestigation">
-   		        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-   		        <div class="gs-number gs-passives-number"></div>
-   		        <div class="gs-label gs-passives-label">Investigation</div>
-   			  </div>
-   		      <div class="gs-box gs-box-callout gs-passiveInsight">
-   		        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-   		        <div class="gs-number gs-passives-number"></div>
-   		        <div class="gs-label gs-passives-label">Insight</div>
-   			  </div>
-            </div>
-		  </div>
-		  <div class="gs-additonal-senses">
-		    <div class="gs-subheader gs-header-additonal-senses">Additional Senses</div>
-			<div class="gs-container gs-col-container"></div>
-		  </div>
-		</div>
-		<div class="gs-classes gs-col-container gs-container-spaces">
-		  <div class="gs-header gs-header-classes">Classes</div>
-		  <div class="gs-container gs-col-container"></div>
-	    </div>
-        <div class="gs-resources gs-col-container gs-container-spaces">
-		  <div class="gs-header gs-header-resources">Resources</div>
-		  <div class="gs-container gs-col-container"></div>
-	    </div>
-      </div>
-    </div>
-  `;
+var mainTableHTML = `
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col_name">
+                <span class="name">Name</span><br />
+                <span class="exhaust"><span>E</span>xhaust</span><br />
+                <span class="spellsavedc">Spell Save <span>DC</span></span>
+            </th>
+            <th class="col_hp">
+                HP<hr />
+                <span class="save">D</span>eath <span class="fail">S</span>aves
+            </th>
+            <th class="col_ac">AC</th>
+            <th class="col_speed">
+                Speed<hr />
+                Dark Vis
+            </th>
+            <th class="col_stat">S<br />T<br />R</th>
+            <th class="col_stat">D<br />E<br />X</th>
+            <th class="col_stat">C<br />O<br />N</th>
+            <th class="col_stat">I<br />N<br />T</th>
+            <th class="col_stat">W<br />I<br />S</th>
+            <th class="col_stat">C<br />H<br />A</th>
+            <th class="col_passives">
+                Passives:<br />
+                <span>per</span>cept<br />
+                <span>inv</span>est<br />
+                <span>ins</span>ight<br />
+            </th>
+            <th class="col_money">$$$</th>
+            <th class="col_skills">Skill Proficiences</th>
+            <th class="col_languages">Languages</th>
+        </tr>
+    </thead>
+    <tbody id="gm_table_body">
+    </tbody>
+</table>
+`;
 
-//quick reference that included hitpoints, armor class and initiative bonus
-var quickInfoHTML = `
-    <div class="gs-quick-info gs-wrapper gs-expanded">
-      <div class="gs-container gs-quickStats gs-quick-info-container">
-        <div class="gs-container gs-hp gs-flex-items">
-	      <div class="gs-label gs-hp-label">Hit Points</div>
-	      <div class="gs-box gs-hp-box">
-	        <div class="gs-box-background">` + otherBoxSVG + `</div>
-		<div class="gs-value gs-hp-value">
-	          <span class="gs-number gs-hp-cur"></span>
-	          <span class="gs-number gs-hp-max"></span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="gs-container gs-ac">
-	      <div class="gs-box gs-ac-box gs-flex-items">
-	        <div class="gs-box-background">` + armorClassBoxSVG + `</div>
-	        <div class="gs-label gs-ac-label">Armor</div>
-	        <div class="gs-number gs-ac-value"></div>
-	        <div class="gs-label gs-ac-label">Class</div>
-	      </div>
-	    </div>
-	    <div class="gs-container gs-intv gs-flex-items">
-	      <div class="gs-label gs-intv-label">Initiative</div>
-	      <div class="gs-box gs-intv-box gs-flex-items">
-	        <div class="gs-box-background">` + initiativeBoxSVG + `</div>
-	        <div class="gs-value gs-intv-value gs-flex-values">
-	          <span class="gs-sign gs-intv-sign"></span>
-	          <span class="gs-number gs-intv-number"></span>
-	        </div>
-	      </div>
-	    </div>
-      </div>
-	  <div class="gs-miscellaneous gs-col-container gs-container-spaces">
-		<div class="gs-speeds">
-		  <div class="gs-header gs-header-speeds">Speed</div>
-		  <div class="gs-container gs-row-container"></div>
-		</div>
-      </div>
-    </div>
-  `;
+var tableRowHTML = `
+        <tr>
+            <td class="col_name">
+                <span class="name">blah2</span><br/>
+                <span class="exhaust"><span>•</span> - - - - -</span><br/>
+                <span class="spellsavedc">Bard DC: <span>14</span></span>
+            </td>
+            <td class="col_hp">
+                <span class="hurt">8/10 80%</span>
+            </td>
+            <td class="col_ac">16</td>
+            <td class="col_speed">
+                0<hr />
+                0 ft
+            </td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_stat">10<br />+0</td>
+            <td class="col_stat">8<br />-1</td>
+            <td class="col_stat">12<br />+1</td>
+            <td class="col_passives">
+                per: <span>10</span><br />
+                inv: <span>11</span><br />
+                ins: <span>12</span>
+            </td>
+            <td class="col_money">
+                <span class="pp">1</span> pp
+                <span class="ep">1</span> ep 
+                <span class="gp">1</span> gp
+                <span class="sp">1</span> sp
+                <span class="cp">1</span> cp
+            </td>
+            <td class="col_skills">acrobatics, deception, insight, performance, persuasion, stealth</td>
+            <td class="col_languages">common, dwarvish, elvish, celestial</td>
+        </tr>
+`;
 
 var abilityHTML = `
 	<div class="gs-able gs-container gs-flex-items">
@@ -574,6 +574,11 @@ var initalModules = {
 (function () {
     campaignID = window.location.pathname.match(charIDRegex);
     stylesheetUrls.forEach(loadStylesheet); //load and insert each stylesheet in the settings
+
+    // TODO temp for dev
+    const my_css = GM_getResourceText("IMPORTED_CSS");
+    GM_addStyle(my_css);
+
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     insertCampaignElements();
     findTargets();
@@ -667,11 +672,22 @@ function findTargets() {
 
 function insertElements() {
     console.log("Inserting Structual Elements");
-    for(let id in charactersData) {
-        let node = charactersData[id].node;
-        node.addClass('.gs-' + id);
-        node.append(mainInfoHTML); // add the structure for the main info adjacent ro the player card;
-        node.find('.ddb-campaigns-character-card-header').append(quickInfoHTML); // add the structure for quick stats inside player card
+
+    var sitemain = $("#site-main");
+    var node = $("<div id='gmstats'></div>#gmstats");
+
+    sitemain.prepend(node);
+    
+    node.append(mainTableHTML);
+
+    var tableBody = $("#gm_table_body", node);
+
+    for(let id in charactersData) {       
+        var row = $(tableRowHTML);
+        row.attr("id", "player-" + id);
+        tableBody.append(row);
+
+        charactersData[id].node = row;
     };
 }
 
@@ -1037,16 +1053,69 @@ function updateElementData(character) { // function that builds the scraped data
 }
 
 function updateQuickInfo(parent, character){
+    console.log('update quick info', parent, character);
     var quickInfo = parent.find('.gs-quick-info');
-    updateHitPointInfo(quickInfo, character.hitPointInfo);
+    updateHitPointInfo(parent, character.hitPointInfo);
     updateArmorClass(quickInfo, character.armorClass);
     updateInitiative(quickInfo, character.initiative);
     updateSpeeds(quickInfo, character.speeds);
 }
 
-function updateHitPointInfo(parent, hitPointInfo){
-    parent.find('.gs-hp-cur').html(hitPointInfo.remainingHp);
-    parent.find('.gs-hp-max').html(hitPointInfo.totalHp);
+
+function updateHitPointInfo(parent, hitPointInfo) {
+    var hp = parent.find('td.col_hp');
+
+    var max = hitPointInfo.totalHp;
+    var remaining = hitPointInfo.remainingHp;
+
+    var hasbonus = false;
+    var bonus = 0;
+    if (hitPointInfo.bonusHp !== null && hitPointInfo.bonusHp > 0) {
+        bonus = hitPointInfo.tempHp;
+
+        remaining += bonus;
+
+        hasbonus = true;
+    }
+
+    var hastemp = false;
+    var temp = 0;
+    if (hitPointInfo.tempHp !== null && hitPointInfo.tempHp > 0) {
+        temp = hitPointInfo.tempHp;
+
+        remaining += temp;
+        
+        hastemp = true;
+    }
+
+    var pct_left = remaining / max * 100;
+
+    var color = 'normal';
+    if (pct_left < 50) color = 'bad';
+    else if (pct_left < 75) color = 'hurt';
+    else if (pct_left < 100) color = 'good';
+    else if (pct_left > 100) color = 'overheal';
+    else color = 'normal';
+
+    var bonus_str = "";
+    if (hasbonus) {
+        bonus_str = "<br />bonus: <span class='overheal'>{0}</span>".format(bonus);
+    }
+
+    var temp_str = "";
+    if (hastemp) {
+        temp_str = "<br />temp: <span class='overheal'>{0}</span>".format(temp);
+    }
+
+    hp.html(
+        `<span class="{0}">{1}</span>{2}{3}`
+            .format(
+                color,
+                "{0}/{1} {2}%".format(remaining, max, pct_left),
+                bonus_str,
+                temp_str
+            )
+    );
 }
 
 function updateArmorClass(parent, armorClass){

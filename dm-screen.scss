@@ -16,12 +16,14 @@ $gm_c_red: red;
 $gm_c_green: rgb(0, 255, 0);
 $gm_c_cyan: cyan;
 $gm_c_yellow: yellow;
+$gm_c_bright_yellow: rgb(255, 220, 65);
 
 // hp
 $gm_hp_overheal: $gm_c_cyan;
 $gm_hp_good: $gm_c_green;
 $gm_hp_hurt: $gm_c_yellow;
 $gm_hp_bad: $gm_c_red;
+$gm_hp_normal: $gm_c_bright_black;
 
 // money
 $gm_money_cp: rgb(230, 162, 99);
@@ -81,6 +83,8 @@ $gm_money_pp: rgb(98, 171, 255);
                 .good { color: $gm_hp_good; }
                 .hurt { color: $gm_hp_hurt; }
                 .bad { color: $gm_hp_bad; }
+                .normal { color: $gm_hp_normal; }
+
                 .fail, .save {font-weight: bold;}
                 .fail { color: $gm_c_red; }
                 .save { color: $gm_c_green; }
@@ -93,6 +97,10 @@ $gm_money_pp: rgb(98, 171, 255);
             &.col_stat {
                 width: 0%;
                 text-align: right;
+            }
+
+            &.col_passives {
+                span {color: $gm_c_bright_yellow;}
             }
 
             &.col_money {

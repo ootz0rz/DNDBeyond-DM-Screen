@@ -11167,6 +11167,9 @@ textarea.form-control-lg {
 #gmstats table.table th.col_hp .bad, #gmstats table.table td.col_hp .bad {
   color: red;
 }
+#gmstats table.table th.col_hp .normal, #gmstats table.table td.col_hp .normal {
+  color: grey;
+}
 #gmstats table.table th.col_hp .fail, #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .fail, #gmstats table.table td.col_hp .save {
   font-weight: bold;
 }
@@ -11182,6 +11185,9 @@ textarea.form-control-lg {
 #gmstats table.table th.col_stat, #gmstats table.table td.col_stat {
   width: 0%;
   text-align: right;
+}
+#gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
+  color: #ffdc41;
 }
 #gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp {
   color: #e6a263;
