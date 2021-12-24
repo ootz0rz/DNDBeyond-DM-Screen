@@ -1,0 +1,23 @@
+{
+  "name": "dndbeyond-dm-screen",
+  "version": "1.0.0",
+  "description": "dndbeyond dm screen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ootz0rz/DNDBeyond-DM-Screen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ootz0rz/DNDBeyond-DM-Screen/issues"
+  },
+  "homepage": "https://github.com/ootz0rz/DNDBeyond-DM-Screen#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "sass": "^1.45.1"
+  }
+}
