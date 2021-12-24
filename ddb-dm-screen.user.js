@@ -552,7 +552,7 @@ function insertElements() {
     console.log("Inserting Structual Elements");
 
     var sitemain = $("#site-main");
-    var node = $("<div id='gmstats'></div>#gmstats");
+    var node = $("<div id='gmstats'></div>");
 
     sitemain.prepend(node);
     
@@ -567,6 +567,20 @@ function insertElements() {
 
         charactersData[id].node = row;
     };
+
+    $('td', node).hover(
+        function () {
+            var i = parseInt($(this).index()) + 1;
+            $('td:nth-child(' + i + ')').addClass('hover');
+            $('th:nth-child(' + i + ')').addClass('hover');
+            $(this).parent().addClass('hover');
+        },
+        function () {
+            var i = parseInt($(this).index()) + 1;
+            $('td:nth-child(' + i + ')').removeClass('hover');
+            $('th:nth-child(' + i + ')').removeClass('hover');
+            $(this).parent().removeClass('hover');
+        });
 }
 
 function retriveRules(charIDs) {

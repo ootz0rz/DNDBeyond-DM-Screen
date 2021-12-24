@@ -10,7 +10,8 @@
 // https://getbootstrap.com/docs/5.0/utilities/colors/
 // main data
 $gm_primary_font_color: whitesmoke;
-$gm_background: $dark;
+$gm_background: $gray-900;
+$gm_background_hover: $gray-800;
 $gm_table_border: $secondary;
 
 // main colors
@@ -50,6 +51,14 @@ $gm_money_pp: rgb(98, 171, 255);
     
         &.table {
             color: $gm_primary_font_color;
+
+            td,tr,th {
+                &.hover {
+                    background-color: $gm_background_hover;
+                    // border-left: 1px solid $gm_c_red;
+                    // border-color: $gm_c_red;
+                }
+            }
 
             hr {
                 border: none;
