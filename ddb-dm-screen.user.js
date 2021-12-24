@@ -92,99 +92,6 @@ if (!String.prototype.format) {
 //        HTML Structures
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//base html for the controls
-var controlsHTML = `
-    <div id="gs-campaign" class="gs-campaign gs-box-grey gs-box-bluetop">
-	  <div class="gs-title gs-header-campaign">Campaign</div>
-      <div class="gs-container gs-col-container">
-	    <div class="gs-campaign-row1 gs-container gs-row-container">
-          <div class="gs-controls gs-container gs-col-container">
-	        <div class="gs-header gs-header-controls">Controls</div>
-	        <div class="gs-container gs-row-container">
-	  	      <div class="gs-auto-update-controls gs-container gs-col-container">
-                <div class="gs-subheader gs-header-auto-update-controls">Auto Update</div>
-	  	        <div class="gs-form-group gs-container gs-col-container">
-			      <div class="gs-form-field gs-row-container">
-			        <label for="gs-auto-update"><span>Enabled</span></label>
-		            <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
-			      </div>
-		          <div class="gs-form-field gs-form-field-number gs-row-container">
-			        <label for="gs-auto-duration"><span>Duration (s)</span></label>
-		            <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
-			      </div>
-		        </div>
-		      </div>
-		    </div>
-          </div>
-          <!--
-          <div class="gs-views gs-container gs-col-container">
-            <div class="gs-header gs-header-controls">Visible Sections</div>
-            <div class="gs-container gs-row-container">
-              <div class="gs-view-controls gs-container gs-col-container">
-                <div class="gs-auto-update-controls gs-container gs-col-container">
-                  <div class="gs-form-field gs-row-container">
-                    <label for="gs-show-abilities"><span>Abilities</span></label>
-                    <input type="checkbox" name="gs-show-abilities" id="gs-show-abilities" value="false">
-                  </div>
-                  <div class="gs-form-field gs-row-container">
-                    <label for="gs-show-saving-throws"><span>Saving Throws</span></label>
-                    <input type="checkbox" name="gs-show-saving-throws" id="gs-show-saving-throws" value="false">
-                  </div>
-                  <div class="gs-form-field gs-row-container">
-                    <label for="gs-show-senses"><span>Senses</span></label>
-                    <input type="checkbox" name="gs-show-senses" id="gs-show-senses" value="false">
-                  </div>
-                  <div class="gs-form-field gs-row-container">
-                    <label for="gs-show-classes"><span>Classes</span></label>
-                    <input type="checkbox" name="gs-show-classes" id="gs-show-classes" value="false">
-                  </div>
-                  <div class="gs-form-field gs-row-container">
-                    <label for="gs-show-resources"><span>Resources</span></label>
-                    <input type="checkbox" name="gs-show-resources" id="gs-show-resources" value="false">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-		  <div class="gs-stored gs-container">
-            <div class="gs-header gs-header-controls">Stored</div>
-	        <div class="gs-container gs-row-container">
-		      <div class="gs-camp-currencies gs-container gs-col-container">
-                <div class="gs-subheader gs-header-camp-currencies">Currencies</div>
-                <div class="gs-container gs-row-container"></div>
-                <div class="gs-form-group gs-row-container">
-		          <div class="gs-form-field gs-form-field-number gs-row-container">
-		            <input type="number" name="gs-currency-amount" id="gs-currency-amount" placeholder="Amount">
-			      </div>
-		          <div class="gs-form-field gs-form-field-dropdown gs-row-container">
-		            <select type="number" name="gs-currency-type" id="gs-currency-type"></select>
-			      </div>
-		          <div class="gs-form-field gs-form-field-button gs-row-container">
-		             <button type="button" name="gs-currency-confirm" id="gs-currency-confirm">Amend</button>
-			      </div>
-                </div>
-              </div>
-            </div>
-		  </div>
-          -->
-	    </div>
-        <!--
-        <div class="gs-campaign-row2 gs-container gs-row-container">
-	      <div class="gs-outputs gs-container gs-col-container">
-            <div class="gs-header gs-header-controls">Known Traits</div>
-            <div class="gs-container gs-row-container">
-	          <div class="gs-camp-languages gs-col-container">
-                <div class="gs-subheader gs-header-camp-languages">Known Languages</div>
-                <div class="gs-container gs-row-container"></div>
-              </div>
-            </div>
-	      </div>
-        </div>
-        -->
-      </div>
-	</div>
-  `;
-
 var mainTableHTML = `
 <table class="table">
     <thead>
@@ -222,6 +129,21 @@ var mainTableHTML = `
     </thead>
     <tbody id="gm_table_body">
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="14" class='gs-controls'>
+                    <h4>Auto Update:</h4>
+                    <span class="gs-form-field gs-row-container">
+                        <label for="gs-auto-update"><span>Enabled</span></label>
+                        <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
+                    </span>
+                    <span class="gs-form-field gs-form-field-number gs-row-container">
+                        <label for="gs-auto-duration"><span>Duration (s)</span></label>
+                        <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
+                    </span>
+            </td>
+        </tr>
+    </tfoot>
 </table>
 `;
 
@@ -494,9 +416,9 @@ var initalModules = {
     // GM_addStyle(my_css);
 
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
-    insertCampaignElements();
     findTargets();
     insertElements();
+    insertCampaignElements();
     window.moduleExport.getAuthHeaders()().then((function (headers) {
         authHeaders = headers;
         console.log("authHeaders: ", headers);
@@ -751,8 +673,8 @@ function startRefreshTimer() {
 function insertCampaignElements() {
     console.log("Inseting Campaign Elements");
     let campaignPrefix = scriptVarPrefix + "-" + campaignID;
-    $(campaignElementTarget + " > div:nth-child(1)").after(controlsHTML);
-    campaignNode = $(".gs-campaign");
+    // $(campaignElementTarget + " > div:nth-child(1)").after(controlsHTML);
+    campaignNode = $("#gmstats");
     insertControls(campaignNode, campaignPrefix);
     insertVisibilityControls(campaignNode, campaignPrefix);
     insertStoredElements(campaignNode, campaignPrefix);
