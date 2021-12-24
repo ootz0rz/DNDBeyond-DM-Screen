@@ -120,6 +120,7 @@ $gm_money_pp: rgb(98, 171, 255);
             }
 
             &.col_money {
+                width: auto;
                 color: $gm_c_bright_black;
                 white-space: normal;
                 
@@ -143,11 +144,15 @@ $gm_money_pp: rgb(98, 171, 255);
             &.col_skills {
                 width: auto;
                 white-space: normal;
+
+                span {white-space: nowrap;}
             }
 
             &.col_languages {
                 width: auto;
                 white-space: normal;
+
+                span {white-space: nowrap;}
             }
         }
     }

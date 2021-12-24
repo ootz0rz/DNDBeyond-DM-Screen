@@ -11210,6 +11210,7 @@ textarea.form-control-lg {
   color: #ffdc41;
 }
 #gmstats table.table th.col_money, #gmstats table.table td.col_money {
+  width: auto;
   color: grey;
   white-space: normal;
 }
@@ -11241,9 +11242,15 @@ textarea.form-control-lg {
   width: auto;
   white-space: normal;
 }
+#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
+  white-space: nowrap;
+}
 #gmstats table.table th.col_languages, #gmstats table.table td.col_languages {
   width: auto;
   white-space: normal;
+}
+#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span {
+  white-space: nowrap;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
