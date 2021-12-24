@@ -58,6 +58,7 @@ $gm_money_pp: rgb(98, 171, 255);
                 .name {
                     font-weight: bold;
                     text-decoration: underline;
+                    font-style: italic;
                 }
 
                 .exhaust {
@@ -119,6 +120,9 @@ $gm_money_pp: rgb(98, 171, 255);
             }
 
             &.col_money {
+                color: $gm_c_bright_black;
+                white-space: normal;
+                
                 .cp {color: $gm_money_cp;}
                 .sp {color: $gm_money_sp;}
                 .gp {color: $gm_money_gp;}
@@ -126,6 +130,14 @@ $gm_money_pp: rgb(98, 171, 255);
                 .pp {color: $gm_money_pp;}
 
                 .hide {visibility: hidden;}
+
+                .total span, .gponly {
+                    color: $gm_c_green;// $gm_money_gp;
+                }
+
+                .total, .ppc, .epc, .gpc, .spc, .cpc {
+                    white-space: nowrap;
+                }
             }
 
             &.col_skills {

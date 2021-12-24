@@ -273,6 +273,7 @@ var tableRowHTML = `
                 ins: <span></span>
             </td>
             <td class="col_money">
+                <span class="total"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
                 <span class="gpc"><span class="gp"></span> gp </span>
@@ -730,12 +731,12 @@ function getRules(index){
 
 function updateAllCharData() {
     console.log("Retriving Each Char Data");
-    //console.debug(charactersData);
+    
     let promises = []
     for(let id in charactersData){
         promises.push(updateCharData(charactersData[id].url));
     }
-    //console.log(charactersData);
+    
     Promise.all(promises)
         .then(() =>{
         updateCampaignData();
@@ -1277,12 +1278,12 @@ function updateMainInfo(parent, character){
     updateAbilties(parent, character.abilities);
     updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
     updateSenses(parent, character.senses);
-    updateClasses(parent, character.classes, character.spellCasterInfo.castingInfo);
-    updateResources(parent, character.inventory);
+    // updateClasses(parent, character.classes, character.spellCasterInfo.castingInfo);
+    // updateResources(parent, character.inventory);
+    updateMoney(parent, character.currencies);
 }
 
-function updateAbilties(parent, abilities){
-    
+function updateAbilties(parent, abilities){    
     abilities.forEach(function(item, index){
         var abilityKey = item.name;
         var cellName = ".col_" + abilityKey;
@@ -1310,11 +1311,20 @@ function updateAbilties(parent, abilities){
 }
 
 function updatePassives(parent, passPerception, passInvestigation, passInsight){
-    // add passive senses data
-    let container = parent.find('.gs-passives > .gs-container');
-    container.find('.gs-passivePerception .gs-passives-number').html(passPerception);
-    container.find('.gs-passiveInvestigation .gs-passives-number').html(passInvestigation);
-    container.find('.gs-passiveInsight .gs-passives-number').html(passInsight);
+    parent.find("td.col_passives").html("{0}{1}{2}".format(
+        addTooltip(
+            "per: <span>{0}</span><br />".format(passPerception),
+            "perception",
+            tag = "div"),
+        addTooltip(
+            "inv: <span>{0}</span><br />".format(passInvestigation),
+            "investigation",
+            tag = "div"),
+        addTooltip(
+            "ins: <span>{0}</span>".format(passInsight),
+            "insight",
+            tag = "div")
+    ));
 }
 
 function updateSenses(parent, senses){
@@ -1393,6 +1403,51 @@ function updateResources(parent, infos){
     }
 }
 
+function updateMoney(parent, currencies) {
+    // individual vals
+    var ppc = $(".ppc", parent);
+    var epc = $(".epc", parent);
+    var gpc = $(".gpc", parent);
+    var spc = $(".spc", parent);
+    var cpc = $(".cpc", parent);
+
+    var pp = $(".pp", ppc);
+    var ep = $(".ep", epc);
+    var gp = $(".gp", gpc);
+    var sp = $(".sp", spc);
+    var cp = $(".cp", cpc);
+
+    var hideClass = 'hide';
+    updateCurrencyVis(ppc, pp, currencies.pp, hideClass);
+    updateCurrencyVis(epc, ep, currencies.ep, hideClass);
+    updateCurrencyVis(gpc, gp, currencies.gp, hideClass);
+    updateCurrencyVis(spc, sp, currencies.sp, hideClass);
+    updateCurrencyVis(cpc, cp, currencies.cp, hideClass);
+
+    // total gp estimate
+    var gpnum = currencies.gp;
+    gpnum += currencies.pp * 10.0;
+    gpnum += currencies.ep / 2.0;
+    gpnum += currencies.sp / 10.0;
+    gpnum += currencies.cp / 100.0;
+
+    var total = $(".total", $(".col_money", parent));
+    var hr = $("hr", $(".col_money", parent));
+    if (gpnum > 0 && gpnum % 1 != 0) {
+        gp.removeClass("gponly");
+        hr.removeClass(hideClass);
+        total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
+    } else {
+        gp.addClass("gponly");
+        hr.addClass(hideClass);
+        total.empty();
+    }
+}
+
+function updateCurrencyVis(c, cval, val, hideClass='hide') {
+    if (val > 0) { c.removeClass(hideClass); } else { c.addClass(hideClass); }
+    cval.html(val);
+}
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

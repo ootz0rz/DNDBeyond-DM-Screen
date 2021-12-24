@@ -11141,6 +11141,7 @@ textarea.form-control-lg {
 #gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name {
   font-weight: bold;
   text-decoration: underline;
+  font-style: italic;
 }
 #gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust {
   color: grey;
@@ -11208,6 +11209,10 @@ textarea.form-control-lg {
 #gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
   color: #ffdc41;
 }
+#gmstats table.table th.col_money, #gmstats table.table td.col_money {
+  color: grey;
+  white-space: normal;
+}
 #gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp {
   color: #e6a263;
 }
@@ -11225,6 +11230,12 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_money .hide, #gmstats table.table td.col_money .hide {
   visibility: hidden;
+}
+#gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly {
+  color: lime;
+}
+#gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc {
+  white-space: nowrap;
 }
 #gmstats table.table th.col_skills, #gmstats table.table td.col_skills {
   width: auto;
