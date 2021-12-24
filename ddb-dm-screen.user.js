@@ -12,9 +12,6 @@
 // @grant			GM_setValue
 // @grant			GM_getValue
 // @license			MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
-// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
-// @grant           GM_getResourceText
-// @grant           GM_addStyle
 // ==/UserScript==
 console.log("D&DBeyond DM Screen Starting");
 
@@ -29,8 +26,8 @@ const rulesUrls = ["https://character-service.dndbeyond.com/character/v4/rule-da
 const charJSONurlBase = "https://character-service.dndbeyond.com/character/v4/character/";
 
 const stylesheetUrls = [
-    "https://raw.githubusercontent.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css",
-    "https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css", // TODO temp for dev
+    // "https://raw.githubusercontent.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css",
+    "https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css"
 ]
 
 const gameCollectionUrl = {prefix :"https://character-service.dndbeyond.com/character/v4/game-data/", postfix: "/collection"}
@@ -487,9 +484,14 @@ var initalModules = {
     campaignID = window.location.pathname.match(charIDRegex);
     stylesheetUrls.forEach(loadStylesheet); //load and insert each stylesheet in the settings
 
-    // TODO temp for dev
-    const my_css = GM_getResourceText("IMPORTED_CSS");
-    GM_addStyle(my_css);
+    // XXX temp for dev
+    /*
+// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
+// @grant           GM_getResourceText
+// @grant           GM_addStyle
+    */
+    // const my_css = GM_getResourceText("IMPORTED_CSS");
+    // GM_addStyle(my_css);
 
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     insertCampaignElements();
