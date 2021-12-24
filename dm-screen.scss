@@ -79,6 +79,8 @@ $gm_money_pp: rgb(98, 171, 255);
             }
 
             &.col_hp {
+                color: $gm_c_bright_black;
+
                 .overheal { color: $gm_hp_overheal; }
                 .good { color: $gm_hp_good; }
                 .hurt { color: $gm_hp_hurt; }
@@ -88,15 +90,28 @@ $gm_money_pp: rgb(98, 171, 255);
                 .fail, .save {font-weight: bold;}
                 .fail { color: $gm_c_red; }
                 .save { color: $gm_c_green; }
+                .stable { color: $gm_c_green; }
             }
 
             &.col_ac {
                 width: 0%;
             }
 
+            &.col_speed {
+                color: $gm_c_bright_black;
+
+                span {
+                    color: $gm_c_bright_white;
+                }
+            }
+
             &.col_stat {
                 width: 0%;
                 text-align: right;
+
+                color: $gm_c_bright_black;
+                .high {color: $gm_c_bright_white;}
+                .low {color: $gm_c_red;}
             }
 
             &.col_passives {
@@ -109,6 +124,8 @@ $gm_money_pp: rgb(98, 171, 255);
                 .gp {color: $gm_money_gp;}
                 .ep {color: $gm_money_ep;}
                 .pp {color: $gm_money_pp;}
+
+                .hide {visibility: hidden;}
             }
 
             &.col_skills {

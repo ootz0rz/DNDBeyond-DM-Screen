@@ -11155,6 +11155,9 @@ textarea.form-control-lg {
   font-weight: bold;
   color: white;
 }
+#gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
+  color: grey;
+}
 #gmstats table.table th.col_hp .overheal, #gmstats table.table td.col_hp .overheal {
   color: cyan;
 }
@@ -11179,12 +11182,28 @@ textarea.form-control-lg {
 #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save {
   color: lime;
 }
+#gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
+  color: lime;
+}
 #gmstats table.table th.col_ac, #gmstats table.table td.col_ac {
   width: 0%;
+}
+#gmstats table.table th.col_speed, #gmstats table.table td.col_speed {
+  color: grey;
+}
+#gmstats table.table th.col_speed span, #gmstats table.table td.col_speed span {
+  color: white;
 }
 #gmstats table.table th.col_stat, #gmstats table.table td.col_stat {
   width: 0%;
   text-align: right;
+  color: grey;
+}
+#gmstats table.table th.col_stat .high, #gmstats table.table td.col_stat .high {
+  color: white;
+}
+#gmstats table.table th.col_stat .low, #gmstats table.table td.col_stat .low {
+  color: red;
 }
 #gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
   color: #ffdc41;
@@ -11203,6 +11222,9 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp {
   color: #62abff;
+}
+#gmstats table.table th.col_money .hide, #gmstats table.table td.col_money .hide {
+  visibility: hidden;
 }
 #gmstats table.table th.col_skills, #gmstats table.table td.col_skills {
   width: auto;

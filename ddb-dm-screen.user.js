@@ -8,6 +8,7 @@
 // @updateURL		https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
 // @require			https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
 // @require         https://media.dndbeyond.com/character-tools/vendors~characterTools.bundle.dec3c041829e401e5940.min.js
+// @require         https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 // @grant			GM_setValue
 // @grant			GM_getValue
 // @license			MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
@@ -37,6 +38,14 @@ const optionalRules = {
     "optionalOrigins": {category:"racial-trait", id:"racialTraitId" },
     "optionalClassFeatures": {category:"class-feature", id:"classFeatureId" },
 };
+
+const senseToName = {
+    'blindsight': 'bs',
+    'darkvision': 'dv',
+    'tremorsense': 'ts',
+    'truesight': 'true',
+    'passive-perception': 'pass-perc',
+}
 
 const scriptVarPrefix = "DMScreen-";
 
@@ -133,6 +142,7 @@ var controlsHTML = `
 		      </div>
 		    </div>
           </div>
+          <!--
           <div class="gs-views gs-container gs-col-container">
             <div class="gs-header gs-header-controls">Visible Sections</div>
             <div class="gs-container gs-row-container">
@@ -182,6 +192,7 @@ var controlsHTML = `
               </div>
             </div>
 		  </div>
+          -->
 	    </div>
         <div class="gs-campaign-row2 gs-container gs-row-container">
 	      <div class="gs-outputs gs-container gs-col-container">
@@ -214,7 +225,7 @@ var mainTableHTML = `
             <th class="col_ac">AC</th>
             <th class="col_speed">
                 Speed<hr />
-                Dark Vis
+                Senses
             </th>
             <th class="col_stat">S<br />T<br />R</th>
             <th class="col_stat">D<br />E<br />X</th>
@@ -241,38 +252,35 @@ var mainTableHTML = `
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name">blah2</span><br/>
-                <span class="exhaust"><span>•</span> - - - - -</span><br/>
-                <span class="spellsavedc">Bard DC: <span>14</span></span>
+                <span class="name"></span><br/>
+                <span class="exhaust"><span></span>- - - - - -</span><br/>
+                <span class="spellsavedc"><span></span></span>
             </td>
             <td class="col_hp">
-                <span class="hurt">8/10 80%</span>
+                <span class="hurt"></span>
             </td>
-            <td class="col_ac">16</td>
-            <td class="col_speed">
-                0<hr />
-                0 ft
-            </td>
-            <td class="col_stat">10<br />+0</td>
-            <td class="col_stat">8<br />-1</td>
-            <td class="col_stat">12<br />+1</td>
-            <td class="col_stat">10<br />+0</td>
-            <td class="col_stat">8<br />-1</td>
-            <td class="col_stat">12<br />+1</td>
+            <td class="col_ac"></td>
+            <td class="col_speed"></td>
+            <td class="col_stat col_str"></td>
+            <td class="col_stat col_dex"></td>
+            <td class="col_stat col_con"></td>
+            <td class="col_stat col_int"></td>
+            <td class="col_stat col_wis"></td>
+            <td class="col_stat col_cha"></td>
             <td class="col_passives">
-                per: <span>10</span><br />
-                inv: <span>11</span><br />
-                ins: <span>12</span>
+                per: <span></span><br />
+                inv: <span></span><br />
+                ins: <span></span>
             </td>
             <td class="col_money">
-                <span class="pp">1</span> pp
-                <span class="ep">1</span> ep 
-                <span class="gp">1</span> gp
-                <span class="sp">1</span> sp
-                <span class="cp">1</span> cp
+                <span class="ppc"><span class="pp"></span> pp</span>
+                <span class="epc"><span class="ep"></span> ep </span>
+                <span class="gpc"><span class="gp"></span> gp </span>
+                <span class="spc"><span class="sp"></span> sp </span>
+                <span class="cpc"><span class="cp"></span> cp </span>
             </td>
-            <td class="col_skills">acrobatics, deception, insight, performance, persuasion, stealth</td>
-            <td class="col_languages">common, dwarvish, elvish, celestial</td>
+            <td class="col_skills"></td>
+            <td class="col_languages"></td>
         </tr>
 `;
 
@@ -1053,18 +1061,93 @@ function updateElementData(character) { // function that builds the scraped data
 }
 
 function updateQuickInfo(parent, character){
-    console.log('update quick info', parent, character);
-    var quickInfo = parent.find('.gs-quick-info');
-    updateHitPointInfo(parent, character.hitPointInfo);
-    updateArmorClass(quickInfo, character.armorClass);
-    updateInitiative(quickInfo, character.initiative);
-    updateSpeeds(quickInfo, character.speeds);
+    console.log('update info: ', character);
+    updateNameBlock(parent, character);
+    updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
+    updateArmorClass(parent, character.armorClass);
+    // updateInitiative(parent, character.initiative); // TODO add?
+    updateSpeeds(parent, character);
 }
 
+function updateNameBlock(parent, character) {
+    var nameblock = parent.find('td.col_name');
 
-function updateHitPointInfo(parent, hitPointInfo) {
+    $(".name", nameblock).html(character.name);
+
+    updateNameBlockExhaust(character, nameblock);
+
+    updateNameBlockSaveDC(character, nameblock);
+}
+
+function updateNameBlockExhaust(character, nameblock) {
+    const maxExhaust = 6;
+
+    var conditions = character.conditions;
+    var isExhausted = false;
+    var exhaustLevel = 0;
+
+    conditions.forEach((item, idx) => {
+        if (item.definition.slug == 'exhaustion') {
+            isExhausted = true;
+            exhaustLevel = item.level;
+        }
+    });
+
+    var exhaustStr = "";
+    for (var i = 0; i < exhaustLevel; i++) {
+        exhaustStr += "• ";
+    }
+
+    var restStr = "";
+    for (var i = 0; i < (maxExhaust - exhaustLevel); i++) {
+        restStr += "- ";
+    }
+
+    $(".exhaust", nameblock).html("<span>{0}</span>{1}".format(exhaustStr, restStr));
+}
+
+function updateNameBlockSaveDC(character, nameblock) {
+    // add any class save DCs
+    var classes = character.classes;
+    var spellCasterSaveDCs = character.spellCasterInfo.castingInfo.saveDcs;
+
+    var savestr = [];
+    for (var i = 0; i < classes.length; i++) {
+        var c = classes[i];
+        var slug = c.slug;
+
+        if (slug == 'monk') {
+            // special case for ki since it doesn't seem to show up in data
+            // ki save DC = 8 + your proficiency bonus + your Wisdom modifier
+            var dc = 8;
+            dc += character.proficiencyBonus;
+
+            // TODO should this be done programmatically?
+            // 4 == 'wis', dnd beyond id == 5
+            dc += character.abilities[4].modifier;
+
+            savestr.push("{0} DC: <span>{1}</span>".format("Monk", dc));
+            break;
+        }
+    }
+
+    for (var i = 0; i < spellCasterSaveDCs.length; i++) {
+        var c = spellCasterSaveDCs[i]
+        var val = c.value;
+
+        for (var j = 0; j < c.sources.length; j++) {
+            var cname = c.sources[j].definition.name;
+            savestr.push("{0} DC: <span>{1}</span>".format(cname, val));
+        }
+    }
+
+    $(".spellsavedc", nameblock).html(savestr.join("<br />"));
+}
+
+function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
     var hp = parent.find('td.col_hp');
 
+    // hp -------------------------------------------------
     var max = hitPointInfo.totalHp;
     var remaining = hitPointInfo.remainingHp;
 
@@ -1107,19 +1190,41 @@ function updateHitPointInfo(parent, hitPointInfo) {
         temp_str = "<br />temp: <span class='overheal'>{0}</span>".format(temp);
     }
 
+    // death saves ------------------------------------------
+    var fails = deathSaveInfo.failCount;
+    var success = deathSaveInfo.successCount;
+    var stable = deathSaveInfo.isStabilized;
+
+    var dsstr = "";
+    if (stable || (success >= 3)) {
+        dsstr = "<br />--<span class='stable'>stable</span>--"
+    } else if (fails > 0 || success > 0) {
+        if (fails > 0) {
+            dsstr += "<br />F: <span class='fail'>{0}</span>".format(fails);
+        }
+
+        if (success > 0) {
+            dsstr += "<br />S: <span class='save'>{0}</span>".format(success);
+        }
+    }
+
+    // put it all together
+
     hp.html(
-        `<span class="{0}">{1}</span>{2}{3}`
+        `<span class="{0}">{1}</span>{2}{3}{4}`
             .format(
                 color,
                 "{0}/{1} {2}%".format(remaining, max, pct_left),
                 bonus_str,
-                temp_str
+                temp_str,
+                dsstr
             )
     );
 }
 
 function updateArmorClass(parent, armorClass){
-    parent.find('.gs-ac-value').html(armorClass);
+    var node = parent.find('td.col_ac');
+    node.html(armorClass);
 }
 
 function updateInitiative(parent, initiative){
@@ -1127,62 +1232,80 @@ function updateInitiative(parent, initiative){
     parent.find('.gs-intv-number').html(Math.abs(initiative));
 }
 
-function updateSpeeds(parent, speeds){
-    //Adds character speeds to the speed module
-    let container = parent.find('.gs-speeds > .gs-container');
-    container.empty();
+function updateSpeeds(parent, character) {
+    // speed
+    var node = parent.find('td.col_speed');
+    node.empty();
 
-    speeds.forEach(function(item, index){
-        //console.log(item);
-        if(item.distance > 0){
-            container.append(speedHTML);
-            let curSpeed = container.children().last();
-            //console.log(curSpeed);
-            curSpeed.addClass('gs-speed-' + item.key);
-            curSpeed.find('.gs-speed-label').html(item.name);
-            curSpeed.find('.gs-speed-number').html(item.distance);
-            curSpeed.find('.gs-speed-affix').html(distanceUnit(item.distance));
+    var speeds = character.speeds;
+    var speedarr = [];
+    speeds.forEach(function(item, index) {
+        if (item.distance > 0) {
+            speedarr.push("<span>{0}</span> {1}".format(item.distance, item.key));
         }
     });
-    if (container.children().length < 1) {
-        parent.find('.gs-speeds').addClass("gs-empty");
+
+    node.append(speedarr.join("<br />"));
+
+    // do we have dark vision or similar??
+    var senses = character.senses;
+    var sensearr = [];
+    for (var i = 0; i < senses.length; i++) {
+        var s = senses[i];
+
+        if (s.distance > 0) {
+            var name = senseToName[s.key];
+
+            // var distUnits = distanceUnit(s.distance);
+            sensearr.push(
+                addTooltip(
+                    "{0}: <span>{1}</span>".format(name, s.distance),
+                    s.key,
+                    tag = "div",
+                    placement = "top"
+            ));
+        }
+    }
+
+    if (sensearr.length > 0) {
+        node.append("<br />");
+        node.append(sensearr.join(""));
     }
 }
 
 function updateMainInfo(parent, character){
-    var mainInfo = parent.find('.gs-main-info');
-    updateAbilties(mainInfo, character.abilities);
-    updatePassives(mainInfo, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
-    updateSenses(mainInfo, character.senses);
-    updateClasses(mainInfo, character.classes, character.spellCasterInfo.castingInfo);
-    updateResources(mainInfo, character.inventory);
+    updateAbilties(parent, character.abilities);
+    updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
+    updateSenses(parent, character.senses);
+    updateClasses(parent, character.classes, character.spellCasterInfo.castingInfo);
+    updateResources(parent, character.inventory);
 }
 
 function updateAbilties(parent, abilities){
-    var containerAble = parent.find('.gs-main-able > .gs-container');
-    var containerSave = parent.find('.gs-main-saves > .gs-container');
-    containerAble.empty();
-    containerSave.empty();
+    
     abilities.forEach(function(item, index){
-        //console.log(item);
-        // Abilities
-        containerAble.append(abilityHTML);
-        let curAble = containerAble.children().last();
-        curAble.addClass('gs-able-' + item.name);
-        curAble.find('.gs-able-label').html(item.name);
-        curAble.find('.gs-able-prefix').html(abilitySVGs[item.name]);
-        curAble.find('.gs-able-number').html(item.totalScore);
-        curAble.find('.gs-able-mod-sign').html(getSign(item.modifier));
-        curAble.find('.gs-able-mod-value').html(Math.abs(item.modifier));
+        var abilityKey = item.name;
+        var cellName = ".col_" + abilityKey;
 
-        // Saving Throws
-        containerSave.append(savingThrowsHTML);
-        let curSave = containerSave.children().last();
-        curSave.addClass('gs-saves-' + item.name);
-        curSave.find('.gs-saves-label').html(item.name);
-        curSave.find('.gs-saves-prefix').html(abilitySVGs[item.name]);
-        curSave.find('.gs-saves-sign').html(getSign(item.save));
-        curSave.find('.gs-saves-number').html(Math.abs(item.save));
+        var cell = $(cellName, parent);
+        cell.empty();
+
+        cell.append("<span class='high'>{0}</span>".format(item.totalScore));
+
+        cell.append("<hr />");
+
+        var mod = item.modifier;
+        var color = "";
+        var sign = "";
+        if (mod > 0) {
+            color = "high";
+            sign = getSign(mod);
+        } else if (mod < 0) {
+            color = "low";
+            sign = getSign(mod);
+        }
+
+        cell.append("<span class='{0}'>{1}{2}</span>".format(color, sign, Math.abs(mod)));
     });
 }
 
@@ -1536,4 +1659,9 @@ function parseIntSafe(input){
 
 function parseBool(x) {
     return x ? true : false;
+}
+
+function addTooltip(inStr, text, tag = "span", placement = "top") {
+    // https://getbootstrap.com/docs/4.0/components/tooltips/
+    return "<{2} data-toggle='tooltip' data-placement='{3}' title='{1}'>{0}</{2}>".format(inStr, text, tag, placement);
 }
