@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name			ootz D&DBeyond DM Screen
 // @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version			1.0
+// @version			1.0.2
 // @description		Advanced DM screen for D&DBeyond campaigns
 // @author			ootz0rz
 // @match			https://www.dndbeyond.com/campaigns/*
@@ -55,6 +55,15 @@ const positiveSign = '+', negativeSign = '-';
 
 const autoUpdateDefault = true;
 const updateDurationDefault = 60;
+const fontSizeDefault = 2;
+
+const fontSizeMap = {
+    0: 'font_smallest',
+    1: 'font_small',
+    2: 'font_normal',
+    3: 'font_big',
+    4: 'font_biggest',
+}
 
 const showAbilitiesDefault = true;
 const showSavingThrowsDefault = true;
@@ -82,8 +91,7 @@ if (!String.prototype.format) {
         return this.replace(/{(\d+)}/g, function (match, number) {
             return typeof args[number] != 'undefined'
                 ? args[number]
-                : match
-                ;
+                : match;
         });
     };
 }
@@ -132,14 +140,23 @@ var mainTableHTML = `
     <tfoot>
         <tr>
             <td colspan="14" class='gs-controls'>
-                    <h4>Auto Update:</h4>
                     <span class="gs-form-field gs-row-container">
-                        <label for="gs-auto-update"><span>Enabled</span></label>
+                        <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
                         <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                     </span>
                     <span class="gs-form-field gs-form-field-number gs-row-container">
                         <label for="gs-auto-duration"><span>Duration (s)</span></label>
                         <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
+                    </span>
+                    <span class="gs-form-field gs-form-field-number gs-row-container">
+                        <label for="gs-auto-duration"><span>Font Size</span></label>
+                        <select name="gs-font-size" id="gs-font-size" class='dropdown'>
+                            <option value='0'>smallest</option>
+                            <option value='1'>small</option>
+                            <option value='2'>normal</option>
+                            <option value='3'>big</option>
+                            <option value='4'>biggest</option>
+                        </select>
                     </span>
             </td>
         </tr>
@@ -681,19 +698,23 @@ function insertCampaignElements() {
 }
 
 function insertControls(parent, campaignPrefix) {
-    console.log("Inseting Main Controls");
+    console.log("Inserting Main Controls");
 
     let controlsNode = parent.find('.gs-controls');
 
     let autoUpdate = controlsNode.find('input[name ="gs-auto-update"]');
     let autoDuration = controlsNode.find('input[name ="gs-auto-duration"]');
+    let fontSize = controlsNode.find('select[name ="gs-font-size"]');
 
     // Loads ideally value set for this campaign, if not found it loads the last saved value otherwise it defaults
     let autoUpdateLoaded = GM_getValue(campaignPrefix + "-autoUpdate", GM_getValue(scriptVarPrefix + "-autoUpdate", autoUpdateDefault));
     let updateDurationLoaded = GM_getValue(campaignPrefix + "-updateDuration", GM_getValue(scriptVarPrefix + "-updateDuration", updateDurationDefault))
+    let fontSizeSetting = GM_getValue(campaignPrefix + "-fontSize", GM_getValue(scriptVarPrefix + "-fontSize", fontSizeDefault))
 
     autoUpdate.prop('checked', autoUpdateLoaded);
     autoDuration.prop('value', updateDurationLoaded);
+    fontSize.val(fontSizeSetting).change();
+    onFontSizeChange(fontSizeSetting);
 
     autoUpdate.change(function () {
         let updatedAutoUpdate = parseBool($(this).prop("checked"));
@@ -705,6 +726,22 @@ function insertControls(parent, campaignPrefix) {
         GM_setValue(campaignPrefix + "-updateDuration", updatedAutoDuration);
         GM_setValue(scriptVarPrefix + "-updateDuration", updatedAutoDuration);
     });
+    fontSize.change(function () {
+        let updatedFontSize = parseIntSafe($(this).val());
+        GM_setValue(campaignPrefix + "-fontSize", updatedFontSize);
+        GM_setValue(scriptVarPrefix + "-fontSize", updatedFontSize);
+
+        onFontSizeChange(updatedFontSize);
+    });
+}
+
+function onFontSizeChange(updatedFontSize) {
+    var table = $("table", $("#gmstats"));
+    table.removeClass();
+    table.addClass('table');
+
+    var newFontClass = fontSizeMap[updatedFontSize];
+    table.addClass(newFontClass);
 }
 
 function insertVisibilityControls(parent, campaignPrefix) {

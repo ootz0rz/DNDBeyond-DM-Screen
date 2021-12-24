@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="dm-screen.css">
 
 <div id="gmstats">
-<table class="table">
+<table class="table font_normal">
     <thead>
         <tr>
             <th class="col_name">
@@ -151,71 +151,26 @@
     <tfoot>
         <tr>
             <td colspan="14" class='gs-controls'>
-                    <h4>Auto Update:</h4>
                     <span class="gs-form-field gs-row-container">
-                        <label for="gs-auto-update"><span>Enabled</span></label>
+                        <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
                         <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                     </span>
                     <span class="gs-form-field gs-form-field-number gs-row-container">
                         <label for="gs-auto-duration"><span>Duration (s)</span></label>
                         <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
                     </span>
+                    <span class="gs-form-field gs-form-field-number gs-row-container">
+                        <label for="gs-auto-duration"><span>Font Size</span></label>
+                        <select name="gs-font-size" id="gs-font-size" class='dropdown'>
+                            <option value='0'>smallest</option>
+                            <option value='1'>small</option>
+                            <option value='2'>normal</option>
+                            <option value='3'>big</option>
+                            <option value='4'>biggest</option>
+                        </select>
+                    </span>
             </td>
         </tr>
     </tfoot>
 </table>
-</div>
-
-<hr />
-
-<div class="gs-main-info gs-wrapper gs-infobox">
-    <div class="gs-infobox-item1 gs-infobox-item gs-container gs-grid-container gs-row-fill">
-        <div class="gs-main-able gs-container-line gs-container-spaces">
-            <div class="gs-header gs-header-able">Abilities</div>
-            <div class="gs-container gs-row-container"></div>
-        </div>
-        <div class="gs-main-saves gs-container-line gs-container-spaces">
-            <div class="gs-header gs-header-saves">Saving Throws</div>
-            <div class="gs-container gs-row-container"></div>
-        </div>
-    </div>
-    <div class="gs-infobox-item2 gs-infobox-item gs-container gs-grid-container gs-row-fill">
-    </div>
-    <div class="gs-infobox-item3 gs-infobox-item gs-container gs-col-container">
-        <div class="gs-senses gs-col-container gs-container-spaces">
-            <div class="gs-header gs-header-senses">Senses</div>
-            <div class="gs-passives">
-                <div class="gs-subheader gs-header-passives">Passives</div>
-                <div class="gs-container gs-col-container">
-                    <div class="gs-box gs-box-callout gs-passivePerception">
-                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-                        <div class="gs-number gs-passives-number"></div>
-                        <div class="gs-label gs-passives-label">Perception</div>
-                    </div>
-                    <div class="gs-box gs-box-callout gs-passiveInvestigation">
-                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-                        <div class="gs-number gs-passives-number"></div>
-                        <div class="gs-label gs-passives-label">Investigation</div>
-                    </div>
-                    <div class="gs-box gs-box-callout gs-passiveInsight">
-                        <div class="gs-box-background">` + calloutBoxSVG + `</div>
-                        <div class="gs-number gs-passives-number"></div>
-                        <div class="gs-label gs-passives-label">Insight</div>
-                    </div>
-                </div>
-            </div>
-            <div class="gs-additonal-senses">
-                <div class="gs-subheader gs-header-additonal-senses">Additional Senses</div>
-                <div class="gs-container gs-col-container"></div>
-            </div>
-        </div>
-        <div class="gs-classes gs-col-container gs-container-spaces">
-            <div class="gs-header gs-header-classes">Classes</div>
-            <div class="gs-container gs-col-container"></div>
-        </div>
-        <div class="gs-resources gs-col-container gs-container-spaces">
-            <div class="gs-header gs-header-resources">Resources</div>
-            <div class="gs-container gs-col-container"></div>
-        </div>
-    </div>
 </div>

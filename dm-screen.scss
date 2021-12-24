@@ -41,131 +41,142 @@ $gm_money_pp: rgb(98, 171, 255);
     color: $gm_primary_font_color;
     font-family: $font-family-monospace;
 
-    table.table {
-        color: $gm_primary_font_color;
-        // font-size: 1.5em;
+    table {
+        &.font_smallest { font-size: $font-size-base * 0.5; }
+        &.font_small { font-size: $font-size-base * 0.75; }
+        &.font_normal { font-size: $font-size-base * 1.0; }
+        &.font_big { font-size: $font-size-base * 1.25; }
+        &.font_biggest { font-size: $font-size-base * 1.5; }
+    
+        &.table {
+            color: $gm_primary_font_color;
 
-        hr {
-            border: none;
-            height: 1px;
-            padding: 0;
-            margin: 0;
-            margin-top: 0.35em;
-            margin-bottom: 0.35em;
-        }
+            hr {
+                border: none;
+                height: 1px;
+                padding: 0;
+                margin: 0;
+                margin-top: 0.35em;
+                margin-bottom: 0.35em;
+            }
 
-        th {
-            vertical-align: top;
-            font-weight: normal;
-        }
+            .dropdown {
+                color: $dark;
+            }
 
-        th,td {
-            width: 0%;
-            white-space: nowrap;
+            th {
+                vertical-align: top;
+                font-weight: normal;
+            }
 
-            border: 1px solid $gm_table_border;
+            th,td {
+                width: 0%;
+                white-space: nowrap;
 
-            &.col_name {
-                width: auto;
-                
-                .name {
-                    font-weight: bold;
-                    text-decoration: underline;
-                    font-style: italic;
-                }
+                border: 1px solid $gm_table_border;
 
-                .exhaust {
-                    color: $gm_c_bright_black;
+                &.col_name {
+                    width: auto;
+                    
+                    .name {
+                        font-weight: bold;
+                        text-decoration: underline;
+                        font-style: italic;
+                    }
 
-                    span { 
-                        color: $gm_c_red; 
+                    .exhaust {
+                        color: $gm_c_bright_black;
+
+                        span { 
+                            color: $gm_c_red; 
+                        }
+                    }
+
+                    .spellsavedc {
+                        color: $gm_c_bright_black;
+
+                        span {
+                            font-weight: bold;
+                            color: $gm_c_bright_white;
+                        }
                     }
                 }
 
-                .spellsavedc {
+                &.col_hp {
+                    color: $gm_c_bright_black;
+
+                    .overheal { color: $gm_hp_overheal; }
+                    .good { color: $gm_hp_good; }
+                    .hurt { color: $gm_hp_hurt; }
+                    .bad { color: $gm_hp_bad; }
+                    .normal { color: $gm_hp_normal; }
+
+                    .fail, .save {font-weight: bold;}
+                    .fail { color: $gm_c_red; }
+                    .save { color: $gm_c_green; }
+                    .stable { color: $gm_c_green; }
+                }
+
+                &.col_ac {
+                    width: 0%;
+                }
+
+                &.col_speed {
                     color: $gm_c_bright_black;
 
                     span {
-                        font-weight: bold;
                         color: $gm_c_bright_white;
                     }
                 }
-            }
 
-            &.col_hp {
-                color: $gm_c_bright_black;
+                &.col_stat {
+                    width: 0%;
+                    text-align: right;
 
-                .overheal { color: $gm_hp_overheal; }
-                .good { color: $gm_hp_good; }
-                .hurt { color: $gm_hp_hurt; }
-                .bad { color: $gm_hp_bad; }
-                .normal { color: $gm_hp_normal; }
-
-                .fail, .save {font-weight: bold;}
-                .fail { color: $gm_c_red; }
-                .save { color: $gm_c_green; }
-                .stable { color: $gm_c_green; }
-            }
-
-            &.col_ac {
-                width: 0%;
-            }
-
-            &.col_speed {
-                color: $gm_c_bright_black;
-
-                span {
-                    color: $gm_c_bright_white;
-                }
-            }
-
-            &.col_stat {
-                width: 0%;
-                text-align: right;
-
-                color: $gm_c_bright_black;
-                .high {color: $gm_c_bright_white;}
-                .low {color: $gm_c_red;}
-            }
-
-            &.col_passives {
-                span {color: $gm_c_bright_yellow;}
-            }
-
-            &.col_money {
-                width: auto;
-                color: $gm_c_bright_black;
-                white-space: normal;
-                
-                .cp {color: $gm_money_cp;}
-                .sp {color: $gm_money_sp;}
-                .gp {color: $gm_money_gp;}
-                .ep {color: $gm_money_ep;}
-                .pp {color: $gm_money_pp;}
-
-                .hide {visibility: hidden;}
-
-                .total span, .gponly {
-                    color: $gm_c_green;// $gm_money_gp;
+                    color: $gm_c_bright_black;
+                    .high {color: $gm_c_bright_white;}
+                    .low {color: $gm_c_red;}
                 }
 
-                .total, .ppc, .epc, .gpc, .spc, .cpc {
-                    white-space: nowrap;
+                &.col_passives {
+                    span {color: $gm_c_bright_yellow;}
                 }
-            }
 
-            &.col_skills {
-                width: auto;
-                white-space: normal;
+                &.col_money {
+                    width: auto;
+                    color: $gm_c_bright_black;
+                    white-space: normal;
+                    
+                    .cp {color: $gm_money_cp;}
+                    .sp {color: $gm_money_sp;}
+                    .gp {color: $gm_money_gp;}
+                    .ep {color: $gm_money_ep;}
+                    .pp {color: $gm_money_pp;}
 
-                span {white-space: nowrap;}
-            }
+                    .hide {visibility: hidden;}
 
-            &.col_languages {
-                width: auto;
-                white-space: normal;
+                    .total span, .gponly {
+                        color: $gm_c_green;// $gm_money_gp;
+                    }
 
-                span {white-space: nowrap;}
+                    .total, .ppc, .epc, .gpc, .spc, .cpc {
+                        white-space: nowrap;
+                    }
+                }
+
+                &.col_skills {
+                    width: auto;
+                    white-space: normal;
+
+                    span {white-space: nowrap;}
+                }
+
+                &.col_languages {
+                    width: auto;
+                    white-space: normal;
+
+                    span {white-space: nowrap;}
+                }
             }
         }
     }

@@ -11126,6 +11126,21 @@ textarea.form-control-lg {
   color: whitesmoke;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+#gmstats table.font_smallest {
+  font-size: 0.5rem;
+}
+#gmstats table.font_small {
+  font-size: 0.75rem;
+}
+#gmstats table.font_normal {
+  font-size: 1rem;
+}
+#gmstats table.font_big {
+  font-size: 1.25rem;
+}
+#gmstats table.font_biggest {
+  font-size: 1.5rem;
+}
 #gmstats table.table {
   color: whitesmoke;
 }
@@ -11136,6 +11151,9 @@ textarea.form-control-lg {
   margin: 0;
   margin-top: 0.35em;
   margin-bottom: 0.35em;
+}
+#gmstats table.table .dropdown {
+  color: #212529;
 }
 #gmstats table.table th {
   vertical-align: top;
