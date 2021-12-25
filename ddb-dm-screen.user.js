@@ -1,17 +1,18 @@
 // ==UserScript==
-// @name			Carm DnD Beyond GM Screen
-// @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version			1.0.5
-// @description		GM screen for D&DBeyond campaigns
-// @author			ootz0rz
-// @match			https://www.dndbeyond.com/campaigns/*
-// @updateURL		https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
-// @require			https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
+// @name            Carm DnD Beyond GM Screen
+// @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
+// @version         1.0.6
+// @description     GM screen for D&DBeyond campaigns
+// @author          ootz0rz
+// @match           https://www.dndbeyond.com/campaigns/*
+// @updateURL       https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
+// @require         https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
 // @require         https://media.dndbeyond.com/character-tools/vendors~characterTools.bundle.dec3c041829e401e5940.min.js
 // @require         https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
-// @grant			GM_setValue
-// @grant			GM_getValue
-// @license			MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
+// @require         https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV
+// @grant           GM_setValue
+// @grant           GM_getValue
+// @license         MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
 // ==/UserScript==
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -224,13 +225,22 @@ var tableRowHTML = `
 `;
 
 var currencyHTML = `
-	<div class="gs-camp-currency">
-	  <div class="gs-value gs-currency-value">
-	    <span class="gs-prefix gs-currency-prefix"></span><span class="gs-number gs-currency-number"></span>
-	  </div>
+    <div class="gs-camp-currency">
+      <div class="gs-value gs-currency-value">
+        <span class="gs-prefix gs-currency-prefix"></span><span class="gs-number gs-currency-number"></span>
+      </div>
       <div class="gs-label gs-currency-label"></div>
-	</div>
-	`;
+    </div>
+    `;
+
+var a = $("<script>", { type: 'text/javascript', src: 'https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV' });
+a[0].setAttribute("async", "");
+$("body").append(a);
+
+var a2 = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XDQBBDCJJV');`;
+var script = document.createElement('script');
+script.innerHTML = a2;
+document.body.appendChild(script);
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        Custom additonal modules to be loaded with D&DBeyond's module loader
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -641,8 +651,9 @@ function updateCharData(url) {
 
         getJSONfromURLs([url]).then((js) => {
             //window.jstest = js;
+            var totalChars = js.length;
             js.forEach(function(charJSON, index){
-                if(isSuccessfulJSON(charJSON, index)){
+                if (isSuccessfulJSON(charJSON, index)){
                     let charId = charJSON.data.id;
                     console.debug("Processing Char: " + charId);
                     charactersData[charId].state.character = charJSON.data;
@@ -666,10 +677,18 @@ function updateCharData(url) {
                                 globalCurrencies[key] = val;
                             }
                         });
-                        updateMoney(totalsRow, globalCurrencies);
+
+                        var isLastChar = index == totalChars - 1;
+                        if (isLastChar) {
+                            updateMoney(totalsRow, globalCurrencies);
+                        }
 
                         // languages
-                        updateLanguages(totalsRow, charData.proficiencyGroups, globalLanguages);
+                        updateLanguages(
+                            totalsRow,
+                            charData.proficiencyGroups,
+                            globalLanguages,
+                            updateHtml = isLastChar);
 
                         resolve();
                     });
@@ -1278,7 +1297,7 @@ function updateSkillProfs(parent, skills) {
     $(".col_skills", parent).html(allskills.join(", "));
 }
 
-function updateLanguages(parent, profGroups, langs = []) {
+function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
     profGroups.forEach((item, idx) => {
         if (item.label == "Languages") {
             item.modifierGroups.forEach((lang, lidx) => {
@@ -1291,8 +1310,10 @@ function updateLanguages(parent, profGroups, langs = []) {
         }
     });
 
-    langs.sort();
-    $(".col_languages", parent).html(langs.join(", "));
+    if (updateHtml) {
+        langs.sort();
+        $(".col_languages", parent).html(langs.join(", "));
+    }
 
     return langs;
 }
