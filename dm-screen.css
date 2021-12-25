@@ -11147,6 +11147,15 @@ textarea.form-control-lg {
 #gmstats table.table td.hover, #gmstats table.table tr.hover, #gmstats table.table th.hover {
   background-color: #343a40;
 }
+#gmstats table.table td .hide, #gmstats table.table tr .hide, #gmstats table.table th .hide {
+  visibility: hidden;
+}
+#gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated {
+  color: #6c757d !important;
+}
+#gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span {
+  color: #6c757d !important;
+}
 #gmstats table.table hr {
   border: none;
   height: 1px;

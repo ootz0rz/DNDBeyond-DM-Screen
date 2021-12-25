@@ -13,6 +13,7 @@ $gm_primary_font_color: whitesmoke;
 $gm_background: $gray-900;
 $gm_background_hover: $gray-800;
 $gm_table_border: $secondary;
+$gm_inactive_cells: $gray-600;
 
 // main colors
 $gm_c_bright_white: white;
@@ -57,6 +58,17 @@ $gm_money_pp: rgb(98, 171, 255);
                     background-color: $gm_background_hover;
                     // border-left: 1px solid $gm_c_red;
                     // border-color: $gm_c_red;
+                }
+
+                .hide {visibility: hidden;}
+            }
+
+            tbody tr {
+                &.unassigned, &.deactivated {
+                    color: $gm_inactive_cells !important;
+                    td, td span {
+                        color: $gm_inactive_cells !important;
+                    }
                 }
             }
 

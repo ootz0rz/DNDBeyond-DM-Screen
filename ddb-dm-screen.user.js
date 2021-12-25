@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.8
+// @version         1.0.9
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -56,6 +56,8 @@ const positiveSign = '+', negativeSign = '-';
 const autoUpdateDefault = true;
 const updateDurationDefault = 60;
 const fontSizeDefault = 2;
+const displayDeactiveDefault = false;
+const displayUnassignedDefault = false;
 
 const fontSizeMap = {
     0: 'font_smallest',
@@ -182,6 +184,15 @@ var mainTableHTML = `
                             <option value='3'>big</option>
                             <option value='4'>biggest</option>
                         </select>
+                    </span>
+                    <br />
+                    <span class="gs-form-field gs-row-container">
+                        <label for="gs-auto-update"><span>Display deactive?</span></label>
+                        <input type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
+                    </span>
+                    <span class="gs-form-field gs-row-container">
+                        <label for="gs-auto-update"><span>Display unassigned?</span></label>
+                        <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
                     </span>
             </td>
         </tr>
@@ -569,12 +580,14 @@ function insertElements() {
 
     var tableBody = $("#gm_table_body", node);
 
-    for(let id in charactersData) {       
+    for (let id in charactersData) {       
         var row = $(tableRowHTML);
         row.attr("id", "player-" + id);
         tableBody.append(row);
 
         charactersData[id].node = row;
+
+        row.addClass(charactersData[id].type);
     };
 
     $('td', node).hover(
@@ -625,8 +638,8 @@ function updateAllCharData() {
     console.log("Retriving Each Char Data");
     
     let promises = []
-    for(let id in charactersData){
-        promises.push(updateCharData(charactersData[id].url));
+    for (let id in charactersData) {
+        promises.push(updateCharData(charactersData[id].url, charactersData[id].type));
     }
     
     Promise.all(promises)
@@ -641,7 +654,7 @@ function updateAllCharData() {
     console.log("Updated All Char Data");
 }
 
-function updateCharData(url) {
+function updateCharData(url, activeType) {
 
     return new Promise(function (resolve, reject) {
         console.log("Retrieving Char Data");
@@ -665,31 +678,33 @@ function updateCharData(url) {
                         updateElementData(charactersData[charId]);
                         console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
                         console.log(charactersData[charId]);
+                        
+                        if (activeType == 'active') {
+                            // update global counters
+                            // -------------------------------------------------------
+                            var charData = charactersData[charId].data;
 
-                        // update global counters
-                        // -------------------------------------------------------
-                        var charData = charactersData[charId].data;
+                            // money
+                            $.each(charData.currencies, (key, val) => {
+                                if (key in globalCurrencies) {
+                                    globalCurrencies[key] += val;
+                                } else {
+                                    globalCurrencies[key] = val;
+                                }
+                            });
 
-                        // money
-                        $.each(charData.currencies, (key, val) => {
-                            if (key in globalCurrencies) {
-                                globalCurrencies[key] += val;
-                            } else {
-                                globalCurrencies[key] = val;
+                            var isLastChar = index == totalChars - 1;
+                            if (isLastChar) {
+                                updateMoney(totalsRow, globalCurrencies);
                             }
-                        });
 
-                        var isLastChar = index == totalChars - 1;
-                        if (isLastChar) {
-                            updateMoney(totalsRow, globalCurrencies);
+                            // languages
+                            updateLanguages(
+                                totalsRow,
+                                charData.proficiencyGroups,
+                                globalLanguages,
+                                updateHtml = isLastChar);
                         }
-
-                        // languages
-                        updateLanguages(
-                            totalsRow,
-                            charData.proficiencyGroups,
-                            globalLanguages,
-                            updateHtml = isLastChar);
 
                         resolve();
                     });
@@ -786,32 +801,58 @@ function insertControls(parent, campaignPrefix) {
     let autoDuration = controlsNode.find('input[name ="gs-auto-duration"]');
     let fontSize = controlsNode.find('select[name ="gs-font-size"]');
 
+    let displayDeactive = controlsNode.find('input[name ="gs-display-deactive"]');
+    let displayUnassigned = controlsNode.find('input[name ="gs-display-unassigned"]');
+
     // Loads ideally value set for this campaign, if not found it loads the last saved value otherwise it defaults
     let autoUpdateLoaded = GM_getValue(campaignPrefix + "-autoUpdate", GM_getValue(scriptVarPrefix + "-autoUpdate", autoUpdateDefault));
     let updateDurationLoaded = GM_getValue(campaignPrefix + "-updateDuration", GM_getValue(scriptVarPrefix + "-updateDuration", updateDurationDefault))
-    let fontSizeSetting = GM_getValue(campaignPrefix + "-fontSize", GM_getValue(scriptVarPrefix + "-fontSize", fontSizeDefault))
+    let fontSizeSettingLoaded = GM_getValue(campaignPrefix + "-fontSize", GM_getValue(scriptVarPrefix + "-fontSize", fontSizeDefault))
+
+    let displayDeactiveSettingLoaded = GM_getValue(campaignPrefix + "-displaydeactive", GM_getValue(scriptVarPrefix + "-displaydeactive", displayDeactiveDefault))
+    let displayUnassignedSettingLoaded = GM_getValue(campaignPrefix + "-displayunassigned", GM_getValue(scriptVarPrefix + "-displayunassigned", displayUnassignedDefault))
 
     autoUpdate.prop('checked', autoUpdateLoaded);
     autoDuration.prop('value', updateDurationLoaded);
-    fontSize.val(fontSizeSetting).change();
-    onFontSizeChange(fontSizeSetting);
+    fontSize.val(fontSizeSettingLoaded).change();
+    onFontSizeChange(fontSizeSettingLoaded);
+
+    displayDeactive.prop('checked', displayDeactiveSettingLoaded);
+    displayUnassigned.prop('checked', displayUnassignedSettingLoaded);
+    onDisplayTypeChange('deactivated', displayDeactiveSettingLoaded);
+    onDisplayTypeChange('unassigned', displayUnassignedSettingLoaded);
 
     autoUpdate.change(function () {
-        let updatedAutoUpdate = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-autoUpdate", updatedAutoUpdate);
-        GM_setValue(scriptVarPrefix + "-autoUpdate", updatedAutoUpdate);
+        let val = parseBool($(this).prop("checked"));
+        GM_setValue(campaignPrefix + "-autoUpdate", val);
+        GM_setValue(scriptVarPrefix + "-autoUpdate", val);
     });
     autoDuration.change(function () {
-        let updatedAutoDuration = parseIntSafe($(this).val());
-        GM_setValue(campaignPrefix + "-updateDuration", updatedAutoDuration);
-        GM_setValue(scriptVarPrefix + "-updateDuration", updatedAutoDuration);
+        let val = parseIntSafe($(this).val());
+        GM_setValue(campaignPrefix + "-updateDuration", val);
+        GM_setValue(scriptVarPrefix + "-updateDuration", val);
     });
     fontSize.change(function () {
-        let updatedFontSize = parseIntSafe($(this).val());
-        GM_setValue(campaignPrefix + "-fontSize", updatedFontSize);
-        GM_setValue(scriptVarPrefix + "-fontSize", updatedFontSize);
+        let val = parseIntSafe($(this).val());
+        GM_setValue(campaignPrefix + "-fontSize", val);
+        GM_setValue(scriptVarPrefix + "-fontSize", val);
 
-        onFontSizeChange(updatedFontSize);
+        onFontSizeChange(val);
+    });
+
+    displayDeactive.change(function () {
+        let val = parseBool($(this).prop("checked"));
+        GM_setValue(campaignPrefix + "-displaydeactive", val);
+        GM_setValue(scriptVarPrefix + "-displaydeactive", val);
+
+        onDisplayTypeChange('deactivated', val);
+    });
+    displayUnassigned.change(function () {
+        let val = parseBool($(this).prop("checked"));
+        GM_setValue(campaignPrefix + "-displayunassigned", val);
+        GM_setValue(scriptVarPrefix + "-displayunassigned", val);
+
+        onDisplayTypeChange('unassigned', val);
     });
 }
 
@@ -822,6 +863,17 @@ function onFontSizeChange(updatedFontSize) {
 
     var newFontClass = fontSizeMap[updatedFontSize];
     table.addClass(newFontClass);
+}
+
+function onDisplayTypeChange(type, newval) {
+    var table = $("table", $("#gmstats"));
+    var rows = $("tr." + type, table);
+
+    if (newval) {
+        rows.removeClass('hide');
+    } else {
+        rows.addClass('hide');
+    }
 }
 
 function insertVisibilityControls(parent, campaignPrefix) {
