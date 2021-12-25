@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.6
+// @version         1.0.7
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -960,6 +960,10 @@ function updateCurrency(parent, id, value){
 
 function updateCampaignData(){
     // TODO campaign totals?
+
+    // sort table by char name
+    var table = $("table", $("#gmstats"));
+    sortTable(table, 'asc');
 }
 
 
@@ -1587,4 +1591,17 @@ function parseBool(x) {
 function addTooltip(inStr, text, tag = "span", placement = "top") {
     // https://getbootstrap.com/docs/4.0/components/tooltips/
     return "<{2} data-toggle='tooltip' data-placement='{3}' title='{1}'>{0}</{2}>".format(inStr, text, tag, placement);
+}
+
+function sortTable(table, order) {
+    var asc = order === 'asc',
+        tbody = table.find('tbody');
+
+    tbody.find('tr').sort(function (a, b) {
+        if (asc) {
+            return $('td:first', a).text().localeCompare($('td:first', b).text());
+        } else {
+            return $('td:first', b).text().localeCompare($('td:first', a).text());
+        }
+    }).appendTo(tbody);
 }
