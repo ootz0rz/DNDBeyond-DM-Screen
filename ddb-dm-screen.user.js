@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.9
+// @version         1.0.10
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -176,7 +176,7 @@ var mainTableHTML = `
                         <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
                     </span>
                     <span class="gs-form-field gs-form-field-number gs-row-container">
-                        <label for="gs-auto-duration"><span>Font Size</span></label>
+                        <label for="gs-font-size"><span>Font Size</span></label>
                         <select name="gs-font-size" id="gs-font-size" class='dropdown'>
                             <option value='0'>smallest</option>
                             <option value='1'>small</option>
@@ -185,13 +185,12 @@ var mainTableHTML = `
                             <option value='4'>biggest</option>
                         </select>
                     </span>
-                    <br />
                     <span class="gs-form-field gs-row-container">
-                        <label for="gs-auto-update"><span>Display deactive?</span></label>
+                        <label for="gs-display-deactive"><span>Display deactive?</span></label>
                         <input type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
                     </span>
                     <span class="gs-form-field gs-row-container">
-                        <label for="gs-auto-update"><span>Display unassigned?</span></label>
+                        <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
                         <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
                     </span>
             </td>
@@ -659,10 +658,6 @@ function updateCharData(url, activeType) {
     return new Promise(function (resolve, reject) {
         console.log("Retrieving Char Data");
 
-        var totalsRow = $("#totals", $("#gmstats"));
-        globalCurrencies = {};
-        globalLanguages = [];
-
         getJSONfromURLs([url]).then((js) => {
             //window.jstest = js;
             var totalChars = js.length;
@@ -678,34 +673,6 @@ function updateCharData(url, activeType) {
                         updateElementData(charactersData[charId]);
                         console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
                         console.log(charactersData[charId]);
-                        
-                        if (activeType == 'active') {
-                            // update global counters
-                            // -------------------------------------------------------
-                            var charData = charactersData[charId].data;
-
-                            // money
-                            $.each(charData.currencies, (key, val) => {
-                                if (key in globalCurrencies) {
-                                    globalCurrencies[key] += val;
-                                } else {
-                                    globalCurrencies[key] = val;
-                                }
-                            });
-
-                            var isLastChar = index == totalChars - 1;
-                            if (isLastChar) {
-                                updateMoney(totalsRow, globalCurrencies);
-                            }
-
-                            // languages
-                            updateLanguages(
-                                totalsRow,
-                                charData.proficiencyGroups,
-                                globalLanguages,
-                                updateHtml = isLastChar);
-                        }
-
                         resolve();
                     });
                 } else {
@@ -1012,11 +979,52 @@ function updateCurrency(parent, id, value){
 }
 
 function updateCampaignData(){
-    // TODO campaign totals?
-
     // sort table by char name
     var table = $("table", $("#gmstats"));
     sortTable(table, 'asc');
+
+    // calc totals
+    var totalsRow = $("#totals", $("#gmstats"));
+    globalCurrencies = {};
+    globalLanguages = [];
+    
+    var len = Object.keys(charactersData).length;
+
+    var idx = 0;
+    for (let id in charactersData) {
+        var curChar = charactersData[id];
+
+        var charData = charactersData[id].data;
+        var charType = charactersData[id].type;
+
+        if (charType == 'active') {
+            // update global counters
+            // -------------------------------------------------------
+
+            // money
+            $.each(charData.currencies, (key, val) => {
+                if (key in globalCurrencies) {
+                    globalCurrencies[key] += val;
+                } else {
+                    globalCurrencies[key] = val;
+                }
+            });
+
+            var isLastChar = idx == len - 1;
+            if (isLastChar) {
+                updateMoney(totalsRow, globalCurrencies);
+            }
+
+            // languages
+            updateLanguages(
+                totalsRow,
+                charData.proficiencyGroups,
+                globalLanguages,
+                updateHtml = isLastChar);
+        }
+
+        idx++;
+    }
 }
 
 
