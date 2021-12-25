@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name			ootz D&DBeyond DM Screen
+// @name			Carm DnD Beyond GM Screen
 // @namespace		https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version			1.0.4
-// @description		Advanced DM screen for D&DBeyond campaigns
+// @version			1.0.5
+// @description		GM screen for D&DBeyond campaigns
 // @author			ootz0rz
 // @match			https://www.dndbeyond.com/campaigns/*
 // @updateURL		https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
@@ -13,7 +13,6 @@
 // @grant			GM_getValue
 // @license			MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
 // ==/UserScript==
-console.log("D&DBeyond DM Screen Starting");
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        Script Globals
@@ -26,7 +25,6 @@ const rulesUrls = ["https://character-service.dndbeyond.com/character/v4/rule-da
 const charJSONurlBase = "https://character-service.dndbeyond.com/character/v4/character/";
 
 const stylesheetUrls = [
-    // "https://raw.githubusercontent.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css",
     "https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css"
 ]
 
