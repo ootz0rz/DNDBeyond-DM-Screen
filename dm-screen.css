@@ -11124,7 +11124,6 @@ textarea.form-control-lg {
 #gmstats {
   background-color: #212529;
   color: whitesmoke;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 #gmstats table.font_smallest {
   font-size: 0.5rem;
@@ -11143,6 +11142,12 @@ textarea.form-control-lg {
 }
 #gmstats table.table {
   color: whitesmoke;
+}
+#gmstats table.table td, #gmstats table.table th {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 #gmstats table.table td.hover, #gmstats table.table tr.hover, #gmstats table.table th.hover {
   background-color: #343a40;

@@ -41,7 +41,6 @@ $gm_money_pp: rgb(98, 171, 255);
 #gmstats {
     background-color: $gm_background;
     color: $gm_primary_font_color;
-    font-family: $font-family-monospace;
 
     table {
         &.font_smallest { font-size: $font-size-base * 0.5; }
@@ -52,6 +51,18 @@ $gm_money_pp: rgb(98, 171, 255);
     
         &.table {
             color: $gm_primary_font_color;
+
+            // monospace font for most formatting
+            td,th {
+                font-family: $font-family-monospace;
+            }
+
+            // let these be normal fonts to horizontal conserve space where possible
+            tbody td, tfoot td {
+                &.col_name .name, &.col_skills, &.col_languages {
+                    font-family: $font-family-sans-serif !important;
+                }
+            }
 
             td,tr,th {
                 &.hover {
