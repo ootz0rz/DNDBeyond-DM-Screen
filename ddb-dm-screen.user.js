@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.11
+// @version         1.0.12
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -115,7 +115,7 @@ var mainTableHTML = `
                 HP<hr />
                 <span class="save">D</span>eath <span class="fail">S</span>aves
             </th>
-            <th class="col_ac">AC</th>
+            <th class="col_ac"><span title="Armor Class">AC</span><hr /><span title="Initiative">IN</span></th>
             <th class="col_speed">
                 Speed<hr />
                 Senses
@@ -202,7 +202,7 @@ var mainTableHTML = `
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name"></span><br/>
+                <span class="name"></span><span class="inspiration hide">🎲</span><br/>
                 <span class="exhaust"><span></span>- - - - - -</span><br/>
                 <span class="spellsavedc"><span></span></span>
             </td>
@@ -1037,7 +1037,7 @@ function updateQuickInfo(parent, character){
     console.log('update info: ', character);
     updateNameBlock(parent, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
-    updateArmorClass(parent, character.armorClass);
+    updateArmorClass(parent, character.armorClass, character.initiative);
     // updateInitiative(parent, character.initiative); // TODO add?
     updateSpeeds(parent, character);
 }
@@ -1050,6 +1050,16 @@ function updateNameBlock(parent, character) {
     updateNameBlockExhaust(character, nameblock);
 
     updateNameBlockSaveDC(character, nameblock);
+
+    updateNameBlockInspiration(character, nameblock);
+}
+
+function updateNameBlockInspiration(character, nameblock) {
+    if (character.inspiration) {
+        $(".inspiration", nameblock).removeClass('hide');
+    } else {
+        $(".inspiration", nameblock).addClass('hide');
+    }
 }
 
 function updateNameBlockExhaust(character, nameblock) {
@@ -1096,7 +1106,7 @@ function updateNameBlockSaveDC(character, nameblock) {
             dc += character.proficiencyBonus;
 
             // TODO should this be done programmatically?
-            // 4 == 'wis', dnd beyond id == 5
+            // abilities[4] == 'wis', dnd beyond id == 5 == 'wis'
             dc += character.abilities[4].modifier;
 
             savestr.push("{0} DC: <span>{1}</span>".format("Monk", dc));
@@ -1195,9 +1205,9 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
     );
 }
 
-function updateArmorClass(parent, armorClass){
+function updateArmorClass(parent, armorClass, init){
     var node = parent.find('td.col_ac');
-    node.html(armorClass);
+    node.html("{0}<hr />{1}{2}".format(armorClass, getSign(init), Math.abs(init)));
 }
 
 /*
@@ -1252,7 +1262,7 @@ function updateMainInfo(parent, character){
     updateAbilties(parent, character.abilities);
     updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
     updateMoney(parent, character.currencies);
-    updateSkillProfs(parent, character.skills);
+    updateSkillProfs(parent, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
 }
 
@@ -1346,20 +1356,28 @@ function updateCurrencyVis(c, cval, val, hideClass='hide') {
     cval.html(val);
 }
 
-function updateSkillProfs(parent, skills) {
-    allskills = [];
+function updateSkillProfs(parent, skills, customs) {
+    everything = [...genSkillsArray(skills), ...genSkillsArray(customs)];
+
+    $(".col_skills", parent).html(everything.join(", "));
+}
+
+function genSkillsArray(skills) {
+    outarr = [];
+
     skills.forEach((item, idx) => {
         if (item.expertise) {
-            allskills.push("<span>**{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>**{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
         } else if (item.proficiency) {
-            allskills.push("<span>{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
         } else if (item.halfProficiency) {
-            allskills.push("<span>1/2 {0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>1/2 {0}</span>".format(item.name, getSign(item.modifier), item.modifier));
         }
     });
 
-    allskills.sort();
-    $(".col_skills", parent).html(allskills.join(", "));
+    outarr.sort();
+
+    return outarr;
 }
 
 function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
