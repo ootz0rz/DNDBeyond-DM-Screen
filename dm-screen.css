@@ -11340,7 +11340,9 @@ textarea.form-control-lg {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span, #gmstats table.stattable th.col_skills span, #gmstats table.stattable td.col_skills span {
+#gmstats table.table th.col_skills span span, #gmstats table.table td.col_skills span span, #gmstats table.stattable th.col_skills span span, #gmstats table.stattable td.col_skills span span {
+  color: #afafff;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   white-space: nowrap;
 }
 #gmstats table.table th.col_languages, #gmstats table.table td.col_languages, #gmstats table.stattable th.col_languages, #gmstats table.stattable td.col_languages {

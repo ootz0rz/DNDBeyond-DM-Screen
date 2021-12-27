@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.14
+// @version         1.0.15
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -154,7 +154,7 @@ var mainTableHTML = `
                 <span>ins</span>ight<br />
             </th>
             <th class="col_money">$$$</th>
-            <th class="col_skills">Skill Proficiences</th>
+            <th class="col_skills"><span>Skill Proficiences <span>(+bonus)</span></span></th>
             <th class="col_languages">Languages</th>
         </tr>
     </thead>
@@ -1401,11 +1401,11 @@ function genSkillsArray(skills) {
 
     skills.forEach((item, idx) => {
         if (item.expertise) {
-            outarr.push("<span>**{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>**{0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
         } else if (item.proficiency) {
-            outarr.push("<span>{0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>{0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
         } else if (item.halfProficiency) {
-            outarr.push("<span>1/2 {0}</span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span>1/2 {0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
         }
     });
 
