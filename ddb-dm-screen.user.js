@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.15
+// @version         1.0.17
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -114,8 +114,9 @@ var mainTableHTML = `
                 <span class="spellsavedc">Spell Save <span>DC</span></span>
             </th>
             <th class="col_hp">
-                HP<hr />
-                <span class="save">D</span>eath <span class="fail">S</span>aves
+                <span class="overheal">He</span><span class="good">al</span><span class="normal">th</span><span class="hurt"> P</span><span class="bad">ts</span>
+                <hr />
+                <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
             <th class="col_ac">
                 <span title="Armor Class">AC</span>
@@ -123,8 +124,8 @@ var mainTableHTML = `
                 <div title="Initiative" class="init">Initiative</div>
             </th>
             <th class="col_speed">
-                Speed<hr />
-                Senses
+                <span>Sp</span>eed<hr />
+                Sens<span>es</span>
             </th>
             <th colspan="6" class="col_stat">
                 <table class="table stattable font_normal">
@@ -153,7 +154,7 @@ var mainTableHTML = `
                 <span>inv</span>est<br />
                 <span>ins</span>ight<br />
             </th>
-            <th class="col_money">$$$</th>
+            <th class="col_money"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills"><span>Skill Proficiences <span>(+bonus)</span></span></th>
             <th class="col_languages">Languages</th>
         </tr>
@@ -613,18 +614,18 @@ function insertElements() {
         row.addClass(charactersData[id].type);
     };
 
-    $('td', node).hover(
+    $('td', tableBody).hover(
         function () {
             var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')').addClass('hover');
-            $('th:nth-child(' + i + ')').addClass('hover');
-            $(this).parent().addClass('hover');
+            $('td:nth-child(' + i + ')', tableBody).addClass('hover_col');
+            $('th:nth-child(' + i + ')', tableBody).addClass('hover_col');
+            $(this).parent().addClass('hover_row');
         },
         function () {
             var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')').removeClass('hover');
-            $('th:nth-child(' + i + ')').removeClass('hover');
-            $(this).parent().removeClass('hover');
+            $('td:nth-child(' + i + ')', tableBody).removeClass('hover_col');
+            $('th:nth-child(' + i + ')', tableBody).removeClass('hover_col');
+            $(this).parent().removeClass('hover_row');
         });
 }
 

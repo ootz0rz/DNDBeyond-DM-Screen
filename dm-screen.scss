@@ -11,7 +11,8 @@
 // main data
 $gm_primary_font_color: whitesmoke;
 $gm_background: $gray-900;
-$gm_background_hover: $gray-800;
+$gm_background_hover_row: rgb(44, 44, 44);
+$gm_background_hover_col: lighten($gray-900,5%);
 $gm_table_border: $secondary;
 $gm_inactive_cells: $gray-600;
 
@@ -108,7 +109,8 @@ $font_biggest: $font-size-base * 1.5;
                     .low {color: $gm_c_red;}
                     .prof {color: $gm_c_cyan;}
 
-                    .stat {                       
+                    .stat {             
+                        color: $gm_c_bright_white;          
                         bottom: .5em;
                         position: relative;
                         transform: rotate(-90deg);
@@ -134,10 +136,24 @@ $font_biggest: $font-size-base * 1.5;
             }
 
             td,tr,th {
-                &.hover {
-                    background-color: $gm_background_hover;
-                    // border-left: 1px solid $gm_c_red;
-                    // border-color: $gm_c_red;
+                &.hover_col {
+                    background-color: $gm_background_hover_col;
+                }
+                &.hover_row {
+                    // background-color: desaturate(darken($gm_c_bright_yellow, 55%), 50%);
+                    td,th {
+                        $border_color: desaturate(darken($gm_c_bright_yellow, 15%), 15%);
+                        $border_settings: 1px dashed;
+                        border-left: $border_settings $border_color;
+                        border-right: $border_settings $border_color;
+                        // border-color: $gm_c_red;
+
+                        &.col_name {
+                            .name {
+                                color: $gm_c_bright_yellow !important;
+                            }
+                        }
+                    }
                 }
 
                 .hide {visibility: hidden;}

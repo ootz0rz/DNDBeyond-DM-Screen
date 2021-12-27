@@ -11192,6 +11192,7 @@ textarea.form-control-lg {
   color: cyan;
 }
 #gmstats table.table th.col_stat .stat, #gmstats table.table td.col_stat .stat, #gmstats table.stattable th.col_stat .stat, #gmstats table.stattable td.col_stat .stat {
+  color: white;
   bottom: 0.5em;
   position: relative;
   transform: rotate(-90deg);
@@ -11205,8 +11206,15 @@ textarea.form-control-lg {
 #gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages, #gmstats table.stattable tbody td.col_name .name, #gmstats table.stattable tbody td.col_skills, #gmstats table.stattable tbody td.col_languages, #gmstats table.stattable tfoot td.col_name .name, #gmstats table.stattable tfoot td.col_skills, #gmstats table.stattable tfoot td.col_languages {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
-#gmstats table.table td.hover, #gmstats table.table tr.hover, #gmstats table.table th.hover, #gmstats table.stattable td.hover, #gmstats table.stattable tr.hover, #gmstats table.stattable th.hover {
-  background-color: #343a40;
+#gmstats table.table td.hover_col, #gmstats table.table tr.hover_col, #gmstats table.table th.hover_col, #gmstats table.stattable td.hover_col, #gmstats table.stattable tr.hover_col, #gmstats table.stattable th.hover_col {
+  background-color: #2c3237;
+}
+#gmstats table.table td.hover_row td, #gmstats table.table td.hover_row th, #gmstats table.table tr.hover_row td, #gmstats table.table tr.hover_row th, #gmstats table.table th.hover_row td, #gmstats table.table th.hover_row th, #gmstats table.stattable td.hover_row td, #gmstats table.stattable td.hover_row th, #gmstats table.stattable tr.hover_row td, #gmstats table.stattable tr.hover_row th, #gmstats table.stattable th.hover_row td, #gmstats table.stattable th.hover_row th {
+  border-left: 1px dashed #e1bb12;
+  border-right: 1px dashed #e1bb12;
+}
+#gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name, #gmstats table.stattable td.hover_row td.col_name .name, #gmstats table.stattable td.hover_row th.col_name .name, #gmstats table.stattable tr.hover_row td.col_name .name, #gmstats table.stattable tr.hover_row th.col_name .name, #gmstats table.stattable th.hover_row td.col_name .name, #gmstats table.stattable th.hover_row th.col_name .name {
+  color: #ffdc41 !important;
 }
 #gmstats table.table td .hide, #gmstats table.table tr .hide, #gmstats table.table th .hide, #gmstats table.stattable td .hide, #gmstats table.stattable tr .hide, #gmstats table.stattable th .hide {
   visibility: hidden;

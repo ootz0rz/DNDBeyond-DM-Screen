@@ -18,8 +18,9 @@
                 <span class="spellsavedc">Spell Save <span>DC</span></span>
             </th>
             <th class="col_hp">
-                HP<hr />
-                <span class="save">D</span>eath <span class="fail">S</span>aves
+                <span class="overheal">He</span><span class="good">al</span><span class="normal">th</span><span class="hurt"> P</span><span class="bad">ts</span>
+                <hr />
+                <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
             <th class="col_ac">
                 <span title="Armor Class">AC</span>
@@ -27,8 +28,8 @@
                 <div title="Initiative" class="init">Initiative</div>
             </th>
             <th class="col_speed">
-                Speed<hr />
-                Senses
+                <span>Sp</span>eed<hr />
+                Sens<span>es</span>
             </th>
             <th colspan="6" class="col_stat">
                 <table class="table stattable font_normal">
@@ -57,7 +58,7 @@
                 <span>inv</span>est<br />
                 <span>ins</span>ight<br />
             </th>
-            <th class="col_money">$$$</th>
+            <th class="col_money"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills"><span>Skill Proficiences <span>(+bonus)</span></span></th>
             <th class="col_languages">Languages</th>
         </tr>
@@ -299,3 +300,27 @@
     </tfoot>
 </table>
 </div>
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    var node = $("#gmstats");
+    var tableBody = $("#gm_table_body", node);
+
+    $('td', tableBody).hover(
+        function () {
+            var i = parseInt($(this).index()) + 1;
+            $('td:nth-child(' + i + ')', tableBody).addClass('hover_col');
+            $('th:nth-child(' + i + ')', tableBody).addClass('hover_col');
+            $(this).parent().addClass('hover_row');
+        },
+        function () {
+            var i = parseInt($(this).index()) + 1;
+            $('td:nth-child(' + i + ')', tableBody).removeClass('hover_col');
+            $('th:nth-child(' + i + ')', tableBody).removeClass('hover_col');
+            $(this).parent().removeClass('hover_row');
+        });
+</script>
