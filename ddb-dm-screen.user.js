@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.17
+// @version         1.0.18
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -111,7 +111,7 @@ var mainTableHTML = `
             <th class="col_name">
                 <span class="name">Name</span><br />
                 <span class="exhaust"><span>E</span>xhaust</span><br />
-                <span class="spellsavedc">Spell Save <span>DC</span></span>
+                <span class="spellsavedc">Class <span class="lvl">lvl</span>: <span class="dc">DC</span></span>
             </th>
             <th class="col_hp">
                 <span class="overheal">He</span><span class="good">al</span><span class="normal">th</span><span class="hurt"> P</span><span class="bad">ts</span>
@@ -227,6 +227,7 @@ var tableRowHTML = `
                 <span class="name"></span><span class="inspiration hide">🎲</span><br/>
                 <span class="exhaust"><span></span>- - - - - -</span><br/>
                 <span class="spellsavedc"><span></span></span>
+                <span class="classes"></span>
             </td>
             <td class="col_hp">
                 <span class="hurt"></span>
@@ -1122,6 +1123,7 @@ function updateNameBlockSaveDC(character, nameblock) {
     var spellCasterSaveDCs = character.spellCasterInfo.castingInfo.saveDcs;
 
     var savestr = [];
+    var remainingClassNames = {};
     for (var i = 0; i < classes.length; i++) {
         var c = classes[i];
         var slug = c.slug;
@@ -1136,9 +1138,12 @@ function updateNameBlockSaveDC(character, nameblock) {
             // abilities[4] == 'wis', dnd beyond id == 5 == 'wis'
             dc += character.abilities[4].modifier;
 
-            savestr.push("{0} DC: <span>{1}</span>".format("Monk", dc));
-            break;
-        }
+            savestr.push("{0} <span class='lvl'>{1}</span>: <span class='dc'>{2}</span>".format(c.definition.name, c.level, dc));
+
+            continue;
+        } 
+
+        remainingClassNames[slug] = "{0} <span class='lvl'>{1}</span>".format(c.definition.name, c.level);
     }
 
     for (var i = 0; i < spellCasterSaveDCs.length; i++) {
@@ -1147,11 +1152,22 @@ function updateNameBlockSaveDC(character, nameblock) {
 
         for (var j = 0; j < c.sources.length; j++) {
             var cname = c.sources[j].definition.name;
-            savestr.push("{0} DC: <span>{1}</span>".format(cname, val));
+
+            savestr.push("{0} <span class='lvl'>{1}</span>: <span class='dc'>{2}</span>".format(cname, c.sources[j].level, val));
+
+            if (c.sources[j].slug in remainingClassNames) {
+                delete remainingClassNames[c.sources[j].slug];
+            }
         }
     }
 
-    $(".spellsavedc", nameblock).html(savestr.join("<br />"));
+    var savedcnode = $(".spellsavedc", nameblock);
+
+    for (const key in remainingClassNames) {
+        savestr.push(remainingClassNames[key]);
+    }
+
+    savedcnode.html(savestr.join("<br />"));
 }
 
 function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {

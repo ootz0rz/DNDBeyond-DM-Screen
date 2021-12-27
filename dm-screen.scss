@@ -26,6 +26,8 @@ $gm_c_yellow: yellow;
 $gm_c_bright_yellow: rgb(255, 220, 65);
 $gm_c_light_steel_blue: rgb(175,175,255);
 
+$gm_level: 	desaturate(rgb(255,135,0), 30%);
+
 // hp
 $gm_hp_overheal: $gm_c_cyan;
 $gm_hp_good: $gm_c_green;
@@ -212,7 +214,12 @@ $font_biggest: $font-size-base * 1.5;
                     .spellsavedc {
                         color: $gm_c_bright_black;
 
-                        span {
+                        .lvl {
+                            font-weight: bold;
+                            // color: $gm_level;
+                        }
+
+                        .dc {
                             font-weight: bold;
                             color: $gm_c_bright_white;
                         }
@@ -288,14 +295,15 @@ $font_biggest: $font-size-base * 1.5;
                     white-space: normal;
                     
                     span {
-                        white-space: nowrap;
-                        
+                        white-space: normal;
                         span {
+                            white-space: normal;
                             color: $gm_c_light_steel_blue;
                             font-family: $font-family-monospace;
-                            white-space: nowrap;
                         }
                     }
+
+                    // more white-space settings below specifically for tbody td
                 }
 
                 &.col_languages {
@@ -305,6 +313,8 @@ $font_biggest: $font-size-base * 1.5;
                     span {white-space: nowrap;}
                 }
             }
+
+            td.col_skills span { white-space: nowrap; }
 
             tfoot {
                 td {

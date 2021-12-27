@@ -11262,7 +11262,10 @@ textarea.form-control-lg {
 #gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc, #gmstats table.stattable th.col_name .spellsavedc, #gmstats table.stattable td.col_name .spellsavedc {
   color: grey;
 }
-#gmstats table.table th.col_name .spellsavedc span, #gmstats table.table td.col_name .spellsavedc span, #gmstats table.stattable th.col_name .spellsavedc span, #gmstats table.stattable td.col_name .spellsavedc span {
+#gmstats table.table th.col_name .spellsavedc .lvl, #gmstats table.table td.col_name .spellsavedc .lvl, #gmstats table.stattable th.col_name .spellsavedc .lvl, #gmstats table.stattable td.col_name .spellsavedc .lvl {
+  font-weight: bold;
+}
+#gmstats table.table th.col_name .spellsavedc .dc, #gmstats table.table td.col_name .spellsavedc .dc, #gmstats table.stattable th.col_name .spellsavedc .dc, #gmstats table.stattable td.col_name .spellsavedc .dc {
   font-weight: bold;
   color: white;
 }
@@ -11349,18 +11352,21 @@ textarea.form-control-lg {
   white-space: normal;
 }
 #gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span, #gmstats table.stattable th.col_skills span, #gmstats table.stattable td.col_skills span {
-  white-space: nowrap;
+  white-space: normal;
 }
 #gmstats table.table th.col_skills span span, #gmstats table.table td.col_skills span span, #gmstats table.stattable th.col_skills span span, #gmstats table.stattable td.col_skills span span {
+  white-space: normal;
   color: #afafff;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  white-space: nowrap;
 }
 #gmstats table.table th.col_languages, #gmstats table.table td.col_languages, #gmstats table.stattable th.col_languages, #gmstats table.stattable td.col_languages {
   width: auto;
   white-space: normal;
 }
 #gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span, #gmstats table.stattable th.col_languages span, #gmstats table.stattable td.col_languages span {
+  white-space: nowrap;
+}
+#gmstats table.table td.col_skills span, #gmstats table.stattable td.col_skills span {
   white-space: nowrap;
 }
 #gmstats table.table tfoot td.col_name, #gmstats table.stattable tfoot td.col_name {
