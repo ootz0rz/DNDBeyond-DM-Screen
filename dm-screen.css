@@ -11159,10 +11159,19 @@ textarea.form-control-lg {
 #gmstats table.stattable tr, #gmstats table.stattable th, #gmstats table.stattable td {
   border: 0 !important;
 }
+#gmstats table.stattable th {
+  color: grey;
+}
 #gmstats table.stattable th.stat_types {
   position: relative;
   text-align: center;
   padding-bottom: 1em;
+}
+#gmstats table.stattable th .statscore {
+  color: whitesmoke;
+}
+#gmstats table.stattable th .prof {
+  color: cyan;
 }
 #gmstats table.table th.col_stat {
   padding: 0 !important;
@@ -11178,6 +11187,9 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_stat .low, #gmstats table.table td.col_stat .low, #gmstats table.stattable th.col_stat .low, #gmstats table.stattable td.col_stat .low {
   color: red;
+}
+#gmstats table.table th.col_stat .prof, #gmstats table.table td.col_stat .prof, #gmstats table.stattable th.col_stat .prof, #gmstats table.stattable td.col_stat .prof {
+  color: cyan;
 }
 #gmstats table.table th.col_stat .stat, #gmstats table.table td.col_stat .stat, #gmstats table.stattable th.col_stat .stat, #gmstats table.stattable td.col_stat .stat {
   bottom: 0.5em;
@@ -11278,6 +11290,13 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_ac, #gmstats table.table td.col_ac, #gmstats table.stattable th.col_ac, #gmstats table.stattable td.col_ac {
   width: 0%;
+}
+#gmstats table.table th.col_ac .init, #gmstats table.table td.col_ac .init, #gmstats table.stattable th.col_ac .init, #gmstats table.stattable td.col_ac .init {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  position: relative;
+  width: 1em;
+  top: 2.7em;
+  transform: rotate(-90deg);
 }
 #gmstats table.table th.col_speed, #gmstats table.table td.col_speed, #gmstats table.stattable th.col_speed, #gmstats table.stattable td.col_speed {
   color: grey;

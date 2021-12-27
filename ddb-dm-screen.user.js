@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.13
+// @version         1.0.14
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -117,7 +117,11 @@ var mainTableHTML = `
                 HP<hr />
                 <span class="save">D</span>eath <span class="fail">S</span>aves
             </th>
-            <th class="col_ac"><span title="Armor Class">AC</span><hr /><span title="Initiative">IN</span></th>
+            <th class="col_ac">
+                <span title="Armor Class">AC</span>
+                <hr />
+                <div title="Initiative" class="init">Initiative</div>
+            </th>
             <th class="col_speed">
                 Speed<hr />
                 Senses
@@ -127,9 +131,9 @@ var mainTableHTML = `
                     <thead>
                         <tr class="stat_types">
                             <th class="stat_types" colspan="6">
-                                <div>stat</div>
-                                <div>bonus</div>
-                                <div>save</div>
+                                <div class="statscore">ability scores</div>
+                                <div class="bonus">bonus</div>
+                                <div class="save">save/<span class="prof">prof</span></div>
                             </th>
                         </tr>
                         <tr>
@@ -1308,14 +1312,18 @@ function updateAbilties(parent, abilities){
         cell.append("<span class='{0}' title='bonus'>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod)));
 
         // save
+        // we only show one's we're proficient in or are different than the bonus
         var save = item.save;
         var isprof = item.proficiency;
         color = "";
 
-        if (isprof) { color = "high"; }
-        else { color = ""; }
+        if (isprof) { color = "prof"; }
+        else if (mod > 0) { color = "high"; }
+        else if (mod < 0) { color = "low"; }
 
-        cell.append("<span class='{0}' title='save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));
+        if (isprof || mod != save) {
+            cell.append("<span class='{0}' title='save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));
+        }
     });
 }
 
@@ -1643,6 +1651,7 @@ function fetchRequest(url, body, headers, cookies) {
 
 function getSign(input){
     let number = parseIntSafe(input);
+    if (number == 0) return "";
     return number >= 0 ? positiveSign : negativeSign
 }
 
