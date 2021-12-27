@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.18
+// @version         1.0.19
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1250,7 +1250,10 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
 
 function updateArmorClass(parent, armorClass, init){
     var node = parent.find('td.col_ac');
-    node.html("{0}<hr />{1}{2}".format(armorClass, getSign(init), Math.abs(init)));
+    node.html("{0}<hr />{1}".format(
+        addTooltip(armorClass, "armor class"),
+        addTooltip("{0}{1}".format(getSign(init), Math.abs(init)), "initiative")
+    ));
 }
 
 /*
@@ -1318,7 +1321,7 @@ function updateAbilties(parent, abilities){
         cell.empty();
 
         // stat
-        cell.append("<span class='high' title='stat'>{0}</span><br />".format(item.totalScore));
+        cell.append("<span class='high' title='{1} score'>{0}</span><br />".format(item.totalScore, abilityKey));
 
         // bonus
         var mod = item.modifier;
@@ -1326,7 +1329,7 @@ function updateAbilties(parent, abilities){
         if (mod > 0) { color = "high"; }
         else if (mod < 0) { color = "low"; }
 
-        cell.append("<span class='{0}' title='bonus'>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod)));
+        cell.append("<span class='{0}' title='{3} bonus'>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod), abilityKey));
 
         // save
         // we only show one's we're proficient in or are different than the bonus
@@ -1339,7 +1342,7 @@ function updateAbilties(parent, abilities){
         else if (mod < 0) { color = "low"; }
 
         if (isprof || mod != save) {
-            cell.append("<span class='{0}' title='save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));
+            cell.append("<span class='{0}' title='{3} save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save), abilityKey));
         }
     });
 }
