@@ -38,18 +38,80 @@ $gm_money_gp: gold;
 $gm_money_ep: rgb(95, 201, 209);
 $gm_money_pp: rgb(98, 171, 255);
 
+.table>tbody>tr>td, 
+.table>tbody>tr>th, 
+.table>tfoot>tr>td, 
+.table>tfoot>tr>th, 
+.table>thead>tr>td, 
+.table>thead>tr>th {
+    padding: 5;
+    margin: 0;
+}
+
+$font_smallest: $font-size-base * 0.5;
+$font_small: $font-size-base * 0.75;
+$font_normal: $font-size-base * 1.0;
+$font_big: $font-size-base * 1.25;
+$font_biggest: $font-size-base * 1.5;
+
 #gmstats {
     background-color: $gm_background;
     color: $gm_primary_font_color;
 
     table {
-        &.font_smallest { font-size: $font-size-base * 0.5; }
-        &.font_small { font-size: $font-size-base * 0.75; }
-        &.font_normal { font-size: $font-size-base * 1.0; }
-        &.font_big { font-size: $font-size-base * 1.25; }
-        &.font_biggest { font-size: $font-size-base * 1.5; }
+        &.font_smallest { font-size: $font_smallest; }
+        &.font_small { font-size: $font_small; }
+        &.font_normal { font-size: $font_normal; }
+        &.font_big { font-size: $font_big; }
+        &.font_biggest { font-size: $font_biggest; }
+
+        // stat column stuff
+        &.stattable {
+            background-color: $gm_background;
+            color: $gm_primary_font_color;
+            padding: 0;
+            margin: 0;
+
+            tr, th, td {
+                border: 0 !important;
+            }
+
+            th {
+                &.stat_types {
+                    position: relative;
+                    text-align: center;
+                    padding-bottom: 1em;
+                }
+            }
+        }
+
+        &.table th.col_stat {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        &.table, &.stattable {
+            th, td {
+                &.col_stat {
+                    width: 0%;
+                    text-align: right;
+
+                    color: $gm_c_bright_black;
+                    .high {color: $gm_c_bright_white;}
+                    .low {color: $gm_c_red;}
+
+                    .stat {
+                        // transform-origin: 0 0;
+                        bottom: 0.5em;
+                        position: relative;
+                        transform: rotate(-90deg);
+                    }
+                }
+            }
+        }
+        // end stat column stuff
     
-        &.table {
+        &.table, &.stattable {
             color: $gm_primary_font_color;
 
             // monospace font for most formatting
@@ -159,15 +221,6 @@ $gm_money_pp: rgb(98, 171, 255);
                     span {
                         color: $gm_c_bright_white;
                     }
-                }
-
-                &.col_stat {
-                    width: 0%;
-                    text-align: right;
-
-                    color: $gm_c_bright_black;
-                    .high {color: $gm_c_bright_white;}
-                    .low {color: $gm_c_red;}
                 }
 
                 &.col_passives {

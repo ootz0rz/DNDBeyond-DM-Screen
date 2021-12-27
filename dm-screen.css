@@ -11121,6 +11121,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 5;
+  margin: 0;
+}
+
 #gmstats {
   background-color: #212529;
   color: whitesmoke;
@@ -11140,28 +11150,62 @@ textarea.form-control-lg {
 #gmstats table.font_biggest {
   font-size: 1.5rem;
 }
-#gmstats table.table {
+#gmstats table.stattable {
+  background-color: #212529;
+  color: whitesmoke;
+  padding: 0;
+  margin: 0;
+}
+#gmstats table.stattable tr, #gmstats table.stattable th, #gmstats table.stattable td {
+  border: 0 !important;
+}
+#gmstats table.stattable th.stat_types {
+  position: relative;
+  text-align: center;
+  padding-bottom: 1em;
+}
+#gmstats table.table th.col_stat {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#gmstats table.table th.col_stat, #gmstats table.table td.col_stat, #gmstats table.stattable th.col_stat, #gmstats table.stattable td.col_stat {
+  width: 0%;
+  text-align: right;
+  color: grey;
+}
+#gmstats table.table th.col_stat .high, #gmstats table.table td.col_stat .high, #gmstats table.stattable th.col_stat .high, #gmstats table.stattable td.col_stat .high {
+  color: white;
+}
+#gmstats table.table th.col_stat .low, #gmstats table.table td.col_stat .low, #gmstats table.stattable th.col_stat .low, #gmstats table.stattable td.col_stat .low {
+  color: red;
+}
+#gmstats table.table th.col_stat .stat, #gmstats table.table td.col_stat .stat, #gmstats table.stattable th.col_stat .stat, #gmstats table.stattable td.col_stat .stat {
+  bottom: 0.5em;
+  position: relative;
+  transform: rotate(-90deg);
+}
+#gmstats table.table, #gmstats table.stattable {
   color: whitesmoke;
 }
-#gmstats table.table td, #gmstats table.table th {
+#gmstats table.table td, #gmstats table.table th, #gmstats table.stattable td, #gmstats table.stattable th {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages {
+#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages, #gmstats table.stattable tbody td.col_name .name, #gmstats table.stattable tbody td.col_skills, #gmstats table.stattable tbody td.col_languages, #gmstats table.stattable tfoot td.col_name .name, #gmstats table.stattable tfoot td.col_skills, #gmstats table.stattable tfoot td.col_languages {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
-#gmstats table.table td.hover, #gmstats table.table tr.hover, #gmstats table.table th.hover {
+#gmstats table.table td.hover, #gmstats table.table tr.hover, #gmstats table.table th.hover, #gmstats table.stattable td.hover, #gmstats table.stattable tr.hover, #gmstats table.stattable th.hover {
   background-color: #343a40;
 }
-#gmstats table.table td .hide, #gmstats table.table tr .hide, #gmstats table.table th .hide {
+#gmstats table.table td .hide, #gmstats table.table tr .hide, #gmstats table.table th .hide, #gmstats table.stattable td .hide, #gmstats table.stattable tr .hide, #gmstats table.stattable th .hide {
   visibility: hidden;
 }
-#gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated {
+#gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated, #gmstats table.stattable tbody tr.unassigned, #gmstats table.stattable tbody tr.deactivated {
   color: #6c757d !important;
 }
-#gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span {
+#gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span, #gmstats table.stattable tbody tr.unassigned td, #gmstats table.stattable tbody tr.unassigned td span, #gmstats table.stattable tbody tr.deactivated td, #gmstats table.stattable tbody tr.deactivated td span {
   color: #6c757d !important;
 }
-#gmstats table.table hr {
+#gmstats table.table hr, #gmstats table.stattable hr {
   border: none;
   height: 1px;
   padding: 0;
@@ -11169,136 +11213,125 @@ textarea.form-control-lg {
   margin-top: 0.35em;
   margin-bottom: 0.35em;
 }
-#gmstats table.table .dropdown {
+#gmstats table.table .dropdown, #gmstats table.stattable .dropdown {
   color: #212529;
 }
-#gmstats table.table th {
+#gmstats table.table th, #gmstats table.stattable th {
   vertical-align: top;
   font-weight: normal;
 }
-#gmstats table.table th, #gmstats table.table td {
+#gmstats table.table th, #gmstats table.table td, #gmstats table.stattable th, #gmstats table.stattable td {
   width: 0%;
   white-space: nowrap;
   border: 1px solid #6c757d;
 }
-#gmstats table.table th.col_name, #gmstats table.table td.col_name {
+#gmstats table.table th.col_name, #gmstats table.table td.col_name, #gmstats table.stattable th.col_name, #gmstats table.stattable td.col_name {
   width: auto;
 }
-#gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name {
+#gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name, #gmstats table.stattable th.col_name .name, #gmstats table.stattable td.col_name .name {
   font-weight: bold;
   text-decoration: underline;
   font-style: italic;
 }
-#gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust {
+#gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust, #gmstats table.stattable th.col_name .exhaust, #gmstats table.stattable td.col_name .exhaust {
   color: grey;
 }
-#gmstats table.table th.col_name .exhaust span, #gmstats table.table td.col_name .exhaust span {
+#gmstats table.table th.col_name .exhaust span, #gmstats table.table td.col_name .exhaust span, #gmstats table.stattable th.col_name .exhaust span, #gmstats table.stattable td.col_name .exhaust span {
   color: red;
 }
-#gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc {
+#gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc, #gmstats table.stattable th.col_name .spellsavedc, #gmstats table.stattable td.col_name .spellsavedc {
   color: grey;
 }
-#gmstats table.table th.col_name .spellsavedc span, #gmstats table.table td.col_name .spellsavedc span {
+#gmstats table.table th.col_name .spellsavedc span, #gmstats table.table td.col_name .spellsavedc span, #gmstats table.stattable th.col_name .spellsavedc span, #gmstats table.stattable td.col_name .spellsavedc span {
   font-weight: bold;
   color: white;
 }
-#gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
+#gmstats table.table th.col_hp, #gmstats table.table td.col_hp, #gmstats table.stattable th.col_hp, #gmstats table.stattable td.col_hp {
   color: grey;
 }
-#gmstats table.table th.col_hp .overheal, #gmstats table.table td.col_hp .overheal {
+#gmstats table.table th.col_hp .overheal, #gmstats table.table td.col_hp .overheal, #gmstats table.stattable th.col_hp .overheal, #gmstats table.stattable td.col_hp .overheal {
   color: cyan;
 }
-#gmstats table.table th.col_hp .good, #gmstats table.table td.col_hp .good {
+#gmstats table.table th.col_hp .good, #gmstats table.table td.col_hp .good, #gmstats table.stattable th.col_hp .good, #gmstats table.stattable td.col_hp .good {
   color: lime;
 }
-#gmstats table.table th.col_hp .hurt, #gmstats table.table td.col_hp .hurt {
+#gmstats table.table th.col_hp .hurt, #gmstats table.table td.col_hp .hurt, #gmstats table.stattable th.col_hp .hurt, #gmstats table.stattable td.col_hp .hurt {
   color: yellow;
 }
-#gmstats table.table th.col_hp .bad, #gmstats table.table td.col_hp .bad {
+#gmstats table.table th.col_hp .bad, #gmstats table.table td.col_hp .bad, #gmstats table.stattable th.col_hp .bad, #gmstats table.stattable td.col_hp .bad {
   color: red;
 }
-#gmstats table.table th.col_hp .normal, #gmstats table.table td.col_hp .normal {
+#gmstats table.table th.col_hp .normal, #gmstats table.table td.col_hp .normal, #gmstats table.stattable th.col_hp .normal, #gmstats table.stattable td.col_hp .normal {
   color: grey;
 }
-#gmstats table.table th.col_hp .fail, #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .fail, #gmstats table.table td.col_hp .save {
+#gmstats table.table th.col_hp .fail, #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .fail, #gmstats table.table td.col_hp .save, #gmstats table.stattable th.col_hp .fail, #gmstats table.stattable th.col_hp .save, #gmstats table.stattable td.col_hp .fail, #gmstats table.stattable td.col_hp .save {
   font-weight: bold;
 }
-#gmstats table.table th.col_hp .fail, #gmstats table.table td.col_hp .fail {
+#gmstats table.table th.col_hp .fail, #gmstats table.table td.col_hp .fail, #gmstats table.stattable th.col_hp .fail, #gmstats table.stattable td.col_hp .fail {
   color: red;
 }
-#gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save {
+#gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save, #gmstats table.stattable th.col_hp .save, #gmstats table.stattable td.col_hp .save {
   color: lime;
 }
-#gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
+#gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable, #gmstats table.stattable th.col_hp .stable, #gmstats table.stattable td.col_hp .stable {
   color: lime;
 }
-#gmstats table.table th.col_ac, #gmstats table.table td.col_ac {
+#gmstats table.table th.col_ac, #gmstats table.table td.col_ac, #gmstats table.stattable th.col_ac, #gmstats table.stattable td.col_ac {
   width: 0%;
 }
-#gmstats table.table th.col_speed, #gmstats table.table td.col_speed {
+#gmstats table.table th.col_speed, #gmstats table.table td.col_speed, #gmstats table.stattable th.col_speed, #gmstats table.stattable td.col_speed {
   color: grey;
 }
-#gmstats table.table th.col_speed span, #gmstats table.table td.col_speed span {
+#gmstats table.table th.col_speed span, #gmstats table.table td.col_speed span, #gmstats table.stattable th.col_speed span, #gmstats table.stattable td.col_speed span {
   color: white;
 }
-#gmstats table.table th.col_stat, #gmstats table.table td.col_stat {
-  width: 0%;
-  text-align: right;
-  color: grey;
-}
-#gmstats table.table th.col_stat .high, #gmstats table.table td.col_stat .high {
-  color: white;
-}
-#gmstats table.table th.col_stat .low, #gmstats table.table td.col_stat .low {
-  color: red;
-}
-#gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
+#gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span, #gmstats table.stattable th.col_passives span, #gmstats table.stattable td.col_passives span {
   color: #ffdc41;
 }
-#gmstats table.table th.col_money, #gmstats table.table td.col_money {
+#gmstats table.table th.col_money, #gmstats table.table td.col_money, #gmstats table.stattable th.col_money, #gmstats table.stattable td.col_money {
   width: auto;
   color: grey;
   white-space: normal;
 }
-#gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp {
+#gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp, #gmstats table.stattable th.col_money .cp, #gmstats table.stattable td.col_money .cp {
   color: #e6a263;
 }
-#gmstats table.table th.col_money .sp, #gmstats table.table td.col_money .sp {
+#gmstats table.table th.col_money .sp, #gmstats table.table td.col_money .sp, #gmstats table.stattable th.col_money .sp, #gmstats table.stattable td.col_money .sp {
   color: silver;
 }
-#gmstats table.table th.col_money .gp, #gmstats table.table td.col_money .gp {
+#gmstats table.table th.col_money .gp, #gmstats table.table td.col_money .gp, #gmstats table.stattable th.col_money .gp, #gmstats table.stattable td.col_money .gp {
   color: gold;
 }
-#gmstats table.table th.col_money .ep, #gmstats table.table td.col_money .ep {
+#gmstats table.table th.col_money .ep, #gmstats table.table td.col_money .ep, #gmstats table.stattable th.col_money .ep, #gmstats table.stattable td.col_money .ep {
   color: #5fc9d1;
 }
-#gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp {
+#gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp, #gmstats table.stattable th.col_money .pp, #gmstats table.stattable td.col_money .pp {
   color: #62abff;
 }
-#gmstats table.table th.col_money .hide, #gmstats table.table td.col_money .hide {
+#gmstats table.table th.col_money .hide, #gmstats table.table td.col_money .hide, #gmstats table.stattable th.col_money .hide, #gmstats table.stattable td.col_money .hide {
   visibility: hidden;
 }
-#gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly {
+#gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly, #gmstats table.stattable th.col_money .total span, #gmstats table.stattable th.col_money .gponly, #gmstats table.stattable td.col_money .total span, #gmstats table.stattable td.col_money .gponly {
   color: lime;
 }
-#gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc {
+#gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc, #gmstats table.stattable th.col_money .total, #gmstats table.stattable th.col_money .ppc, #gmstats table.stattable th.col_money .epc, #gmstats table.stattable th.col_money .gpc, #gmstats table.stattable th.col_money .spc, #gmstats table.stattable th.col_money .cpc, #gmstats table.stattable td.col_money .total, #gmstats table.stattable td.col_money .ppc, #gmstats table.stattable td.col_money .epc, #gmstats table.stattable td.col_money .gpc, #gmstats table.stattable td.col_money .spc, #gmstats table.stattable td.col_money .cpc {
   white-space: nowrap;
 }
-#gmstats table.table th.col_skills, #gmstats table.table td.col_skills {
+#gmstats table.table th.col_skills, #gmstats table.table td.col_skills, #gmstats table.stattable th.col_skills, #gmstats table.stattable td.col_skills {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
+#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span, #gmstats table.stattable th.col_skills span, #gmstats table.stattable td.col_skills span {
   white-space: nowrap;
 }
-#gmstats table.table th.col_languages, #gmstats table.table td.col_languages {
+#gmstats table.table th.col_languages, #gmstats table.table td.col_languages, #gmstats table.stattable th.col_languages, #gmstats table.stattable td.col_languages {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span {
+#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span, #gmstats table.stattable th.col_languages span, #gmstats table.stattable td.col_languages span {
   white-space: nowrap;
 }
-#gmstats table.table tfoot td.col_name {
+#gmstats table.table tfoot td.col_name, #gmstats table.stattable tfoot td.col_name {
   vertical-align: middle;
   text-align: right;
 }

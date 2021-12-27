@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.12
+// @version         1.0.13
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -84,7 +84,9 @@ const currenciesTypeDefault = {
 const currenciesMainDefault = 'gold';
 
 var $ = window.jQuery;
-var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders ={};
+var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders = {};
+var mainTable = null;
+var colStatsSubTable = null;
 
 // string format check
 if (!String.prototype.format) {
@@ -103,7 +105,7 @@ if (!String.prototype.format) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 var mainTableHTML = `
-<table class="table">
+<table class="table primary">
     <thead>
         <tr>
             <th class="col_name">
@@ -120,12 +122,27 @@ var mainTableHTML = `
                 Speed<hr />
                 Senses
             </th>
-            <th class="col_stat">S<br />T<br />R</th>
-            <th class="col_stat">D<br />E<br />X</th>
-            <th class="col_stat">C<br />O<br />N</th>
-            <th class="col_stat">I<br />N<br />T</th>
-            <th class="col_stat">W<br />I<br />S</th>
-            <th class="col_stat">C<br />H<br />A</th>
+            <th colspan="6" class="col_stat">
+                <table class="table stattable font_normal">
+                    <thead>
+                        <tr class="stat_types">
+                            <th class="stat_types" colspan="6">
+                                <div>stat</div>
+                                <div>bonus</div>
+                                <div>save</div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="col_stat"><div class="stat">STR</div></th>
+                            <th class="col_stat"><div class="stat">DEX</div></th>
+                            <th class="col_stat"><div class="stat">CON</div></th>
+                            <th class="col_stat"><div class="stat">INT</div></th>
+                            <th class="col_stat"><div class="stat">WIS</div></th>
+                            <th class="col_stat"><div class="stat">CHA</div></th>
+                        </tr>
+                    </thead>
+                </table>
+            </th>
             <th class="col_passives">
                 Passives:<br />
                 <span>per</span>cept<br />
@@ -577,6 +594,9 @@ function insertElements() {
     
     node.append(mainTableHTML);
 
+    mainTable = $("table.primary", node);
+    colStatsSubTable = $("table.stattable")
+
     var tableBody = $("#gm_table_body", node);
 
     for (let id in charactersData) {       
@@ -753,7 +773,7 @@ function insertCampaignElements() {
     console.log("Inseting Campaign Elements");
     let campaignPrefix = scriptVarPrefix + "-" + campaignID;
     // $(campaignElementTarget + " > div:nth-child(1)").after(controlsHTML);
-    campaignNode = $("#gmstats");
+    campaignNode = mainTable;
     insertControls(campaignNode, campaignPrefix);
     insertVisibilityControls(campaignNode, campaignPrefix);
     insertStoredElements(campaignNode, campaignPrefix);
@@ -782,7 +802,8 @@ function insertControls(parent, campaignPrefix) {
     autoUpdate.prop('checked', autoUpdateLoaded);
     autoDuration.prop('value', updateDurationLoaded);
     fontSize.val(fontSizeSettingLoaded).change();
-    onFontSizeChange(fontSizeSettingLoaded);
+    onFontSizeChange(mainTable, fontSizeSettingLoaded);
+    onFontSizeChange(colStatsSubTable, fontSizeSettingLoaded);
 
     displayDeactive.prop('checked', displayDeactiveSettingLoaded);
     displayUnassigned.prop('checked', displayUnassignedSettingLoaded);
@@ -804,7 +825,8 @@ function insertControls(parent, campaignPrefix) {
         GM_setValue(campaignPrefix + "-fontSize", val);
         GM_setValue(scriptVarPrefix + "-fontSize", val);
 
-        onFontSizeChange(val);
+        onFontSizeChange(mainTable, val);
+        onFontSizeChange(colStatsSubTable, val);
     });
 
     displayDeactive.change(function () {
@@ -823,18 +845,19 @@ function insertControls(parent, campaignPrefix) {
     });
 }
 
-function onFontSizeChange(updatedFontSize) {
-    var table = $("table", $("#gmstats"));
-    table.removeClass();
-    table.addClass('table');
+function onFontSizeChange(table, updatedFontSize) {
+    for (const idx in fontSizeMap) {
+        if (table.hasClass(fontSizeMap[idx])) {
+            table.removeClass(fontSizeMap[idx]);
+        }
+    }
 
     var newFontClass = fontSizeMap[updatedFontSize];
     table.addClass(newFontClass);
 }
 
 function onDisplayTypeChange(type, newval) {
-    var table = $("table", $("#gmstats"));
-    var rows = $("tr." + type, table);
+    var rows = $("tr." + type, mainTable);
 
     if (newval) {
         rows.removeClass('hide');
@@ -980,11 +1003,10 @@ function updateCurrency(parent, id, value){
 
 function updateCampaignData(){
     // sort table by char name
-    var table = $("table", $("#gmstats"));
-    sortTable(table, 'asc');
+    sortTable(mainTable, 'asc');
 
     // calc totals
-    var totalsRow = $("#totals", $("#gmstats"));
+    var totalsRow = $("#totals", mainTable);
     globalCurrencies = {};
     globalLanguages = [];
     
@@ -1274,22 +1296,26 @@ function updateAbilties(parent, abilities){
         var cell = $(cellName, parent);
         cell.empty();
 
-        cell.append("<span class='high'>{0}</span>".format(item.totalScore));
+        // stat
+        cell.append("<span class='high' title='stat'>{0}</span><br />".format(item.totalScore));
 
-        cell.append("<hr />");
-
+        // bonus
         var mod = item.modifier;
         var color = "";
-        var sign = "";
-        if (mod > 0) {
-            color = "high";
-            sign = getSign(mod);
-        } else if (mod < 0) {
-            color = "low";
-            sign = getSign(mod);
-        }
+        if (mod > 0) { color = "high"; }
+        else if (mod < 0) { color = "low"; }
 
-        cell.append("<span class='{0}'>{1}{2}</span>".format(color, sign, Math.abs(mod)));
+        cell.append("<span class='{0}' title='bonus'>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod)));
+
+        // save
+        var save = item.save;
+        var isprof = item.proficiency;
+        color = "";
+
+        if (isprof) { color = "high"; }
+        else { color = ""; }
+
+        cell.append("<span class='{0}' title='save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));
     });
 }
 
