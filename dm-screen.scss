@@ -286,11 +286,15 @@ $font_biggest: $font-size-base * 1.5;
                     // font-family: $font-family-sans-serif;
                     width: auto;
                     white-space: normal;
-
-                    span span {
-                        color: $gm_c_light_steel_blue;
-                        font-family: $font-family-monospace;
+                    
+                    span {
                         white-space: nowrap;
+                        
+                        span {
+                            color: $gm_c_light_steel_blue;
+                            font-family: $font-family-monospace;
+                            white-space: nowrap;
+                        }
                     }
                 }
 
