@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.19
+// @version         1.0.20
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1240,7 +1240,7 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
         `<span class="{0}">{1}</span>{2}{3}{4}`
             .format(
                 color,
-                "{0}/{1} {2}%".format(remaining, max, pct_left),
+                "{0}/{1} {2}%".format(remaining, max, Math.round(pct_left)),
                 bonus_str,
                 temp_str,
                 dsstr
