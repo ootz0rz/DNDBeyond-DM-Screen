@@ -52,7 +52,8 @@ const campaignIDRegex = /\/(\d+)\/*$/;
 
 const FEET_IN_MILES = 5280;
 const POUNDS_IN_TON = 2000;
-const positiveSign = '+', negativeSign = '-';
+const positiveSign = '+',
+    negativeSign = '-';
 
 const autoUpdateDefault = true;
 const updateDurationDefault = 60;
@@ -87,7 +88,12 @@ const currenciesMainDefault = 'gold';
 const HIDE_CLASS = 'hide';
 
 var $ = window.jQuery;
-var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders = {}, editableChars = {};
+var rulesData = {},
+    charactersData = {},
+    campaignID = 0,
+    campaignNode = {},
+    authHeaders = {},
+    editableChars = {};
 var mainTable = null;
 var colStatsSubTable = null;
 
@@ -306,19 +312,19 @@ var initalModules = {
 
         var key = "";
 
-        for (key in character_rules_engine_lib_es){
-            if (typeof character_rules_engine_lib_es[key].getAbilities === 'function'){
+        for (key in character_rules_engine_lib_es) {
+            if (typeof character_rules_engine_lib_es[key].getAbilities === 'function') {
                 crk = key;
                 console.log("crk found: " + key);
             }
-            if (typeof character_rules_engine_lib_es[key].getSenseTypeModifierKey === 'function'){
+            if (typeof character_rules_engine_lib_es[key].getSenseTypeModifierKey === 'function') {
                 ktl = key;
                 console.log("ktl found: " + key);
             }
         }
 
-        for (key in Core){
-            if (typeof Core[key].WALK !== 'undefined' && typeof Core[key].SWIM !== 'undefined' && typeof Core[key].CLIMB !== 'undefined' && typeof Core[key].FLY !== 'undefined' && typeof Core[key].BURROW !== 'undefined'){
+        for (key in Core) {
+            if (typeof Core[key].WALK !== 'undefined' && typeof Core[key].SWIM !== 'undefined' && typeof Core[key].CLIMB !== 'undefined' && typeof Core[key].FLY !== 'undefined' && typeof Core[key].BURROW !== 'undefined') {
                 cmov = key;
                 console.log("cmov found: " + key);
             }
@@ -343,8 +349,8 @@ var initalModules = {
 
             var ruleData = charf1.getRuleData(state);
 
-            function getSenseData(senses){ // finds returns the label
-                return Object.keys(senses).map(function(index) {
+            function getSenseData(senses) { // finds returns the label
+                return Object.keys(senses).map(function (index) {
                     let indexInt = parseInt(index);
                     return {
                         id: indexInt,
@@ -355,11 +361,11 @@ var initalModules = {
                 })
             }
 
-            function getSpeedData(speeds){ // finds returns the label
-                let halfSpeed = roundDown(divide(speeds[Core[cmov].WALK],2));
-                return Object.keys(speeds).map(function(index) {
+            function getSpeedData(speeds) { // finds returns the label
+                let halfSpeed = roundDown(divide(speeds[Core[cmov].WALK], 2));
+                return Object.keys(speeds).map(function (index) {
                     let distance = speeds[index];
-                    if(Core[cmov].SWIM === index || Core[cmov].CLIMB === index){
+                    if (Core[cmov].SWIM === index || Core[cmov].CLIMB === index) {
                         // swim speed is essentiall half walking speed rounded down if character doesn't have a set swim speed:
                         // source https://www.dndbeyond.com/sources/basic-rules/adventuring#ClimbingSwimmingandCrawling
                         distance = speeds[index] <= 0 ? halfSpeed : speeds[index];
@@ -478,8 +484,8 @@ var initalModules = {
             }
         }
         window.moduleExport = {
-            getCharData : getCharData,
-            getAuthHeaders : getAuthHeaders,
+            getCharData: getCharData,
+            getAuthHeaders: getAuthHeaders,
         }
         console.log("Module 2080: end");
     }
@@ -510,7 +516,7 @@ var initalModules = {
     window.moduleExport.getAuthHeaders()().then((function (headers) {
         authHeaders = headers;
         console.log("authHeaders: ", headers);
-        retriveRules().then(() =>{
+        retriveRules().then(() => {
             updateAllCharData();
         }).catch((error) => {
             console.log(error);
@@ -544,14 +550,14 @@ function findTargets() {
             let node = $(value).parents('li');
             let type = 'unknown';
             let typeNode = $(value).parents('.ddb-campaigns-detail-body-listing');
-            if(typeNode.hasClass('ddb-campaigns-detail-body-listing-active')){
+            if (typeNode.hasClass('ddb-campaigns-detail-body-listing-active')) {
                 let unassignedNode = $(value).parents('.ddb-campaigns-detail-body-listing-unassigned-active');
-                if(unassignedNode.length > 0){
+                if (unassignedNode.length > 0) {
                     type = 'unassigned';
                 } else {
                     type = 'active';
                 }
-            } else if(typeNode.hasClass('ddb-campaigns-detail-body-listing-inactive')){
+            } else if (typeNode.hasClass('ddb-campaigns-detail-body-listing-inactive')) {
                 type = 'deactivated';
             }
             var editurl = '';
@@ -587,10 +593,10 @@ function findTargets() {
                 type: type,
             }
 
-            for (let ruleID in optionalRules){
+            for (let ruleID in optionalRules) {
                 charactersData[charID].state.serviceData.definitionPool[optionalRules[ruleID].category] = {
-                    accessTypeLookup:{},
-                    definitionLookup:{},
+                    accessTypeLookup: {},
+                    definitionLookup: {},
                 };
             }
         } else {
@@ -603,7 +609,7 @@ function findTargets() {
 
 function getCharIDFromURL(hrefval) {
     var charID = 0;
-    
+
     var matchArr = hrefval.match(charIDRegex);
     if (matchArr.length > 0) {
         var charIDStr = matchArr[1];
@@ -626,7 +632,7 @@ function insertElements() {
     var node = $("<div id='gmstats'></div>");
 
     sitemain.prepend(node);
-    
+
     node.append(mainTableHTML);
 
     mainTable = $("table.primary", node);
@@ -634,7 +640,7 @@ function insertElements() {
 
     var tableBody = $("#gm_table_body", node);
 
-    for (let id in charactersData) {       
+    for (let id in charactersData) {
         var row = $(tableRowHTML);
         row.attr("id", "player-" + id);
         tableBody.append(row);
@@ -664,14 +670,14 @@ function retriveRules(charIDs) {
         console.log("Retriving Rules Data");
         getJSONfromURLs(rulesUrls).then((js) => {
             console.log("Rules Data Processing Start");
-            js.forEach(function(rule, index){
+            js.forEach(function (rule, index) {
                 isSuccessfulJSON(rule, index);
             });
             rulesData = {
-                ruleset : js[0].data,
-                vehiclesRuleset : js[1].data
+                ruleset: js[0].data,
+                vehiclesRuleset: js[1].data
             }
-            for(let id in charactersData){
+            for (let id in charactersData) {
                 charactersData[id].state.ruleData = rulesData.ruleset;
                 charactersData[id].state.serviceData.ruleDataPool = rulesData.vehiclesRuleset;
             }
@@ -684,24 +690,24 @@ function retriveRules(charIDs) {
     });
 }
 
-function getRules(index){
+function getRules(index) {
     return rulesData[index];
 }
 
 function updateAllCharData() {
     console.log("Retriving Each Char Data");
-    
+
     let promises = []
     for (let id in charactersData) {
         promises.push(updateCharData(charactersData[id].url, charactersData[id].type));
     }
-    
+
     Promise.all(promises)
-        .then(() =>{
-        updateCampaignData();
-    }).catch((error) => {
-        console.log(error);
-    });
+        .then(() => {
+            updateCampaignData();
+        }).catch((error) => {
+            console.log(error);
+        });
     updateVisibility();
 
     startRefreshTimer();
@@ -716,13 +722,13 @@ function updateCharData(url, activeType) {
         getJSONfromURLs([url]).then((js) => {
             //window.jstest = js;
             var totalChars = js.length;
-            js.forEach(function(charJSON, index){
-                if (isSuccessfulJSON(charJSON, index)){
+            js.forEach(function (charJSON, index) {
+                if (isSuccessfulJSON(charJSON, index)) {
                     let charId = charJSON.data.id;
                     console.debug("Processing Char: " + charId);
                     charactersData[charId].state.character = charJSON.data;
                     let promises = retriveCharacterRules(charId)
-                    Promise.all(promises).then(()=>{
+                    Promise.all(promises).then(() => {
                         var charData = window.moduleExport.getCharData(charactersData[charId].state);
                         charactersData[charId].data = charData;
                         updateElementData(charactersData[charId]);
@@ -745,8 +751,8 @@ function updateCharData(url, activeType) {
 function retriveCharacterRules(charId) {
     let promises = [];
     console.log("Looking for optional rules for " + charactersData[charId].data.name);
-    for(let ruleID in optionalRules){
-        if(ruleID in charactersData[charId].state.character && charactersData[charId].state.character[ruleID].length > 0 ){
+    for (let ruleID in optionalRules) {
+        if (ruleID in charactersData[charId].state.character && charactersData[charId].state.character[ruleID].length > 0) {
             console.log("Optional ruleset for " + ruleID + " found.");
             promises.push(retriveCharacterRule(charId, ruleID));
         }
@@ -758,18 +764,22 @@ function retriveCharacterRule(charId, ruleID) {
     let url = gameCollectionUrl.prefix + optionalRules[ruleID].category + gameCollectionUrl.postfix;
 
     let ruleIds = []
-    for(let item of charactersData[charId].state.character[ruleID]){
+    for (let item of charactersData[charId].state.character[ruleID]) {
         ruleIds.push(item[optionalRules[ruleID].id]);
     }
 
-    let body = {"campaignId":null,"sharingSetting":2,"ids":ruleIds};
+    let body = {
+        "campaignId": null,
+        "sharingSetting": 2,
+        "ids": ruleIds
+    };
     return new Promise(function (resolve, reject) {
         getJSONfromURLs([url], body).then((js) => {
-            js.forEach(function(charJSON, index){
+            js.forEach(function (charJSON, index) {
                 console.log("Retrived " + ruleID + " data, processing.");
                 console.log(charJSON);
-                if(charJSON.success && charJSON.data.definitionData != undefined){
-                    for(let data of charJSON.data.definitionData){
+                if (charJSON.success && charJSON.data.definitionData != undefined) {
+                    for (let data of charJSON.data.definitionData) {
                         charactersData[charId].state.serviceData.definitionPool[optionalRules[ruleID].category].definitionLookup[data.id] = data;
                         charactersData[charId].state.serviceData.definitionPool[optionalRules[ruleID].category].accessTypeLookup[data.id] = 1;
                     }
@@ -794,7 +804,7 @@ function startRefreshTimer() {
         //only refresh when checkbox is checked
         if ($('input[name ="gs-auto-update"]').is(':checked')) {
             updateAllCharData();
-        }else{
+        } else {
             startRefreshTimer();
         }
     }, refreshTimeMiliSecs);
@@ -982,7 +992,7 @@ function insertStoredElements(parent, campaignPrefix) {
     insertCurrencies(storedNode, campaignPrefix);
 }
 
-function insertCurrencies(parent, campaignPrefix){
+function insertCurrencies(parent, campaignPrefix) {
     console.log("Updating Campaign Currencies Data");
     let currenciesLoaded = GM_getValue(campaignPrefix + "-currencies", currenciesDefault);
     //console.log(currenciesLoaded);
@@ -992,7 +1002,7 @@ function insertCurrencies(parent, campaignPrefix){
     let currencyType = parent.find('.gs-camp-currencies > .gs-form-group select[name="gs-currency-type"]');
     let currencyConfirm = parent.find('.gs-camp-currencies > .gs-form-group button[name="gs-currency-confirm"]');
 
-    for(let id in currenciesTypeDefault){
+    for (let id in currenciesTypeDefault) {
         let currency = currenciesTypeDefault[id];
         $('<option/>', {
             value: id,
@@ -1005,11 +1015,11 @@ function insertCurrencies(parent, campaignPrefix){
 
     currencyConfirm.click(function () {
         let updatedAmount = parseIntSafe(currencyAmount.val());
-        if(updatedAmount != 0){
+        if (updatedAmount != 0) {
             let selectedType = currencyType.val();
-            if(updatedAmount != undefined){
+            if (updatedAmount != undefined) {
                 let currenciesUpdate = GM_getValue(campaignPrefix + "-currencies", currenciesDefault);
-                if(currenciesUpdate[selectedType] == undefined){
+                if (currenciesUpdate[selectedType] == undefined) {
                     currenciesUpdate[selectedType] = 0;
                 }
                 currenciesUpdate[selectedType] += updatedAmount;
@@ -1019,12 +1029,12 @@ function insertCurrencies(parent, campaignPrefix){
         }
     });
 
-    for(let id in currenciesLoaded){
+    for (let id in currenciesLoaded) {
         updateCurrency(container, id, currenciesLoaded[id]);
     }
 }
 
-function updateCurrency(parent, id, value){
+function updateCurrency(parent, id, value) {
     let curCurrency = parent.find('.gs-currency-' + id);
     //console.log(curCurrency);
     if (curCurrency.length < 1) {
@@ -1036,7 +1046,7 @@ function updateCurrency(parent, id, value){
     curCurrency.find('.gs-currency-number').html(value);
 }
 
-function updateCampaignData(){
+function updateCampaignData() {
     // sort table by char name
     sortTable(mainTable, 'asc');
 
@@ -1044,7 +1054,7 @@ function updateCampaignData(){
     var totalsRow = $("#totals", mainTable);
     globalCurrencies = {};
     globalLanguages = [];
-    
+
     var len = Object.keys(charactersData).length;
 
     var idx = 0;
@@ -1133,7 +1143,7 @@ function canEditCharacter(allCharData) {
     return character.editurl !== null && character.editurl.length > 0;
 }
 
-function displayIfUrlExists(url, node, hideClass=HIDE_CLASS) {
+function displayIfUrlExists(url, node, hideClass = HIDE_CLASS) {
     if (url !== null && url.length > 0) {
         node.removeClass(hideClass);
         node.attr('href', url);
@@ -1209,7 +1219,7 @@ function updateNameBlockSaveDC(character, nameblock) {
             savestr.push("{0} <span class='lvl'>{1}</span>: <span class='dc'>{2}</span>".format(c.definition.name, c.level, dc));
 
             continue;
-        } 
+        }
 
         remainingClassNames[slug] = "{0} <span class='lvl'>{1}</span>".format(c.definition.name, c.level);
     }
@@ -1261,7 +1271,7 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
         temp = hitPointInfo.tempHp;
 
         remaining += temp;
-        
+
         hastemp = true;
     }
 
@@ -1306,17 +1316,17 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
 
     hp.html(
         `<span class="{0}">{1}</span>{2}{3}{4}`
-            .format(
-                color,
-                "{0}/{1} {2}%".format(remaining, max, Math.round(pct_left)),
-                bonus_str,
-                temp_str,
-                dsstr
-            )
+        .format(
+            color,
+            "{0}/{1} {2}%".format(remaining, max, Math.round(pct_left)),
+            bonus_str,
+            temp_str,
+            dsstr
+        )
     );
 }
 
-function updateArmorClass(parent, armorClass, init){
+function updateArmorClass(parent, armorClass, init) {
     var node = parent.find('td.col_ac');
     node.html("{0}<hr />{1}".format(
         addTooltip(armorClass, "armor class"),
@@ -1338,7 +1348,7 @@ function updateSpeeds(parent, character) {
 
     var speeds = character.speeds;
     var speedarr = [];
-    speeds.forEach(function(item, index) {
+    speeds.forEach(function (item, index) {
         if (item.distance > 0) {
             speedarr.push("<span>{0}</span> {1}".format(item.distance, item.key));
         }
@@ -1362,7 +1372,7 @@ function updateSpeeds(parent, character) {
                     s.key,
                     tag = "div",
                     placement = "top"
-            ));
+                ));
         }
     }
 
@@ -1372,8 +1382,8 @@ function updateSpeeds(parent, character) {
     }
 }
 
-function updateAbilties(parent, abilities){    
-    abilities.forEach(function(item, index){
+function updateAbilties(parent, abilities) {
+    abilities.forEach(function (item, index) {
         var abilityKey = item.name;
         var cellName = ".col_" + abilityKey;
 
@@ -1407,7 +1417,7 @@ function updateAbilties(parent, abilities){
     });
 }
 
-function updatePassives(parent, passPerception, passInvestigation, passInsight){
+function updatePassives(parent, passPerception, passInvestigation, passInsight) {
     parent.find("td.col_passives").html("{0}{1}{2}".format(
         addTooltip(
             "per: <span>{0}</span><br />".format(passPerception),
@@ -1464,8 +1474,9 @@ function updateMoney(parent, currencies) {
     }
 }
 
-function updateCurrencyVis(c, cval, val, hideClass=HIDE_CLASS) {
-    if (val > 0) { c.removeClass(hideClass); } else { c.addClass(hideClass); }
+function updateCurrencyVis(c, cval, val, hideClass = HIDE_CLASS) {
+    if (val > 0) { c.removeClass(hideClass); }
+    else { c.addClass(hideClass); }
     cval.html(val);
 }
 
@@ -1525,6 +1536,7 @@ function loadModules(modules) {
         these are stored in window.jsonpDDBCT and can be loaded by this script and interacted with by active modules
     */
     console.log("Loading modules");
+
     function webpackJsonpCallback(data) {
         /*
             This allows additonal modules to be added run, the input format needs to be at least a two dimentional array,
@@ -1558,6 +1570,7 @@ function loadModules(modules) {
         deferredModules.push.apply(deferredModules, executeModules || []);
         return checkDeferredModules()
     }
+
     function checkDeferredModules() {
         var result;
         for (var i = 0; i < deferredModules.length; i++) {
@@ -1579,6 +1592,7 @@ function loadModules(modules) {
         0: 0
     };
     var deferredModules = [];
+
     function __webpack_require__(moduleId) {
         if (installedModules[moduleId]) {
             return installedModules[moduleId].exports
@@ -1622,8 +1636,8 @@ function loadModules(modules) {
             enumerable: true,
             value: value
         });
-        if (mode & 2 && typeof value != "string"){
-            for (var key in value){
+        if (mode & 2 && typeof value != "string") {
+            for (var key in value) {
                 __webpack_require__.d(ns, key, function (key) {
                     return value[key]
                 }.bind(null, key));
@@ -1634,11 +1648,11 @@ function loadModules(modules) {
     };
     __webpack_require__.n = function (module) {
         var getter = module && module.__esModule ? function getDefault() {
-            return module.default
-        }
-        : function getModuleExports() {
-            return module
-        };
+                return module.default
+            } :
+            function getModuleExports() {
+                return module
+            };
         __webpack_require__.d(getter, "a", getter);
         return getter
     };
@@ -1662,12 +1676,12 @@ function loadModules(modules) {
 //        Generic Functions
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function isSuccessfulJSON(js, name){
+function isSuccessfulJSON(js, name) {
     let success = true;
-    if(js.length < 1 || js.success == undefined){
+    if (js.length < 1 || js.success == undefined) {
         console.warn("JSON " + name + " is malformed");
         return false;
-    } else if (js.success == false){
+    } else if (js.success == false) {
         console.warn("JSON " + name + "'s retrieval was unsuccessful");
         return false;
     } else if (js.success != true) {
@@ -1697,29 +1711,30 @@ function getJSONfromURLs(urls, body, headers, cookies) {
         Promise.all(proms)
             .then(ps => Promise.all(ps.map(p => p.json()))) // p.json() also returns a promise
             .then(jsons => {
-            console.log("JSON Data Retrived");
-            resolve(jsons);
-        })
+                console.log("JSON Data Retrived");
+                resolve(jsons);
+            })
             .catch((error) => {
-            reject(error);
-        });
+                reject(error);
+            });
     });
 }
+
 function fetchRequest(url, body, headers, cookies) {
     let options = {};
     let myHeaders = new Headers({
         'X-Custom-Header': 'hello world',
     });
-    for(let id in authHeaders){
+    for (let id in authHeaders) {
         myHeaders.append(id, authHeaders[id]);
     }
-    if(body != undefined && body != ''){
+    if (body != undefined && body != '') {
         options.method = 'POST'
-        myHeaders.append('Accept','application/json');
-        myHeaders.append('Content-Type','application/json');
+        myHeaders.append('Accept', 'application/json');
+        myHeaders.append('Content-Type', 'application/json');
         options.body = JSON.stringify(body);
     }
-    if(cookies != undefined && cookies != ''){
+    if (cookies != undefined && cookies != '') {
         options.cookies = cookies;
     }
     options.credentials = 'include';
@@ -1728,13 +1743,13 @@ function fetchRequest(url, body, headers, cookies) {
     return fetch(url, options);
 }
 
-function getSign(input){
+function getSign(input) {
     let number = parseIntSafe(input);
     if (number == 0) return "";
     return number >= 0 ? positiveSign : negativeSign
 }
 
-function roundDown(input){
+function roundDown(input) {
     let number = parseInt(input);
     if (isNaN(number)) {
         return NaN;
@@ -1742,7 +1757,7 @@ function roundDown(input){
     return Math.floor(input);
 }
 
-function roundUp(input){
+function roundUp(input) {
     let number = parseInt(input);
     if (isNaN(number)) {
         return NaN;
@@ -1750,16 +1765,16 @@ function roundUp(input){
     return Math.ceil(input);
 }
 
-function divide(numeratorInput, denominatorInput){
+function divide(numeratorInput, denominatorInput) {
     let numerator = parseInt(numeratorInput);
     let denominator = parseInt(denominatorInput);
     if (isNaN(numerator) || isNaN(denominator)) {
         return NaN;
     }
-    return numerator/denominator;
+    return numerator / denominator;
 }
 
-function distanceUnit(input){
+function distanceUnit(input) {
     let number = parseIntSafe(input);
     let unit = 'ft.';
     if (number && number % FEET_IN_MILES === 0) {
@@ -1769,7 +1784,7 @@ function distanceUnit(input){
     return unit;
 }
 
-function parseIntSafe(input){
+function parseIntSafe(input) {
     let number = parseInt(input);
     if (isNaN(number)) {
         number = 0;
