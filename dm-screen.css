@@ -11217,7 +11217,7 @@ textarea.form-control-lg {
   border-right: 1px dashed #e1bb12;
 }
 #gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name, #gmstats table.stattable td.hover_row td.col_name .name, #gmstats table.stattable td.hover_row th.col_name .name, #gmstats table.stattable tr.hover_row td.col_name .name, #gmstats table.stattable tr.hover_row th.col_name .name, #gmstats table.stattable th.hover_row td.col_name .name, #gmstats table.stattable th.hover_row th.col_name .name {
-  color: #ffdc41 !important;
+  color: #ffdc41;
 }
 #gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated, #gmstats table.stattable tbody tr.unassigned, #gmstats table.stattable tbody tr.deactivated {
   color: #6c757d !important;
@@ -11225,8 +11225,20 @@ textarea.form-control-lg {
 #gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span, #gmstats table.stattable tbody tr.unassigned td, #gmstats table.stattable tbody tr.unassigned td span, #gmstats table.stattable tbody tr.deactivated td, #gmstats table.stattable tbody tr.deactivated td span {
   color: #6c757d !important;
 }
+#gmstats table.table tbody tr.active_row, #gmstats table.stattable tbody tr.active_row {
+  border-width: 2px;
+  border-color: #ffdc41;
+}
+#gmstats table.table tbody tr.active_row td.col_name .name, #gmstats table.stattable tbody tr.active_row td.col_name .name {
+  color: #ffdc41;
+}
 #gmstats table.table tbody tr.active_row td.col_skills span.noprof, #gmstats table.stattable tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
+}
+#gmstats table.table tbody tr.hover_row td.col_name .name:hover, #gmstats table.stattable tbody tr.hover_row td.col_name .name:hover {
+  cursor: pointer;
+  color: black !important;
+  background-color: #ffdc41;
 }
 #gmstats table.table hr, #gmstats table.stattable hr {
   border: none;
@@ -11280,6 +11292,10 @@ textarea.form-control-lg {
   filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
 }
 #gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name, #gmstats table.stattable th.col_name .name, #gmstats table.stattable td.col_name .name {
+  margin-left: 0;
+  padding: 0.2em 0.2em 0.2em 0.1em;
+  position: relative;
+  left: -0.25em;
   font-weight: bold;
   text-decoration: underline;
   font-style: italic;

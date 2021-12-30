@@ -17,6 +17,7 @@ $gm_table_border: $secondary;
 $gm_inactive_cells: $gray-600;
 
 // main colors
+$gm_c_black: black;
 $gm_c_bright_white: white;
 $gm_c_bright_black: grey;
 $gm_c_red: red;
@@ -159,7 +160,7 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
 
                         &.col_name {
                             .name {
-                                color: $gm_c_bright_yellow !important;
+                                color: $gm_c_bright_yellow;
                             }
                         }
                     }
@@ -167,8 +168,10 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
             }
 
             tbody tr {
+                // character state in campaign; active, unassigned, deactivated
                 &.active {
-
+                    // currently unusued, just signifies that a character is active
+                    // in the campaign
                 }
 
                 &.unassigned, &.deactivated {
@@ -180,11 +183,35 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
 
                 // used for when a row is "expanded"
                 &.active_row {
+                    border-width: 2px;
+                    border-color: $gm_c_bright_yellow;
+
                     td {
+                        &.col_name {
+                            .name {
+                                color: $gm_c_bright_yellow;
+                            }
+                        }
                         &.col_skills {
                             span {
                                 &.noprof {
                                     display: inline !important;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // when a row is hovered, and user goes over the name,
+                // make it look clickable to toggle active_row
+                &.hover_row {
+                    td {
+                        &.col_name {
+                            .name {
+                                &:hover {
+                                    cursor: pointer;
+                                    color: $gm_c_black !important;
+                                    background-color: $gm_c_bright_yellow;
                                 }
                             }
                         }
@@ -252,6 +279,12 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
                     }
                     
                     .name {
+                        margin-left: 0;
+                        padding: 0.2em 0.2em 0.2em 0.1em;
+                        
+                        position: relative;
+                        left: -0.25em;
+
                         font-weight: bold;
                         text-decoration: underline;
                         font-style: italic;

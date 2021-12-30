@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.21
+// @version         1.0.22
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -650,6 +650,7 @@ function insertElements() {
         row.addClass(charactersData[id].type);
     };
 
+    // highlight hover
     $('td', tableBody).hover(
         function () {
             var i = parseInt($(this).index()) + 1;
@@ -663,6 +664,17 @@ function insertElements() {
             $('th:nth-child(' + i + ')', tableBody).removeClass('hover_col');
             $(this).parent().removeClass('hover_row');
         });
+
+    // set row as active when character name is clicked
+    $('td.col_name .name', tableBody).click(function () {
+        var aClass = 'active_row';
+
+        var node = $(this);
+        var row = node.parent().parent();
+        row.toggleClass(aClass);
+
+        var isActive = row.hasClass(aClass);
+    });
 }
 
 function retriveRules(charIDs) {
