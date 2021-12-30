@@ -59,6 +59,8 @@ $font_big: $font-size-base * 1.25;
 $font_biggest: $font-size-base * 1.5;
 
 #gmstats {
+    .hide {visibility: hidden;}
+
     background-color: $gm_background;
     color: $gm_primary_font_color;
 
@@ -157,8 +159,6 @@ $font_biggest: $font-size-base * 1.5;
                         }
                     }
                 }
-
-                .hide {visibility: hidden;}
             }
 
             tbody tr {
@@ -195,12 +195,50 @@ $font_biggest: $font-size-base * 1.5;
                 border: 1px solid $gm_table_border;
 
                 &.col_name {
+                    position: relative;
+                    white-space: nowrap;
                     width: auto;
+
+                    $linkiconsize: 1em;
+
+                    .links {
+                        position: absolute;
+                        right: 0;
+
+                        $viewurl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
+                        $editurl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
+                        .view::before { background-image: $viewurl; }
+                        .edit::before { background-image: $editurl; }
+
+                        .view, .edit {
+                            font-family: $font-family-sans-serif !important;
+                            color: $gm_c_cyan;
+                            text-decoration: none;
+
+                            &::before {
+                                content: '';
+                                height: $linkiconsize;
+                                width: $linkiconsize;
+                                display: inline-block;
+                                background-size: cover;
+                                margin-right: 3px;
+                            }
+                            &:hover::before {
+                                // https://stackoverflow.com/a/60167530
+                                // https://codepen.io/sosuke/pen/Pjoqqp
+                                filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
+                            }
+                        }
+                    }
                     
                     .name {
                         font-weight: bold;
                         text-decoration: underline;
                         font-style: italic;
+                    }
+
+                    .inspiration {
+                        padding-right: $linkiconsize*1.5;
                     }
 
                     .exhaust {
@@ -277,8 +315,6 @@ $font_biggest: $font-size-base * 1.5;
                     .gp {color: $gm_money_gp;}
                     .ep {color: $gm_money_ep;}
                     .pp {color: $gm_money_pp;}
-
-                    .hide {visibility: hidden;}
 
                     .total span, .gponly {
                         color: $gm_c_green;// $gm_money_gp;

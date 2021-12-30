@@ -21,6 +21,7 @@
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const linkUrlTarget = '.ddb-campaigns-character-card-footer-links-item-view';
+const linkUrlEdit = '.ddb-campaigns-character-card-footer-links-item-edit';
 const campaignElementTarget = '.ddb-campaigns-detail-header-secondary';
 
 const rulesUrls = ["https://character-service.dndbeyond.com/character/v4/rule-data", "https://gamedata-service.dndbeyond.com/vehicles/v3/rule-data"];
@@ -46,7 +47,7 @@ const senseToName = {
 
 const scriptVarPrefix = "DMScreen-";
 
-const charIDRegex = /\/(\d+)\/*$/;
+const charIDRegex = /\/(\d+).*?$/;
 const campaignIDRegex = /\/(\d+)\/*$/;
 
 const FEET_IN_MILES = 5280;
@@ -83,8 +84,10 @@ const currenciesTypeDefault = {
 };
 const currenciesMainDefault = 'gold';
 
+const HIDE_CLASS = 'hide';
+
 var $ = window.jQuery;
-var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders = {};
+var rulesData = {}, charactersData = {}, campaignID = 0, campaignNode = {}, authHeaders = {}, editableChars = {};
 var mainTable = null;
 var colStatsSubTable = null;
 
@@ -224,10 +227,11 @@ var mainTableHTML = `
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name"></span><span class="inspiration hide">🎲</span><br/>
-                <span class="exhaust"><span></span>- - - - - -</span><br/>
-                <span class="spellsavedc"><span></span></span>
-                <span class="classes"></span>
+                <span class="name"></span><span class="inspiration hide">🎲</span>
+                <span class="links"><a href="#" class="edit hide" title="Edit"></a><a href="#" class="view hide" title="View"></a></span><br/>
+                <div class="exhaust"><span></span>- - - - - -</div>
+                <div class="spellsavedc"><span></span></div>
+                <div class="classes"></div>
             </td>
             <td class="col_hp">
                 <span class="hurt"></span>
@@ -522,21 +526,20 @@ var initalModules = {
 
 function findTargets() {
     console.log("Locating Characters from Window");
-    $(linkUrlTarget).each(function (index, value) {
-        var url = value.html;
-        console.debug("Processing: " + url);
-        var charID = 0;
-        var matchArr = value.href.match(charIDRegex);
-        if (matchArr.length > 0) {
-            var charIDStr = matchArr[1];
-            if (charIDStr == "") {
-                console.warn("error: empty charIdStr");
-            } else {
-                charID = parseInt(charIDStr);
-            }
-        } else {
-            console.warn("error: no numbers found in " + value.href);
+    $(linkUrlEdit).each((index, value) => {
+        var url = value.href;
+        var charID = getCharIDFromURL(url);
+        if (charID != 0) {
+            editableChars[charID] = {
+                editurl: url,
+            };
         }
+    });
+
+    $(linkUrlTarget).each(function (index, value) {
+        var url = value.href;
+        console.log("Processing view url: " + url);
+        var charID = getCharIDFromURL(url);
         if (charID != 0) {
             let node = $(value).parents('li');
             let type = 'unknown';
@@ -551,9 +554,17 @@ function findTargets() {
             } else if(typeNode.hasClass('ddb-campaigns-detail-body-listing-inactive')){
                 type = 'deactivated';
             }
+            var editurl = '';
+            if (charID in editableChars) {
+                editurl = editableChars[charID].editurl;
+                console.log("Editable character: ", charID, editurl);
+            }
+
             charactersData[charID] = {
                 node: node,
                 url: charJSONurlBase + charID,
+                viewurl: url,
+                editurl: editurl,
                 state: {
                     appEnv: {
                         authEndpoint: "https://auth-service.dndbeyond.com/v1/cobalt-token", characterEndpoint: "", characterId: charID, characterServiceBaseUrl: null, diceEnabled: true, diceFeatureConfiguration: {
@@ -588,6 +599,24 @@ function findTargets() {
     });
     console.log("Finished locating Characters from Window");
     //console.debug(charactersData);
+}
+
+function getCharIDFromURL(hrefval) {
+    var charID = 0;
+    
+    var matchArr = hrefval.match(charIDRegex);
+    if (matchArr.length > 0) {
+        var charIDStr = matchArr[1];
+        if (charIDStr == "") {
+            console.warn("error: empty charIdStr");
+        } else {
+            charID = parseInt(charIDStr);
+        }
+    } else {
+        console.warn("error: no numbers found in " + hrefval);
+    }
+
+    return charID;
 }
 
 function insertElements() {
@@ -866,9 +895,9 @@ function onDisplayTypeChange(type, newval) {
     var rows = $("tr." + type, mainTable);
 
     if (newval) {
-        rows.removeClass('hide');
+        rows.removeClass(HIDE_CLASS);
     } else {
-        rows.addClass('hide');
+        rows.addClass(HIDE_CLASS);
     }
 }
 
@@ -1057,23 +1086,28 @@ function updateCampaignData(){
 
 
 function updateElementData(character) {
-    updateQuickInfo(character.node, character.data);
+    updateQuickInfo(character.node, character);
     updateMainInfo(character.node, character.data);
 }
 
-function updateQuickInfo(parent, character){
+function updateQuickInfo(parent, allData){
+    const character = allData.data;
+
     console.log('update info: ', character);
-    updateNameBlock(parent, character);
+
+    updateNameBlock(parent, allData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
     updateArmorClass(parent, character.armorClass, character.initiative);
     // updateInitiative(parent, character.initiative); // TODO add?
     updateSpeeds(parent, character);
 }
 
-function updateNameBlock(parent, character) {
+function updateNameBlock(parent, allData, character) {
     var nameblock = parent.find('td.col_name');
 
     $(".name", nameblock).html(character.name);
+
+    updateNameBlockViewEditLinks(allData, nameblock);
 
     updateNameBlockExhaust(character, nameblock);
 
@@ -1082,11 +1116,37 @@ function updateNameBlock(parent, character) {
     updateNameBlockInspiration(character, nameblock);
 }
 
+function updateNameBlockViewEditLinks(allData, nameblock) {
+    const links = $(".links", nameblock);
+    const view = $(".view", links);
+    const edit = $(".edit", links);
+
+    displayIfUrlExists(allData.viewurl, view);
+    displayIfUrlExists(allData.editurl, edit);
+
+    view.attr('title', "View {0}".format(allData.data.name));
+    edit.attr('title', "Edit {0}".format(allData.data.name));
+}
+
+function canEditCharacter(allData) {
+    return character.editurl !== null && character.editurl.length > 0;
+}
+
+function displayIfUrlExists(url, node, hideClass=HIDE_CLASS) {
+    if (url !== null && url.length > 0) {
+        node.removeClass(hideClass);
+        node.attr('href', url);
+    } else {
+        node.addClass(hideClass);
+        node.attr('href', '');
+    }
+}
+
 function updateNameBlockInspiration(character, nameblock) {
     if (character.inspiration) {
-        $(".inspiration", nameblock).removeClass('hide');
+        $(".inspiration", nameblock).removeClass(HIDE_CLASS);
     } else {
-        $(".inspiration", nameblock).addClass('hide');
+        $(".inspiration", nameblock).addClass(HIDE_CLASS);
     }
 }
 
@@ -1104,17 +1164,24 @@ function updateNameBlockExhaust(character, nameblock) {
         }
     });
 
-    var exhaustStr = "";
-    for (var i = 0; i < exhaustLevel; i++) {
-        exhaustStr += "• ";
-    }
+    const exhaustBlock = $(".exhaust", nameblock);
+    if (isExhausted) {
+        var exhaustStr = "";
+        for (var i = 0; i < exhaustLevel; i++) {
+            exhaustStr += "• ";
+        }
 
-    var restStr = "";
-    for (var i = 0; i < (maxExhaust - exhaustLevel); i++) {
-        restStr += "- ";
-    }
+        var restStr = "";
+        for (var i = 0; i < (maxExhaust - exhaustLevel); i++) {
+            restStr += "- ";
+        }
 
-    $(".exhaust", nameblock).html("<span>{0}</span>{1}".format(exhaustStr, restStr));
+        exhaustBlock.removeClass(HIDE_CLASS);
+        exhaustBlock.html("<span>{0}</span>{1}".format(exhaustStr, restStr));
+    } else {
+        exhaustBlock.addClass(HIDE_CLASS);
+        exhaustBlock.html('');
+    }
 }
 
 function updateNameBlockSaveDC(character, nameblock) {
@@ -1378,12 +1445,11 @@ function updateMoney(parent, currencies) {
     var sp = $(".sp", spc);
     var cp = $(".cp", cpc);
 
-    var hideClass = 'hide';
-    updateCurrencyVis(ppc, pp, currencies.pp, hideClass);
-    updateCurrencyVis(epc, ep, currencies.ep, hideClass);
-    updateCurrencyVis(gpc, gp, currencies.gp, hideClass);
-    updateCurrencyVis(spc, sp, currencies.sp, hideClass);
-    updateCurrencyVis(cpc, cp, currencies.cp, hideClass);
+    updateCurrencyVis(ppc, pp, currencies.pp);
+    updateCurrencyVis(epc, ep, currencies.ep);
+    updateCurrencyVis(gpc, gp, currencies.gp);
+    updateCurrencyVis(spc, sp, currencies.sp);
+    updateCurrencyVis(cpc, cp, currencies.cp);
 
     // total gp estimate
     var gpnum = currencies.gp;
@@ -1396,16 +1462,16 @@ function updateMoney(parent, currencies) {
     var hr = $("hr", $(".col_money", parent));
     if (gpnum > 0 && gpnum % 1 != 0) {
         gp.removeClass("gponly");
-        hr.removeClass(hideClass);
+        hr.removeClass(HIDE_CLASS);
         total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
     } else {
         gp.addClass("gponly");
-        hr.addClass(hideClass);
+        hr.addClass(HIDE_CLASS);
         total.empty();
     }
 }
 
-function updateCurrencyVis(c, cval, val, hideClass='hide') {
+function updateCurrencyVis(c, cval, val, hideClass=HIDE_CLASS) {
     if (val > 0) { c.removeClass(hideClass); } else { c.addClass(hideClass); }
     cval.html(val);
 }

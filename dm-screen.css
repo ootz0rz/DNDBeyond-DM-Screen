@@ -11135,6 +11135,9 @@ textarea.form-control-lg {
   background-color: #212529;
   color: whitesmoke;
 }
+#gmstats .hide {
+  visibility: hidden;
+}
 #gmstats table.font_smallest {
   font-size: 0.5rem;
 }
@@ -11216,9 +11219,6 @@ textarea.form-control-lg {
 #gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name, #gmstats table.stattable td.hover_row td.col_name .name, #gmstats table.stattable td.hover_row th.col_name .name, #gmstats table.stattable tr.hover_row td.col_name .name, #gmstats table.stattable tr.hover_row th.col_name .name, #gmstats table.stattable th.hover_row td.col_name .name, #gmstats table.stattable th.hover_row th.col_name .name {
   color: #ffdc41 !important;
 }
-#gmstats table.table td .hide, #gmstats table.table tr .hide, #gmstats table.table th .hide, #gmstats table.stattable td .hide, #gmstats table.stattable tr .hide, #gmstats table.stattable th .hide {
-  visibility: hidden;
-}
 #gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated, #gmstats table.stattable tbody tr.unassigned, #gmstats table.stattable tbody tr.deactivated {
   color: #6c757d !important;
 }
@@ -11246,12 +11246,43 @@ textarea.form-control-lg {
   border: 1px solid #6c757d;
 }
 #gmstats table.table th.col_name, #gmstats table.table td.col_name, #gmstats table.stattable th.col_name, #gmstats table.stattable td.col_name {
+  position: relative;
+  white-space: nowrap;
   width: auto;
+}
+#gmstats table.table th.col_name .links, #gmstats table.table td.col_name .links, #gmstats table.stattable th.col_name .links, #gmstats table.stattable td.col_name .links {
+  position: absolute;
+  right: 0;
+}
+#gmstats table.table th.col_name .links .view::before, #gmstats table.table td.col_name .links .view::before, #gmstats table.stattable th.col_name .links .view::before, #gmstats table.stattable td.col_name .links .view::before {
+  background-image: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
+}
+#gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .edit::before, #gmstats table.stattable th.col_name .links .edit::before, #gmstats table.stattable td.col_name .links .edit::before {
+  background-image: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
+}
+#gmstats table.table th.col_name .links .view, #gmstats table.table th.col_name .links .edit, #gmstats table.table td.col_name .links .view, #gmstats table.table td.col_name .links .edit, #gmstats table.stattable th.col_name .links .view, #gmstats table.stattable th.col_name .links .edit, #gmstats table.stattable td.col_name .links .view, #gmstats table.stattable td.col_name .links .edit {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  color: cyan;
+  text-decoration: none;
+}
+#gmstats table.table th.col_name .links .view::before, #gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .view::before, #gmstats table.table td.col_name .links .edit::before, #gmstats table.stattable th.col_name .links .view::before, #gmstats table.stattable th.col_name .links .edit::before, #gmstats table.stattable td.col_name .links .view::before, #gmstats table.stattable td.col_name .links .edit::before {
+  content: "";
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  background-size: cover;
+  margin-right: 3px;
+}
+#gmstats table.table th.col_name .links .view:hover::before, #gmstats table.table th.col_name .links .edit:hover::before, #gmstats table.table td.col_name .links .view:hover::before, #gmstats table.table td.col_name .links .edit:hover::before, #gmstats table.stattable th.col_name .links .view:hover::before, #gmstats table.stattable th.col_name .links .edit:hover::before, #gmstats table.stattable td.col_name .links .view:hover::before, #gmstats table.stattable td.col_name .links .edit:hover::before {
+  filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
 }
 #gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name, #gmstats table.stattable th.col_name .name, #gmstats table.stattable td.col_name .name {
   font-weight: bold;
   text-decoration: underline;
   font-style: italic;
+}
+#gmstats table.table th.col_name .inspiration, #gmstats table.table td.col_name .inspiration, #gmstats table.stattable th.col_name .inspiration, #gmstats table.stattable td.col_name .inspiration {
+  padding-right: 1.5em;
 }
 #gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust, #gmstats table.stattable th.col_name .exhaust, #gmstats table.stattable td.col_name .exhaust {
   color: grey;
@@ -11337,9 +11368,6 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp, #gmstats table.stattable th.col_money .pp, #gmstats table.stattable td.col_money .pp {
   color: #62abff;
-}
-#gmstats table.table th.col_money .hide, #gmstats table.table td.col_money .hide, #gmstats table.stattable th.col_money .hide, #gmstats table.stattable td.col_money .hide {
-  visibility: hidden;
 }
 #gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly, #gmstats table.stattable th.col_money .total span, #gmstats table.stattable th.col_money .gponly, #gmstats table.stattable td.col_money .total span, #gmstats table.stattable td.col_money .gponly {
   color: lime;
