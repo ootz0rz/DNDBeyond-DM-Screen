@@ -25,6 +25,7 @@ $gm_c_cyan: cyan;
 $gm_c_yellow: yellow;
 $gm_c_bright_yellow: rgb(255, 220, 65);
 $gm_c_light_steel_blue: rgb(175,175,255);
+$gm_c_silver: silver;
 
 $gm_level: 	desaturate(rgb(255,135,0), 30%);
 
@@ -166,10 +167,27 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
             }
 
             tbody tr {
+                &.active {
+
+                }
+
                 &.unassigned, &.deactivated {
                     color: $gm_inactive_cells !important;
                     td, td span {
                         color: $gm_inactive_cells !important;
+                    }
+                }
+
+                // used for when a row is "expanded"
+                &.active_row {
+                    td {
+                        &.col_skills {
+                            span {
+                                &.noprof {
+                                    display: inline !important;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -334,11 +352,61 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
                     
                     span {
                         white-space: normal;
-                        span {
+                        span.value {
                             white-space: normal;
-                            color: $gm_c_light_steel_blue;
                             font-family: $font-family-monospace;
                         }
+
+                        &.normal {
+                            color: $gm_c_bright_black;
+                            span.value {
+                                color: $gm_c_bright_black;
+                            }
+                        }
+                        &.high {
+                            span.value {
+                                color: $gm_c_light_steel_blue;
+                            }
+                        }
+                        &.low {
+                            span.value {
+                                color: $gm_c_red;
+                            }
+                        }
+
+                        &.prof {
+                            color: $gm_c_bright_white;
+                        }
+                        &.expert {
+                            color: $gm_c_bright_yellow;
+                        }
+                        &.halfprof {
+                            color: $gm_c_silver;
+                        }
+                        &.noprof {
+                            color: $gm_c_bright_black;
+                            display: none;
+                        }
+                        &.custom {
+                            font-style: italic;
+                        }
+
+                        // add commas
+                        &.c:not(:last-child):after {
+                            color: $gm_c_bright_white !important;
+                            content: ',';
+                        }
+
+                        // This is probably the better option but doesn't really seem to work :( 
+                        // https://css-tricks.com/how-to-add-commas-between-a-list-of-items-dynamically-with-css/
+                        // https://stackoverflow.com/questions/47308060/how-to-use-tilde-in-css-correctly-in-structure
+                        // &.c ~ .c {
+                        //     &:after {
+                        //         color: $gm_c_bright_black !important;
+                        //         content: ',';
+                        //     }
+                        // }
+
                     }
 
                     // more white-space settings below specifically for tbody td

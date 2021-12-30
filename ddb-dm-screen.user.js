@@ -164,7 +164,7 @@ var mainTableHTML = `
                 <span>ins</span>ight<br />
             </th>
             <th class="col_money"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
-            <th class="col_skills"><span>Skill Proficiences <span>(+bonus)</span></span></th>
+            <th class="col_skills"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
             <th class="col_languages">Languages</th>
         </tr>
     </thead>
@@ -1481,25 +1481,52 @@ function updateCurrencyVis(c, cval, val, hideClass = HIDE_CLASS) {
 }
 
 function updateSkillProfs(parent, skills, customs) {
-    everything = [...genSkillsArray(skills), ...genSkillsArray(customs)];
+    function skillSort(x, y) {
+        if (x.name < y.name) return -1;
+        if (x.name > y.name) return 1;
+        return 0;
+    }
 
-    $(".col_skills", parent).html(everything.join(", "));
+    skills.sort(skillSort);
+    customs.sort(skillSort);
+
+    everything = [...genSkillsArray(skills), ...genSkillsArray(customs, isCustom=true)];
+    
+    var skillsnode = $(".col_skills", parent);
+    skillsnode.html(everything.join(" "));
 }
 
-function genSkillsArray(skills) {
+function genSkillsArray(skills, isCustom=false) {
     outarr = [];
 
     skills.forEach((item, idx) => {
+        var name = item.name;
+        var mod = Math.abs(item.modifier);
+        var sign = getSign(item.modifier, forceZero=true);
+        var color = '';
+
+        if (item.modifier == 0) {
+            color = 'normal';
+        } else if (item.modifier > 0) {
+            color = 'high';
+        } else {
+            color = 'low';
+        }
+
+        if (isCustom) {
+            color = ' custom';
+        }
+
         if (item.expertise) {
-            outarr.push("<span>**{0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span class='c expert {3}'>**{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         } else if (item.proficiency) {
-            outarr.push("<span>{0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span class='c prof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         } else if (item.halfProficiency) {
-            outarr.push("<span>1/2 {0} <span>{1}{2}</span></span>".format(item.name, getSign(item.modifier), item.modifier));
+            outarr.push("<span class='c halfprof {3}'>1/2 {0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+        } else {
+            outarr.push("<span class='c noprof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         }
     });
-
-    outarr.sort();
 
     return outarr;
 }
@@ -1743,9 +1770,9 @@ function fetchRequest(url, body, headers, cookies) {
     return fetch(url, options);
 }
 
-function getSign(input) {
+function getSign(input, forceZero = false) {
     let number = parseIntSafe(input);
-    if (number == 0) return "";
+    if (number == 0) return forceZero ? positiveSign : "";
     return number >= 0 ? positiveSign : negativeSign
 }
 

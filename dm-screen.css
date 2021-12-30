@@ -11225,6 +11225,9 @@ textarea.form-control-lg {
 #gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span, #gmstats table.stattable tbody tr.unassigned td, #gmstats table.stattable tbody tr.unassigned td span, #gmstats table.stattable tbody tr.deactivated td, #gmstats table.stattable tbody tr.deactivated td span {
   color: #6c757d !important;
 }
+#gmstats table.table tbody tr.active_row td.col_skills span.noprof, #gmstats table.stattable tbody tr.active_row td.col_skills span.noprof {
+  display: inline !important;
+}
 #gmstats table.table hr, #gmstats table.stattable hr {
   border: none;
   height: 1px;
@@ -11382,10 +11385,41 @@ textarea.form-control-lg {
 #gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span, #gmstats table.stattable th.col_skills span, #gmstats table.stattable td.col_skills span {
   white-space: normal;
 }
-#gmstats table.table th.col_skills span span, #gmstats table.table td.col_skills span span, #gmstats table.stattable th.col_skills span span, #gmstats table.stattable td.col_skills span span {
+#gmstats table.table th.col_skills span span.value, #gmstats table.table td.col_skills span span.value, #gmstats table.stattable th.col_skills span span.value, #gmstats table.stattable td.col_skills span span.value {
   white-space: normal;
-  color: #afafff;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+#gmstats table.table th.col_skills span.normal, #gmstats table.table td.col_skills span.normal, #gmstats table.stattable th.col_skills span.normal, #gmstats table.stattable td.col_skills span.normal {
+  color: grey;
+}
+#gmstats table.table th.col_skills span.normal span.value, #gmstats table.table td.col_skills span.normal span.value, #gmstats table.stattable th.col_skills span.normal span.value, #gmstats table.stattable td.col_skills span.normal span.value {
+  color: grey;
+}
+#gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value, #gmstats table.stattable th.col_skills span.high span.value, #gmstats table.stattable td.col_skills span.high span.value {
+  color: #afafff;
+}
+#gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value, #gmstats table.stattable th.col_skills span.low span.value, #gmstats table.stattable td.col_skills span.low span.value {
+  color: red;
+}
+#gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof, #gmstats table.stattable th.col_skills span.prof, #gmstats table.stattable td.col_skills span.prof {
+  color: white;
+}
+#gmstats table.table th.col_skills span.expert, #gmstats table.table td.col_skills span.expert, #gmstats table.stattable th.col_skills span.expert, #gmstats table.stattable td.col_skills span.expert {
+  color: #ffdc41;
+}
+#gmstats table.table th.col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof, #gmstats table.stattable th.col_skills span.halfprof, #gmstats table.stattable td.col_skills span.halfprof {
+  color: silver;
+}
+#gmstats table.table th.col_skills span.noprof, #gmstats table.table td.col_skills span.noprof, #gmstats table.stattable th.col_skills span.noprof, #gmstats table.stattable td.col_skills span.noprof {
+  color: grey;
+  display: none;
+}
+#gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom, #gmstats table.stattable th.col_skills span.custom, #gmstats table.stattable td.col_skills span.custom {
+  font-style: italic;
+}
+#gmstats table.table th.col_skills span.c:not(:last-child):after, #gmstats table.table td.col_skills span.c:not(:last-child):after, #gmstats table.stattable th.col_skills span.c:not(:last-child):after, #gmstats table.stattable td.col_skills span.c:not(:last-child):after {
+  color: white !important;
+  content: ",";
 }
 #gmstats table.table th.col_languages, #gmstats table.table td.col_languages, #gmstats table.stattable th.col_languages, #gmstats table.stattable td.col_languages {
   width: auto;
