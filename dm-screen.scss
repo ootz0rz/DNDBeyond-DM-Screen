@@ -58,6 +58,10 @@ $font_normal: $font-size-base * 1.0;
 $font_big: $font-size-base * 1.25;
 $font_biggest: $font-size-base * 1.5;
 
+// assets
+$viewIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
+$editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
+
 #gmstats {
     .hide {visibility: hidden;}
 
@@ -205,10 +209,8 @@ $font_biggest: $font-size-base * 1.5;
                         position: absolute;
                         right: 0;
 
-                        $viewurl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
-                        $editurl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
-                        .view::before { background-image: $viewurl; }
-                        .edit::before { background-image: $editurl; }
+                        .view::before { background-image: $viewIconUrl; }
+                        .edit::before { background-image: $editIconUrl; }
 
                         .view, .edit {
                             font-family: $font-family-sans-serif !important;

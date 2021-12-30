@@ -1085,29 +1085,30 @@ function updateCampaignData(){
 }
 
 
-function updateElementData(character) {
-    updateQuickInfo(character.node, character);
-    updateMainInfo(character.node, character.data);
-}
-
-function updateQuickInfo(parent, allData){
-    const character = allData.data;
+function updateElementData(allCharData) {
+    const character = allCharData.data;
+    const parent = allCharData.node;
 
     console.log('update info: ', character);
 
-    updateNameBlock(parent, allData, character);
+    updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
     updateArmorClass(parent, character.armorClass, character.initiative);
-    // updateInitiative(parent, character.initiative); // TODO add?
     updateSpeeds(parent, character);
+
+    updateAbilties(parent, character.abilities);
+    updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
+    updateMoney(parent, character.currencies);
+    updateSkillProfs(parent, character.skills, character.customSkills);
+    updateLanguages(parent, character.proficiencyGroups);
 }
 
-function updateNameBlock(parent, allData, character) {
+function updateNameBlock(parent, allCharData, character) {
     var nameblock = parent.find('td.col_name');
 
     $(".name", nameblock).html(character.name);
 
-    updateNameBlockViewEditLinks(allData, nameblock);
+    updateNameBlockViewEditLinks(allCharData, nameblock);
 
     updateNameBlockExhaust(character, nameblock);
 
@@ -1116,19 +1117,19 @@ function updateNameBlock(parent, allData, character) {
     updateNameBlockInspiration(character, nameblock);
 }
 
-function updateNameBlockViewEditLinks(allData, nameblock) {
+function updateNameBlockViewEditLinks(allCharData, nameblock) {
     const links = $(".links", nameblock);
     const view = $(".view", links);
     const edit = $(".edit", links);
 
-    displayIfUrlExists(allData.viewurl, view);
-    displayIfUrlExists(allData.editurl, edit);
+    displayIfUrlExists(allCharData.viewurl, view);
+    displayIfUrlExists(allCharData.editurl, edit);
 
-    view.attr('title', "View {0}".format(allData.data.name));
-    edit.attr('title', "Edit {0}".format(allData.data.name));
+    view.attr('title', "View {0}".format(allCharData.data.name));
+    edit.attr('title', "Edit {0}".format(allCharData.data.name));
 }
 
-function canEditCharacter(allData) {
+function canEditCharacter(allCharData) {
     return character.editurl !== null && character.editurl.length > 0;
 }
 
@@ -1369,14 +1370,6 @@ function updateSpeeds(parent, character) {
         node.append("<br />");
         node.append(sensearr.join(""));
     }
-}
-
-function updateMainInfo(parent, character){
-    updateAbilties(parent, character.abilities);
-    updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
-    updateMoney(parent, character.currencies);
-    updateSkillProfs(parent, character.skills, character.customSkills);
-    updateLanguages(parent, character.proficiencyGroups);
 }
 
 function updateAbilties(parent, abilities){    
