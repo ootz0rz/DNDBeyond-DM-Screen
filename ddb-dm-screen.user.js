@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.22
+// @version         1.0.23
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -86,6 +86,8 @@ const currenciesTypeDefault = {
 const currenciesMainDefault = 'gold';
 
 const HIDE_CLASS = 'hide';
+const ACTIVE_ROW_CLASS = 'active_row';
+const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -642,7 +644,8 @@ function insertElements() {
 
     for (let id in charactersData) {
         var row = $(tableRowHTML);
-        row.attr("id", "player-" + id);
+        var playerid = _genPlayerId(id);
+        row.attr("id", playerid);
         tableBody.append(row);
 
         charactersData[id].node = row;
@@ -667,13 +670,14 @@ function insertElements() {
 
     // set row as active when character name is clicked
     $('td.col_name .name', tableBody).click(function () {
-        var aClass = 'active_row';
-
         var node = $(this);
         var row = node.parent().parent();
-        row.toggleClass(aClass);
+        row.toggleClass(ACTIVE_ROW_CLASS);
 
-        var isActive = row.hasClass(aClass);
+        var isActive = row.hasClass(ACTIVE_ROW_CLASS);
+        var playerid = row.attr('id');
+
+        _setGMValue(ACTIVE_ROW_VAR_NAME_PREFIX + playerid, isActive);
     });
 }
 
@@ -720,7 +724,6 @@ function updateAllCharData() {
         }).catch((error) => {
             console.log(error);
         });
-    updateVisibility();
 
     startRefreshTimer();
     console.log("Updated All Char Data");
@@ -743,7 +746,7 @@ function updateCharData(url, activeType) {
                     Promise.all(promises).then(() => {
                         var charData = window.moduleExport.getCharData(charactersData[charId].state);
                         charactersData[charId].data = charData;
-                        updateElementData(charactersData[charId]);
+                        updateElementData(charactersData[charId], charId);
                         console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
                         console.log(charactersData[charId]);
                         resolve();
@@ -828,15 +831,13 @@ function startRefreshTimer() {
 
 function insertCampaignElements() {
     console.log("Inseting Campaign Elements");
-    let campaignPrefix = scriptVarPrefix + "-" + campaignID;
-    // $(campaignElementTarget + " > div:nth-child(1)").after(controlsHTML);
     campaignNode = mainTable;
-    insertControls(campaignNode, campaignPrefix);
-    insertVisibilityControls(campaignNode, campaignPrefix);
-    insertStoredElements(campaignNode, campaignPrefix);
+    insertControls(campaignNode);
+    // insertVisibilityControls(campaignNode, campaignPrefix);
+    // insertStoredElements(campaignNode, campaignPrefix);
 }
 
-function insertControls(parent, campaignPrefix) {
+function insertControls(parent) {
     console.log("Inserting Main Controls");
 
     let controlsNode = parent.find('.gs-controls');
@@ -849,12 +850,12 @@ function insertControls(parent, campaignPrefix) {
     let displayUnassigned = controlsNode.find('input[name ="gs-display-unassigned"]');
 
     // Loads ideally value set for this campaign, if not found it loads the last saved value otherwise it defaults
-    let autoUpdateLoaded = GM_getValue(campaignPrefix + "-autoUpdate", GM_getValue(scriptVarPrefix + "-autoUpdate", autoUpdateDefault));
-    let updateDurationLoaded = GM_getValue(campaignPrefix + "-updateDuration", GM_getValue(scriptVarPrefix + "-updateDuration", updateDurationDefault))
-    let fontSizeSettingLoaded = GM_getValue(campaignPrefix + "-fontSize", GM_getValue(scriptVarPrefix + "-fontSize", fontSizeDefault))
+    let autoUpdateLoaded = _getGMValueOrDefault("-autoUpdate", autoUpdateDefault);
+    let updateDurationLoaded = _getGMValueOrDefault("-updateDuration", updateDurationDefault);
+    let fontSizeSettingLoaded = _getGMValueOrDefault("-fontSize", fontSizeDefault);
 
-    let displayDeactiveSettingLoaded = GM_getValue(campaignPrefix + "-displaydeactive", GM_getValue(scriptVarPrefix + "-displaydeactive", displayDeactiveDefault))
-    let displayUnassignedSettingLoaded = GM_getValue(campaignPrefix + "-displayunassigned", GM_getValue(scriptVarPrefix + "-displayunassigned", displayUnassignedDefault))
+    let displayDeactiveSettingLoaded = _getGMValueOrDefault("-displaydeactive", displayDeactiveDefault);
+    let displayUnassignedSettingLoaded = _getGMValueOrDefault("-displayunassigned", displayUnassignedDefault);
 
     autoUpdate.prop('checked', autoUpdateLoaded);
     autoDuration.prop('value', updateDurationLoaded);
@@ -869,18 +870,15 @@ function insertControls(parent, campaignPrefix) {
 
     autoUpdate.change(function () {
         let val = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-autoUpdate", val);
-        GM_setValue(scriptVarPrefix + "-autoUpdate", val);
+        _setGMValue("-autoUpdate", val);
     });
     autoDuration.change(function () {
         let val = parseIntSafe($(this).val());
-        GM_setValue(campaignPrefix + "-updateDuration", val);
-        GM_setValue(scriptVarPrefix + "-updateDuration", val);
+        _setGMValue("-updateDuration", val);
     });
     fontSize.change(function () {
         let val = parseIntSafe($(this).val());
-        GM_setValue(campaignPrefix + "-fontSize", val);
-        GM_setValue(scriptVarPrefix + "-fontSize", val);
+        _setGMValue("-fontSize", val);
 
         onFontSizeChange(mainTable, val);
         onFontSizeChange(colStatsSubTable, val);
@@ -888,15 +886,13 @@ function insertControls(parent, campaignPrefix) {
 
     displayDeactive.change(function () {
         let val = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-displaydeactive", val);
-        GM_setValue(scriptVarPrefix + "-displaydeactive", val);
+        _setGMValue("-displaydeactive", val);
 
         onDisplayTypeChange('deactivated', val);
     });
     displayUnassigned.change(function () {
         let val = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-displayunassigned", val);
-        GM_setValue(scriptVarPrefix + "-displayunassigned", val);
+        _setGMValue("-displayunassigned", val);
 
         onDisplayTypeChange('unassigned', val);
     });
@@ -921,141 +917,6 @@ function onDisplayTypeChange(type, newval) {
     } else {
         rows.addClass(HIDE_CLASS);
     }
-}
-
-function insertVisibilityControls(parent, campaignPrefix) {
-    console.log("Inseting Visibility Controls");
-
-    let controlsNode = parent.find('.gs-views');
-
-    let showAbilities = controlsNode.find('input[name ="gs-show-abilities"]');
-    let showSavingThrows = controlsNode.find('input[name ="gs-show-saving-throws"]');
-    let showSenses = controlsNode.find('input[name ="gs-show-senses"]');
-    let showClasses = controlsNode.find('input[name ="gs-show-classes"]');
-    let showResources = controlsNode.find('input[name ="gs-show-resources"]');
-
-    // Loads ideally value set for this campaign, if not found it loads the last saved value otherwise it defaults
-    let showAbilitiesLoaded = GM_getValue(campaignPrefix + "-showAbilities", GM_getValue(scriptVarPrefix + "-showAbilities", showAbilitiesDefault));
-    let showSavingThrowsLoaded = GM_getValue(campaignPrefix + "-showSavingThrows", GM_getValue(scriptVarPrefix + "-showSavingThrows", showSavingThrowsDefault));
-    let showSensesLoaded = GM_getValue(campaignPrefix + "-showSenses", GM_getValue(scriptVarPrefix + "-showSenses", showSensesDefault));
-    let showClassesLoaded = GM_getValue(campaignPrefix + "-showClasses", GM_getValue(scriptVarPrefix + "-showClasses", showClassesDefault));
-    let showResourcesLoaded = GM_getValue(campaignPrefix + "-showResources", GM_getValue(scriptVarPrefix + "-showResources", showResourcesDefault));
-
-    showAbilities.prop('checked', showAbilitiesLoaded);
-    showSavingThrows.prop('checked', showSavingThrowsLoaded);
-    showSenses.prop('checked', showSensesLoaded);
-    showClasses.prop('checked', showClassesLoaded);
-    showResources.prop('checked', showResourcesLoaded);
-
-    showAbilities.change(function () {
-        let updatedShowAbilities = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-showAbilities", updatedShowAbilities);
-        GM_setValue(scriptVarPrefix + "-showAbilities", updatedShowAbilities);
-        updateVisibility();
-    });
-    showSavingThrows.change(function () {
-        let updatedShowSavingThrows = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-showSavingThrows", updatedShowSavingThrows);
-        GM_setValue(scriptVarPrefix + "-showSavingThrows", updatedShowSavingThrows);
-        updateVisibility();
-    });
-    showSenses.change(function () {
-        let updatedShowSensesUpdate = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-showSenses", updatedShowSensesUpdate);
-        GM_setValue(scriptVarPrefix + "-showSenses", updatedShowSensesUpdate);
-        updateVisibility();
-    });
-    showClasses.change(function () {
-        let updatedShowClasses = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-showClasses", updatedShowClasses);
-        GM_setValue(scriptVarPrefix + "-showClasses", updatedShowClasses);
-        updateVisibility();
-    });
-    showResources.change(function () {
-        let updatedShowResources = parseBool($(this).prop("checked"));
-        GM_setValue(campaignPrefix + "-showResources", updatedShowResources);
-        GM_setValue(scriptVarPrefix + "-showResources", updatedShowResources);
-        updateVisibility();
-    });
-}
-
-function updateVisibility() {
-    console.log("Updating data visibility");
-
-    let abilities = $('input[name ="gs-show-abilities"]').is(':checked');
-    let saves = $('input[name ="gs-show-saving-throws"]').is(':checked');
-    let senses = $('input[name ="gs-show-senses"]').is(':checked');
-    let classes = $('input[name ="gs-show-classes"]').is(':checked');
-    let resources = $('input[name ="gs-show-resources"]').is(':checked');
-
-    $('.gs-main-able').toggle(abilities);
-    $('.gs-main-saves').toggle(saves);
-    $('.gs-main-able').parents('.gs-container').toggle(abilities || saves);
-
-    $('.gs-senses').toggle(senses);
-    $('.gs-classes').toggle(classes);
-    $('.gs-resources').toggle(resources);
-    $('.gs-senses').parents('.gs-container').toggle(senses || classes || resources);
-}
-
-function insertStoredElements(parent, campaignPrefix) {
-    console.log("Inseting Stored Elements");
-    let storedNode = parent.find('.gs-stored');
-    insertCurrencies(storedNode, campaignPrefix);
-}
-
-function insertCurrencies(parent, campaignPrefix) {
-    console.log("Updating Campaign Currencies Data");
-    let currenciesLoaded = GM_getValue(campaignPrefix + "-currencies", currenciesDefault);
-    //console.log(currenciesLoaded);
-    let container = parent.find('.gs-camp-currencies > .gs-container');
-
-    let currencyAmount = parent.find('.gs-camp-currencies > .gs-form-group input[name="gs-currency-amount"]');
-    let currencyType = parent.find('.gs-camp-currencies > .gs-form-group select[name="gs-currency-type"]');
-    let currencyConfirm = parent.find('.gs-camp-currencies > .gs-form-group button[name="gs-currency-confirm"]');
-
-    for (let id in currenciesTypeDefault) {
-        let currency = currenciesTypeDefault[id];
-        $('<option/>', {
-            value: id,
-            class: 'gs-currency-type-option gs-currency-type-' + id + '-option',
-            html: currency.name
-        }).appendTo(currencyType);
-    }
-
-    currencyType.val(currenciesMainDefault);
-
-    currencyConfirm.click(function () {
-        let updatedAmount = parseIntSafe(currencyAmount.val());
-        if (updatedAmount != 0) {
-            let selectedType = currencyType.val();
-            if (updatedAmount != undefined) {
-                let currenciesUpdate = GM_getValue(campaignPrefix + "-currencies", currenciesDefault);
-                if (currenciesUpdate[selectedType] == undefined) {
-                    currenciesUpdate[selectedType] = 0;
-                }
-                currenciesUpdate[selectedType] += updatedAmount;
-                GM_setValue(campaignPrefix + "-currencies", currenciesUpdate);
-                updateCurrency(container, selectedType, currenciesUpdate[selectedType]);
-            }
-        }
-    });
-
-    for (let id in currenciesLoaded) {
-        updateCurrency(container, id, currenciesLoaded[id]);
-    }
-}
-
-function updateCurrency(parent, id, value) {
-    let curCurrency = parent.find('.gs-currency-' + id);
-    //console.log(curCurrency);
-    if (curCurrency.length < 1) {
-        parent.append(currencyHTML);
-        curCurrency = parent.children().last();
-        curCurrency.addClass('gs-currency-' + id);
-        curCurrency.find('.gs-currency-label').html(id);
-    }
-    curCurrency.find('.gs-currency-number').html(value);
 }
 
 function updateCampaignData() {
@@ -1107,11 +968,13 @@ function updateCampaignData() {
 }
 
 
-function updateElementData(allCharData) {
+function updateElementData(allCharData, charId) {
     const character = allCharData.data;
     const parent = allCharData.node;
 
-    console.log('update info: ', character);
+    console.log('update info: ', charId, character);
+
+    updateRowIfShouldBeActive(parent, charId);
 
     updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
@@ -1123,6 +986,13 @@ function updateElementData(allCharData) {
     updateMoney(parent, character.currencies);
     updateSkillProfs(parent, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
+}
+
+function updateRowIfShouldBeActive(parent, charId) {
+    var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + _genPlayerId(charId), false);
+    if (isActive) {
+        parent.addClass(ACTIVE_ROW_CLASS);
+    }
 }
 
 function updateNameBlock(parent, allCharData, character) {
@@ -1851,4 +1721,21 @@ function sortTable(table, order) {
             return $('td:first', b).text().localeCompare($('td:first', a).text());
         }
     }).appendTo(tbody);
+}
+
+function _getCampaignPrefix() {
+    return scriptVarPrefix + "-" + campaignID
+}
+
+function _getGMValueOrDefault(name, defaultVal) {
+    return GM_getValue(_getCampaignPrefix() + name, GM_getValue(scriptVarPrefix + name, defaultVal));
+}
+
+function _setGMValue(name, val) {
+    GM_setValue(_getCampaignPrefix() + name, val);
+    GM_setValue(scriptVarPrefix + name, val);
+}
+
+function _genPlayerId(id) {
+    return "player-" + id;
 }
