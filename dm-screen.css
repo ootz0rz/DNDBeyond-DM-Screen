@@ -11412,10 +11412,10 @@ textarea.form-control-lg {
   color: grey;
 }
 #gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value, #gmstats table.stattable th.col_skills span.high span.value, #gmstats table.stattable td.col_skills span.high span.value {
-  color: #afafff;
+  color: #afffb6;
 }
 #gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value, #gmstats table.stattable th.col_skills span.low span.value, #gmstats table.stattable td.col_skills span.low span.value {
-  color: red;
+  color: #ffafaf;
 }
 #gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof, #gmstats table.stattable th.col_skills span.prof, #gmstats table.stattable td.col_skills span.prof {
   color: white;

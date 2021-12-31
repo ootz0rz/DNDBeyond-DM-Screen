@@ -26,6 +26,7 @@ $gm_c_cyan: cyan;
 $gm_c_yellow: yellow;
 $gm_c_bright_yellow: rgb(255, 220, 65);
 $gm_c_light_steel_blue: rgb(175,175,255);
+$gm_c_teal: rgb(42, 151, 128);
 $gm_c_silver: silver;
 
 $gm_level: 	desaturate(rgb(255,135,0), 30%);
@@ -43,6 +44,10 @@ $gm_money_sp: silver;
 $gm_money_gp: gold;
 $gm_money_ep: rgb(95, 201, 209);
 $gm_money_pp: rgb(98, 171, 255);
+
+// skills
+$gm_skill_high: rgb(175, 255, 182);
+$gm_skill_low: rgb(255, 175, 175);
 
 .table>tbody>tr>td, 
 .table>tbody>tr>th, 
@@ -390,6 +395,7 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
                             font-family: $font-family-monospace;
                         }
 
+                        // modifier value
                         &.normal {
                             color: $gm_c_bright_black;
                             span.value {
@@ -398,15 +404,20 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
                         }
                         &.high {
                             span.value {
-                                color: $gm_c_light_steel_blue;
+                                // color: $gm_c_light_steel_blue;
+                                // color: $gm_c_green;
+                                color: $gm_skill_high;
                             }
                         }
                         &.low {
                             span.value {
-                                color: $gm_c_red;
+                                color: $gm_skill_low;
+                                // color: $gm_c_teal;
+                                // color: $gm_c_red;
                             }
                         }
 
+                        // proficiency learned status
                         &.prof {
                             color: $gm_c_bright_white;
                         }

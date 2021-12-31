@@ -508,8 +508,8 @@ var initalModules = {
 // @grant           GM_getResourceText
 // @grant           GM_addStyle
     */
-    // const my_css = GM_getResourceText("IMPORTED_CSS");
-    // GM_addStyle(my_css);
+    const my_css = GM_getResourceText("IMPORTED_CSS");
+    GM_addStyle(my_css);
 
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     findTargets();
@@ -1400,13 +1400,13 @@ function genSkillsArray(skills, isCustom=false) {
         }
 
         if (item.expertise) {
-            outarr.push("<span class='c expert {3}'>**{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push("<span title='expertise' class='c expert {3}'>{0}<sup>🇪</sup> <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         } else if (item.proficiency) {
-            outarr.push("<span class='c prof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push("<span title='proficiency' class='c prof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         } else if (item.halfProficiency) {
-            outarr.push("<span class='c halfprof {3}'>1/2 {0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push("<span title='half proficiency' class='c halfprof {3}'>{0}<sup>½</sup> <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         } else {
-            outarr.push("<span class='c noprof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push("<span title='not proficient' class='c noprof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
         }
     });
 
