@@ -111,6 +111,18 @@ if (!String.prototype.format) {
     };
 }
 
+// load style sheets
+stylesheetUrls.forEach(loadStylesheet);
+
+// XXX temp for dev
+/*
+// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
+// @grant           GM_getResourceText
+// @grant           GM_addStyle
+*/
+// const my_css = GM_getResourceText("IMPORTED_CSS");
+// GM_addStyle(my_css);
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        HTML Structures
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -500,17 +512,6 @@ var initalModules = {
 
 (function () {
     campaignID = window.location.pathname.match(charIDRegex);
-    stylesheetUrls.forEach(loadStylesheet); //load and insert each stylesheet in the settings
-
-    // XXX temp for dev
-    /*
-// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
-// @grant           GM_getResourceText
-// @grant           GM_addStyle
-    */
-    // const my_css = GM_getResourceText("IMPORTED_CSS");
-    // GM_addStyle(my_css);
-
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     findTargets();
     insertElements();
