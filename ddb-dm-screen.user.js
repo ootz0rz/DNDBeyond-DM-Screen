@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.26
+// @version         1.0.27
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -118,7 +118,9 @@ var my_css = "";
 // @grant           GM_getResourceText
 // @grant           GM_addStyle
 */
-// my_css = GM_getResourceText("IMPORTED_CSS");
+if (typeof GM_getResourceText === 'function') {
+    my_css = GM_getResourceText("IMPORTED_CSS");
+}
 
 // load style sheets
 if (my_css.length > 0) {
