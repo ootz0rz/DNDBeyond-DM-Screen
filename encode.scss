@@ -12,6 +12,7 @@
 }
 
 $encoding-reference: ( 
+    // letters to encode via https://stackoverflow.com/questions/34782535/what-characters-do-i-need-to-encode-in-a-css-data-uri
     ('%','%25'),  // Encode "%" first, otherwise the "%" from encoded code would be encoded again (which would be bad)
     ('<', '%3C'),
     ('>', '%3E'),
@@ -48,7 +49,7 @@ $encoding-reference: (
     // ('-','%2D'),
     // ('.','%2E'),
     // ('\\','%5C'),
-    (' ','%7F'),
+    // (' ','%7F'),
     // ('`','%E2%82%AC'),
     //('ƒ','%C6%92'),
     //('„','%E2%80%9E'),
