@@ -87,6 +87,7 @@ const currenciesMainDefault = 'gold';
 const HIDE_CLASS = 'hide';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
+const DEFAULT_TOOLTIP_PLACEMENT = 'top';
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -110,17 +111,21 @@ if (!String.prototype.format) {
     };
 }
 
-// load style sheets
-stylesheetUrls.forEach(loadStylesheet);
-
 // XXX temp for dev
+var my_css = "";
 /*
 // @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
 // @grant           GM_getResourceText
 // @grant           GM_addStyle
 */
-// const my_css = GM_getResourceText("IMPORTED_CSS");
-// GM_addStyle(my_css);
+// my_css = GM_getResourceText("IMPORTED_CSS");
+
+// load style sheets
+if (my_css.length > 0) {
+    GM_addStyle(my_css);
+} else {
+    stylesheetUrls.forEach(loadStylesheet);
+}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        HTML Structures
@@ -199,7 +204,7 @@ var mainTableHTML = `
             <td class="col_stat"></td>
             <td class="col_passives"></td>
             <td class="col_money">
-                <span class="total"></span><hr />
+                <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
                 <span class="gpc"><span class="gp"></span> gp </span>
@@ -241,12 +246,12 @@ var mainTableHTML = `
         </tr>
     </tfoot>
 </table>
-`;
+`.format(DEFAULT_TOOLTIP_PLACEMENT);
 
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name"></span><span class="inspiration hide">🎲</span>
+                <span class="name"></span><span class="inspiration hide" role="tooltip" data-microtip-position="{0}" aria-label="Inspiration">🎲</span>
                 <span class="links"><a href="#" class="edit hide" title="Edit"></a><a href="#" class="view hide" title="View"></a></span><br/>
                 <div class="exhaust"><span></span>- - - - - -</div>
                 <div class="spellsavedc"><span></span></div>
@@ -256,9 +261,9 @@ var tableRowHTML = `
                 <span class="hurt"></span>
             </td>
             <td class="col_ac">
-                <span class="acval" role="tooltip" data-microtip-position="bottom" aria-label="Armor Class"></span>
+                <span class="acval" role="tooltip" data-microtip-position="{0}" aria-label="Armor Class"></span>
                 <hr />
-                <span class="initval" role="tooltip" data-microtip-position="bottom" aria-label="Initiative"></span>
+                <span class="initval" role="tooltip" data-microtip-position="{0}" aria-label="Initiative"></span>
             </td>
             <td class="col_speed"></td>
             <td class="col_stat col_str"></td>
@@ -273,17 +278,17 @@ var tableRowHTML = `
                 ins: <span></span>
             </td>
             <td class="col_money">
-                <span class="total" role="tooltip" data-microtip-position="bottom" aria-label="Estimated Total in GP"></span><hr />
-                <span class="ppc" role="tooltip" data-microtip-position="bottom" aria-label="Platinum"><span class="pp"></span> pp</span>
-                <span class="epc" role="tooltip" data-microtip-position="bottom" aria-label="Electrum"><span class="ep"></span> ep </span>
-                <span class="gpc" role="tooltip" data-microtip-position="bottom" aria-label="Gold"><span class="gp"></span> gp </span>
-                <span class="spc" role="tooltip" data-microtip-position="bottom" aria-label="Silver"><span class="sp"></span> sp </span>
-                <span class="cpc" role="tooltip" data-microtip-position="bottom" aria-label="Copper"><span class="cp"></span> cp </span>
+                <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
+                <span class="ppc"><span class="pp"></span> pp</span>
+                <span class="epc"><span class="ep"></span> ep </span>
+                <span class="gpc"><span class="gp"></span> gp </span>
+                <span class="spc"><span class="sp"></span> sp </span>
+                <span class="cpc"><span class="cp"></span> cp </span>
             </td>
             <td class="col_skills"></td>
             <td class="col_languages"></td>
         </tr>
-`;
+`.format(DEFAULT_TOOLTIP_PLACEMENT);
 
 var currencyHTML = `
     <div class="gs-camp-currency">
@@ -1717,12 +1722,12 @@ function parseBool(x) {
     return x ? true : false;
 }
 
-function addTooltip(inStr, tiptext, tag = "span", placement = "bottom") {
+function addTooltip(inStr, tiptext, tag = "span", placement = DEFAULT_TOOLTIP_PLACEMENT) {
     // https://github.com/ghosh/microtip#usage
     return "<{1} {2}>{0}</{1}>".format(inStr, tag, insertTooltipAttributes(tiptext, placement));
 }
 
-function insertTooltipAttributes(tiptext, placement = "bottom") {
+function insertTooltipAttributes(tiptext, placement = DEFAULT_TOOLTIP_PLACEMENT) {
     // title='{0}' removed to avoid double tooltip popups
     return "role='tooltip' data-microtip-position='{1}' aria-label='{0}'".format(tiptext, placement);
 }
