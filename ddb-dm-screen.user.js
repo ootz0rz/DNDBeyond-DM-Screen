@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.24
+// @version         1.0.25
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -9,7 +9,6 @@
 // @updateURL       https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
 // @require         https://media.dndbeyond.com/character-tools/vendors~characterTools.bundle.dec3c041829e401e5940.min.js
-// @require         https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 // @require         https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV
 // @grant           GM_setValue
 // @grant           GM_getValue
@@ -256,7 +255,11 @@ var tableRowHTML = `
             <td class="col_hp">
                 <span class="hurt"></span>
             </td>
-            <td class="col_ac"></td>
+            <td class="col_ac">
+                <span class="acval" role="tooltip" data-microtip-position="bottom" aria-label="Armor Class" title="Armor Class"></span>
+                <hr />
+                <span class="initval" role="tooltip" data-microtip-position="bottom" aria-label="Initiative" title="Initiative"></span>
+            </td>
             <td class="col_speed"></td>
             <td class="col_stat col_str"></td>
             <td class="col_stat col_dex"></td>
@@ -1211,10 +1214,8 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
 
 function updateArmorClass(parent, armorClass, init) {
     var node = parent.find('td.col_ac');
-    node.html("{0}<hr />{1}".format(
-        addTooltip(armorClass, "armor class"),
-        addTooltip("{0}{1}".format(getSign(init), Math.abs(init)), "initiative")
-    ));
+    $(".acval", node).html(armorClass);
+    $(".initval", node).html("{0}{1}".format(getSign(init), Math.abs(init)));
 }
 
 /*
@@ -1253,8 +1254,7 @@ function updateSpeeds(parent, character) {
                 addTooltip(
                     "{0}: <span>{1}</span>".format(name, s.distance),
                     s.key,
-                    tag = "div",
-                    placement = "top"
+                    tag = "div"
                 ));
         }
     }
@@ -1706,9 +1706,9 @@ function parseBool(x) {
     return x ? true : false;
 }
 
-function addTooltip(inStr, text, tag = "span", placement = "top") {
-    // https://getbootstrap.com/docs/4.0/components/tooltips/
-    return "<{2} data-toggle='tooltip' data-placement='{3}' title='{1}'>{0}</{2}>".format(inStr, text, tag, placement);
+function addTooltip(inStr, text, tag = "span", placement = "bottom") {
+    // https://github.com/ghosh/microtip#usage
+    return "<{2} role='tooltip' data-microtip-position='{3}' aria-label='{1}' title='{1}'>{0}</{2}>".format(inStr, text, tag, placement);
 }
 
 function sortTable(table, order) {

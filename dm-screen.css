@@ -2,6 +2,250 @@
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------
+  [1] Base Styles
+-------------------------------------------------*/
+[aria-label][role~=tooltip] {
+  position: relative;
+}
+
+[aria-label][role~=tooltip]::before,
+[aria-label][role~=tooltip]::after {
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--microtip-transition-duration, 0.18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 10;
+  transform-origin: top;
+}
+
+[aria-label][role~=tooltip]::before {
+  background-size: 100% auto !important;
+  content: "";
+}
+
+[aria-label][role~=tooltip]::after {
+  background: rgba(17, 17, 17, 0.9);
+  border-radius: 4px;
+  color: #ffffff;
+  content: attr(aria-label);
+  font-size: var(--microtip-font-size, 13px);
+  font-weight: var(--microtip-font-weight, normal);
+  text-transform: var(--microtip-text-transform, none);
+  padding: 0.5em 1em;
+  white-space: nowrap;
+  box-sizing: content-box;
+}
+
+[aria-label][role~=tooltip]:hover::before,
+[aria-label][role~=tooltip]:hover::after,
+[aria-label][role~=tooltip]:focus::before,
+[aria-label][role~=tooltip]:focus::after {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ------------------------------------------------
+  [2] Position Modifiers
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position|=top]::before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
+  height: 6px;
+  width: 18px;
+  margin-bottom: 5px;
+}
+
+[role~=tooltip][data-microtip-position|=top]::after {
+  margin-bottom: 11px;
+}
+
+[role~=tooltip][data-microtip-position|=top]::before {
+  transform: translate3d(-50%, 0, 0);
+  bottom: 100%;
+  left: 50%;
+}
+
+[role~=tooltip][data-microtip-position|=top]:hover::before {
+  transform: translate3d(-50%, -5px, 0);
+}
+
+[role~=tooltip][data-microtip-position|=top]::after {
+  transform: translate3d(-50%, 0, 0);
+  bottom: 100%;
+  left: 50%;
+}
+
+[role~=tooltip][data-microtip-position=top]:hover::after {
+  transform: translate3d(-50%, -5px, 0);
+}
+
+/* ------------------------------------------------
+  [2.1] Top Left
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=top-left]::after {
+  transform: translate3d(calc(-100% + 16px), 0, 0);
+  bottom: 100%;
+}
+
+[role~=tooltip][data-microtip-position=top-left]:hover::after {
+  transform: translate3d(calc(-100% + 16px), -5px, 0);
+}
+
+/* ------------------------------------------------
+  [2.2] Top Right
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=top-right]::after {
+  transform: translate3d(calc(0% - 16px), 0, 0);
+  bottom: 100%;
+}
+
+[role~=tooltip][data-microtip-position=top-right]:hover::after {
+  transform: translate3d(calc(0% - 16px), -5px, 0);
+}
+
+/* ------------------------------------------------
+  [2.3] Bottom
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position|=bottom]::before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
+  height: 6px;
+  width: 18px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+[role~=tooltip][data-microtip-position|=bottom]::after {
+  margin-top: 11px;
+}
+
+[role~=tooltip][data-microtip-position|=bottom]::before {
+  transform: translate3d(-50%, -10px, 0);
+  bottom: auto;
+  left: 50%;
+  top: 100%;
+}
+
+[role~=tooltip][data-microtip-position|=bottom]:hover::before {
+  transform: translate3d(-50%, 0, 0);
+}
+
+[role~=tooltip][data-microtip-position|=bottom]::after {
+  transform: translate3d(-50%, -10px, 0);
+  top: 100%;
+  left: 50%;
+}
+
+[role~=tooltip][data-microtip-position=bottom]:hover::after {
+  transform: translate3d(-50%, 0, 0);
+}
+
+/* ------------------------------------------------
+  [2.4] Bottom Left
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=bottom-left]::after {
+  transform: translate3d(calc(-100% + 16px), -10px, 0);
+  top: 100%;
+}
+
+[role~=tooltip][data-microtip-position=bottom-left]:hover::after {
+  transform: translate3d(calc(-100% + 16px), 0, 0);
+}
+
+/* ------------------------------------------------
+  [2.5] Bottom Right
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=bottom-right]::after {
+  transform: translate3d(calc(0% - 16px), -10px, 0);
+  top: 100%;
+}
+
+[role~=tooltip][data-microtip-position=bottom-right]:hover::after {
+  transform: translate3d(calc(0% - 16px), 0, 0);
+}
+
+/* ------------------------------------------------
+  [2.6] Left
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=left]::before,
+[role~=tooltip][data-microtip-position=left]::after {
+  bottom: auto;
+  left: auto;
+  right: 100%;
+  top: 50%;
+  transform: translate3d(10px, -50%, 0);
+}
+
+[role~=tooltip][data-microtip-position=left]::before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
+  height: 18px;
+  width: 6px;
+  margin-right: 5px;
+  margin-bottom: 0;
+}
+
+[role~=tooltip][data-microtip-position=left]::after {
+  margin-right: 11px;
+}
+
+[role~=tooltip][data-microtip-position=left]:hover::before,
+[role~=tooltip][data-microtip-position=left]:hover::after {
+  transform: translate3d(0, -50%, 0);
+}
+
+/* ------------------------------------------------
+  [2.7] Right
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-position=right]::before,
+[role~=tooltip][data-microtip-position=right]::after {
+  bottom: auto;
+  left: 100%;
+  top: 50%;
+  transform: translate3d(-10px, -50%, 0);
+}
+
+[role~=tooltip][data-microtip-position=right]::before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
+  height: 18px;
+  width: 6px;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+[role~=tooltip][data-microtip-position=right]::after {
+  margin-left: 11px;
+}
+
+[role~=tooltip][data-microtip-position=right]:hover::before,
+[role~=tooltip][data-microtip-position=right]:hover::after {
+  transform: translate3d(0, -50%, 0);
+}
+
+/* ------------------------------------------------
+  [3] Size
+-------------------------------------------------*/
+[role~=tooltip][data-microtip-size=small]::after {
+  white-space: initial;
+  width: 80px;
+}
+
+[role~=tooltip][data-microtip-size=medium]::after {
+  white-space: initial;
+  width: 150px;
+}
+
+[role~=tooltip][data-microtip-size=large]::after {
+  white-space: initial;
+  width: 260px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------------- */
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -11200,47 +11444,47 @@ textarea.form-control-lg {
   position: relative;
   transform: rotate(-90deg);
 }
-#gmstats table.table, #gmstats table.stattable {
+#gmstats table.table {
   color: whitesmoke;
 }
-#gmstats table.table td, #gmstats table.table th, #gmstats table.stattable td, #gmstats table.stattable th {
+#gmstats table.table td, #gmstats table.table th {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages, #gmstats table.stattable tbody td.col_name .name, #gmstats table.stattable tbody td.col_skills, #gmstats table.stattable tbody td.col_languages, #gmstats table.stattable tfoot td.col_name .name, #gmstats table.stattable tfoot td.col_skills, #gmstats table.stattable tfoot td.col_languages {
+#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
-#gmstats table.table td.hover_col, #gmstats table.table tr.hover_col, #gmstats table.table th.hover_col, #gmstats table.stattable td.hover_col, #gmstats table.stattable tr.hover_col, #gmstats table.stattable th.hover_col {
+#gmstats table.table td.hover_col, #gmstats table.table tr.hover_col, #gmstats table.table th.hover_col {
   background-color: #2c3237;
 }
-#gmstats table.table td.hover_row td, #gmstats table.table td.hover_row th, #gmstats table.table tr.hover_row td, #gmstats table.table tr.hover_row th, #gmstats table.table th.hover_row td, #gmstats table.table th.hover_row th, #gmstats table.stattable td.hover_row td, #gmstats table.stattable td.hover_row th, #gmstats table.stattable tr.hover_row td, #gmstats table.stattable tr.hover_row th, #gmstats table.stattable th.hover_row td, #gmstats table.stattable th.hover_row th {
+#gmstats table.table td.hover_row td, #gmstats table.table td.hover_row th, #gmstats table.table tr.hover_row td, #gmstats table.table tr.hover_row th, #gmstats table.table th.hover_row td, #gmstats table.table th.hover_row th {
   border-left: 1px dashed #e1bb12;
   border-right: 1px dashed #e1bb12;
 }
-#gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name, #gmstats table.stattable td.hover_row td.col_name .name, #gmstats table.stattable td.hover_row th.col_name .name, #gmstats table.stattable tr.hover_row td.col_name .name, #gmstats table.stattable tr.hover_row th.col_name .name, #gmstats table.stattable th.hover_row td.col_name .name, #gmstats table.stattable th.hover_row th.col_name .name {
+#gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name {
   color: #ffdc41;
 }
-#gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated, #gmstats table.stattable tbody tr.unassigned, #gmstats table.stattable tbody tr.deactivated {
+#gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated {
   color: #6c757d !important;
 }
-#gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span, #gmstats table.stattable tbody tr.unassigned td, #gmstats table.stattable tbody tr.unassigned td span, #gmstats table.stattable tbody tr.deactivated td, #gmstats table.stattable tbody tr.deactivated td span {
+#gmstats table.table tbody tr.unassigned td, #gmstats table.table tbody tr.unassigned td span, #gmstats table.table tbody tr.deactivated td, #gmstats table.table tbody tr.deactivated td span {
   color: #6c757d !important;
 }
-#gmstats table.table tbody tr.active_row, #gmstats table.stattable tbody tr.active_row {
+#gmstats table.table tbody tr.active_row {
   border-width: 2px;
   border-color: #ffdc41;
 }
-#gmstats table.table tbody tr.active_row td.col_name .name, #gmstats table.stattable tbody tr.active_row td.col_name .name {
+#gmstats table.table tbody tr.active_row td.col_name .name {
   color: #ffdc41;
 }
-#gmstats table.table tbody tr.active_row td.col_skills span.noprof, #gmstats table.stattable tbody tr.active_row td.col_skills span.noprof {
+#gmstats table.table tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
 }
-#gmstats table.table tbody tr.hover_row td.col_name .name:hover, #gmstats table.stattable tbody tr.hover_row td.col_name .name:hover {
+#gmstats table.table tbody tr.hover_row td.col_name .name:hover {
   cursor: pointer;
   color: black !important;
   background-color: #ffdc41;
 }
-#gmstats table.table hr, #gmstats table.stattable hr {
+#gmstats table.table hr {
   border: none;
   height: 1px;
   padding: 0;
@@ -11248,39 +11492,39 @@ textarea.form-control-lg {
   margin-top: 0.35em;
   margin-bottom: 0.35em;
 }
-#gmstats table.table .dropdown, #gmstats table.stattable .dropdown {
+#gmstats table.table .dropdown {
   color: #212529;
 }
-#gmstats table.table th, #gmstats table.stattable th {
+#gmstats table.table th {
   vertical-align: top;
   font-weight: normal;
 }
-#gmstats table.table th, #gmstats table.table td, #gmstats table.stattable th, #gmstats table.stattable td {
+#gmstats table.table th, #gmstats table.table td {
   width: 0%;
   white-space: nowrap;
   border: 1px solid #6c757d;
 }
-#gmstats table.table th.col_name, #gmstats table.table td.col_name, #gmstats table.stattable th.col_name, #gmstats table.stattable td.col_name {
+#gmstats table.table th.col_name, #gmstats table.table td.col_name {
   position: relative;
   white-space: nowrap;
   width: auto;
 }
-#gmstats table.table th.col_name .links, #gmstats table.table td.col_name .links, #gmstats table.stattable th.col_name .links, #gmstats table.stattable td.col_name .links {
+#gmstats table.table th.col_name .links, #gmstats table.table td.col_name .links {
   position: absolute;
   right: 0;
 }
-#gmstats table.table th.col_name .links .view::before, #gmstats table.table td.col_name .links .view::before, #gmstats table.stattable th.col_name .links .view::before, #gmstats table.stattable td.col_name .links .view::before {
+#gmstats table.table th.col_name .links .view::before, #gmstats table.table td.col_name .links .view::before {
   background-image: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
 }
-#gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .edit::before, #gmstats table.stattable th.col_name .links .edit::before, #gmstats table.stattable td.col_name .links .edit::before {
+#gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .edit::before {
   background-image: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
 }
-#gmstats table.table th.col_name .links .view, #gmstats table.table th.col_name .links .edit, #gmstats table.table td.col_name .links .view, #gmstats table.table td.col_name .links .edit, #gmstats table.stattable th.col_name .links .view, #gmstats table.stattable th.col_name .links .edit, #gmstats table.stattable td.col_name .links .view, #gmstats table.stattable td.col_name .links .edit {
+#gmstats table.table th.col_name .links .view, #gmstats table.table th.col_name .links .edit, #gmstats table.table td.col_name .links .view, #gmstats table.table td.col_name .links .edit {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   color: cyan;
   text-decoration: none;
 }
-#gmstats table.table th.col_name .links .view::before, #gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .view::before, #gmstats table.table td.col_name .links .edit::before, #gmstats table.stattable th.col_name .links .view::before, #gmstats table.stattable th.col_name .links .edit::before, #gmstats table.stattable td.col_name .links .view::before, #gmstats table.stattable td.col_name .links .edit::before {
+#gmstats table.table th.col_name .links .view::before, #gmstats table.table th.col_name .links .edit::before, #gmstats table.table td.col_name .links .view::before, #gmstats table.table td.col_name .links .edit::before {
   content: "";
   height: 1em;
   width: 1em;
@@ -11288,10 +11532,10 @@ textarea.form-control-lg {
   background-size: cover;
   margin-right: 3px;
 }
-#gmstats table.table th.col_name .links .view:hover::before, #gmstats table.table th.col_name .links .edit:hover::before, #gmstats table.table td.col_name .links .view:hover::before, #gmstats table.table td.col_name .links .edit:hover::before, #gmstats table.stattable th.col_name .links .view:hover::before, #gmstats table.stattable th.col_name .links .edit:hover::before, #gmstats table.stattable td.col_name .links .view:hover::before, #gmstats table.stattable td.col_name .links .edit:hover::before {
+#gmstats table.table th.col_name .links .view:hover::before, #gmstats table.table th.col_name .links .edit:hover::before, #gmstats table.table td.col_name .links .view:hover::before, #gmstats table.table td.col_name .links .edit:hover::before {
   filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
 }
-#gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name, #gmstats table.stattable th.col_name .name, #gmstats table.stattable td.col_name .name {
+#gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name {
   margin-left: 0;
   padding: 0.2em 0.2em 0.2em 0.1em;
   position: relative;
@@ -11300,160 +11544,172 @@ textarea.form-control-lg {
   text-decoration: underline;
   font-style: italic;
 }
-#gmstats table.table th.col_name .inspiration, #gmstats table.table td.col_name .inspiration, #gmstats table.stattable th.col_name .inspiration, #gmstats table.stattable td.col_name .inspiration {
+#gmstats table.table th.col_name .inspiration, #gmstats table.table td.col_name .inspiration {
   padding-right: 1.5em;
 }
-#gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust, #gmstats table.stattable th.col_name .exhaust, #gmstats table.stattable td.col_name .exhaust {
+#gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust {
   color: grey;
 }
-#gmstats table.table th.col_name .exhaust span, #gmstats table.table td.col_name .exhaust span, #gmstats table.stattable th.col_name .exhaust span, #gmstats table.stattable td.col_name .exhaust span {
+#gmstats table.table th.col_name .exhaust span, #gmstats table.table td.col_name .exhaust span {
   color: red;
 }
-#gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc, #gmstats table.stattable th.col_name .spellsavedc, #gmstats table.stattable td.col_name .spellsavedc {
+#gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc {
   color: grey;
 }
-#gmstats table.table th.col_name .spellsavedc .lvl, #gmstats table.table td.col_name .spellsavedc .lvl, #gmstats table.stattable th.col_name .spellsavedc .lvl, #gmstats table.stattable td.col_name .spellsavedc .lvl {
+#gmstats table.table th.col_name .spellsavedc .lvl, #gmstats table.table td.col_name .spellsavedc .lvl {
   font-weight: bold;
 }
-#gmstats table.table th.col_name .spellsavedc .dc, #gmstats table.table td.col_name .spellsavedc .dc, #gmstats table.stattable th.col_name .spellsavedc .dc, #gmstats table.stattable td.col_name .spellsavedc .dc {
+#gmstats table.table th.col_name .spellsavedc .dc, #gmstats table.table td.col_name .spellsavedc .dc {
   font-weight: bold;
   color: white;
 }
-#gmstats table.table th.col_hp, #gmstats table.table td.col_hp, #gmstats table.stattable th.col_hp, #gmstats table.stattable td.col_hp {
+#gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
   color: grey;
 }
-#gmstats table.table th.col_hp .overheal, #gmstats table.table td.col_hp .overheal, #gmstats table.stattable th.col_hp .overheal, #gmstats table.stattable td.col_hp .overheal {
+#gmstats table.table th.col_hp .overheal, #gmstats table.table td.col_hp .overheal {
   color: cyan;
 }
-#gmstats table.table th.col_hp .good, #gmstats table.table td.col_hp .good, #gmstats table.stattable th.col_hp .good, #gmstats table.stattable td.col_hp .good {
+#gmstats table.table th.col_hp .good, #gmstats table.table td.col_hp .good {
   color: lime;
 }
-#gmstats table.table th.col_hp .hurt, #gmstats table.table td.col_hp .hurt, #gmstats table.stattable th.col_hp .hurt, #gmstats table.stattable td.col_hp .hurt {
+#gmstats table.table th.col_hp .hurt, #gmstats table.table td.col_hp .hurt {
   color: yellow;
 }
-#gmstats table.table th.col_hp .bad, #gmstats table.table td.col_hp .bad, #gmstats table.stattable th.col_hp .bad, #gmstats table.stattable td.col_hp .bad {
+#gmstats table.table th.col_hp .bad, #gmstats table.table td.col_hp .bad {
   color: red;
 }
-#gmstats table.table th.col_hp .normal, #gmstats table.table td.col_hp .normal, #gmstats table.stattable th.col_hp .normal, #gmstats table.stattable td.col_hp .normal {
+#gmstats table.table th.col_hp .normal, #gmstats table.table td.col_hp .normal {
   color: grey;
 }
-#gmstats table.table th.col_hp .fail, #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .fail, #gmstats table.table td.col_hp .save, #gmstats table.stattable th.col_hp .fail, #gmstats table.stattable th.col_hp .save, #gmstats table.stattable td.col_hp .fail, #gmstats table.stattable td.col_hp .save {
+#gmstats table.table th.col_hp .fail, #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .fail, #gmstats table.table td.col_hp .save {
   font-weight: bold;
 }
-#gmstats table.table th.col_hp .fail, #gmstats table.table td.col_hp .fail, #gmstats table.stattable th.col_hp .fail, #gmstats table.stattable td.col_hp .fail {
+#gmstats table.table th.col_hp .fail, #gmstats table.table td.col_hp .fail {
   color: red;
 }
-#gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save, #gmstats table.stattable th.col_hp .save, #gmstats table.stattable td.col_hp .save {
+#gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save {
   color: lime;
 }
-#gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable, #gmstats table.stattable th.col_hp .stable, #gmstats table.stattable td.col_hp .stable {
+#gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
   color: lime;
 }
-#gmstats table.table th.col_ac, #gmstats table.table td.col_ac, #gmstats table.stattable th.col_ac, #gmstats table.stattable td.col_ac {
+#gmstats table.table th.col_ac, #gmstats table.table td.col_ac {
   width: 0%;
 }
-#gmstats table.table th.col_ac .init, #gmstats table.table td.col_ac .init, #gmstats table.stattable th.col_ac .init, #gmstats table.stattable td.col_ac .init {
+#gmstats table.table th.col_ac .init, #gmstats table.table td.col_ac .init {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   position: relative;
   width: 1em;
   top: 2.7em;
   transform: rotate(-90deg);
 }
-#gmstats table.table th.col_speed, #gmstats table.table td.col_speed, #gmstats table.stattable th.col_speed, #gmstats table.stattable td.col_speed {
+#gmstats table.table th.col_speed, #gmstats table.table td.col_speed {
   color: grey;
 }
-#gmstats table.table th.col_speed span, #gmstats table.table td.col_speed span, #gmstats table.stattable th.col_speed span, #gmstats table.stattable td.col_speed span {
+#gmstats table.table th.col_speed span, #gmstats table.table td.col_speed span {
   color: white;
 }
-#gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span, #gmstats table.stattable th.col_passives span, #gmstats table.stattable td.col_passives span {
+#gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
   color: #ffdc41;
 }
-#gmstats table.table th.col_money, #gmstats table.table td.col_money, #gmstats table.stattable th.col_money, #gmstats table.stattable td.col_money {
+#gmstats table.table th.col_money, #gmstats table.table td.col_money {
   width: auto;
   color: grey;
   white-space: normal;
 }
-#gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp, #gmstats table.stattable th.col_money .cp, #gmstats table.stattable td.col_money .cp {
+#gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp {
   color: #e6a263;
 }
-#gmstats table.table th.col_money .sp, #gmstats table.table td.col_money .sp, #gmstats table.stattable th.col_money .sp, #gmstats table.stattable td.col_money .sp {
+#gmstats table.table th.col_money .sp, #gmstats table.table td.col_money .sp {
   color: silver;
 }
-#gmstats table.table th.col_money .gp, #gmstats table.table td.col_money .gp, #gmstats table.stattable th.col_money .gp, #gmstats table.stattable td.col_money .gp {
+#gmstats table.table th.col_money .gp, #gmstats table.table td.col_money .gp {
   color: gold;
 }
-#gmstats table.table th.col_money .ep, #gmstats table.table td.col_money .ep, #gmstats table.stattable th.col_money .ep, #gmstats table.stattable td.col_money .ep {
+#gmstats table.table th.col_money .ep, #gmstats table.table td.col_money .ep {
   color: #5fc9d1;
 }
-#gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp, #gmstats table.stattable th.col_money .pp, #gmstats table.stattable td.col_money .pp {
+#gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp {
   color: #62abff;
 }
-#gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly, #gmstats table.stattable th.col_money .total span, #gmstats table.stattable th.col_money .gponly, #gmstats table.stattable td.col_money .total span, #gmstats table.stattable td.col_money .gponly {
+#gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly {
   color: lime;
 }
-#gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc, #gmstats table.stattable th.col_money .total, #gmstats table.stattable th.col_money .ppc, #gmstats table.stattable th.col_money .epc, #gmstats table.stattable th.col_money .gpc, #gmstats table.stattable th.col_money .spc, #gmstats table.stattable th.col_money .cpc, #gmstats table.stattable td.col_money .total, #gmstats table.stattable td.col_money .ppc, #gmstats table.stattable td.col_money .epc, #gmstats table.stattable td.col_money .gpc, #gmstats table.stattable td.col_money .spc, #gmstats table.stattable td.col_money .cpc {
+#gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc {
   white-space: nowrap;
 }
-#gmstats table.table th.col_skills, #gmstats table.table td.col_skills, #gmstats table.stattable th.col_skills, #gmstats table.stattable td.col_skills {
+#gmstats table.table th.col_skills, #gmstats table.table td.col_skills {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span, #gmstats table.stattable th.col_skills span, #gmstats table.stattable td.col_skills span {
+#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
   white-space: normal;
 }
-#gmstats table.table th.col_skills span span.value, #gmstats table.table td.col_skills span span.value, #gmstats table.stattable th.col_skills span span.value, #gmstats table.stattable td.col_skills span span.value {
+#gmstats table.table th.col_skills span span.value, #gmstats table.table td.col_skills span span.value {
   white-space: normal;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table th.col_skills span.normal, #gmstats table.table td.col_skills span.normal, #gmstats table.stattable th.col_skills span.normal, #gmstats table.stattable td.col_skills span.normal {
+#gmstats table.table th.col_skills span.normal, #gmstats table.table td.col_skills span.normal {
   color: grey;
 }
-#gmstats table.table th.col_skills span.normal span.value, #gmstats table.table td.col_skills span.normal span.value, #gmstats table.stattable th.col_skills span.normal span.value, #gmstats table.stattable td.col_skills span.normal span.value {
+#gmstats table.table th.col_skills span.normal span.value, #gmstats table.table td.col_skills span.normal span.value {
   color: grey;
 }
-#gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value, #gmstats table.stattable th.col_skills span.high span.value, #gmstats table.stattable td.col_skills span.high span.value {
+#gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value {
   color: #afffb6;
 }
-#gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value, #gmstats table.stattable th.col_skills span.low span.value, #gmstats table.stattable td.col_skills span.low span.value {
+#gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value {
   color: #ffafaf;
 }
-#gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof, #gmstats table.stattable th.col_skills span.prof, #gmstats table.stattable td.col_skills span.prof {
+#gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof {
   color: white;
 }
-#gmstats table.table th.col_skills span.expert, #gmstats table.table td.col_skills span.expert, #gmstats table.stattable th.col_skills span.expert, #gmstats table.stattable td.col_skills span.expert {
+#gmstats table.table th.col_skills span.expert, #gmstats table.table td.col_skills span.expert {
   color: #ffdc41;
 }
-#gmstats table.table th.col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof, #gmstats table.stattable th.col_skills span.halfprof, #gmstats table.stattable td.col_skills span.halfprof {
+#gmstats table.table th.col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof {
   color: silver;
 }
-#gmstats table.table th.col_skills span.noprof, #gmstats table.table td.col_skills span.noprof, #gmstats table.stattable th.col_skills span.noprof, #gmstats table.stattable td.col_skills span.noprof {
+#gmstats table.table th.col_skills span.noprof, #gmstats table.table td.col_skills span.noprof {
   color: grey;
   display: none;
 }
-#gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom, #gmstats table.stattable th.col_skills span.custom, #gmstats table.stattable td.col_skills span.custom {
+#gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom {
   font-style: italic;
 }
-#gmstats table.table th.col_skills span.c:not(:last-child):after, #gmstats table.table td.col_skills span.c:not(:last-child):after, #gmstats table.stattable th.col_skills span.c:not(:last-child):after, #gmstats table.stattable td.col_skills span.c:not(:last-child):after {
+#gmstats table.table th.col_skills span.c:not(:last-child):after, #gmstats table.table td.col_skills span.c:not(:last-child):after {
   color: white !important;
   content: ",";
 }
-#gmstats table.table th.col_languages, #gmstats table.table td.col_languages, #gmstats table.stattable th.col_languages, #gmstats table.stattable td.col_languages {
+#gmstats table.table th.col_languages, #gmstats table.table td.col_languages {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span, #gmstats table.stattable th.col_languages span, #gmstats table.stattable td.col_languages span {
+#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span {
   white-space: nowrap;
 }
-#gmstats table.table td.col_skills span, #gmstats table.stattable td.col_skills span {
+#gmstats table.table td.col_skills span {
   white-space: nowrap;
 }
-#gmstats table.table tfoot td.col_name, #gmstats table.stattable tfoot td.col_name {
+#gmstats table.table tfoot td.col_name {
   vertical-align: middle;
   text-align: right;
 }
 
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
+#gmstats {
+  /*
+  <svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="rgba(255, 255, 255, 1)" transform="rotate(180 18 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>
+      */
+}
+#gmstats [aria-label][role~=tooltip]::after {
+  background: #2c3237;
+  color: whitesmoke;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+}
+#gmstats [role~=tooltip][data-microtip-position|=bottom]::before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%28255%2C%20255%2C%20255%2C%201%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658%2C0.000%20C-13.615%2C0.000%2050.938%2C0.000%2034.662%2C0.000%20C28.662%2C0.000%2023.035%2C12.002%2018.660%2C12.002%20C14.285%2C12.002%208.594%2C0.000%202.658%2C0.000%20Z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
+}
 
 /*# sourceMappingURL=dm-screen.css.map */
