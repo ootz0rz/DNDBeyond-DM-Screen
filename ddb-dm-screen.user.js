@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.23
+// @version         1.0.24
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -508,8 +508,8 @@ var initalModules = {
 // @grant           GM_getResourceText
 // @grant           GM_addStyle
     */
-    const my_css = GM_getResourceText("IMPORTED_CSS");
-    GM_addStyle(my_css);
+    // const my_css = GM_getResourceText("IMPORTED_CSS");
+    // GM_addStyle(my_css);
 
     loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     findTargets();
