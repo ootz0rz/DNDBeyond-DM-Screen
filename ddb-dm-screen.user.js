@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.25
+// @version         1.0.26
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -256,9 +256,9 @@ var tableRowHTML = `
                 <span class="hurt"></span>
             </td>
             <td class="col_ac">
-                <span class="acval" role="tooltip" data-microtip-position="bottom" aria-label="Armor Class" title="Armor Class"></span>
+                <span class="acval" role="tooltip" data-microtip-position="bottom" aria-label="Armor Class"></span>
                 <hr />
-                <span class="initval" role="tooltip" data-microtip-position="bottom" aria-label="Initiative" title="Initiative"></span>
+                <span class="initval" role="tooltip" data-microtip-position="bottom" aria-label="Initiative"></span>
             </td>
             <td class="col_speed"></td>
             <td class="col_stat col_str"></td>
@@ -273,12 +273,12 @@ var tableRowHTML = `
                 ins: <span></span>
             </td>
             <td class="col_money">
-                <span class="total"></span><hr />
-                <span class="ppc"><span class="pp"></span> pp</span>
-                <span class="epc"><span class="ep"></span> ep </span>
-                <span class="gpc"><span class="gp"></span> gp </span>
-                <span class="spc"><span class="sp"></span> sp </span>
-                <span class="cpc"><span class="cp"></span> cp </span>
+                <span class="total" role="tooltip" data-microtip-position="bottom" aria-label="Estimated Total in GP"></span><hr />
+                <span class="ppc" role="tooltip" data-microtip-position="bottom" aria-label="Platinum"><span class="pp"></span> pp</span>
+                <span class="epc" role="tooltip" data-microtip-position="bottom" aria-label="Electrum"><span class="ep"></span> ep </span>
+                <span class="gpc" role="tooltip" data-microtip-position="bottom" aria-label="Gold"><span class="gp"></span> gp </span>
+                <span class="spc" role="tooltip" data-microtip-position="bottom" aria-label="Silver"><span class="sp"></span> sp </span>
+                <span class="cpc" role="tooltip" data-microtip-position="bottom" aria-label="Copper"><span class="cp"></span> cp </span>
             </td>
             <td class="col_skills"></td>
             <td class="col_languages"></td>
@@ -1274,7 +1274,7 @@ function updateAbilties(parent, abilities) {
         cell.empty();
 
         // stat
-        cell.append("<span class='high' title='{1} score'>{0}</span><br />".format(item.totalScore, abilityKey));
+        cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore, insertTooltipAttributes(abilityKey + ' score')));
 
         // bonus
         var mod = item.modifier;
@@ -1282,7 +1282,7 @@ function updateAbilties(parent, abilities) {
         if (mod > 0) { color = "high"; }
         else if (mod < 0) { color = "low"; }
 
-        cell.append("<span class='{0}' title='{3} bonus'>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod), abilityKey));
+        cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod), insertTooltipAttributes(abilityKey + ' bonus')));
 
         // save
         // we only show one's we're proficient in or are different than the bonus
@@ -1295,7 +1295,7 @@ function updateAbilties(parent, abilities) {
         else if (mod < 0) { color = "low"; }
 
         if (isprof || mod != save) {
-            cell.append("<span class='{0}' title='{3} save'>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save), abilityKey));
+            cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save), insertTooltipAttributes(abilityKey + ' save')));
         }
     });
 }
@@ -1400,14 +1400,25 @@ function genSkillsArray(skills, isCustom=false) {
             color = ' custom';
         }
 
+        function getProfText(classtype, tooltip, name, sign, mod, color, sup="") {
+            // NOTE: we have to push the tooltip within the container for the skill, because the tooltip stuff uses
+            // ::after same as our commas between skills at the moment :/ 
+            return "<span class='c {0} {1}'>{2}</span>".format(
+                classtype,
+                color,
+                addTooltip(
+                    "{0}<sup>{3}</sup> <span class='value'>{1}{2}</span>".format(name, sign, mod, sup),
+                    tooltip));
+        }
+
         if (item.expertise) {
-            outarr.push("<span title='expertise' class='c expert {3}'>{0}<sup>🇪</sup> <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push(getProfText('expert', "Expertise", name, sign, mod, color, "🇪"));
         } else if (item.proficiency) {
-            outarr.push("<span title='proficiency' class='c prof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push(getProfText('prof', "Proficiency", name, sign, mod, color, ""));
         } else if (item.halfProficiency) {
-            outarr.push("<span title='half proficiency' class='c halfprof {3}'>{0}<sup>½</sup> <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push(getProfText('halfprof', "½ Proficiency", name, sign, mod, color, "½"));
         } else {
-            outarr.push("<span title='not proficient' class='c noprof {3}'>{0} <span class='value'>{1}{2}</span></span>".format(name, sign, mod, color));
+            outarr.push(getProfText('noprof', "Not Proficient", name, sign, mod, color, ""));
         }
     });
 
@@ -1706,9 +1717,14 @@ function parseBool(x) {
     return x ? true : false;
 }
 
-function addTooltip(inStr, text, tag = "span", placement = "bottom") {
+function addTooltip(inStr, tiptext, tag = "span", placement = "bottom") {
     // https://github.com/ghosh/microtip#usage
-    return "<{2} role='tooltip' data-microtip-position='{3}' aria-label='{1}' title='{1}'>{0}</{2}>".format(inStr, text, tag, placement);
+    return "<{1} {2}>{0}</{1}>".format(inStr, tag, insertTooltipAttributes(tiptext, placement));
+}
+
+function insertTooltipAttributes(tiptext, placement = "bottom") {
+    // title='{0}' removed to avoid double tooltip popups
+    return "role='tooltip' data-microtip-position='{1}' aria-label='{0}'".format(tiptext, placement);
 }
 
 function sortTable(table, order) {

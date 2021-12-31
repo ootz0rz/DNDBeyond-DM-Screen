@@ -283,6 +283,7 @@ $gm_c_green: rgb(0, 255, 0);
 $gm_c_cyan: cyan;
 $gm_c_yellow: yellow;
 $gm_c_bright_yellow: rgb(255, 220, 65);
+$gm_c_dark_gold: rgb(65, 44, 7);
 $gm_c_light_steel_blue: rgb(175,175,255);
 $gm_c_teal: rgb(42, 151, 128);
 $gm_c_silver: silver;
@@ -647,6 +648,17 @@ $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/i
                     white-space: normal;
                     
                     span {
+                        border-width: 1px;
+                        border-style: none;
+
+                        &.c:hover {
+                            background-color: $gm_c_dark_gold;
+                            border-style: solid;
+                            border-radius: 4px;
+                            border-width: 1px;
+                            border-color: lighten($gm_c_dark_gold, 10%);
+                        }
+
                         white-space: normal;
                         span.value {
                             white-space: normal;

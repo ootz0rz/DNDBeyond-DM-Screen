@@ -11643,7 +11643,16 @@ textarea.form-control-lg {
   white-space: normal;
 }
 #gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
+  border-width: 1px;
+  border-style: none;
   white-space: normal;
+}
+#gmstats table.table th.col_skills span.c:hover, #gmstats table.table td.col_skills span.c:hover {
+  background-color: #412c07;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #6f4b0c;
 }
 #gmstats table.table th.col_skills span span.value, #gmstats table.table td.col_skills span span.value {
   white-space: normal;
