@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.28
+// @version         1.0.29
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1011,7 +1011,7 @@ function updateRowIfShouldBeActive(parent, charId) {
 }
 
 function updateNameTooltip(node, activeState) {
-    editTooltipLabel(node, activeState ? "Disable detail view" : "Enable detail view");
+    editTooltipLabel(node, activeState ? "Hide details" : "Show details");
 }
 
 function updateNameBlock(parent, allCharData, character) {
