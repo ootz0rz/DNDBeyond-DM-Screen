@@ -787,6 +787,28 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
         border-color: $tooltip-border-color;
         border-width: 1px;
         border-style: solid;
+
+        // make sure we don't have any parent text effects applied here...
+        font-weight: normal !important;
+        text-decoration: none !important;
+        font-style: normal !important;
+        font-family: $font-family-sans-serif !important;
+    }
+
+    // vary font-size depending on table setting
+    @mixin tooltipFontSize($size) {
+        [aria-label][role~="tooltip"]::after {
+            font-size: $size;
+
+            padding: $size*.375 $size*.75;
+        }
+    }
+    table {
+        &.font_smallest { @include tooltipFontSize($font_smallest); }
+        &.font_small { @include tooltipFontSize($font_small); }
+        &.font_normal { @include tooltipFontSize($font_normal); }
+        &.font_big { @include tooltipFontSize($font_big); }
+        &.font_biggest { @include tooltipFontSize($font_biggest); }
     }
 
     // [aria-label][role~="tooltip"] {

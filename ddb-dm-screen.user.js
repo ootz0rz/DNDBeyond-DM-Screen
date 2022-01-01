@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.27
+// @version         1.0.28
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -253,8 +253,8 @@ var mainTableHTML = `
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name"></span><span class="inspiration hide" role="tooltip" data-microtip-position="{0}" aria-label="Inspiration">🎲</span>
-                <span class="links"><a href="#" class="edit hide" title="Edit"></a><a href="#" class="view hide" title="View"></a></span><br/>
+                <span class="name" role="tooltip" data-microtip-position="right" aria-label="Toggle Detail View"></span><span class="inspiration hide" role="tooltip" data-microtip-position="{0}" aria-label="Inspiration">🎲</span>
+                <span class="links"><span role="tooltip" data-microtip-position="{0}" aria-label="Edit"><a href="#" class="edit hide"></a></span><span role="tooltip" data-microtip-position="{0}" aria-label="View"><a href="#" class="view hide"></a></span></span><br/>
                 <div class="exhaust"><span></span>- - - - - -</div>
                 <div class="spellsavedc"><span></span></div>
                 <div class="classes"></div>
@@ -689,6 +689,8 @@ function insertElements() {
         var playerid = row.attr('id');
 
         _setGMValue(ACTIVE_ROW_VAR_NAME_PREFIX + playerid, isActive);
+
+        updateNameTooltip($(".name", row), isActive);
     });
 }
 
@@ -1004,6 +1006,12 @@ function updateRowIfShouldBeActive(parent, charId) {
     if (isActive) {
         parent.addClass(ACTIVE_ROW_CLASS);
     }
+
+    updateNameTooltip($(".name", parent), isActive);
+}
+
+function updateNameTooltip(node, activeState) {
+    editTooltipLabel(node, activeState ? "Disable detail view" : "Enable detail view");
 }
 
 function updateNameBlock(parent, allCharData, character) {
@@ -1028,8 +1036,8 @@ function updateNameBlockViewEditLinks(allCharData, nameblock) {
     displayIfUrlExists(allCharData.viewurl, view);
     displayIfUrlExists(allCharData.editurl, edit);
 
-    view.attr('title', "View {0}".format(allCharData.data.name));
-    edit.attr('title', "Edit {0}".format(allCharData.data.name));
+    editTooltipLabel(view.parent(), "View {0}".format(allCharData.data.name));
+    editTooltipLabel(edit.parent(), "Edit {0}".format(allCharData.data.name));
 }
 
 function canEditCharacter(allCharData) {
@@ -1732,6 +1740,10 @@ function addTooltip(inStr, tiptext, tag = "span", placement = DEFAULT_TOOLTIP_PL
 function insertTooltipAttributes(tiptext, placement = DEFAULT_TOOLTIP_PLACEMENT) {
     // title='{0}' removed to avoid double tooltip popups
     return "role='tooltip' data-microtip-position='{1}' aria-label='{0}'".format(tiptext, placement);
+}
+
+function editTooltipLabel(node, newText) {
+    node.attr('aria-label', newText);
 }
 
 function sortTable(table, order) {
