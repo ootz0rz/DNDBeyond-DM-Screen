@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.35
+// @version         1.0.36
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -226,15 +226,15 @@ var mainTableHTML = `
         </tr>
         <tr>
             <td colspan="14" class='gs-controls'>
-                    <span class="gs-form-field gs-row-container">
+                    <span class="gs-form-field gs-row-container set">
                         <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
                         <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                     </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container">
+                    <span class="gs-form-field gs-form-field-number gs-row-container set">
                         <label for="gs-auto-duration"><span>Duration (s)</span></label>
                         <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
                     </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container">
+                    <span class="gs-form-field gs-form-field-number gs-row-container set">
                         <label for="gs-font-size"><span>Font Size</span></label>
                         <select name="gs-font-size" id="gs-font-size" class='dropdown'>
                             <option value='0'>smallest</option>
@@ -244,15 +244,16 @@ var mainTableHTML = `
                             <option value='4'>biggest</option>
                         </select>
                     </span>
-                    <span class="gs-form-field gs-row-container">
+                    <span class="gs-form-field gs-row-container set">
                         <label for="gs-display-deactive"><span>Display deactive?</span></label>
                         <input type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
                     </span>
-                    <span class="gs-form-field gs-row-container">
+                    <span class="gs-form-field gs-row-container set">
                         <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
                         <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
                     </span>
-                    <div class='progress-wrapper'>
+                    <span class='update set'><a role='button' class='btn btn-outline-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                    <div class='progress-wrapper set'>
                         Time to next update: 
                         <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%;"></span></span>
                         <span class="text_progress">

@@ -11759,6 +11759,17 @@ textarea.form-control-lg {
   vertical-align: middle;
   text-align: right;
 }
+#gmstats table.table tfoot td.gs-controls {
+  word-wrap: break-word;
+  white-space: normal;
+}
+#gmstats table.table tfoot td.gs-controls .set {
+  word-wrap: nowrap;
+  white-space: nowrap;
+}
+#gmstats table.table tfoot td.gs-controls .update {
+  zoom: 0.7;
+}
 #gmstats .progress-wrapper {
   margin-top: 0.5em;
   display: flex;

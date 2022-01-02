@@ -846,6 +846,20 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                         vertical-align: middle;
                         text-align: right;
                     }
+
+                    &.gs-controls {
+                        word-wrap: break-word;
+                        white-space: normal;
+
+                        .set {
+                            word-wrap: nowrap;
+                            white-space: nowrap;
+                        }
+
+                        .update {
+                            zoom: 0.7;
+                        }
+                    }
                 }
             }
         }
