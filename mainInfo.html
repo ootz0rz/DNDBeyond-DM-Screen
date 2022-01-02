@@ -12,55 +12,47 @@
 <table class="primary table font_normal">
     <thead>
         <tr>
-            <th class="col_name">
+            <th class="col_name" rowspan="2">
                 <span class="name">Name</span><br />
                 <span class="exhaust"><span>E</span>xhaust</span><br />
                 <span class="spellsavedc">Class <span class="lvl">lvl</span>: <span class="dc">DC</span></span>
             </th>
-            <th class="col_hp">
+            <th class="col_hp" rowspan="2">
                 <span class="overheal">He</span><span class="good">al</span><span class="normal">th</span><span class="hurt"> P</span><span class="bad">ts</span>
                 <hr />
                 <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
-            <th class="col_ac">
+            <th class="col_ac" rowspan="2">
                 <span title="Armor Class">AC</span>
                 <hr />
                 <div title="Initiative" class="init">Initiative</div>
             </th>
-            <th class="col_speed">
+            <th class="col_speed" rowspan="2">
                 <span>Sp</span>eed<hr />
                 Sens<span>es</span>
             </th>
-            <th colspan="6" class="col_stat">
-                <table class="table stattable font_normal secondary">
-                    <thead>
-                        <tr class="stat_types">
-                            <th class="stat_types" colspan="6">
-                                <div class="statscore">ability scores</div>
-                                <div class="bonus">bonus</div>
-                                <div class="save">save/<span class="prof">prof</span></div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="col_stat"><div class="stat">STR</div></th>
-                            <th class="col_stat"><div class="stat">DEX</div></th>
-                            <th class="col_stat"><div class="stat">CON</div></th>
-                            <th class="col_stat"><div class="stat">INT</div></th>
-                            <th class="col_stat"><div class="stat">WIS</div></th>
-                            <th class="col_stat"><div class="stat">CHA</div></th>
-                        </tr>
-                    </thead>
-                </table>
+            <th colspan="6" class="col_stat stat_types">
+                <div class="statscore">ability scores</div>
+                <div class="bonus">bonus</div>
+                <div class="save">save/<span class="prof">prof</span></div>
             </th>
-            <th class="col_passives">
+            <th class="col_passives" rowspan="2">
                 Passives:<br />
                 <span>per</span>cept<br />
                 <span>inv</span>est<br />
                 <span>ins</span>ight<br />
             </th>
-            <th class="col_money"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
-            <th class="col_skills"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
-            <th class="col_languages">Languages</th>
+            <th class="col_money" rowspan="2"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
+            <th class="col_skills" rowspan="2"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
+            <th class="col_languages" rowspan="2">Languages</th>
+        </tr>
+        <tr>
+            <th class="col_stat stat_title"><div class="stat">STR</div></th>
+            <th class="col_stat stat_title"><div class="stat">DEX</div></th>
+            <th class="col_stat stat_title"><div class="stat">CON</div></th>
+            <th class="col_stat stat_title"><div class="stat">INT</div></th>
+            <th class="col_stat stat_title"><div class="stat">WIS</div></th>
+            <th class="col_stat stat_title"><div class="stat">CHA</div></th>
         </tr>
     </thead>
     <tbody id="gm_table_body">

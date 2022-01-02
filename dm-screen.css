@@ -11471,9 +11471,10 @@ textarea.form-control-lg {
 }
 #gmstats table.table th.col_stat .stat, #gmstats table.table td.col_stat .stat, #gmstats table.stattable th.col_stat .stat, #gmstats table.stattable td.col_stat .stat {
   color: white;
-  bottom: 0.5em;
   position: relative;
-  transform: rotate(-90deg);
+}
+#gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types {
+  text-align: center;
 }
 #gmstats table.table {
   color: whitesmoke;

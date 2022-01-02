@@ -446,10 +446,12 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
 
                     .stat {             
                         color: $gm_c_bright_white;          
-                        bottom: .5em;
                         position: relative;
-                        transform: rotate(-90deg);
                     }
+                }
+
+                &.stat_title, &.stat_types {
+                    text-align: center;
                 }
             }
         }
