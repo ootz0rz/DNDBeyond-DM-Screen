@@ -375,6 +375,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                 .progress-wrapper {
                     font-size: $orig_size * $progress_multi;
                 }
+                .btn {
+                    font-size: $orig_size !important;
+                }
             }
         }
 

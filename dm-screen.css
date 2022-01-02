@@ -11403,11 +11403,17 @@ textarea.form-control-lg {
 #gmstats table.font_smallest .progress-wrapper {
   font-size: 0.375rem;
 }
+#gmstats table.font_smallest .btn {
+  font-size: 0.5rem !important;
+}
 #gmstats table.font_small {
   font-size: 0.75rem;
 }
 #gmstats table.font_small .progress-wrapper {
   font-size: 0.5625rem;
+}
+#gmstats table.font_small .btn {
+  font-size: 0.75rem !important;
 }
 #gmstats table.font_normal {
   font-size: 1rem;
@@ -11415,17 +11421,26 @@ textarea.form-control-lg {
 #gmstats table.font_normal .progress-wrapper {
   font-size: 0.75rem;
 }
+#gmstats table.font_normal .btn {
+  font-size: 1rem !important;
+}
 #gmstats table.font_big {
   font-size: 1.25rem;
 }
 #gmstats table.font_big .progress-wrapper {
   font-size: 0.9375rem;
 }
+#gmstats table.font_big .btn {
+  font-size: 1.25rem !important;
+}
 #gmstats table.font_biggest {
   font-size: 1.5rem;
 }
 #gmstats table.font_biggest .progress-wrapper {
   font-size: 1.125rem;
+}
+#gmstats table.font_biggest .btn {
+  font-size: 1.5rem !important;
 }
 #gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
