@@ -11488,6 +11488,9 @@ textarea.form-control-lg {
   color: white;
   position: relative;
 }
+#gmstats table.table th.col_stat .same, #gmstats table.table td.col_stat .same, #gmstats table.stattable th.col_stat .same, #gmstats table.stattable td.col_stat .same {
+  color: #5a5a5a !important;
+}
 #gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types {
   vertical-align: middle;
   text-align: center;
@@ -11575,6 +11578,14 @@ textarea.form-control-lg {
   width: 0%;
   white-space: nowrap;
   border: 1px solid #6c757d;
+}
+#gmstats table.table th.b_left, #gmstats table.table td.b_left {
+  border-left-style: double;
+  border-left-width: 4px;
+}
+#gmstats table.table th.b_right, #gmstats table.table td.b_right {
+  border-right-style: double;
+  border-right-width: 4px;
 }
 #gmstats table.table th.col_name, #gmstats table.table td.col_name {
   position: relative;
