@@ -11491,10 +11491,15 @@ textarea.form-control-lg {
 #gmstats table.table th.col_stat .same, #gmstats table.table td.col_stat .same, #gmstats table.stattable th.col_stat .same, #gmstats table.stattable td.col_stat .same {
   color: #5a5a5a !important;
 }
-#gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types {
+#gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table th .stat_title, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.table td .stat_title, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable th .stat_title, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types, #gmstats table.stattable td .stat_title {
   vertical-align: middle;
   text-align: center;
-  font-size: 85%;
+  font-size: 65%;
+}
+#gmstats table.table th div.stat_title, #gmstats table.table td div.stat_title, #gmstats table.stattable th div.stat_title, #gmstats table.stattable td div.stat_title {
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
 }
 #gmstats table.table {
   color: whitesmoke;

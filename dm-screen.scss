@@ -316,14 +316,16 @@ $gm_money_pp: rgb(98, 171, 255);
 $gm_skill_high: rgb(175, 255, 182);
 $gm_skill_low: rgb(255, 175, 175);
 
+$cell_padding: 5;
+$cell_margin: 0;
 .table>tbody>tr>td, 
 .table>tbody>tr>th, 
 .table>tfoot>tr>td, 
 .table>tfoot>tr>th, 
 .table>thead>tr>td, 
 .table>thead>tr>th {
-    padding: 5;
-    margin: 0;
+    padding: $cell_padding;
+    margin: $cell_margin;
 }
 
 $font_smallest: $font-size-base * 0.5;
@@ -439,6 +441,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
         &.table, &.stattable {
             th, td {
                 &.col_stat {
+                    // padding: 0;
+                    // margin: 0;
+
                     width: 0%;
                     text-align: right;
 
@@ -457,12 +462,26 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                         // &.high {color: darken($gm_c_bright_white,30%) !important;}
                         // &.low {color: darken($gm_c_bright_black,20%) !important;}
                     }
+
+                    // &.col_titles {
+                    //     padding-left: $cell_padding;
+                    //     padding-right: $cell_padding;
+                    // }
+                    // span {
+                    //     padding-left: $cell_padding;
+                    //     padding-right: $cell_padding;
+                    // }
                 }
 
-                &.stat_title, &.stat_types {
+                &.stat_title, &.stat_types, .stat_title {
                     vertical-align: middle;
                     text-align: center;
-                    font-size: 85%;
+                    font-size: 65%;
+                }
+                div.stat_title {
+                    margin: 0;
+                    padding: 0;
+                    text-transform: uppercase;
                 }
             }
         }

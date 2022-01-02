@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.37
+// @version         1.0.38
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -287,7 +287,10 @@ var tableRowHTML = `
                 <span class="initval" role="tooltip" data-microtip-position="{0}" aria-label="Initiative"></span>
             </td>
             <td class="col_speed"></td>
-            <td class="col_stat col_titles b_left">AS<br/>B<br/>S</td>
+            <td class="col_stat col_titles b_left">
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">AS</span><br/>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Bonus">B</span><br/>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Save">S</span></td>
             <td class="col_stat col_str"></td>
             <td class="col_stat col_dex"></td>
             <td class="col_stat col_con"></td>
@@ -1509,7 +1512,7 @@ function updateAbilties(parent, abilities) {
         cell.empty();
 
         // stat
-        cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore, insertTooltipAttributes(abilityKey + ' score')));
+        cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore));//, insertTooltipAttributes(abilityKey + ' score')));
 
         // bonus
         var mod = item.modifier;
@@ -1517,7 +1520,7 @@ function updateAbilties(parent, abilities) {
         if (mod > 0) { color = "high"; }
         else if (mod < 0) { color = "low"; }
 
-        cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod), insertTooltipAttributes(abilityKey + ' bonus')));
+        cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(mod), Math.abs(mod)));//, insertTooltipAttributes(abilityKey + ' bonus')));
 
         // save
         // we only show one's we're proficient in or are different than the bonus
@@ -1534,8 +1537,10 @@ function updateAbilties(parent, abilities) {
         }
 
         // if (isprof || mod != save) {
-            cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save), insertTooltipAttributes(abilityKey + ' save')));
+            cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));//, insertTooltipAttributes(abilityKey + ' save')));
         // }
+
+        cell.append('<div class="stat_title">{0}</div>'.format(abilityKey))
     });
 }
 
