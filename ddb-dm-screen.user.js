@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.38
+// @version         1.0.39
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -227,7 +227,7 @@ var mainTableHTML = `
             <td class="col_languages"></td>
         </tr>
         <tr>
-            <td colspan="14" class='gs-controls'>
+            <td colspan="15" class='gs-controls'>
                     <span class="gs-form-field gs-row-container set">
                         <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
                         <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
