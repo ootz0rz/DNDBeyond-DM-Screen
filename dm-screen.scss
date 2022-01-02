@@ -451,7 +451,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                 }
 
                 &.stat_title, &.stat_types {
+                    vertical-align: middle;
                     text-align: center;
+                    font-size: 85%;
                 }
             }
         }

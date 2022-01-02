@@ -11474,7 +11474,9 @@ textarea.form-control-lg {
   position: relative;
 }
 #gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types {
+  vertical-align: middle;
   text-align: center;
+  font-size: 85%;
 }
 #gmstats table.table {
   color: whitesmoke;
