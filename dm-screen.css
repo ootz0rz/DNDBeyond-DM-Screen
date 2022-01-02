@@ -11504,8 +11504,16 @@ textarea.form-control-lg {
   border-width: 2px;
   border-color: #ffdc41;
 }
+#gmstats table.table tbody tr.active_row .activetitle {
+  padding-right: 0.2em;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-decoration: underline;
+}
 #gmstats table.table tbody tr.active_row td.col_name .name {
   color: #ffdc41;
+}
+#gmstats table.table tbody tr.active_row td.col_name .profbonus {
+  display: inline-block;
 }
 #gmstats table.table tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
@@ -11609,6 +11617,9 @@ textarea.form-control-lg {
 #gmstats table.table th.col_name .spellsavedc .dc, #gmstats table.table td.col_name .spellsavedc .dc {
   font-weight: bold;
   color: white;
+}
+#gmstats table.table th.col_name .profbonus, #gmstats table.table td.col_name .profbonus {
+  display: none;
 }
 #gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
   color: grey;

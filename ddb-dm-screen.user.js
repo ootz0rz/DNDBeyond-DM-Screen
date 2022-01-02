@@ -281,6 +281,7 @@ var tableRowHTML = `
                 <div class="exhaust"><span></span>- - - - - -</div>
                 <div class="spellsavedc"><span></span></div>
                 <div class="classes"></div>
+                <div class="profbonus"><hr /><span class="pb" role="tooltip" data-microtip-position="right" aria-label="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
             </td>
             <td class="col_hp">
                 <span class="hurt"></span>
@@ -1240,6 +1241,8 @@ function updateNameBlock(parent, allCharData, character) {
     updateNameBlockSaveDC(character, nameblock);
 
     updateNameBlockInspiration(character, nameblock);
+
+    updateNameBlockProfBonus(character, nameblock);
 }
 
 function updateNameBlockViewEditLinks(allCharData, nameblock) {
@@ -1274,6 +1277,13 @@ function updateNameBlockInspiration(character, nameblock) {
     } else {
         $(".inspiration", nameblock).addClass(HIDE_CLASS);
     }
+}
+
+
+function updateNameBlockProfBonus(character, nameblock) {
+    $(".pbval", $(".profbonus", nameblock)).html(
+        "{0}{1}".format(getSign(character.proficiencyBonus), character.proficiencyBonus)
+    );
 }
 
 function updateNameBlockExhaust(character, nameblock) {
@@ -1609,7 +1619,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
 
     // copy to details row as well
     var skillsnode_details = $(".col_skills", parent_secondrow);
-    skillsnode_details.html(skillsnode.html());
+    skillsnode_details.html('<span class="activetitle">Skills:</span> ' + skillsnode.html());
 }
 
 function genSkillsArray(skills, isCustom=false) {
@@ -1630,7 +1640,7 @@ function genSkillsArray(skills, isCustom=false) {
         }
 
         if (isCustom) {
-            color = ' custom';
+            color += ' custom';
         }
 
         function getProfText(classtype, tooltip, name, sign, mod, color, sup="") {

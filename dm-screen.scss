@@ -512,10 +512,20 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     border-width: 2px;
                     border-color: $row_highlight_color;
 
+                    .activetitle {
+                        padding-right: 0.2em;
+                        font-family: $font-family-monospace;
+                        text-decoration: underline;
+                    }
+
                     td {
                         &.col_name {
                             .name {
                                 color: $row_highlight_color;
+                            }
+
+                            .profbonus {
+                                display: inline-block;
                             }
                         }
                         &.col_skills {
@@ -671,6 +681,10 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                             font-weight: bold;
                             color: $gm_c_bright_white;
                         }
+                    }
+
+                    .profbonus {
+                        display: none;
                     }
                 }
 
