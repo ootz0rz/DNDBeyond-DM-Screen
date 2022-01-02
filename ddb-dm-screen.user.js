@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.31
+// @version         1.0.32
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -913,10 +913,6 @@ function initRefreshTimer() {
         '\npbar curr/total', refresh_progressBarCurr, refresh_progressBarTotal
     );
 
-    refresh_autoUpdateNode.change(() => {
-        refreshTimer__checkShouldStart(refresh_autoUpdateNode);
-    });
-
     refreshTimer__checkShouldStart(refresh_autoUpdateNode);
 }
 
@@ -1061,9 +1057,12 @@ function insertControls(parent) {
     onDisplayTypeChange('unassigned', displayUnassignedSettingLoaded);
 
     autoUpdate.change(function () {
-        let val = parseBool($(this).prop("checked"));
-        console.log('autoupdate change for save: ', autoUpdate, val);
+        var $this = $(this);
+        let val = parseBool($this.prop("checked"));
+        
         _setGMValue("-autoUpdate", val);
+
+        refreshTimer__checkShouldStart($this);
     });
     autoDuration.change(function () {
         let val = parseIntSafe($(this).val());
