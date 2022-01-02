@@ -341,6 +341,10 @@ $tooltip-base-color: rgb(49, 108, 218);
 $tooltip-border-color: $tooltip-base-color;//lighten($gm_c_dark_gold, 10%);
 $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
 
+// active row
+$row_highlight_color: $gm_c_bright_yellow;
+$faded_border_color: rgba($row_highlight_color, 0.5);
+
 #gmstats {
     .hide {
         visibility: hidden;
@@ -357,11 +361,31 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
     color: $gm_primary_font_color;
 
     table {
-        &.font_smallest { font-size: $font_smallest; }
-        &.font_small { font-size: $font_small; }
-        &.font_normal { font-size: $font_normal; }
-        &.font_big { font-size: $font_big; }
-        &.font_biggest { font-size: $font_biggest; }
+        // -------------------
+        // font sizes
+        // &.font_smallest { font-size: $font_smallest; }
+        // &.font_small { font-size: $font_small; }
+        // &.font_normal { font-size: $font_normal; }
+        // &.font_big { font-size: $font_big; }
+        // &.font_biggest { font-size: $font_biggest; }
+
+        @mixin progress-font-size($sizename, $orig_size, $progress_multi) {
+            &.font_#{$sizename} {
+                font-size: $orig_size;
+                .progress-wrapper {
+                    font-size: $orig_size * $progress_multi;
+                }
+            }
+        }
+
+        $font_size_multi: 0.75;
+        @include progress-font-size(smallest, $font_smallest, $font_size_multi);
+        @include progress-font-size(small, $font_small, $font_size_multi);
+        @include progress-font-size(normal, $font_normal, $font_size_multi);
+        @include progress-font-size(big, $font_big, $font_size_multi);
+        @include progress-font-size(biggest, $font_biggest, $font_size_multi);
+        // end font sizes
+        // -------------------
 
         // -------------------
         // sub tables
@@ -484,8 +508,6 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
                 }
 
                 // used for when a row is "expanded" to show details
-                $row_highlight_color: $gm_c_bright_yellow;
-                $faded_border_color: rgba($row_highlight_color, 0.5);
                 &.active_row {
                     border-width: 2px;
                     border-color: $row_highlight_color;
@@ -807,6 +829,48 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
                         text-align: right;
                     }
                 }
+            }
+        }
+    }
+
+    .progress-wrapper {
+        margin-top: 0.5em;
+
+        display: flex;
+        align-items: center;
+        align-content: center;
+    
+        .progress-bar {
+            margin-left: 1em;
+            width: 20em;
+            padding: 2px;
+
+            border-style: solid;
+            border-radius: 3px;
+            border-width: 1px;
+            border-color: $tooltip-border-color;
+
+            background-color: $tooltip-background-color !important;
+            background-image: none !important;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+        }
+        
+        .progress-bar-fill {
+            display: inline-block;
+
+            height: 3px;
+            border-radius: 3px;
+
+            background-color: $row_highlight_color;
+            
+            transition: width 1000ms linear;
+        }
+
+        .text_progress {
+            margin-left: 1em;
+
+            .pct {
+                margin-left: 1em;
             }
         }
     }

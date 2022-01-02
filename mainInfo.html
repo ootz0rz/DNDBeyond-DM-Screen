@@ -374,6 +374,13 @@
                         <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
                         <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
                     </span>
+                    <div class='progress-wrapper'>
+                        Time to next update: 
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 100%;"></span></span>
+                        <span class="text_progress">
+                            <span class="curr">100</span>/<span class="total">100</span><span class="pct">100%</span>
+                        </span>
+                    </div>
             </td>
         </tr>
     </tfoot>
@@ -386,6 +393,9 @@
   crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    $("#progress").progressbar({
+      value: 37
+    });
     /*
     var node = $("#gmstats");
     var tableBody = $("#gm_table_body", node);

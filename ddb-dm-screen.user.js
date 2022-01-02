@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.30
+// @version         1.0.31
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -100,6 +100,20 @@ var rulesData = {},
     editableChars = {};
 var mainTable = null;
 var colStatsSubTable = null;
+
+// refresh timer
+// config
+var tockDuration = 1; // in seconds
+
+// state
+var refresh_timeSinceLastRefresh = 0;
+var refresh_currentTimer = null;
+var refresh_autoUpdateNode = null;
+var refresh_isTimerActive = false;
+var refresh_progressBarContents = null;
+var refresh_progressBarCurr = null;
+var refresh_progressBarTotal = null;
+var refresh_progressBarPct = null;
 
 // string format check
 if (!String.prototype.format) {
@@ -246,6 +260,13 @@ var mainTableHTML = `
                         <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
                         <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
                     </span>
+                    <div class='progress-wrapper'>
+                        Time to next update: 
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%;"></span></span>
+                        <span class="text_progress">
+                            <span class="curr"></span>/<span class="total"></span><span class="pct"></span>
+                        </span>
+                    </div>
             </td>
         </tr>
     </tfoot>
@@ -307,15 +328,6 @@ var tableSecondRowHTML = `
             </td>
         </tr>
 `.format(DEFAULT_TOOLTIP_PLACEMENT);
-
-var currencyHTML = `
-    <div class="gs-camp-currency">
-      <div class="gs-value gs-currency-value">
-        <span class="gs-prefix gs-currency-prefix"></span><span class="gs-number gs-currency-number"></span>
-      </div>
-      <div class="gs-label gs-currency-label"></div>
-    </div>
-    `;
 
 var a = $("<script>", { type: 'text/javascript', src: 'https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV' });
 a[0].setAttribute("async", "");
@@ -551,6 +563,8 @@ var initalModules = {
             console.log(error);
         });
     }));
+
+    initRefreshTimer();
 })();
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -786,11 +800,11 @@ function updateAllCharData() {
     Promise.all(promises)
         .then(() => {
             updateCampaignData();
+            refreshTimer__checkShouldStart(refresh_autoUpdateNode);
         }).catch((error) => {
             console.log(error);
         });
 
-    startRefreshTimer();
     console.log("Updated All Char Data");
 }
 
@@ -875,19 +889,130 @@ function retriveCharacterRule(charId, ruleID) {
     });
 }
 
-function startRefreshTimer() {
-    //get timeout value
-    let refreshTime = parseInt($('input[name ="gs-auto-duration"]').val());
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//        Refresh timer
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function initRefreshTimer() {
+    console.log('[0] init refresh timer');
+
+    var controls = $(".gs-controls");
+
+    refresh_autoUpdateNode = $('input[name ="gs-auto-update"]', controls);
+    minTimeNode = $('input[name ="gs-auto-duration"]', controls);
+
+    var pbar = $(".progress-wrapper", controls);
+    refresh_progressBarContents = $(".progress-bar-fill", pbar);
+    refresh_progressBarCurr = $(".curr", pbar);
+    refresh_progressBarTotal = $(".total", pbar);
+    refresh_progressBarPct = $(".pct", pbar);
+
+    console.log('[1] init refresh timer',
+        '\ninputs', autoUpdateNode, minTimeNode,
+        '\npbar contents', refresh_progressBarContents,
+        '\npbar curr/total', refresh_progressBarCurr, refresh_progressBarTotal
+    );
+
+    refresh_autoUpdateNode.change(() => {
+        refreshTimer__checkShouldStart(refresh_autoUpdateNode);
+    });
+
+    refreshTimer__checkShouldStart(refresh_autoUpdateNode);
+}
+
+function refreshTimer__checkShouldStart(node) {
+    var $node = $(node);
+    let val = parseBool($node.prop("checked"));
+
+    // console.log('refreshTimer__checkShouldStart', $node, val);
+
+    if (val) {
+        refreshTimer_start();
+    } else {
+        refreshTimer_end();
+    }
+}
+
+function refreshTimer_start() {
+    var isActive = refreshTimer_isActive();
+    // console.log("refreshTimer_start: ", isActive);
+    if (isActive) {
+        refreshTimer_end();
+    }
+
+    refreshTimer_setActive(true);
+    refresh_timeSinceLastRefresh = 0;
+    refreshTimer_tockNext();
+}
+
+function refreshTimer_end() {
+    var isActive = refreshTimer_isActive();
+    // console.log("refreshTimer_end: ", isActive);
+    if (!isActive) {
+        return;
+    }
+
+    clearTimeout(refresh_currentTimer);
+    refresh_timeSinceLastRefresh = 0;
+    refresh_currentTimer = null;
+    refreshTimer_setActive(false);
+
+    refreshTimer_updatePbar();
+}
+
+function refreshTimer_isActive() {
+    return refresh_isTimerActive;
+}
+
+function refreshTimer_setActive(newState) {
+    refresh_isTimerActive = newState;
+}
+
+function refreshTimer_tock() {
+    refresh_timeSinceLastRefresh += tockDuration * 1000;
+
+    var minTime = refreshTimer_getMinTime();
+    var isActive = refreshTimer_isAutoUpdateActive();
+
+    // console.log('refreshTimer_tock', 
+    //     'isActive:', isActive,
+    //     'minTime:', minTime / 1000,
+    //     'timeSinceLast:', timeSinceLastRefresh / 1000
+    // );
+
+    if (refresh_timeSinceLastRefresh <= minTime || !isActive) {
+        refreshTimer_tockNext();
+        return;
+    }
+
+    updateAllCharData();
+}
+
+function refreshTimer_tockNext() {
+    refreshTimer_updatePbar();
+    refresh_currentTimer = setTimeout(refreshTimer_tock, tockDuration * 1000);
+}
+
+function refreshTimer_getMinTime() {
+    let refreshTime = _getGMValueOrDefault("-updateDuration", 30);
     let refreshTimeMiliSecs = refreshTime * 1000;
-    console.log("Starting Refresh Timer: " + refreshTime);
-    setTimeout(function () {
-        //only refresh when checkbox is checked
-        if ($('input[name ="gs-auto-update"]').is(':checked')) {
-            updateAllCharData();
-        } else {
-            startRefreshTimer();
-        }
-    }, refreshTimeMiliSecs);
+
+    return refreshTimeMiliSecs;
+}
+
+function refreshTimer_isAutoUpdateActive() {
+    return refresh_autoUpdateNode.is(':checked');
+}
+
+function refreshTimer_updatePbar() {
+    var minTime = refreshTimer_getMinTime();
+    var curTime = refresh_timeSinceLastRefresh;
+    var pct = Math.floor(curTime / minTime * 100);
+
+    refresh_progressBarContents.attr('style', "width: {0}%;".format(pct))
+    refresh_progressBarCurr.html(Math.round(curTime / 1000));
+    refresh_progressBarTotal.html(Math.round(minTime / 1000));
+    refresh_progressBarPct.html("{0}%".format(Math.round(pct)));
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -900,6 +1025,7 @@ function insertCampaignElements() {
     insertControls(campaignNode);
     // insertVisibilityControls(campaignNode, campaignPrefix);
     // insertStoredElements(campaignNode, campaignPrefix);
+
 }
 
 function insertControls(parent) {
@@ -936,10 +1062,18 @@ function insertControls(parent) {
 
     autoUpdate.change(function () {
         let val = parseBool($(this).prop("checked"));
+        console.log('autoupdate change for save: ', autoUpdate, val);
         _setGMValue("-autoUpdate", val);
     });
     autoDuration.change(function () {
         let val = parseIntSafe($(this).val());
+
+        // set a reasonable lower bound
+        if (val <= 10) {
+            $(this).val(10);
+            val = 10;
+        }
+
         _setGMValue("-updateDuration", val);
     });
     fontSize.change(function () {
