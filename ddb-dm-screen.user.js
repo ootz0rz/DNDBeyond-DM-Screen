@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.33
+// @version         1.0.34
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
