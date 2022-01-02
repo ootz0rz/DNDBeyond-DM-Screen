@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.39
+// @version         1.0.40
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -317,7 +317,7 @@ var tableRowHTML = `
 
 var tableSecondRowHTML = `
         <tr id="_details" class="active_row second_row">
-            <td class='col_details' colspan="13">
+            <td class='col_details' colspan="14">
                 <table class="table detailstable font_normal secondary">
                     <tbody>
                         <tr>
