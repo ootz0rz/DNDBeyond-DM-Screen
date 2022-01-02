@@ -11389,6 +11389,13 @@ textarea.form-control-lg {
 }
 #gmstats .hide {
   visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+#gmstats tr, #gmstats td, #gmstats th, #gmstats div, #gmstats span, #gmstats hr {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
 }
 #gmstats table.font_smallest {
   font-size: 0.5rem;
@@ -11405,14 +11412,19 @@ textarea.form-control-lg {
 #gmstats table.font_biggest {
   font-size: 1.5rem;
 }
-#gmstats table.stattable {
+#gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
   color: whitesmoke;
   padding: 0;
   margin: 0;
 }
-#gmstats table.stattable tr, #gmstats table.stattable th, #gmstats table.stattable td {
+#gmstats table.stattable tr, #gmstats table.stattable th, #gmstats table.stattable td, #gmstats table.detailstable tr, #gmstats table.detailstable th, #gmstats table.detailstable td {
   border: 0 !important;
+}
+#gmstats table.table th.col_stat,
+#gmstats table.table td.col_details {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 #gmstats table.stattable th {
   color: grey;
@@ -11427,10 +11439,6 @@ textarea.form-control-lg {
 }
 #gmstats table.stattable th .prof {
   color: cyan;
-}
-#gmstats table.table th.col_stat {
-  padding: 0 !important;
-  margin: 0 !important;
 }
 #gmstats table.table th.col_stat, #gmstats table.table td.col_stat, #gmstats table.stattable th.col_stat, #gmstats table.stattable td.col_stat {
   width: 0%;
@@ -11486,19 +11494,34 @@ textarea.form-control-lg {
 }
 #gmstats table.table tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
+  visibility: visible;
+  opacity: 1;
+  transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
 }
-#gmstats table.table tbody tr.hover_row td.col_name .name:hover {
+#gmstats table.table tbody tr.active_row.first_row tr tr, #gmstats table.table tbody tr.active_row.first_row tr td, #gmstats table.table tbody tr.active_row.first_row tr th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td tr, #gmstats table.table tbody tr.active_row.first_row td td, #gmstats table.table tbody tr.active_row.first_row td th, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th tr, #gmstats table.table tbody tr.active_row.first_row th td, #gmstats table.table tbody tr.active_row.first_row th th, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row {
+  border-bottom-width: 1px;
+  border-bottom-style: dotted !important;
+}
+#gmstats table.table tbody tr.active_row.second_row tr tr, #gmstats table.table tbody tr.active_row.second_row tr td, #gmstats table.table tbody tr.active_row.second_row tr th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td tr, #gmstats table.table tbody tr.active_row.second_row td td, #gmstats table.table tbody tr.active_row.second_row td th, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th tr, #gmstats table.table tbody tr.active_row.second_row th td, #gmstats table.table tbody tr.active_row.second_row th th, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row {
+  border-top-width: 1px;
+  border-top-style: dotted !important;
+}
+#gmstats table.table tbody tr td.col_name .name:hover {
   cursor: pointer;
   color: black !important;
   background-color: #ffdc41;
 }
 #gmstats table.table hr {
+  color: grey;
   border: none;
   height: 1px;
   padding: 0;
   margin: 0;
   margin-top: 0.35em;
   margin-bottom: 0.35em;
+  font-style: normal;
+  text-decoration: none;
+  font-weight: normal;
 }
 #gmstats table.table .dropdown {
   color: #212529;
@@ -11682,6 +11705,9 @@ textarea.form-control-lg {
 #gmstats table.table th.col_skills span.noprof, #gmstats table.table td.col_skills span.noprof {
   color: grey;
   display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
 }
 #gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom {
   font-style: italic;

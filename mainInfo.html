@@ -32,7 +32,7 @@
                 Sens<span>es</span>
             </th>
             <th colspan="6" class="col_stat">
-                <table class="table stattable font_normal">
+                <table class="table stattable font_normal secondary">
                     <thead>
                         <tr class="stat_types">
                             <th class="stat_types" colspan="6">
@@ -266,8 +266,8 @@
             <td class="col_skills">acrobatics, deception, insight, performance, persuasion, stealth</td>
             <td class="col_languages">common, dwarvish, elvish, celestial</td>
         </tr>
-        <tr>
-            <td class="col_name">
+        <tr id="player_id" class="active_row first_row">
+            <td class="col_name" rowspan="2">
                 <span class="name"></span><span class="inspiration hide">🎲</span>
                 <span class="links"><a href="#" class="edit"></a><a href="#" class="view"></a></span><br/>
                 <span class="exhaust"><span></span>- - - - - -</span><br/>
@@ -298,8 +298,26 @@
                 <span class="spc"><span class="sp"></span> sp </span>
                 <span class="cpc"><span class="cp"></span> cp </span>
             </td>
-            <td class="col_skills"></td>
-            <td class="col_languages"></td>
+            <td class="col_skills hide"></td>
+            <td class="col_languages" colspan="2"></td>
+        </tr>
+        <tr id="player_id_details" class="active_row second_row">
+            <td class='col_details' colspan="13">
+                <table class="table detailstable font_normal secondary">
+                    <tbody>
+                        <tr>
+                            <td class='col_skills' colspan="2"><span class="c prof high">Acrobatics <span class="value">+4</span></span> <span class="c noprof normal">Animal Handling <span class="value">+0</span></span> <span class="c noprof high">Arcana <span class="value">+1</span></span> <span class="c noprof low">Athletics <span class="value">-1</span></span> <span class="c prof high">Deception <span class="value">+5</span></span> <span class="c noprof high">History <span class="value">+1</span></span> <span class="c prof high">Insight <span class="value">+2</span></span> <span class="c noprof high">Intimidation <span class="value">+3</span></span> <span class="c noprof high">Investigation <span class="value">+1</span></span> <span class="c noprof normal">Medicine <span class="value">+0</span></span> <span class="c noprof high">Nature <span class="value">+1</span></span> <span class="c noprof normal">Perception <span class="value">+0</span></span> <span class="c prof high">Performance <span class="value">+5</span></span> <span class="c prof high">Persuasion <span class="value">+5</span></span> <span class="c noprof high">Religion <span class="value">+1</span></span> <span class="c prof high">Sleight of Hand <span class="value">+4</span></span> <span class="c prof high">Stealth <span class="value">+4</span></span> <span class="c noprof normal">Survival <span class="value">+0</span></span></td>
+                        </tr>
+                        <tr>
+                            <td class='col_defimm'>
+                                <div class='def'>Def: <span class='list'><span>Poison</span></span></div>
+                                <div class='imm'>Imm: <span class='list'><span>Disease</span> <span>Poison</span></span></div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
         </tr>
     </tbody>
     <tfoot>
@@ -368,20 +386,36 @@
   crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    /*
     var node = $("#gmstats");
     var tableBody = $("#gm_table_body", node);
+    var mainTable = $("table.primary", node);
 
-    $('td', tableBody).hover(
+    function isParentTableValid($t) {
+        var parentTable = $t.parents('table');
+        return parentTable.length == mainTable.length 
+            && parentTable.length > 0
+            && parentTable[0] == mainTable[0];
+    }
+
+    $('td', mainTable).hover(
         function () {
-            var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')', tableBody).addClass('hover_col');
-            $('th:nth-child(' + i + ')', tableBody).addClass('hover_col');
-            $(this).parent().addClass('hover_row');
+            var $t = $(this);
+            if (!isParentTableValid($t)) return;
+
+            var i = parseInt($t.index()) + 1;
+            $('td:nth-child(' + i + ')', mainTable).addClass('hover_col');
+            $('th:nth-child(' + i + ')', mainTable).addClass('hover_col');
+            $t.parent().addClass('hover_row');
         },
         function () {
-            var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')', tableBody).removeClass('hover_col');
-            $('th:nth-child(' + i + ')', tableBody).removeClass('hover_col');
-            $(this).parent().removeClass('hover_row');
+            var $t = $(this);
+            if (!isParentTableValid($t)) return;
+
+            var i = parseInt($t.index()) + 1;
+            $('td:nth-child(' + i + ')', mainTable).removeClass('hover_col');
+            $('th:nth-child(' + i + ')', mainTable).removeClass('hover_col');
+            $t.parent().removeClass('hover_row');
         });
+        */
 </script>

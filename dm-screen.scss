@@ -342,7 +342,16 @@ $tooltip-border-color: $tooltip-base-color;//lighten($gm_c_dark_gold, 10%);
 $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
 
 #gmstats {
-    .hide {visibility: hidden;}
+    .hide {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s linear, opacity 0.3s linear;
+    }
+    tr,td,th,div,span,hr {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.3s linear,opacity 0.3s linear;
+    }
 
     background-color: $gm_background;
     color: $gm_primary_font_color;
@@ -354,8 +363,9 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
         &.font_big { font-size: $font_big; }
         &.font_biggest { font-size: $font_biggest; }
 
-        // stat column stuff
-        &.stattable {
+        // -------------------
+        // sub tables
+        &.stattable,&.detailstable {
             background-color: $gm_background;
             color: $gm_primary_font_color;
             padding: 0;
@@ -364,7 +374,26 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
             tr, th, td {
                 border: 0 !important;
             }
+        }
+        &.table {
+            th.col_stat, 
+            td.col_details {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
 
+        // simply tells us what the primary table is
+        &.primary {}
+
+        // a sub table of some sort
+        &.secondary {}
+        // end sub tables
+        // -------------------
+
+        // -------------------
+        // stat column stuff
+        &.stattable {
             th {
                 color: $gm_c_bright_black;
                 
@@ -378,11 +407,6 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
 
                 .prof {color: $gm_c_cyan;}
             }
-        }
-
-        &.table th.col_stat {
-            padding: 0 !important;
-            margin: 0 !important;
         }
 
         &.table, &.stattable {
@@ -406,6 +430,7 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
             }
         }
         // end stat column stuff
+        // -------------------
     
         &.table {
             color: $gm_primary_font_color;
@@ -458,51 +483,84 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
                     }
                 }
 
-                // used for when a row is "expanded"
+                // used for when a row is "expanded" to show details
+                $row_highlight_color: $gm_c_bright_yellow;
+                $faded_border_color: rgba($row_highlight_color, 0.5);
                 &.active_row {
                     border-width: 2px;
-                    border-color: $gm_c_bright_yellow;
+                    border-color: $row_highlight_color;
 
                     td {
                         &.col_name {
                             .name {
-                                color: $gm_c_bright_yellow;
+                                color: $row_highlight_color;
                             }
                         }
                         &.col_skills {
                             span {
                                 &.noprof {
                                     display: inline !important;
+                                    // position: relative;
+                                    visibility: visible;
+                                    opacity: 1;
+                                    transition: display 0.3s linear,visibility 0.3s linear,opacity 0.3s linear;
                                 }
                             }
                         }
+                    }
+
+                    @mixin details-border($side, $color) {
+                        tr,td,th,& {
+                            border-#{$side}-width: 1px;
+                            // border-#{$side}-color: $color;
+                            border-#{$side}-style: dotted !important;
+                        }                        
+                    }
+                    &.first_row {
+                        tr,td,th,& {
+                            @include details-border(bottom, $faded_border_color);
+                        }
+                    }
+                    &.second_row {
+                        tr,td,th,& {
+                            @include details-border(top, $faded_border_color);
+                        }
+                    }
+                }
+                &.second_row {
+                    .col_details {
+                        
                     }
                 }
 
                 // when a row is hovered, and user goes over the name,
                 // make it look clickable to toggle active_row
-                &.hover_row {
-                    td {
-                        &.col_name {
-                            .name {
-                                &:hover {
-                                    cursor: pointer;
-                                    color: $gm_c_black !important;
-                                    background-color: $gm_c_bright_yellow;
-                                }
+                // &.hover_row {
+                td {
+                    &.col_name {
+                        .name {
+                            &:hover {
+                                cursor: pointer;
+                                color: $gm_c_black !important;
+                                background-color: $gm_c_bright_yellow;
                             }
                         }
                     }
                 }
+                // }
             }
 
             hr {
+                color: $gm_c_bright_black;
                 border: none;
                 height: 1px;
                 padding: 0;
                 margin: 0;
                 margin-top: 0.35em;
                 margin-bottom: 0.35em;
+                font-style: normal;
+                text-decoration: none;
+                font-weight: normal;
             }
 
             .dropdown {
@@ -702,6 +760,10 @@ $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$
                         &.noprof {
                             color: $gm_c_bright_black;
                             display: none;
+                            // position: absolute;
+                            visibility: hidden;
+                            opacity: 0;
+                            transition: display 0.3s linear,visibility 0.3s linear,opacity 0.3s linear;
                         }
                         &.custom {
                             font-style: italic;

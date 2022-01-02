@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.29
+// @version         1.0.30
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -88,6 +88,8 @@ const HIDE_CLASS = 'hide';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
 const DEFAULT_TOOLTIP_PLACEMENT = 'top';
+const ACTIVE_FIRST_ROW_CLASS = 'first_row';
+const ACTIVE_SECOND_ROW_CLASS = 'second_row';
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -289,6 +291,20 @@ var tableRowHTML = `
             </td>
             <td class="col_skills"></td>
             <td class="col_languages"></td>
+        </tr>
+`.format(DEFAULT_TOOLTIP_PLACEMENT);
+
+var tableSecondRowHTML = `
+        <tr id="_details" class="active_row second_row">
+            <td class='col_details' colspan="13">
+                <table class="table detailstable font_normal secondary">
+                    <tbody>
+                        <tr>
+                            <td class='col_skills' colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
         </tr>
 `.format(DEFAULT_TOOLTIP_PLACEMENT);
 
@@ -654,43 +670,79 @@ function insertElements() {
     var tableBody = $("#gm_table_body", node);
 
     for (let id in charactersData) {
+        var cdata = charactersData[id].data;
+
+        // primary row
         var row = $(tableRowHTML);
         var playerid = _genPlayerId(id);
         row.attr("id", playerid);
-        tableBody.append(row);
+        row.attr("charname", cdata['name']);
 
+        // second row
+        var secondrow = $(tableSecondRowHTML);
+        var secondRowId = _genSecondRowID(playerid);
+        secondrow.attr("id", secondRowId);
+        secondrow.addClass(HIDE_CLASS); // hidden by default
+
+        // add rows
+        tableBody.append(row);
+        tableBody.append(secondrow);
+
+        // setup refs
         charactersData[id].node = row;
+        charactersData[id].node_details = secondrow;
 
         row.addClass(charactersData[id].type);
+        secondrow.addClass(charactersData[id].type);
     };
 
     // highlight hover
-    $('td', tableBody).hover(
+    // TODO another thing that doesn't work very well with all the subtables and such...
+    /*
+    function isParentTableValid($t) {
+        var parentTable = $t.parents('table');
+        return (
+            parentTable.length == mainTable.length 
+            && parentTable.length > 0
+            && parentTable[0] == mainTable[0]);
+    }
+
+    $('td', mainTable).hover(
         function () {
-            var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')', tableBody).addClass('hover_col');
-            $('th:nth-child(' + i + ')', tableBody).addClass('hover_col');
-            $(this).parent().addClass('hover_row');
+            var $t = $(this);
+            if (!isParentTableValid($t)) return;
+
+            var i = parseInt($t.index()) + 1;
+            $('td:nth-child(' + i + ')', mainTable).addClass('hover_col');
+            $('th:nth-child(' + i + ')', mainTable).addClass('hover_col');
+            $t.parent().addClass('hover_row');
         },
         function () {
-            var i = parseInt($(this).index()) + 1;
-            $('td:nth-child(' + i + ')', tableBody).removeClass('hover_col');
-            $('th:nth-child(' + i + ')', tableBody).removeClass('hover_col');
-            $(this).parent().removeClass('hover_row');
+            var $t = $(this);
+            if (!isParentTableValid($t)) return;
+
+            var i = parseInt($t.index()) + 1;
+            $('td:nth-child(' + i + ')', mainTable).removeClass('hover_col');
+            $('th:nth-child(' + i + ')', mainTable).removeClass('hover_col');
+            $t.parent().removeClass('hover_row');
         });
+    */
 
     // set row as active when character name is clicked
     $('td.col_name .name', tableBody).click(function () {
         var node = $(this);
         var row = node.parent().parent();
+
+        // toggle right away on click to check active status for everything else
         row.toggleClass(ACTIVE_ROW_CLASS);
 
-        var isActive = row.hasClass(ACTIVE_ROW_CLASS);
         var playerid = row.attr('id');
+        var isActive = row.hasClass(ACTIVE_ROW_CLASS);
 
+        // save right away on click
         _setGMValue(ACTIVE_ROW_VAR_NAME_PREFIX + playerid, isActive);
 
-        updateNameTooltip($(".name", row), isActive);
+        updateRowIfShouldBeActive(row);
     });
 }
 
@@ -875,6 +927,7 @@ function insertControls(parent) {
     fontSize.val(fontSizeSettingLoaded).change();
     onFontSizeChange(mainTable, fontSizeSettingLoaded);
     onFontSizeChange(colStatsSubTable, fontSizeSettingLoaded);
+    onFontSizeChange($("table.secondary", mainTable), fontSizeSettingLoaded);
 
     displayDeactive.prop('checked', displayDeactiveSettingLoaded);
     displayUnassigned.prop('checked', displayUnassignedSettingLoaded);
@@ -895,6 +948,7 @@ function insertControls(parent) {
 
         onFontSizeChange(mainTable, val);
         onFontSizeChange(colStatsSubTable, val);
+        onFontSizeChange($("table.secondary", mainTable), val);
     });
 
     displayDeactive.change(function () {
@@ -934,7 +988,9 @@ function onDisplayTypeChange(type, newval) {
 
 function updateCampaignData() {
     // sort table by char name
-    sortTable(mainTable, 'asc');
+    // sortTable(mainTable, 'asc');
+    // TODO maybe readd table sort later... gotta figure out a way to make it not
+    //      suck out sub-table rows into the main table
 
     // calc totals
     var totalsRow = $("#totals", mainTable);
@@ -984,10 +1040,11 @@ function updateCampaignData() {
 function updateElementData(allCharData, charId) {
     const character = allCharData.data;
     const parent = allCharData.node;
+    const parent_secondrow = allCharData.node_details;
 
     console.log('update info: ', charId, character);
 
-    updateRowIfShouldBeActive(parent, charId);
+    updateRowIfShouldBeActive(parent);
 
     updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
@@ -997,17 +1054,40 @@ function updateElementData(allCharData, charId) {
     updateAbilties(parent, character.abilities);
     updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
     updateMoney(parent, character.currencies);
-    updateSkillProfs(parent, character.skills, character.customSkills);
+    updateSkillProfs(parent, parent_secondrow, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
 }
 
-function updateRowIfShouldBeActive(parent, charId) {
-    var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + _genPlayerId(charId), false);
+function updateRowIfShouldBeActive(primaryRow) {
+    var playerId = primaryRow.attr('id');
+    var secondrow = $('#{0}'.format(_genSecondRowID(playerId)), primaryRow.parent());
+    
+    var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
+
+    // console.log('update row, player:', playerId, '\nprimary', primaryRow, '\nsecond', secondrow, '\nisActive', isActive);
     if (isActive) {
-        parent.addClass(ACTIVE_ROW_CLASS);
+        // show details
+        primaryRow.addClass(ACTIVE_ROW_CLASS);
+        primaryRow.addClass(ACTIVE_FIRST_ROW_CLASS);
+
+        secondrow.removeClass(HIDE_CLASS);
+
+        $('td.col_name', primaryRow).attr('rowspan', '2');
+        $('td.col_skills', primaryRow).addClass(HIDE_CLASS);
+        $('td.col_languages', primaryRow).attr('colspan', '2');
+    } else {
+        // hide details
+        primaryRow.removeClass(ACTIVE_ROW_CLASS);
+        primaryRow.removeClass(ACTIVE_FIRST_ROW_CLASS);
+
+        secondrow.addClass(HIDE_CLASS);
+
+        $('td.col_name', primaryRow).attr('rowspan', '1');
+        $('td.col_skills', primaryRow).removeClass(HIDE_CLASS);
+        $('td.col_languages', primaryRow).attr('colspan', '1');
     }
 
-    updateNameTooltip($(".name", parent), isActive);
+    updateNameTooltip($(".name", primaryRow), isActive);
 }
 
 function updateNameTooltip(node, activeState) {
@@ -1378,7 +1458,7 @@ function updateCurrencyVis(c, cval, val, hideClass = HIDE_CLASS) {
     cval.html(val);
 }
 
-function updateSkillProfs(parent, skills, customs) {
+function updateSkillProfs(parent, parent_secondrow, skills, customs) {
     function skillSort(x, y) {
         if (x.name < y.name) return -1;
         if (x.name > y.name) return 1;
@@ -1392,6 +1472,10 @@ function updateSkillProfs(parent, skills, customs) {
     
     var skillsnode = $(".col_skills", parent);
     skillsnode.html(everything.join(" "));
+
+    // copy to details row as well
+    var skillsnode_details = $(".col_skills", parent_secondrow);
+    skillsnode_details.html(skillsnode.html());
 }
 
 function genSkillsArray(skills, isCustom=false) {
@@ -1774,4 +1858,8 @@ function _setGMValue(name, val) {
 
 function _genPlayerId(id) {
     return "player-" + id;
+}
+
+function _genSecondRowID(firstRowID) {
+    return firstRowID + "_details";
 }
