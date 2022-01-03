@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.44
+// @version         1.0.45
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -164,9 +164,9 @@ var mainTableHTML = `
                 <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
             <th class="col_ac" rowspan="2">
-                <span title="Armor Class">AC</span>
+                <span role="tooltip" data-microtip-position="right" aria-label="Armor Class">AC</span>
                 <hr />
-                <div title="Initiative" class="init">Initiative</div>
+                <div class="init" role="tooltip" data-microtip-position="right" aria-label="Initiative">Init</div>
             </th>
             <th class="col_speed" rowspan="2">
                 <span>Sp</span>eed<hr />
@@ -186,15 +186,6 @@ var mainTableHTML = `
             <th class="col_money" rowspan="2"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills" rowspan="2"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
             <th class="col_languages" rowspan="2">Languages</th>
-        </tr>
-        <tr>
-            <th class="col_stat stat_title b_left"></th>
-            <th class="col_stat stat_title"><div class="stat">STR</div></th>
-            <th class="col_stat stat_title"><div class="stat">DEX</div></th>
-            <th class="col_stat stat_title"><div class="stat">CON</div></th>
-            <th class="col_stat stat_title"><div class="stat">INT</div></th>
-            <th class="col_stat stat_title"><div class="stat">WIS</div></th>
-            <th class="col_stat stat_title b_right"><div class="stat">CHA</div></th>
         </tr>
     </thead>
     <tbody id="gm_table_body">
@@ -296,6 +287,7 @@ var tableRowHTML = `
             </td>
             <td class="col_speed"></td>
             <td class="col_stat col_titles b_left">
+                <div class="stat_title">&nbsp;</div>
                 <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">AS</span><br/>
                 <span role="tooltip" data-microtip-position="{0}" aria-label="Bonus">B</span><br/>
                 <span role="tooltip" data-microtip-position="{0}" aria-label="Save">S</span></td>
@@ -1520,6 +1512,9 @@ function updateAbilties(parent, abilities) {
         var cell = $(cellName, parent);
         cell.empty();
 
+        // title
+        cell.append('<div class="stat_title">{0}</div>'.format(abilityKey))
+
         // stat
         cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore));//, insertTooltipAttributes(abilityKey + ' score')));
 
@@ -1548,8 +1543,6 @@ function updateAbilties(parent, abilities) {
         // if (isprof || mod != save) {
             cell.append("<span class='{0}' {3}>{1}{2}</span><br />".format(color, getSign(save), Math.abs(save)));//, insertTooltipAttributes(abilityKey + ' save')));
         // }
-
-        cell.append('<div class="stat_title">{0}</div>'.format(abilityKey))
     });
 }
 

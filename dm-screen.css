@@ -11386,6 +11386,7 @@ textarea.form-control-lg {
 #gmstats {
   background-color: #212529;
   color: whitesmoke;
+  line-height: 1.2;
 }
 #gmstats .hide {
   visibility: hidden;
@@ -11396,6 +11397,9 @@ textarea.form-control-lg {
   visibility: visible;
   opacity: 1;
   transition: visibility 0.3s linear, opacity 0.3s linear;
+}
+#gmstats table {
+  margin-bottom: 0;
 }
 #gmstats table.font_smallest {
   font-size: 0.5rem;
@@ -11502,6 +11506,8 @@ textarea.form-control-lg {
 #gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table th .stat_title, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.table td .stat_title, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable th .stat_title, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types, #gmstats table.stattable td .stat_title {
   vertical-align: middle;
   text-align: center;
+}
+#gmstats table.table th.stat_title, #gmstats table.table th .stat_title, #gmstats table.table td.stat_title, #gmstats table.table td .stat_title, #gmstats table.stattable th.stat_title, #gmstats table.stattable th .stat_title, #gmstats table.stattable td.stat_title, #gmstats table.stattable td .stat_title {
   font-size: 65%;
 }
 #gmstats table.table th div.stat_title, #gmstats table.table td div.stat_title, #gmstats table.stattable th div.stat_title, #gmstats table.stattable td div.stat_title {
@@ -11586,6 +11592,11 @@ textarea.form-control-lg {
 #gmstats table.table th {
   vertical-align: top;
   font-weight: normal;
+}
+#gmstats table.table th.col_ac {
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
+  text-align: center;
 }
 #gmstats table.table th, #gmstats table.table td {
   width: 0%;
@@ -11699,9 +11710,6 @@ textarea.form-control-lg {
 #gmstats table.table th.col_ac .init, #gmstats table.table td.col_ac .init {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   position: relative;
-  width: 1em;
-  top: 2.7em;
-  transform: rotate(-90deg);
 }
 #gmstats table.table th.col_speed, #gmstats table.table td.col_speed {
   color: grey;

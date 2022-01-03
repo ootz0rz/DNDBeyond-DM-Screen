@@ -362,7 +362,11 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
     background-color: $gm_background;
     color: $gm_primary_font_color;
 
+    line-height: 1.2;
+
     table {
+        margin-bottom: 0;
+
         // -------------------
         // font sizes
         // &.font_smallest { font-size: $font_smallest; }
@@ -479,8 +483,12 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                 &.stat_title, &.stat_types, .stat_title {
                     vertical-align: middle;
                     text-align: center;
+                }
+
+                &.stat_title, .stat_title {
                     font-size: 65%;
                 }
+
                 div.stat_title {
                     margin: 0;
                     padding: 0;
@@ -637,6 +645,12 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
             th {
                 vertical-align: top;
                 font-weight: normal;
+
+                &.col_ac {
+                    padding-left: 0.1rem;
+                    padding-right: 0.1rem;
+                    text-align: center;
+                }
             }
 
             th,td {
@@ -754,10 +768,11 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                         font-family: $font-family-sans-serif !important;
 
                         position: relative;
-                        width: 1em;
+                        // width: 1em;
                         // top: -0.25em;
-                        top: 2.7em;
-                        transform: rotate(-90deg);
+                        // top: 2.7em;
+                        // transform: rotate(-90deg);
+                        // font-size: 65%;
                     }
                 }
 
