@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.43
+// @version         1.0.44
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -227,6 +227,7 @@ var mainTableHTML = `
         <tr>
             <td colspan="15" class='gs-controls'>
                 <span class="gs-form-field gs-form-field-number gs-row-container set">
+                    <label class="" for="gs-font-size">Font:</label>
                     <select name="gs-font-size" id="gs-font-size" class='dropdown selectpicker font_size'>
                         <option disabled selected>Font Size</option>
                         <option value='0'>smallest</option>
