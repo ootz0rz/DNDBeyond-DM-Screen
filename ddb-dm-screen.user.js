@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.42
+// @version         1.0.43
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -264,9 +264,9 @@ var mainTableHTML = `
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
                         <span class="text_progress">
-                            <span class="curr">100</span>/<span class="total">100</span>s<span class="pct">100%</span>
+                            <span class="curr"></span><span class="total">0</span>s<span class="pct"></span>
                         </span>
-                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 100%;"></span></span>
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%;"></span></span>
                     </span>
                 </span>
             </td>
@@ -1014,9 +1014,10 @@ function refreshTimer_updatePbar() {
     var pct = Math.floor(curTime / minTime * 100);
 
     refresh_progressBarContents.attr('style', "width: {0}%;".format(pct))
-    refresh_progressBarCurr.html(Math.round(curTime / 1000));
-    refresh_progressBarTotal.html(Math.round(minTime / 1000));
-    refresh_progressBarPct.html("{0}%".format(Math.round(pct)));
+    // refresh_progressBarCurr.html(Math.round(curTime / 1000));
+    // refresh_progressBarCurr.html();
+    refresh_progressBarTotal.html(Math.round((minTime - curTime) / 1000));
+    // refresh_progressBarPct.html("{0}%".format(Math.round(pct)));
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
