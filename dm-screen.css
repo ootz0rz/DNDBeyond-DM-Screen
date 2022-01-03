@@ -11405,6 +11405,7 @@ textarea.form-control-lg {
 }
 #gmstats table.font_smallest .btn {
   font-size: 0.5rem !important;
+  padding: 0.28125rem 0.5625rem;
 }
 #gmstats table.font_small {
   font-size: 0.75rem;
@@ -11414,6 +11415,7 @@ textarea.form-control-lg {
 }
 #gmstats table.font_small .btn {
   font-size: 0.75rem !important;
+  padding: 0.28125rem 0.5625rem;
 }
 #gmstats table.font_normal {
   font-size: 1rem;
@@ -11423,6 +11425,7 @@ textarea.form-control-lg {
 }
 #gmstats table.font_normal .btn {
   font-size: 1rem !important;
+  padding: 0.28125rem 0.5625rem;
 }
 #gmstats table.font_big {
   font-size: 1.25rem;
@@ -11432,6 +11435,7 @@ textarea.form-control-lg {
 }
 #gmstats table.font_big .btn {
   font-size: 1.25rem !important;
+  padding: 0.28125rem 0.5625rem;
 }
 #gmstats table.font_biggest {
   font-size: 1.5rem;
@@ -11441,6 +11445,7 @@ textarea.form-control-lg {
 }
 #gmstats table.font_biggest .btn {
   font-size: 1.5rem !important;
+  padding: 0.28125rem 0.5625rem;
 }
 #gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
@@ -11793,12 +11798,42 @@ textarea.form-control-lg {
 #gmstats table.table tfoot td.gs-controls {
   word-wrap: break-word;
   white-space: normal;
+  border-bottom-width: 0px;
+  padding-bottom: 0;
 }
 #gmstats table.table tfoot td.gs-controls .set {
   word-wrap: nowrap;
   white-space: nowrap;
 }
+#gmstats table.table tfoot td.gs-controls .auto_duration {
+  width: 5em;
+}
+#gmstats table.table tfoot td.gs-controls .font_size {
+  width: 9em;
+}
 #gmstats table.table tfoot td.gs-controls .update {
+  float: left;
+}
+#gmstats table.table tfoot td.gs-controls .autoupdateset {
+  float: right;
+}
+#gmstats table.table tfoot td.gs-bottom {
+  text-align: right;
+  padding-top: 0;
+  border-top-width: 0px;
+}
+#gmstats table.table tfoot td.gs-bottom .pbarwrap {
+  display: inline;
+  position: relative;
+  float: right;
+}
+#gmstats table.table tfoot td .form-select, #gmstats table.table tfoot td .form-control {
+  display: inline-block !important;
+  width: auto;
+  height: auto !important;
+  padding: 0 !important;
+}
+#gmstats table.table tfoot td .btn, #gmstats table.table tfoot td .form-select, #gmstats table.table tfoot td .form-control, #gmstats table.table tfoot td label {
   zoom: 0.7;
 }
 #gmstats .progress-wrapper {

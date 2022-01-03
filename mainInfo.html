@@ -351,40 +351,47 @@
         </tr>
         <tr>
             <td colspan="15" class='gs-controls'>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
-                        <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
+                <span class="gs-form-field gs-row-container set">
+                    <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
+                    <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
+                </span>
+                <span class="set">
+                    <span class="">
+                        <label for="gs-auto-duration">Duration (sec):</label>
+                        <input class="form-control auto_duration" type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="secs">
                     </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container set">
-                        <label for="gs-auto-duration"><span>Duration (s)</span></label>
-                        <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
-                    </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container set">
-                        <label for="gs-font-size"><span>Font Size</span></label>
-                        <select name="gs-font-size" id="gs-font-size" class='dropdown'>
-                            <option value='0'>smallest</option>
-                            <option value='1'>small</option>
-                            <option value='2'>normal</option>
-                            <option value='3'>big</option>
-                            <option value='4'>biggest</option>
-                        </select>
-                    </span>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-display-deactive"><span>Display deactive?</span></label>
-                        <input type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
-                    </span>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
-                        <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
-                    </span>
-                    <span class='update set'><a role='button' class='btn btn-outline-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                </span>
+                <span class="gs-form-field gs-form-field-number gs-row-container set">
+                    <select name="gs-font-size" id="gs-font-size" class='dropdown form-select font_size'>
+                        <option disabled selected>Font Size</option>
+                        <option value='0'>smallest</option>
+                        <option value='1'>small</option>
+                        <option value='2'>normal</option>
+                        <option value='3'>big</option>
+                        <option value='4'>biggest</option>
+                    </select>
+                </span>
+                <span class="gs-form-field gs-row-container set">
+                    <input class="btn-check" type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
+                    <label class="btn btn-outline-warning" for="gs-display-deactive">Display Deactive</label>
+                </span>
+                <span class="gs-form-field gs-row-container set">
+                    <input class="btn-check" type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
+                    <label class="btn btn-outline-warning" for="gs-display-unassigned">Display Un-assigned</label>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="15" class="gs-controls gs-bottom">
+                <span class='update set'><a role='button' class='btn btn-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
-                        Time to next update: 
-                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 100%;"></span></span>
                         <span class="text_progress">
-                            <span class="curr">100</span>/<span class="total">100</span><span class="pct">100%</span>
+                            <span class="curr">100</span>/<span class="total">100</span>s<span class="pct">100%</span>
                         </span>
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 100%;"></span></span>
                     </span>
+                </span>
             </td>
         </tr>
     </tfoot>

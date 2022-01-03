@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.40
+// @version         1.0.41
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -214,8 +214,7 @@ var mainTableHTML = `
             <td class="col_stat"></td>
             <td class="col_stat"></td>
             <td class="col_stat b_right"></td>
-            <td class="col_passives"></td>
-            <td class="col_money">
+            <td class="col_money" colspan="2">
                 <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
@@ -223,45 +222,53 @@ var mainTableHTML = `
                 <span class="spc"><span class="sp"></span> sp </span>
                 <span class="cpc"><span class="cp"></span> cp </span>
             </td>
-            <td class="col_skills"></td>
-            <td class="col_languages"></td>
+            <td class="col_languages" colspan="2"></td>
         </tr>
         <tr>
             <td colspan="15" class='gs-controls'>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-auto-update"><span>Auto Update Enabled?</span></label>
-                        <input type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
-                    </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container set">
-                        <label for="gs-auto-duration"><span>Duration (s)</span></label>
-                        <input type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="Duration (secs)">
-                    </span>
-                    <span class="gs-form-field gs-form-field-number gs-row-container set">
-                        <label for="gs-font-size"><span>Font Size</span></label>
-                        <select name="gs-font-size" id="gs-font-size" class='dropdown'>
-                            <option value='0'>smallest</option>
-                            <option value='1'>small</option>
-                            <option value='2'>normal</option>
-                            <option value='3'>big</option>
-                            <option value='4'>biggest</option>
-                        </select>
-                    </span>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-display-deactive"><span>Display deactive?</span></label>
-                        <input type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
-                    </span>
-                    <span class="gs-form-field gs-row-container set">
-                        <label for="gs-display-unassigned"><span>Display unassigned?</span></label>
-                        <input type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
-                    </span>
-                    <span class='update set'><a role='button' class='btn btn-outline-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
-                    <div class='progress-wrapper set'>
-                        Time to next update: 
-                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%;"></span></span>
-                        <span class="text_progress">
-                            <span class="curr"></span>/<span class="total"></span><span class="pct"></span>
+                <span class="gs-form-field gs-form-field-number gs-row-container set">
+                    <select name="gs-font-size" id="gs-font-size" class='dropdown form-select font_size'>
+                        <option disabled selected>Font Size</option>
+                        <option value='0'>smallest</option>
+                        <option value='1'>small</option>
+                        <option value='2'>normal</option>
+                        <option value='3'>big</option>
+                        <option value='4'>biggest</option>
+                    </select>
+                </span>
+                <span class="gs-form-field gs-row-container set">
+                    <input class="btn-check" type="checkbox" name="gs-display-deactive" id="gs-display-deactive" value="false">
+                    <label class="btn btn-outline-warning" for="gs-display-deactive">Display Deactive</label>
+                </span>
+                <span class="gs-form-field gs-row-container set">
+                    <input class="btn-check" type="checkbox" name="gs-display-unassigned" id="gs-display-unassigned" value="false">
+                    <label class="btn btn-outline-warning" for="gs-display-unassigned">Display Un-assigned</label>
+                </span>
+                <span class="autoupdateset">
+                    <span class="set">
+                        <span class="">
+                            <label for="gs-auto-duration">Duration (sec):</label>
+                            <input class="form-control auto_duration" type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="secs">
                         </span>
-                    </div>
+                    </span>
+                    <span class="gs-form-field gs-row-container set">
+                        <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
+                        <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
+                    </span>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="15" class="gs-controls gs-bottom">
+                <span class='update'><a role='button' class='btn btn-outline-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                <span class='pbarwrap'>
+                    <span class='progress-wrapper set'>
+                        <span class="text_progress">
+                            <span class="curr">100</span>/<span class="total">100</span>s<span class="pct">100%</span>
+                        </span>
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 100%;"></span></span>
+                    </span>
+                </span>
             </td>
         </tr>
     </tfoot>
@@ -1155,7 +1162,7 @@ function updateCampaignData() {
 
             var isLastChar = idx == len - 1;
             if (isLastChar) {
-                updateMoney(totalsRow, globalCurrencies);
+                updateMoney(totalsRow, globalCurrencies, showSumOnly=true);
             }
 
             // languages
@@ -1561,7 +1568,8 @@ function updatePassives(parent, passPerception, passInvestigation, passInsight) 
     ));
 }
 
-function updateMoney(parent, currencies) {
+function updateMoney(parent, currencies, showSumOnly=false) {
+    console.log('updateMoney', 'parent:', parent, 'showSumOnly:', showSumOnly);
     // individual vals
     var ppc = $(".ppc", parent);
     var epc = $(".epc", parent);
@@ -1575,11 +1583,11 @@ function updateMoney(parent, currencies) {
     var sp = $(".sp", spc);
     var cp = $(".cp", cpc);
 
-    updateCurrencyVis(ppc, pp, currencies.pp);
-    updateCurrencyVis(epc, ep, currencies.ep);
-    updateCurrencyVis(gpc, gp, currencies.gp);
-    updateCurrencyVis(spc, sp, currencies.sp);
-    updateCurrencyVis(cpc, cp, currencies.cp);
+    updateCurrencyVis(ppc, pp, currencies.pp, showSumOnly);
+    updateCurrencyVis(epc, ep, currencies.ep, showSumOnly);
+    updateCurrencyVis(gpc, gp, currencies.gp, showSumOnly);
+    updateCurrencyVis(spc, sp, currencies.sp, showSumOnly);
+    updateCurrencyVis(cpc, cp, currencies.cp, showSumOnly);
 
     // total gp estimate
     var gpnum = currencies.gp;
@@ -1590,18 +1598,33 @@ function updateMoney(parent, currencies) {
 
     var total = $(".total", $(".col_money", parent));
     var hr = $("hr", $(".col_money", parent));
-    if (gpnum > 0 && gpnum % 1 != 0) {
-        gp.removeClass("gponly");
-        hr.removeClass(HIDE_CLASS);
+
+    if (showSumOnly) {
+        hr.addClass(HIDE_CLASS);
         total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
     } else {
-        gp.addClass("gponly");
-        hr.addClass(HIDE_CLASS);
-        total.empty();
-    }
+        gp.removeClass(HIDE_CLASS);
+        hr.removeClass(HIDE_CLASS);
+
+        if (gpnum > 0 && gpnum % 1 != 0) {
+            gp.removeClass("gponly");
+            hr.removeClass(HIDE_CLASS);
+            total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
+        } else {
+            gp.addClass("gponly");
+            hr.addClass(HIDE_CLASS);
+            total.empty();
+        }
+    } 
 }
 
-function updateCurrencyVis(c, cval, val, hideClass = HIDE_CLASS) {
+function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
+    console.log('updateCurrencyVis forcehide:', forceHide);
+    if (forceHide) {
+        c.addClass(hideClass);
+        return;
+    }
+
     if (val > 0) { c.removeClass(hideClass); }
     else { c.addClass(hideClass); }
     cval.html(val);

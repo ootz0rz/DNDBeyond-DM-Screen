@@ -379,6 +379,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                 }
                 .btn {
                     font-size: $orig_size !important;
+                    padding: 0.375rem * $progress_multi 0.75rem * $progress_multi;
                 }
             }
         }
@@ -878,6 +879,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
             td.col_skills span { white-space: nowrap; }
 
             tfoot {
+                $zoomamt: .7;
                 td {
                     &.col_name {
                         vertical-align: middle;
@@ -893,9 +895,48 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                             white-space: nowrap;
                         }
 
-                        .update {
-                            zoom: 0.7;
+                        .auto_duration {
+                            width: 5em;
                         }
+
+                        .font_size {
+                            width: 9em;
+                        }
+
+                        border-bottom-width: 0px;
+                        padding-bottom: 0;
+
+                        .update {
+                            // position: relative;
+                            float: left;
+                        }
+
+                        .autoupdateset {
+                            float: right;
+                        }
+                    }
+
+                    &.gs-bottom {
+                        text-align: right;
+                        padding-top: 0;
+                        border-top-width: 0px;
+
+                        .pbarwrap {
+                            display: inline;
+                            position: relative;
+                            float: right;
+                        }
+                    }
+
+                    .form-select, .form-control {                        
+                        display: inline-block !important;
+                        width: auto;
+                        height: auto !important;
+                        padding: 0 !important;
+                    }
+
+                    .btn, .form-select, .form-control, label {
+                        zoom: $zoomamt;
                     }
                 }
             }
