@@ -414,7 +414,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
         }
 
         // simply tells us what the primary table is
-        &.primary {}
+        &.primary {
+            width: 99.8%;
+        }
 
         // a sub table of some sort
         &.secondary {}

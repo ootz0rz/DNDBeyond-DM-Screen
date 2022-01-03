@@ -11461,6 +11461,9 @@ textarea.form-control-lg {
   padding: 0 !important;
   margin: 0 !important;
 }
+#gmstats table.primary {
+  width: 99.8%;
+}
 #gmstats table.stattable th {
   color: grey;
 }
