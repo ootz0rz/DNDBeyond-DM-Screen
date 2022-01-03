@@ -410,10 +410,19 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
             }
         }
         &.table {
-            th.col_stat, 
+            // th.col_stat, 
             td.col_details {
                 padding: 0 !important;
                 margin: 0 !important;
+            }
+
+            th.col_stat {
+                .statscore,.bonus,.save {
+                    color: $gm_c_bright_white;
+                    span.letter {
+                        color: $gm_c_bright_black;
+                    }
+                }
             }
         }
 
@@ -434,9 +443,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                 color: $gm_c_bright_black;
                 
                 &.stat_types {
-                    position: relative;
-                    text-align: center;
-                    padding-bottom: 1em;
+                    // position: relative;
+                    // text-align: center;
+                    // padding-bottom: 1em;
                 }
 
                 .statscore {color: $gm_primary_font_color;}
@@ -480,7 +489,11 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     // }
                 }
 
-                &.stat_title, &.stat_types, .stat_title {
+                &.stat_types {
+                    text-align: left;
+                }
+
+                &.stat_title, .stat_title {
                     vertical-align: middle;
                     text-align: center;
                 }

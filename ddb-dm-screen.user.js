@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.45
+// @version         1.0.46
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -173,15 +173,14 @@ var mainTableHTML = `
                 Sens<span>es</span>
             </th>
             <th colspan="7" class="col_stat stat_types b_left b_right">
-                <div class="statscore">ability scores</div>
-                <div class="bonus">bonus</div>
-                <div class="save">save/<span class="prof">prof</span></div>
+                <div class="statscore"><span class='letter'>A</span>bility scores</div>
+                <div class="bonus"><span class='letter'>B</span>onus</div>
+                <div class="save"><span class='letter'>S</span>ave/<span class="prof">Proficient</span></div>
             </th>
             <th class="col_passives" rowspan="2">
-                Passives:<br />
-                <span>per</span>cept<br />
-                <span>inv</span>est<br />
-                <span>ins</span>ight<br />
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Perception"><span>per</span>cept</div>
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Investigation"><span>inv</span>est</div>
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Insight"><span>ins</span>ight</div>
             </th>
             <th class="col_money" rowspan="2"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills" rowspan="2"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
@@ -288,7 +287,7 @@ var tableRowHTML = `
             <td class="col_speed"></td>
             <td class="col_stat col_titles b_left">
                 <div class="stat_title">&nbsp;</div>
-                <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">AS</span><br/>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">A</span><br/>
                 <span role="tooltip" data-microtip-position="{0}" aria-label="Bonus">B</span><br/>
                 <span role="tooltip" data-microtip-position="{0}" aria-label="Save">S</span></td>
             <td class="col_stat col_str"></td>

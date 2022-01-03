@@ -11460,21 +11460,21 @@ textarea.form-control-lg {
 #gmstats table.stattable tr, #gmstats table.stattable th, #gmstats table.stattable td, #gmstats table.detailstable tr, #gmstats table.detailstable th, #gmstats table.detailstable td {
   border: 0 !important;
 }
-#gmstats table.table th.col_stat,
 #gmstats table.table td.col_details {
   padding: 0 !important;
   margin: 0 !important;
+}
+#gmstats table.table th.col_stat .statscore, #gmstats table.table th.col_stat .bonus, #gmstats table.table th.col_stat .save {
+  color: white;
+}
+#gmstats table.table th.col_stat .statscore span.letter, #gmstats table.table th.col_stat .bonus span.letter, #gmstats table.table th.col_stat .save span.letter {
+  color: grey;
 }
 #gmstats table.primary {
   width: 99.8%;
 }
 #gmstats table.stattable th {
   color: grey;
-}
-#gmstats table.stattable th.stat_types {
-  position: relative;
-  text-align: center;
-  padding-bottom: 1em;
 }
 #gmstats table.stattable th .statscore {
   color: whitesmoke;
@@ -11503,7 +11503,10 @@ textarea.form-control-lg {
 #gmstats table.table th.col_stat .same, #gmstats table.table td.col_stat .same, #gmstats table.stattable th.col_stat .same, #gmstats table.stattable td.col_stat .same {
   color: #5a5a5a !important;
 }
-#gmstats table.table th.stat_title, #gmstats table.table th.stat_types, #gmstats table.table th .stat_title, #gmstats table.table td.stat_title, #gmstats table.table td.stat_types, #gmstats table.table td .stat_title, #gmstats table.stattable th.stat_title, #gmstats table.stattable th.stat_types, #gmstats table.stattable th .stat_title, #gmstats table.stattable td.stat_title, #gmstats table.stattable td.stat_types, #gmstats table.stattable td .stat_title {
+#gmstats table.table th.stat_types, #gmstats table.table td.stat_types, #gmstats table.stattable th.stat_types, #gmstats table.stattable td.stat_types {
+  text-align: left;
+}
+#gmstats table.table th.stat_title, #gmstats table.table th .stat_title, #gmstats table.table td.stat_title, #gmstats table.table td .stat_title, #gmstats table.stattable th.stat_title, #gmstats table.stattable th .stat_title, #gmstats table.stattable td.stat_title, #gmstats table.stattable td .stat_title {
   vertical-align: middle;
   text-align: center;
 }
