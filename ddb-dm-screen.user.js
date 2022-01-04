@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.50
+// @version         1.0.51
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -577,19 +577,11 @@ var initalModules = {
 
 (function () {
     campaignID = window.location.pathname.match(charIDRegex);
-    loadModules(initalModules); //load the module loader which imports from window.jsonpDDBCT and the inputted modules
     findTargets();
     insertElements();
     insertCampaignElements();
-    window.moduleExport.getAuthHeaders()().then((function (headers) {
-        authHeaders = headers;
-        console.log("authHeaders: ", headers);
-        retriveRules().then(() => {
-            updateAllCharData();
-        }).catch((error) => {
-            console.log(error);
-        });
-    }));
+
+    updateAllCharData();
 
     initRefreshTimer();
 })();
@@ -817,6 +809,21 @@ function getRules(index) {
 }
 
 function updateAllCharData() {
+    // load the module loader which imports from window.jsonpDDBCT and the inputted modules
+    loadModules(initalModules); // necessary each time to update things like skill adv/disadv
+
+    window.moduleExport.getAuthHeaders()().then((function (headers) {
+        authHeaders = headers;
+        console.log("authHeaders: ", headers);
+        retriveRules().then(() => {
+            _updateAllCharDataAfterRules();
+        }).catch((error) => {
+            console.log(error);
+        });
+    }));
+}
+
+function _updateAllCharDataAfterRules() {
     console.log("Retriving Each Char Data");
 
     let promises = []
@@ -1009,6 +1016,7 @@ function refreshTimer_tock() {
     }
 
     refreshTimer_updatePbar();
+
     updateAllCharData();
 }
 
