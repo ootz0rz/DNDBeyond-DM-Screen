@@ -902,7 +902,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     width: auto;
                     white-space: normal;
 
-                    span {white-space: nowrap;}
+                    .langs {
+                        .lang {white-space: nowrap;}
+                    }
                 }
             }
 

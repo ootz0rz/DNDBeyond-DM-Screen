@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.46
+// @version         1.0.47
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -90,6 +90,7 @@ const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
 const DEFAULT_TOOLTIP_PLACEMENT = 'top';
 const ACTIVE_FIRST_ROW_CLASS = 'first_row';
 const ACTIVE_SECOND_ROW_CLASS = 'second_row';
+const ACTIVE_ROW_TITLE_CLASS = 'activetitle';
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -310,7 +311,10 @@ var tableRowHTML = `
                 <span class="cpc"><span class="cp"></span> cp </span>
             </td>
             <td class="col_skills"></td>
-            <td class="col_languages"></td>
+            <td class="col_languages">
+                <span class="activetitle langstitle">Langs:</span>
+                <span class="langs"></span>
+            </td>
         </tr>
 `.format(DEFAULT_TOOLTIP_PLACEMENT);
 
@@ -1195,6 +1199,12 @@ function updateElementData(allCharData, charId) {
 function updateRowIfShouldBeActive(primaryRow) {
     var playerId = primaryRow.attr('id');
     var secondrow = $('#{0}'.format(_genSecondRowID(playerId)), primaryRow.parent());
+
+    var col_name = $('td.col_name', primaryRow);
+    var col_skills = $('td.col_skills', primaryRow);
+    var col_langs = $('td.col_languages', primaryRow);
+
+    var col_langs_title = $("." + ACTIVE_ROW_TITLE_CLASS, col_langs);
     
     var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
 
@@ -1206,9 +1216,10 @@ function updateRowIfShouldBeActive(primaryRow) {
 
         secondrow.removeClass(HIDE_CLASS);
 
-        $('td.col_name', primaryRow).attr('rowspan', '2');
-        $('td.col_skills', primaryRow).addClass(HIDE_CLASS);
-        $('td.col_languages', primaryRow).attr('colspan', '2');
+        col_name.attr('rowspan', '2');
+        col_skills.addClass(HIDE_CLASS);
+        col_langs.attr('colspan', '2');
+        col_langs_title.removeClass(HIDE_CLASS);
     } else {
         // hide details
         primaryRow.removeClass(ACTIVE_ROW_CLASS);
@@ -1216,9 +1227,10 @@ function updateRowIfShouldBeActive(primaryRow) {
 
         secondrow.addClass(HIDE_CLASS);
 
-        $('td.col_name', primaryRow).attr('rowspan', '1');
-        $('td.col_skills', primaryRow).removeClass(HIDE_CLASS);
-        $('td.col_languages', primaryRow).attr('colspan', '1');
+        col_name.attr('rowspan', '1');
+        col_skills.removeClass(HIDE_CLASS);
+        col_langs.attr('colspan', '1');
+        col_langs_title.addClass(HIDE_CLASS);
     }
 
     updateNameTooltip($(".name", primaryRow), isActive);
@@ -1641,7 +1653,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
 
     // copy to details row as well
     var skillsnode_details = $(".col_skills", parent_secondrow);
-    skillsnode_details.html('<span class="activetitle">Skills:</span> ' + skillsnode.html());
+    skillsnode_details.html('<span class="{0}">Skills:</span> {1}'.format(ACTIVE_ROW_TITLE_CLASS, skillsnode.html()));
 }
 
 function genSkillsArray(skills, isCustom=false) {
@@ -1694,7 +1706,7 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
     profGroups.forEach((item, idx) => {
         if (item.label == "Languages") {
             item.modifierGroups.forEach((lang, lidx) => {
-                var l = "<span>{0}</span>".format(lang.label);
+                var l = "<span class='lang'>{0}</span>".format(lang.label);
 
                 if (!langs.includes(l)) {
                     langs.push(l);
@@ -1705,7 +1717,9 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
 
     if (updateHtml) {
         langs.sort();
-        $(".col_languages", parent).html(langs.join(", "));
+        var col_langs = $(".col_languages", parent);
+        var span_langs = $(".langs", col_langs);
+        span_langs.html(langs.join(", "));
     }
 
     return langs;
