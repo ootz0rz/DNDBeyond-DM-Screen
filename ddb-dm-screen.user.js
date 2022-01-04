@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.48
+// @version         1.0.49
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -149,6 +149,8 @@ if (my_css.length > 0) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        HTML Structures
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const SVG_ADVANTAGE = `<svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-advantage-svg ddbc-svg--positive"><g><polygon fill="#fff" points="33 6 38 36 10 36 16 6"></polygon><polygon fill="#2C9400" points="24 14 28 26 20 26 24 14"></polygon><path fill="#2C9400" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM31,36l-2-6H19l-2,6H10L21,8h6L38,36Z"></path></g></svg>`;
 
 var mainTableHTML = `
 <table class="table primary">
@@ -318,16 +320,20 @@ var tableRowHTML = `
                 </div>
                 <hr class="langshr" />
                 <div class="resset">
-                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{0}" aria-label="Resistances">Res:</span>
+                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{0}" aria-label="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
                     <span class="resists"></span>
                 </div>
                 <div class="immset">
-                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Immunities">Imm:</span>
+                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
                     <span class="immunities"></span>
                 </div>
                 <div class="vulnset">
-                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Vulnerabilities">Vuln:</span>
+                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
                     <span class="vulnerabilities"></span>
+                </div>
+                <div class="saveset">
+                    <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{0}" aria-label="Save Modifiers">Saves:</span>
+                    <span class="savemods"></span>
                 </div>
             </td>
         </tr>
@@ -355,6 +361,7 @@ var a2 = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.p
 var script = document.createElement('script');
 script.innerHTML = a2;
 document.body.appendChild(script);
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        Custom additonal modules to be loaded with D&DBeyond's module loader
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1225,6 +1232,7 @@ function updateRowIfShouldBeActive(primaryRow) {
     var col_langs_resset = $(".resset", col_langs);
     var col_langs_immset = $(".immset", col_langs);
     var col_langs_vulnset = $(".vulnset", col_langs);
+    var col_langs_saveset = $(".saveset", col_langs);
     
     var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
 
@@ -1245,6 +1253,7 @@ function updateRowIfShouldBeActive(primaryRow) {
         col_langs_resset.removeClass(HIDE_CLASS);
         col_langs_immset.removeClass(HIDE_CLASS);
         col_langs_vulnset.removeClass(HIDE_CLASS);
+        col_langs_saveset.removeClass(HIDE_CLASS);
     } else {
         // hide details
         primaryRow.removeClass(ACTIVE_ROW_CLASS);
@@ -1261,6 +1270,7 @@ function updateRowIfShouldBeActive(primaryRow) {
         col_langs_resset.addClass(HIDE_CLASS);
         col_langs_immset.addClass(HIDE_CLASS);
         col_langs_vulnset.addClass(HIDE_CLASS);
+        col_langs_saveset.addClass(HIDE_CLASS);
     }
 
     updateNameTooltip($(".name", primaryRow), isActive);
@@ -1760,15 +1770,18 @@ function updateDefenses(parent, character) {
     const resset = $(".resset", col_langs);
     const immset = $(".immset", col_langs);
     const vulnset = $(".vulnset", col_langs);
+    const saveset = $(".saveset", col_langs);
     const hr = $(".langshr", col_langs);
 
     const resNode = $(".resists", resset);
     const immNode = $(".immunities", immset);
     const vulnNode = $(".vulnerabilities", vulnset);
+    const saveNode = $(".savemods", saveset);
 
     var res = [];
     var imm = [];
     var vuln = [];
+    var save = [];
 
     // populate arrays
     character.resistances.forEach((item, idx) => {
@@ -1783,16 +1796,38 @@ function updateDefenses(parent, character) {
         vuln.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
+    character.savingThrowDiceAdjustments.forEach((item, idx) => {
+        var icon = "";
+        if (item.type == "ADVANTAGE") {
+            icon = SVG_ADVANTAGE;
+        } else {
+            icon = "<span class='type'>{0}</span>".format(item.type);
+        }
+
+        save.push(
+            "<span class='item_long' {1}>{2} {0}</span>".format(
+                item.restriction,
+                insertTooltipAttributes(
+                    "{0} {1}".format(item.type.toLowerCase(), item.dataOrigin.type)
+                ),
+                icon
+            )
+        );
+    });
+
     // set html
     _addSortedListToNode(res, resNode);
     _addSortedListToNode(imm, immNode);
     _addSortedListToNode(vuln, vulnNode);
+    _addSortedListToNode(save, saveNode);
 
     // hide/show as appropriate
-    _hideIfNoElements([...res, ...imm, ...vuln], hr, hideClass='inactiveset');
-    _hideIfNoElements(res, resset, hideClass='inactiveset');
-    _hideIfNoElements(imm, immset, hideClass='inactiveset');
-    _hideIfNoElements(vuln, vulnset, hideClass='inactiveset');
+    var hideclass = 'inactiveset';
+    _hideIfNoElements([...res, ...imm, ...vuln], hr, hideClass=hideclass);
+    _hideIfNoElements(res, resset, hideClass=hideclass);
+    _hideIfNoElements(imm, immset, hideClass=hideclass);
+    _hideIfNoElements(vuln, vulnset, hideClass=hideclass);
+    _hideIfNoElements(save, saveset, hideClass=hideclass);
 }
 
 function _hideIfNoElements(arr, node, hideClass = HIDE_CLASS) {

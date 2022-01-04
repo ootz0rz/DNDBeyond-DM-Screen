@@ -11411,6 +11411,11 @@ textarea.form-control-lg {
   font-size: 0.5rem !important;
   padding: 0.28125rem 0.5625rem;
 }
+#gmstats table.font_smallest svg.deficon {
+  width: 7px;
+  height: 7px;
+  margin-top: -0.25rem;
+}
 #gmstats table.font_small {
   font-size: 0.75rem;
 }
@@ -11420,6 +11425,11 @@ textarea.form-control-lg {
 #gmstats table.font_small .btn {
   font-size: 0.75rem !important;
   padding: 0.28125rem 0.5625rem;
+}
+#gmstats table.font_small svg.deficon {
+  width: 10.5px;
+  height: 10.5px;
+  margin-top: -0.25rem;
 }
 #gmstats table.font_normal {
   font-size: 1rem;
@@ -11431,6 +11441,11 @@ textarea.form-control-lg {
   font-size: 1rem !important;
   padding: 0.28125rem 0.5625rem;
 }
+#gmstats table.font_normal svg.deficon {
+  width: 14px;
+  height: 14px;
+  margin-top: -0.25rem;
+}
 #gmstats table.font_big {
   font-size: 1.25rem;
 }
@@ -11441,6 +11456,11 @@ textarea.form-control-lg {
   font-size: 1.25rem !important;
   padding: 0.28125rem 0.5625rem;
 }
+#gmstats table.font_big svg.deficon {
+  width: 17.5px;
+  height: 17.5px;
+  margin-top: -0.25rem;
+}
 #gmstats table.font_biggest {
   font-size: 1.5rem;
 }
@@ -11450,6 +11470,11 @@ textarea.form-control-lg {
 #gmstats table.font_biggest .btn {
   font-size: 1.5rem !important;
   padding: 0.28125rem 0.5625rem;
+}
+#gmstats table.font_biggest svg.deficon {
+  width: 21px;
+  height: 21px;
+  margin-top: -0.25rem;
 }
 #gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
@@ -11799,12 +11824,18 @@ textarea.form-control-lg {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_languages .langset, #gmstats table.table th.col_languages .resset, #gmstats table.table th.col_languages .immset, #gmstats table.table th.col_languages .vulnset, #gmstats table.table td.col_languages .langset, #gmstats table.table td.col_languages .resset, #gmstats table.table td.col_languages .immset, #gmstats table.table td.col_languages .vulnset {
+#gmstats table.table th.col_languages .langset, #gmstats table.table th.col_languages .resset, #gmstats table.table th.col_languages .immset, #gmstats table.table th.col_languages .vulnset, #gmstats table.table th.col_languages .saveset, #gmstats table.table td.col_languages .langset, #gmstats table.table td.col_languages .resset, #gmstats table.table td.col_languages .immset, #gmstats table.table td.col_languages .vulnset, #gmstats table.table td.col_languages .saveset {
   display: inline-block;
   padding-right: 1em;
 }
-#gmstats table.table th.col_languages .langset .lang, #gmstats table.table th.col_languages .resset .lang, #gmstats table.table th.col_languages .immset .lang, #gmstats table.table th.col_languages .vulnset .lang, #gmstats table.table td.col_languages .langset .lang, #gmstats table.table td.col_languages .resset .lang, #gmstats table.table td.col_languages .immset .lang, #gmstats table.table td.col_languages .vulnset .lang {
+#gmstats table.table th.col_languages .langset .item, #gmstats table.table th.col_languages .resset .item, #gmstats table.table th.col_languages .immset .item, #gmstats table.table th.col_languages .vulnset .item, #gmstats table.table th.col_languages .saveset .item, #gmstats table.table td.col_languages .langset .item, #gmstats table.table td.col_languages .resset .item, #gmstats table.table td.col_languages .immset .item, #gmstats table.table td.col_languages .vulnset .item, #gmstats table.table td.col_languages .saveset .item {
   white-space: nowrap;
+}
+#gmstats table.table th.col_languages .langset .item .type, #gmstats table.table th.col_languages .resset .item .type, #gmstats table.table th.col_languages .immset .item .type, #gmstats table.table th.col_languages .vulnset .item .type, #gmstats table.table th.col_languages .saveset .item .type, #gmstats table.table td.col_languages .langset .item .type, #gmstats table.table td.col_languages .resset .item .type, #gmstats table.table td.col_languages .immset .item .type, #gmstats table.table td.col_languages .vulnset .item .type, #gmstats table.table td.col_languages .saveset .item .type {
+  text-transform: capitalize;
+}
+#gmstats table.table th.col_languages .langset .item_long, #gmstats table.table th.col_languages .resset .item_long, #gmstats table.table th.col_languages .immset .item_long, #gmstats table.table th.col_languages .vulnset .item_long, #gmstats table.table th.col_languages .saveset .item_long, #gmstats table.table td.col_languages .langset .item_long, #gmstats table.table td.col_languages .resset .item_long, #gmstats table.table td.col_languages .immset .item_long, #gmstats table.table td.col_languages .vulnset .item_long, #gmstats table.table td.col_languages .saveset .item_long {
+  white-space: normal;
 }
 #gmstats table.table th.col_languages .inactiveset, #gmstats table.table td.col_languages .inactiveset {
   display: none;
