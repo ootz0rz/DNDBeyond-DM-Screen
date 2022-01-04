@@ -11799,8 +11799,15 @@ textarea.form-control-lg {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_languages span, #gmstats table.table td.col_languages span {
+#gmstats table.table th.col_languages .langset, #gmstats table.table th.col_languages .resset, #gmstats table.table th.col_languages .immset, #gmstats table.table th.col_languages .vulnset, #gmstats table.table td.col_languages .langset, #gmstats table.table td.col_languages .resset, #gmstats table.table td.col_languages .immset, #gmstats table.table td.col_languages .vulnset {
+  display: inline-block;
+  padding-right: 1em;
+}
+#gmstats table.table th.col_languages .langset .lang, #gmstats table.table th.col_languages .resset .lang, #gmstats table.table th.col_languages .immset .lang, #gmstats table.table th.col_languages .vulnset .lang, #gmstats table.table td.col_languages .langset .lang, #gmstats table.table td.col_languages .resset .lang, #gmstats table.table td.col_languages .immset .lang, #gmstats table.table td.col_languages .vulnset .lang {
   white-space: nowrap;
+}
+#gmstats table.table th.col_languages .inactiveset, #gmstats table.table td.col_languages .inactiveset {
+  display: none;
 }
 #gmstats table.table td.col_skills span {
   white-space: nowrap;

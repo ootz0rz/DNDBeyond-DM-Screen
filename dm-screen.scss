@@ -902,8 +902,15 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     width: auto;
                     white-space: normal;
 
-                    .langs {
+                    .langset,.resset,.immset,.vulnset {
+                        display: inline-block;
+                        padding-right: 1em;
+
                         .lang {white-space: nowrap;}
+                    }
+
+                    .inactiveset {
+                        display: none;
                     }
                 }
             }

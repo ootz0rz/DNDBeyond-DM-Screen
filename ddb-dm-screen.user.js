@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.47
+// @version         1.0.48
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -312,8 +312,23 @@ var tableRowHTML = `
             </td>
             <td class="col_skills"></td>
             <td class="col_languages">
-                <span class="activetitle langstitle">Langs:</span>
-                <span class="langs"></span>
+                <div class="langset">
+                    <span class="activetitle langstitle" role="tooltip" data-microtip-position="{0}" aria-label="Languages">Langs:</span>
+                    <span class="langs"></span>
+                </div>
+                <hr class="langshr" />
+                <div class="resset">
+                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{0}" aria-label="Resistances">Res:</span>
+                    <span class="resists"></span>
+                </div>
+                <div class="immset">
+                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Immunities">Imm:</span>
+                    <span class="immunities"></span>
+                </div>
+                <div class="vulnset">
+                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Vulnerabilities">Vuln:</span>
+                    <span class="vulnerabilities"></span>
+                </div>
             </td>
         </tr>
 `.format(DEFAULT_TOOLTIP_PLACEMENT);
@@ -1194,6 +1209,7 @@ function updateElementData(allCharData, charId) {
     updateMoney(parent, character.currencies);
     updateSkillProfs(parent, parent_secondrow, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
+    updateDefenses(parent, character);
 }
 
 function updateRowIfShouldBeActive(primaryRow) {
@@ -1205,6 +1221,10 @@ function updateRowIfShouldBeActive(primaryRow) {
     var col_langs = $('td.col_languages', primaryRow);
 
     var col_langs_title = $("." + ACTIVE_ROW_TITLE_CLASS, col_langs);
+    var col_langs_hr = $(".langshr", col_langs);
+    var col_langs_resset = $(".resset", col_langs);
+    var col_langs_immset = $(".immset", col_langs);
+    var col_langs_vulnset = $(".vulnset", col_langs);
     
     var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
 
@@ -1218,8 +1238,13 @@ function updateRowIfShouldBeActive(primaryRow) {
 
         col_name.attr('rowspan', '2');
         col_skills.addClass(HIDE_CLASS);
+
         col_langs.attr('colspan', '2');
         col_langs_title.removeClass(HIDE_CLASS);
+        col_langs_hr.removeClass(HIDE_CLASS);
+        col_langs_resset.removeClass(HIDE_CLASS);
+        col_langs_immset.removeClass(HIDE_CLASS);
+        col_langs_vulnset.removeClass(HIDE_CLASS);
     } else {
         // hide details
         primaryRow.removeClass(ACTIVE_ROW_CLASS);
@@ -1229,8 +1254,13 @@ function updateRowIfShouldBeActive(primaryRow) {
 
         col_name.attr('rowspan', '1');
         col_skills.removeClass(HIDE_CLASS);
+
         col_langs.attr('colspan', '1');
         col_langs_title.addClass(HIDE_CLASS);
+        col_langs_hr.addClass(HIDE_CLASS);
+        col_langs_resset.addClass(HIDE_CLASS);
+        col_langs_immset.addClass(HIDE_CLASS);
+        col_langs_vulnset.addClass(HIDE_CLASS);
     }
 
     updateNameTooltip($(".name", primaryRow), isActive);
@@ -1706,7 +1736,7 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
     profGroups.forEach((item, idx) => {
         if (item.label == "Languages") {
             item.modifierGroups.forEach((lang, lidx) => {
-                var l = "<span class='lang'>{0}</span>".format(lang.label);
+                var l = "<span class='item' {1}>{0}</span>".format(lang.label, insertTooltipAttributes(lang.sources.join(', ')));
 
                 if (!langs.includes(l)) {
                     langs.push(l);
@@ -1723,6 +1753,55 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
     }
 
     return langs;
+}
+
+function updateDefenses(parent, character) {
+    const col_langs = $(".col_languages", parent);
+    const resset = $(".resset", col_langs);
+    const immset = $(".immset", col_langs);
+    const vulnset = $(".vulnset", col_langs);
+    const hr = $(".langshr", col_langs);
+
+    const resNode = $(".resists", resset);
+    const immNode = $(".immunities", immset);
+    const vulnNode = $(".vulnerabilities", vulnset);
+
+    var res = [];
+    var imm = [];
+    var vuln = [];
+
+    // populate arrays
+    character.resistances.forEach((item, idx) => {
+        res.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+    });
+
+    character.immunities.forEach((item, idx) => {
+        imm.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+    });
+
+    character.vulnerabilities.forEach((item, idx) => {
+        vuln.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+    });
+
+    // set html
+    _addSortedListToNode(res, resNode);
+    _addSortedListToNode(imm, immNode);
+    _addSortedListToNode(vuln, vulnNode);
+
+    // hide/show as appropriate
+    _hideIfNoElements([...res, ...imm, ...vuln], hr, hideClass='inactiveset');
+    _hideIfNoElements(res, resset, hideClass='inactiveset');
+    _hideIfNoElements(imm, immset, hideClass='inactiveset');
+    _hideIfNoElements(vuln, vulnset, hideClass='inactiveset');
+}
+
+function _hideIfNoElements(arr, node, hideClass = HIDE_CLASS) {
+    if (arr.length == 0) { node.addClass(hideClass); } else { node.removeClass(hideClass); }
+}
+
+function _addSortedListToNode(arr, node) {
+    arr.sort();
+    node.html(arr.join(", "));
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
