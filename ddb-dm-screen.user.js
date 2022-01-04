@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.51
+// @version         1.0.52
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1876,13 +1876,19 @@ function updateDefenses(parent, character) {
             icon = "<span class='type'>{0}</span>".format(item.type);
         }
 
+        var stat = '';
+        if (item.statId != null && Number.isFinite(item.statId)) {
+            stat = "on {0} ".format(getStatScoreNameFromID(character.abilities, item.statId).toUpperCase());
+        }
+
         save.push(
-            "<span class='item_long' {1}>{2} {0}</span>".format(
+            "<span class='item_long' {1}>{2} {3}{0}</span>".format(
                 item.restriction,
                 insertTooltipAttributes(
-                    "{0} {1}".format(item.type.toLowerCase(), item.dataOrigin.type)
+                    "{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type)
                 ),
-                icon
+                icon,
+                stat
             )
         );
     });
@@ -2228,4 +2234,17 @@ function _genPlayerId(id) {
 
 function _genSecondRowID(firstRowID) {
     return firstRowID + "_details";
+}
+
+function getStatScoreNameFromID(dataAbilities, id) {
+    var stat = "UNKNOWN";
+
+    dataAbilities.forEach((item, idx) => {
+        if (item.id == id) {
+            stat = item.name;
+            return;
+        }
+    });
+    
+    return stat;
 }
