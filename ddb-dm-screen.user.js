@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.52
+// @version         1.0.53
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1855,15 +1855,15 @@ function updateDefenses(parent, character) {
 
     // populate arrays
     character.resistances.forEach((item, idx) => {
-        res.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.immunities.forEach((item, idx) => {
-        imm.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.vulnerabilities.forEach((item, idx) => {
-        vuln.push("<span class='item' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
