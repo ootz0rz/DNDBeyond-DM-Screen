@@ -880,6 +880,22 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                             opacity: 0;
                             transition: display 0.3s linear,visibility 0.3s linear,opacity 0.3s linear;
                         }
+                        &.advdisadv {
+                            display: inline !important;
+                            // position: relative;
+                            visibility: visible;
+                            opacity: 1;
+                            transition: display 0.3s linear,visibility 0.3s linear,opacity 0.3s linear;
+
+                            &.adv {
+                                text-decoration: underline;
+                                text-decoration-color: $gm_c_green;
+                            }
+                            &.disadv {
+                                text-decoration: underline;
+                                text-decoration-color: $gm_c_red;
+                            }
+                        }
                         &.custom {
                             font-style: italic;
                         }
@@ -910,6 +926,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     white-space: normal;
 
                     .langset,.resset,.immset,.vulnset,.saveset {
+                        vertical-align: top;
                         display: inline-block;
                         padding-right: 1em;
 

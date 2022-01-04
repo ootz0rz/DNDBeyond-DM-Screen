@@ -11813,6 +11813,20 @@ textarea.form-control-lg {
   opacity: 0;
   transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
 }
+#gmstats table.table th.col_skills span.advdisadv, #gmstats table.table td.col_skills span.advdisadv {
+  display: inline !important;
+  visibility: visible;
+  opacity: 1;
+  transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
+}
+#gmstats table.table th.col_skills span.advdisadv.adv, #gmstats table.table td.col_skills span.advdisadv.adv {
+  text-decoration: underline;
+  text-decoration-color: lime;
+}
+#gmstats table.table th.col_skills span.advdisadv.disadv, #gmstats table.table td.col_skills span.advdisadv.disadv {
+  text-decoration: underline;
+  text-decoration-color: red;
+}
 #gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom {
   font-style: italic;
 }
@@ -11825,6 +11839,7 @@ textarea.form-control-lg {
   white-space: normal;
 }
 #gmstats table.table th.col_languages .langset, #gmstats table.table th.col_languages .resset, #gmstats table.table th.col_languages .immset, #gmstats table.table th.col_languages .vulnset, #gmstats table.table th.col_languages .saveset, #gmstats table.table td.col_languages .langset, #gmstats table.table td.col_languages .resset, #gmstats table.table td.col_languages .immset, #gmstats table.table td.col_languages .vulnset, #gmstats table.table td.col_languages .saveset {
+  vertical-align: top;
   display: inline-block;
   padding-right: 1em;
 }

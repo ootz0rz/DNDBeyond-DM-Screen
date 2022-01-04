@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.49
+// @version         1.0.50
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -151,6 +151,7 @@ if (my_css.length > 0) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const SVG_ADVANTAGE = `<svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-advantage-svg ddbc-svg--positive"><g><polygon fill="#fff" points="33 6 38 36 10 36 16 6"></polygon><polygon fill="#2C9400" points="24 14 28 26 20 26 24 14"></polygon><path fill="#2C9400" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM31,36l-2-6H19l-2,6H10L21,8h6L38,36Z"></path></g></svg>`;
+const SVG_DISADVANTAGE = `<svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-disadvantage-svg ddbc-svg--negative"><g><polygon fill="#fff" points="35 8 36 39 12 39 14 8"></polygon><path fill="#b00000" d="M27.38,17.75a9.362,9.362,0,0,1,1.44,5.68v1.12a9.4423,9.4423,0,0,1-1.44,5.71A5.21983,5.21983,0,0,1,23,32H21V16h2A5.19361,5.19361,0,0,1,27.38,17.75Z"></path><path fill="#b00000" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM35.21,24.55a13.50293,13.50293,0,0,1-1.5,6.41,11.09308,11.09308,0,0,1-4.25,4.42A12.00926,12.00926,0,0,1,23.34,37H15V11h8.16a12.35962,12.35962,0,0,1,6.2,1.56,10.97521,10.97521,0,0,1,4.29,4.41,13.31084,13.31084,0,0,1,1.56,6.39Z"></path></g></svg>`;
 
 var mainTableHTML = `
 <table class="table primary">
@@ -333,6 +334,7 @@ var tableRowHTML = `
                 </div>
                 <div class="saveset">
                     <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{0}" aria-label="Save Modifiers">Saves:</span>
+                    <br />
                     <span class="savemods"></span>
                 </div>
             </td>
@@ -1702,8 +1704,10 @@ function genSkillsArray(skills, isCustom=false) {
     skills.forEach((item, idx) => {
         var name = item.name;
         var mod = Math.abs(item.modifier);
-        var sign = getSign(item.modifier, forceZero=true);
+        var sign = getSign(item.modifier, forceZero = true);
         var color = '';
+        var adv = '';
+        var advText = '';
 
         if (item.modifier == 0) {
             color = 'normal';
@@ -1717,26 +1721,84 @@ function genSkillsArray(skills, isCustom=false) {
             color += ' custom';
         }
 
-        function getProfText(classtype, tooltip, name, sign, mod, color, sup="") {
+        var hasAdv = item.advantageAdjustments.length > 0;
+        var hasDisadv = item.disadvantageAdjustments.length > 0;
+        if (hasAdv || hasDisadv) {
+            if (hasAdv) {
+                var a = [];
+                item.advantageAdjustments.forEach((item, idx) => {
+                    a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
+                });
+
+                adv = SVG_ADVANTAGE;
+                advText += a.join(', ');
+
+                color += " advdisadv adv";
+            }
+
+            if (hasDisadv) {
+                var a = [];
+                item.disadvantageAdjustments.forEach((item, idx) => {
+                    a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
+                });
+
+                adv = SVG_DISADVANTAGE;
+                advText += a.join(', ');
+
+                color += " advdisadv disadv";
+            }
+            
+            if (hasAdv && hasDisadv) {
+                adv = '';
+            }
+        }
+
+        function getProfText(classtype, tooltipText, name, sign, mod, color, advIcon, advString, sup="") {
             // NOTE: we have to push the tooltip within the container for the skill, because the tooltip stuff uses
             // ::after same as our commas between skills at the moment :/ 
+
+            if (advString.length > 0) {
+                tooltipText += " | " + advString;
+            }
+            
             return "<span class='c {0} {1}'>{2}</span>".format(
                 classtype,
                 color,
                 addTooltip(
-                    "{0}<sup>{3}</sup> <span class='value'>{1}{2}</span>".format(name, sign, mod, sup),
-                    tooltip));
+                    "{4}{0}<sup>{3}</sup> <span class='value'>{1}{2}</span>".format(
+                        name,
+                        sign,
+                        mod,
+                        sup,
+                        advIcon
+                    ),
+                    tooltipText
+                )
+            );
         }
 
+        var classType = '';
+        var tipText = '';
+        var supText = '';
         if (item.expertise) {
-            outarr.push(getProfText('expert', "Expertise", name, sign, mod, color, "🇪"));
+            classType = 'expert';
+            tipText = "Expertise";
+            supText = "🇪";
         } else if (item.proficiency) {
-            outarr.push(getProfText('prof', "Proficiency", name, sign, mod, color, ""));
+            classType = 'prof';
+            tipText = "Proficiency";
+            supText = "";
         } else if (item.halfProficiency) {
-            outarr.push(getProfText('halfprof', "½ Proficiency", name, sign, mod, color, "½"));
+            classType = 'halfprof';
+            tipText = "½ Proficiency";
+            supText = "½";
         } else {
-            outarr.push(getProfText('noprof', "Not Proficient", name, sign, mod, color, ""));
+            classType = 'noprof';
+            tipText = "Not Proficient";
+            supText = "";
         }
+
+        outarr.push(getProfText(classType, tipText, name, sign, mod, color, adv, advText, supText));
     });
 
     return outarr;
@@ -1800,6 +1862,8 @@ function updateDefenses(parent, character) {
         var icon = "";
         if (item.type == "ADVANTAGE") {
             icon = SVG_ADVANTAGE;
+        } else if (item.type == "DISADVANTAGE") {
+            icon = SVG_DISADVANTAGE;
         } else {
             icon = "<span class='type'>{0}</span>".format(item.type);
         }
@@ -1819,7 +1883,7 @@ function updateDefenses(parent, character) {
     _addSortedListToNode(res, resNode);
     _addSortedListToNode(imm, immNode);
     _addSortedListToNode(vuln, vulnNode);
-    _addSortedListToNode(save, saveNode);
+    _addSortedListToNode(save, saveNode, sep='<br />');
 
     // hide/show as appropriate
     var hideclass = 'inactiveset';
@@ -1834,9 +1898,9 @@ function _hideIfNoElements(arr, node, hideClass = HIDE_CLASS) {
     if (arr.length == 0) { node.addClass(hideClass); } else { node.removeClass(hideClass); }
 }
 
-function _addSortedListToNode(arr, node) {
+function _addSortedListToNode(arr, node, sep = ', ') {
     arr.sort();
-    node.html(arr.join(", "));
+    node.html(arr.join(sep));
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
