@@ -147,11 +147,75 @@ if (my_css.length > 0) {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//        HTML Structures
+//        SVGs
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-const SVG_ADVANTAGE = `<svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-advantage-svg ddbc-svg--positive"><g><polygon fill="#fff" points="33 6 38 36 10 36 16 6"></polygon><polygon fill="#2C9400" points="24 14 28 26 20 26 24 14"></polygon><path fill="#2C9400" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM31,36l-2-6H19l-2,6H10L21,8h6L38,36Z"></path></g></svg>`;
-const SVG_DISADVANTAGE = `<svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-disadvantage-svg ddbc-svg--negative"><g><polygon fill="#fff" points="35 8 36 39 12 39 14 8"></polygon><path fill="#b00000" d="M27.38,17.75a9.362,9.362,0,0,1,1.44,5.68v1.12a9.4423,9.4423,0,0,1-1.44,5.71A5.21983,5.21983,0,0,1,23,32H21V16h2A5.19361,5.19361,0,0,1,27.38,17.75Z"></path><path fill="#b00000" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM35.21,24.55a13.50293,13.50293,0,0,1-1.5,6.41,11.09308,11.09308,0,0,1-4.25,4.42A12.00926,12.00926,0,0,1,23.34,37H15V11h8.16a12.35962,12.35962,0,0,1,6.2,1.56,10.97521,10.97521,0,0,1,4.29,4.41,13.31084,13.31084,0,0,1,1.56,6.39Z"></path></g></svg>`;
+const SVG_CLASS_ICON = `deficon`;
+const SVG_CLASS_ICON_WHITE = SVG_CLASS_ICON + ` white`;
+
+function GET_SVG_AS_ICON(icon, color = SVG_CLASS_ICON) {
+    return icon.format(` class="{0}"`.format(color));
+}
+
+// advantage/disadvantage
+// -------------------------------------------------------
+const SVG_ADVANTAGE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-advantage-svg ddbc-svg--positive"><g><polygon fill="#fff" points="33 6 38 36 10 36 16 6"></polygon><polygon fill="#2C9400" points="24 14 28 26 20 26 24 14"></polygon><path fill="#2C9400" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM31,36l-2-6H19l-2,6H10L21,8h6L38,36Z"></path></g></svg>`;
+const SVG_DISADVANTAGE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="ddbc-svg ddbc-disadvantage-svg ddbc-svg--negative"><g><polygon fill="#fff" points="35 8 36 39 12 39 14 8"></polygon><path fill="#b00000" d="M27.38,17.75a9.362,9.362,0,0,1,1.44,5.68v1.12a9.4423,9.4423,0,0,1-1.44,5.71A5.21983,5.21983,0,0,1,23,32H21V16h2A5.19361,5.19361,0,0,1,27.38,17.75Z"></path><path fill="#b00000" d="M44.39,12.1,23.89.39,3.5,12.29,3.61,35.9l20.5,11.71L44.5,35.71ZM35.21,24.55a13.50293,13.50293,0,0,1-1.5,6.41,11.09308,11.09308,0,0,1-4.25,4.42A12.00926,12.00926,0,0,1,23.34,37H15V11h8.16a12.35962,12.35962,0,0,1,6.2,1.56,10.97521,10.97521,0,0,1,4.29,4.41,13.31084,13.31084,0,0,1,1.56,6.39Z"></path></g></svg>`;
+
+// aoe types
+// -------------------------------------------------------
+const SVG_AOE_CONE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.73 17.49" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--cone"><path fill="#242528" d="M14,17.49c-1.85,0-2.69-4.53-2.69-8.74S12.18,0,14,0s2.69,4.53,2.69,8.74S15.88,17.49,14,17.49ZM14,1c-.51,0-1.69,2.63-1.69,7.74s1.19,7.74,1.69,7.74,1.69-2.63,1.69-7.74S14.54,1,14,1Z"></path><path fill="#242528" d="M14,17.49a.5.5,0,0,1-.26-.07L.24,9.17a.5.5,0,0,1,0-.85L13.77.07a.5.5,0,1,1,.52.85L1.46,8.74l12.83,7.82a.5.5,0,0,1-.26.93Z"></path></svg>`;
+const SVG_AOE_CUBE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.89 17.57" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--cube"><path fill="#242528" d="M13.43,17.57H.5a.5.5,0,0,1-.5-.5V4.14a.5.5,0,0,1,.5-.5H13.43a.5.5,0,0,1,.5.5V17.07A.5.5,0,0,1,13.43,17.57ZM1,16.57H12.93V4.64H1Z"></path><path fill="#242528" d="M13.43,17.57a.5.5,0,0,1-.4-.81l2.86-3.71V1.91L13.82,4.46A.5.5,0,1,1,13,3.83L16,.18a.5.5,0,0,1,.89.32V13.23a.5.5,0,0,1-.1.31l-3,3.85A.5.5,0,0,1,13.43,17.57Z"></path><path fill="#242528" d="M.5,4.64A.5.5,0,0,1,.13,3.8L3.55.16A.5.5,0,0,1,3.91,0H16.39a.5.5,0,0,1,0,1H4.13L.87,4.48A.5.5,0,0,1,.5,4.64Z"></path></svg>`;
+const SVG_AOE_CYLINDER = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.49 18.31" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--cylinder"><path fill="#242528" d="M8.74,5.38C4.53,5.38,0,4.54,0,2.69S4.53,0,8.74,0s8.74.84,8.74,2.69S13,5.38,8.74,5.38ZM8.74,1C3.63,1,1,2.19,1,2.69S3.63,4.38,8.74,4.38s7.74-1.19,7.74-1.69S13.85,1,8.74,1Z"></path><path fill="#242528" d="M8.74,18.31C4.53,18.31,0,17.47,0,15.62V2.69a.5.5,0,0,1,1,0V15.62c0,.51,2.63,1.69,7.74,1.69s7.74-1.19,7.74-1.69V2.69a.5.5,0,0,1,1,0V15.62C17.49,17.47,13,18.31,8.74,18.31Z"></path></svg>`;
+const SVG_AOE_LINE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.49 7.1" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--line"><path fill="#242528" d="M14,5.44H.5a.5.5,0,0,1-.5-.5V2a.5.5,0,0,1,.5-.5H14a.5.5,0,0,1,0,1H1v2H14a.5.5,0,0,1,0,1Z"></path><path fill="#242528" d="M14,7.1a.49.49,0,0,1-.18,0,.5.5,0,0,1-.32-.46V4.94a.5.5,0,0,1,1,0v.4l1.76-1.87L14.53,1.71v.17a.5.5,0,0,1-1,0V.5a.5.5,0,0,1,.85-.35l3,3a.5.5,0,0,1,0,.7l-3,3.15A.5.5,0,0,1,14,7.1Z"></path></svg>`;
+const SVG_AOE_SPHERE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18.06" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--sphere"><path fill="#242528" d="M9,1A8,8,0,1,1,1,9,8,8,0,0,1,9,1M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z"></path><path fill="#242528" d="M9,18.06a.5.5,0,0,1,0-1c2,0,3.65-3.68,3.65-8S11,1,9,1A.5.5,0,0,1,9,0c2.61,0,4.65,4,4.65,9S11.61,18.06,9,18.06Z"></path><path fill="#242528" d="M9.48,11.44A18.11,18.11,0,0,1,.28,8.84.5.5,0,0,1,.78,8c9,5.25,16.37.49,16.44.44a.5.5,0,0,1,.56.83A16.25,16.25,0,0,1,9.48,11.44Z"></path></svg>`;
+const SVG_AOE_SQUARE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.75 13.33" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--square"><rect fill="#fff" stroke="#242528" stroke-miterlimit="10" class="cls-1" x="0.71" y="0.29" width="12.33" height="12.75" transform="translate(0.21 13.54) rotate(-90)"></rect></svg>`;
+const SVG_AOE_SQFT = ``;
+
+const AOE_ID_TO_SVG = {
+    1: SVG_AOE_CONE,
+    2: SVG_AOE_CUBE,
+    3: SVG_AOE_CYLINDER,
+    4: SVG_AOE_LINE,
+    5: SVG_AOE_SPHERE,
+    9: SVG_AOE_SQUARE,
+    13: SVG_AOE_SQFT,
+};
+
+/**
+ * return SVG string or null
+ */
+function GET_AOE_ICON_FROM_ID(id, color = SVG_CLASS_ICON_WHITE) {
+    if (id in AOE_ID_TO_SVG) {
+        return GET_SVG_AS_ICON(AOE_ID_TO_SVG[id], color);
+    }
+
+    return null;
+}
+
+// damage types
+// -------------------------------------------------------
+const SVG_DMG_ACID = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.91 17.92" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--acid"><path fill="#242528" d="M6.84,10.62q.65,0,.65-.8a.69.69,0,0,0-.16-.5.64.64,0,0,0-.48-.16q-.67,0-.67.72T6.84,10.62Z"></path><path fill="#242528" d="M4.53,10.62q.66,0,.66-.8t-.64-.66A.66.66,0,0,0,4,9.33a.76.76,0,0,0-.17.54Q3.87,10.62,4.53,10.62Z"></path><path fill="#242528" d="M5.49.65V0a3.3,3.3,0,0,1,0,.34,3.3,3.3,0,0,1,0-.34V.65C4.8,3.87,0,8.34,0,12.08c0,4,2,5.8,5.42,5.83h.07c3.47,0,5.42-1.86,5.42-5.83C10.91,8.34,6.11,3.87,5.49.65ZM3.69,6.91a2.93,2.93,0,0,1,2-.65,2.93,2.93,0,0,1,2,.65A2.12,2.12,0,0,1,8.39,8.6a3.45,3.45,0,0,1-.5,1.75,1,1,0,0,0-.08.28l-.1.65-1.09.52-.16.4a2.54,2.54,0,0,1-.8.1,3.37,3.37,0,0,1-.45,0,2.09,2.09,0,0,1-.35-.07l-.16-.4-1.1-.52-.1-.65a2.67,2.67,0,0,0-.34-.73,2.65,2.65,0,0,1-.24-1.3A2.12,2.12,0,0,1,3.69,6.91ZM8.08,16q-.3.36-.49.36t-.45-.61l-.07-.19a10,10,0,0,0-1.63-1.13,8.87,8.87,0,0,0-1.65,1.19q-.1.73-.44.73t-.49-.41q-.66,0-.66-.36a.4.4,0,0,1,.25-.39,4.29,4.29,0,0,1,1-.24,11.71,11.71,0,0,1,1.4-.87,7,7,0,0,0-1.78-.67,1.57,1.57,0,0,1-.3.21.55.55,0,0,1-.25.07.4.4,0,0,1-.26-.07.25.25,0,0,1-.09-.21,1.24,1.24,0,0,1,.29-.5,1.86,1.86,0,0,1-.06-.4.45.45,0,0,1,.08-.29.28.28,0,0,1,.23-.09.7.7,0,0,1,.39.19,4.73,4.73,0,0,1,.58.59,15.64,15.64,0,0,1,1.79.8q.42-.23,1.48-.68l.27-.12a6.63,6.63,0,0,1,.62-.57.75.75,0,0,1,.36-.19.24.24,0,0,1,.2.08.42.42,0,0,1,.06.26,2.75,2.75,0,0,1,0,.42,1,1,0,0,1,.28.52.29.29,0,0,1-.08.22.33.33,0,0,1-.23.07.6.6,0,0,1-.24-.08l-.4-.24A7.2,7.2,0,0,0,6,14.1l.21.12q.39.22,1,.59l.32.19q1.18.14,1.18.6Q8.72,15.9,8.08,16Z"></path><path fill="#242528" d="M5.51,11.67a.36.36,0,0,0,.19-.06.36.36,0,0,0,.19.06q.29,0,.29-.26A.6.6,0,0,0,6,11.09a3.06,3.06,0,0,1-.29-.41,3.38,3.38,0,0,1-.29.41.6.6,0,0,0-.19.33.23.23,0,0,0,.07.19A.32.32,0,0,0,5.51,11.67Z"></path></svg>`;
+const SVG_DMG_BLUDGEON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.29 19.76" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--bludgeoning"><polygon fill="#242528" points="5.88 14.95 0.45 15.85 4.14 12.74 0.15 9.36 4.26 9.36 0 0 5.52 4.58 4.61 1.05 6.75 2.8 8.19 0.43 9.93 3.57 11.67 0.68 10.68 13.56 5.88 14.95"></polygon><polygon fill="#242528" points="5.17 19.26 8.62 13.3 8.09 12.99 8.71 11.92 7.2 11.05 6.71 11.9 4.16 10.44 7.91 3.95 10.45 5.41 9.97 6.25 11.46 7.11 13.53 4.75 16.22 7.44 14.9 9.09 16.58 10.06 17.06 9.23 19.6 10.7 15.86 17.19 13.31 15.72 13.81 14.86 12.13 13.89 11.51 14.96 10.99 14.66 8.35 19.26 5.17 19.26"></polygon><path fill="#fff" d="M8.09,4.63l1.68,1L6.52,11.22l-1.68-1L8.09,4.63m5.46.85,2,2L14.5,8.79,11.95,7.32l1.61-1.84M9.78,6.71l6.5,3.75L14,14.4,7.5,10.64,9.78,6.71m7.47,3.2,1.68,1L15.67,16.5l-1.68-1,3.25-5.63h0M9.12,12.22h0m0,0,2.55,1.47-.34.59L8.78,12.81l.34-.59M9,13.6l1.51.87-2.47,4.3H6L9,13.6H9M7.73,3.26l-.5.87L4,9.75l-.5.87.87.5,1.68,1,.87.5.5-.86L8,12.1l-.12.21-.5.87.53.3L5.17,18.26l-.87,1.5H8.63l.29-.5,2.25-3.92.52.3.5-.87.12-.21.81.47-.5.86.87.5,1.68,1,.87.5.5-.87,3.25-5.63.5-.87-.87-.5L17.74,9l-.87-.5-.48.83-.74-.43.68-.84.56-.7-.63-.63-2-2L13.5,4l-.7.81L11.36,6.47l-.7-.41.48-.83-.87-.5-1.68-1-.87-.5Z"></path></svg>`;
+const SVG_DMG_COLD = ``;
+const SVG_DMG_FIRE = ``;
+const SVG_DMG_FORCE = ``;
+const SVG_DMG_LIGHTNING = ``;
+const SVG_DMG_NECROTIC = ``;
+const SVG_DMG_PIERCING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#242528" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#242528" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#fff" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg>`;
+const SVG_DMG_POISON = ``;
+const SVG_DMG_PSYCHIC = ``;
+const SVG_DMG_RADIANT = ``;
+const SVG_DMG_SLASHING = ``;
+const SVG_DMG_THUNDER = ``;
+
+const DMG_ID_TO_SVG = {
+
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//        HTML Structures
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 var mainTableHTML = `
 <table class="table primary">
@@ -1781,7 +1845,7 @@ function genSkillsArray(skills, isCustom=false) {
                     a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
                 });
 
-                adv = SVG_ADVANTAGE;
+                adv = GET_SVG_AS_ICON(SVG_ADVANTAGE);
                 advText += a.join(', ');
 
                 color += " advdisadv adv";
@@ -1793,7 +1857,7 @@ function genSkillsArray(skills, isCustom=false) {
                     a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
                 });
 
-                adv = SVG_DISADVANTAGE;
+                adv = GET_SVG_AS_ICON(SVG_DISADVANTAGE);
                 advText += a.join(', ');
 
                 color += " advdisadv disadv";
@@ -1912,9 +1976,9 @@ function updateDefenses(parent, character) {
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
         var icon = "";
         if (item.type == "ADVANTAGE") {
-            icon = SVG_ADVANTAGE;
+            icon = GET_SVG_AS_ICON(SVG_ADVANTAGE);
         } else if (item.type == "DISADVANTAGE") {
-            icon = SVG_DISADVANTAGE;
+            icon = GET_SVG_AS_ICON(SVG_DISADVANTAGE);
         } else {
             icon = "<span class='type'>{0}</span>".format(item.type);
         }

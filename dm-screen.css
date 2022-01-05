@@ -11421,10 +11421,13 @@ textarea.form-control-lg {
   font-size: 0.5rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_smallest svg.deficon {
+#gmstats table.font_smallest .deficon, #gmstats table.font_smallest svg.deficon {
   width: 7px;
   height: 7px;
   margin-top: -0.25rem;
+}
+#gmstats table.font_smallest .deficon.white, #gmstats table.font_smallest svg.deficon.white {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_small {
   font-size: 0.75rem;
@@ -11436,10 +11439,13 @@ textarea.form-control-lg {
   font-size: 0.75rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_small svg.deficon {
+#gmstats table.font_small .deficon, #gmstats table.font_small svg.deficon {
   width: 10.5px;
   height: 10.5px;
   margin-top: -0.25rem;
+}
+#gmstats table.font_small .deficon.white, #gmstats table.font_small svg.deficon.white {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_normal {
   font-size: 1rem;
@@ -11451,10 +11457,13 @@ textarea.form-control-lg {
   font-size: 1rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_normal svg.deficon {
+#gmstats table.font_normal .deficon, #gmstats table.font_normal svg.deficon {
   width: 14px;
   height: 14px;
   margin-top: -0.25rem;
+}
+#gmstats table.font_normal .deficon.white, #gmstats table.font_normal svg.deficon.white {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_big {
   font-size: 1.25rem;
@@ -11466,10 +11475,13 @@ textarea.form-control-lg {
   font-size: 1.25rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_big svg.deficon {
+#gmstats table.font_big .deficon, #gmstats table.font_big svg.deficon {
   width: 17.5px;
   height: 17.5px;
   margin-top: -0.25rem;
+}
+#gmstats table.font_big .deficon.white, #gmstats table.font_big svg.deficon.white {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_biggest {
   font-size: 1.5rem;
@@ -11481,10 +11493,13 @@ textarea.form-control-lg {
   font-size: 1.5rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_biggest svg.deficon {
+#gmstats table.font_biggest .deficon, #gmstats table.font_biggest svg.deficon {
   width: 21px;
   height: 21px;
   margin-top: -0.25rem;
+}
+#gmstats table.font_biggest .deficon.white, #gmstats table.font_biggest svg.deficon.white {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
