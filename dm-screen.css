@@ -11408,6 +11408,9 @@ textarea.form-control-lg {
 #gmstats table {
   margin-bottom: 0;
 }
+#gmstats table tr, #gmstats table td, #gmstats table th {
+  background-color: #212529 !important;
+}
 #gmstats table.font_smallest {
   font-size: 0.5rem;
 }

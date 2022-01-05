@@ -108,6 +108,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
     line-height: 1.2;
 
     table {
+        tr,td,th {
+            background-color: $gm_background !important;
+        }
         margin-bottom: 0;
 
         // -------------------
