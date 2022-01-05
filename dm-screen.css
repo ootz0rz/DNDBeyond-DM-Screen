@@ -11917,6 +11917,9 @@ textarea.form-control-lg {
 #gmstats table.table tfoot td .btn.btn-outline-info, #gmstats table.table tfoot td .form-select.btn-outline-info, #gmstats table.table tfoot td .form-control.btn-outline-info, #gmstats table.table tfoot td label.btn-outline-info {
   color: #0dcaf0 !important;
 }
+#gmstats table.table tfoot td .btn.btn-outline-info:hover, #gmstats table.table tfoot td .form-select.btn-outline-info:hover, #gmstats table.table tfoot td .form-control.btn-outline-info:hover, #gmstats table.table tfoot td label.btn-outline-info:hover {
+  color: #000 !important;
+}
 #gmstats .progress-wrapper {
   margin-top: 0.5em;
   display: flex;

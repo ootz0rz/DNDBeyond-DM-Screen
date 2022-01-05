@@ -1029,6 +1029,9 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                         &.btn-outline-info {
                             // make sure the color sticks even after clicked
                             color: $info !important;
+                            &:hover {
+                                color: color-contrast($info) !important;
+                            }
                         }
                     }
                 }
