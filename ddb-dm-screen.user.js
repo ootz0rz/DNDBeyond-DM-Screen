@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.0
+// @version         1.1.1
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -256,7 +256,7 @@ var mainTableHTML = `
         </tr>
         <tr>
             <td colspan="15" class="gs-controls gs-bottom">
-                <span class='update'><a role='button' class='btn btn-outline-info' href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                <span class='update'><a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
                         <span class="text_progress">
