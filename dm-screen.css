@@ -11871,6 +11871,7 @@ textarea.form-control-lg {
 #gmstats table.table tfoot td.gs-controls .set {
   word-wrap: nowrap;
   white-space: nowrap;
+  vertical-align: top;
 }
 #gmstats table.table tfoot td.gs-controls .auto_duration {
   width: 5em;
@@ -11902,6 +11903,9 @@ textarea.form-control-lg {
 }
 #gmstats table.table tfoot td .btn, #gmstats table.table tfoot td .form-select, #gmstats table.table tfoot td .form-control, #gmstats table.table tfoot td label {
   zoom: 0.7;
+}
+#gmstats table.table tfoot td .btn.btn-outline-info, #gmstats table.table tfoot td .form-select.btn-outline-info, #gmstats table.table tfoot td .form-control.btn-outline-info, #gmstats table.table tfoot td label.btn-outline-info {
+  color: #0dcaf0 !important;
 }
 #gmstats .progress-wrapper {
   margin-top: 0.5em;

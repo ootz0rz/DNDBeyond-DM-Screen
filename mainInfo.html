@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="dm-screen.css">
 
 <div id="gmstats">
-<table class="primary table font_normal">
+<table class="table primary">
     <thead>
         <tr>
             <th class="col_name" rowspan="2">
@@ -23,37 +23,27 @@
                 <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
             <th class="col_ac" rowspan="2">
-                <span title="Armor Class">AC</span>
+                <span role="tooltip" data-microtip-position="right" aria-label="Armor Class">AC</span>
                 <hr />
-                <div title="Initiative" class="init">Initiative</div>
+                <div class="init" role="tooltip" data-microtip-position="right" aria-label="Initiative">Init</div>
             </th>
             <th class="col_speed" rowspan="2">
                 <span>Sp</span>eed<hr />
                 Sens<span>es</span>
             </th>
             <th colspan="7" class="col_stat stat_types b_left b_right">
-                <div class="statscore">ability scores</div>
-                <div class="bonus">bonus</div>
-                <div class="save">save/<span class="prof">prof</span></div>
+                <div class="statscore"><span class='letter'>A</span>bility scores</div>
+                <div class="bonus"><span class='letter'>B</span>onus</div>
+                <div class="save"><span class='letter'>S</span>ave/<span class="prof">Proficient</span></div>
             </th>
             <th class="col_passives" rowspan="2">
-                Passives:<br />
-                <span>per</span>cept<br />
-                <span>inv</span>est<br />
-                <span>ins</span>ight<br />
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Perception"><span>per</span>cept</div>
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Investigation"><span>inv</span>est</div>
+                <div role="tooltip" data-microtip-position="right" aria-label="Passive Insight"><span>ins</span>ight</div>
             </th>
             <th class="col_money" rowspan="2"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills" rowspan="2"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
             <th class="col_languages" rowspan="2">Languages</th>
-        </tr>
-        <tr>
-            <th class="col_stat stat_title b_left"></th>
-            <th class="col_stat stat_title"><div class="stat">STR</div></th>
-            <th class="col_stat stat_title"><div class="stat">DEX</div></th>
-            <th class="col_stat stat_title"><div class="stat">CON</div></th>
-            <th class="col_stat stat_title"><div class="stat">INT</div></th>
-            <th class="col_stat stat_title"><div class="stat">WIS</div></th>
-            <th class="col_stat stat_title b_right"><div class="stat">CHA</div></th>
         </tr>
     </thead>
     <tbody id="gm_table_body">
@@ -339,6 +329,89 @@
                 </table>
             </td>
         </tr>
+        <!-- tableRowHTML -->
+        <tr>
+            <td class="col_name">
+                <span class="name" role="tooltip" data-microtip-position="right" aria-label="Toggle Detail View"></span><span class="inspiration hide" role="tooltip" data-microtip-position="{0}" aria-label="Inspiration">🎲</span>
+                <span class="links"><span role="tooltip" data-microtip-position="{0}" aria-label="Edit"><a href="#" class="edit hide"></a></span><span role="tooltip" data-microtip-position="{0}" aria-label="View"><a href="#" class="view hide"></a></span></span><br/>
+                <div class="exhaust"><span></span>- - - - - -</div>
+                <div class="spellsavedc"><span></span></div>
+                <div class="classes"></div>
+                <div class="profbonus"><hr /><span class="pb" role="tooltip" data-microtip-position="right" aria-label="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
+            </td>
+            <td class="col_hp">
+                <span class="hurt"></span>
+            </td>
+            <td class="col_ac">
+                <span class="acval" role="tooltip" data-microtip-position="{0}" aria-label="Armor Class"></span>
+                <hr />
+                <span class="initval" role="tooltip" data-microtip-position="{0}" aria-label="Initiative"></span>
+            </td>
+            <td class="col_speed"></td>
+            <td class="col_stat col_titles b_left">
+                <div class="stat_title">&nbsp;</div>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">A</span><br/>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Bonus">B</span><br/>
+                <span role="tooltip" data-microtip-position="{0}" aria-label="Save">S</span></td>
+            <td class="col_stat col_str"></td>
+            <td class="col_stat col_dex"></td>
+            <td class="col_stat col_con"></td>
+            <td class="col_stat col_int"></td>
+            <td class="col_stat col_wis"></td>
+            <td class="col_stat col_cha b_right"></td>
+            <td class="col_passives">
+                per: <span></span><br />
+                inv: <span></span><br />
+                ins: <span></span>
+            </td>
+            <td class="col_money">
+                <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
+                <span class="ppc"><span class="pp"></span> pp</span>
+                <span class="epc"><span class="ep"></span> ep </span>
+                <span class="gpc"><span class="gp"></span> gp </span>
+                <span class="spc"><span class="sp"></span> sp </span>
+                <span class="cpc"><span class="cp"></span> cp </span>
+            </td>
+            <td class="col_skills"></td>
+            <td class="col_languages">
+                <div class="langset">
+                    <span class="activetitle langstitle" role="tooltip" data-microtip-position="{0}" aria-label="Languages">Langs:</span>
+                    <span class="langs"></span>
+                </div>
+                <hr class="langshr hide" />
+                <div class="resset hide">
+                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{0}" aria-label="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
+                    <span class="resists"></span>
+                </div>
+                <div class="immset hide">
+                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
+                    <span class="immunities"></span>
+                </div>
+                <div class="vulnset hide">
+                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
+                    <span class="vulnerabilities"></span>
+                </div>
+                <div class="saveset hide">
+                    <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{0}" aria-label="Save Modifiers">Saves:</span>
+                    <br />
+                    <span class="savemods"></span>
+                </div>
+            </td>
+        </tr>
+        <!-- end tableRowHTML -->
+        <!-- secondTableRowHTML -->
+        <tr id="_details" class="active_row second_row hide">
+            <td class='col_details' colspan="14">
+                <table class="table detailstable font_normal secondary">
+                    <tbody>
+                        <tr>
+                            <td class='col_skills' colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <!-- end secondTableRowHTML -->
     </tbody>
     <tfoot>
         <tr id="totals">
@@ -368,6 +441,7 @@
         <tr>
             <td colspan="15" class='gs-controls'>
                 <span class="gs-form-field gs-form-field-number gs-row-container set">
+                    <label class="" for="gs-font-size">Font:</label>
                     <select name="gs-font-size" id="gs-font-size" class='dropdown selectpicker font_size'>
                         <option disabled selected>Font Size</option>
                         <option value='0'>smallest</option>
@@ -395,6 +469,7 @@
                     <span class="gs-form-field gs-row-container set">
                         <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                         <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
+                        <a role='button' class='btn btn-outline-info' href="#">Force Refresh</a>
                     </span>
                 </span>
             </td>

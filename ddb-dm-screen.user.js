@@ -249,6 +249,7 @@ var mainTableHTML = `
                     <span class="gs-form-field gs-row-container set">
                         <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                         <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
+                        <a id="force_refresh" role='button' class='btn btn-outline-info' href="#">Force Refresh</a>
                     </span>
                 </span>
             </td>
@@ -776,6 +777,12 @@ function insertElements() {
         _setGMValue(ACTIVE_ROW_VAR_NAME_PREFIX + playerid, isActive);
 
         updateRowIfShouldBeActive(row);
+    });
+
+    // force data refresh on click
+    $("#force_refresh", node).click(function () {
+        console.log("Force Refresh...");
+        updateAllCharData();
     });
 }
 

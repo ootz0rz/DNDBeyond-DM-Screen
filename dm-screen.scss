@@ -376,7 +376,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
         // &.font_biggest { font-size: $font_biggest; }
 
         @mixin progress-font-size($sizename, $orig_size, $progress_multi) {
-            $curMulti: $orig_size / $font_normal;
+            $curMulti: calc($orig_size / $font_normal);
             &.font_#{$sizename} {
                 font-size: $orig_size;
                 .progress-wrapper {
@@ -965,6 +965,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                         .set {
                             word-wrap: nowrap;
                             white-space: nowrap;
+                            vertical-align: top;
                         }
 
                         .auto_duration {
@@ -1009,6 +1010,11 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
 
                     .btn, .form-select, .form-control, label {
                         zoom: $zoomamt;
+
+                        &.btn-outline-info {
+                            // make sure the color sticks even after clicked
+                            color: $info !important;
+                        }
                     }
                 }
             }
