@@ -334,6 +334,8 @@ $font_normal: $font-size-base * 1.0;
 $font_big: $font-size-base * 1.25;
 $font_biggest: $font-size-base * 1.5;
 
+$btnzoomamt: .7;
+
 // assets
 $viewIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
 $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
@@ -832,6 +834,20 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     // font-family: $font-family-sans-serif;
                     width: auto;
                     white-space: normal;
+
+                    .btn {
+                        &.btn-outline-light {
+                            color: $light !important;
+                            zoom: $btnzoomamt;
+                            &:hover {
+                                color: color-contrast($light) !important;
+                            }
+                        }
+
+                        &.halftoggle {
+                            float: right;
+                        }
+                    }
                     
                     span {
                         white-space: normal;
@@ -951,7 +967,6 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
             td.col_skills span { white-space: nowrap; }
 
             tfoot {
-                $zoomamt: .7;
                 td {
                     &.col_name {
                         vertical-align: middle;
@@ -1009,7 +1024,7 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
                     }
 
                     .btn, .form-select, .form-control, label {
-                        zoom: $zoomamt;
+                        zoom: $btnzoomamt;
 
                         &.btn-outline-info {
                             // make sure the color sticks even after clicked

@@ -11778,6 +11778,16 @@ textarea.form-control-lg {
   width: auto;
   white-space: normal;
 }
+#gmstats table.table th.col_skills .btn.btn-outline-light, #gmstats table.table td.col_skills .btn.btn-outline-light {
+  color: #f8f9fa !important;
+  zoom: 0.7;
+}
+#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.halftoggle {
+  float: right;
+}
 #gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
   white-space: normal;
 }

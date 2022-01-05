@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.0.53
+// @version         1.1.0
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1694,6 +1694,9 @@ function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
 }
 
 function updateSkillProfs(parent, parent_secondrow, skills, customs) {
+    const isHidden = "ishidden";
+    const saveName = "-arehalfprofshidden-";
+
     function skillSort(x, y) {
         if (x.name < y.name) return -1;
         if (x.name > y.name) return 1;
@@ -1706,11 +1709,44 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
     everything = [...genSkillsArray(skills), ...genSkillsArray(customs, isCustom=true)];
     
     var skillsnode = $(".col_skills", parent);
-    skillsnode.html(everything.join(" "));
+    skillsnode.empty();
+    skillsnode.append(everything.join(" "));
 
     // copy to details row as well
     var skillsnode_details = $(".col_skills", parent_secondrow);
     skillsnode_details.html('<span class="{0}">Skills:</span> {1}'.format(ACTIVE_ROW_TITLE_CLASS, skillsnode.html()));
+
+    // add 1/2 skill toggle
+    var allHalf = $(".halfprof", skillsnode);
+    if (allHalf.length > 0) {
+        var rowid = parent.attr('id');
+
+        var halfBtn = $(
+            // TODO fix tooltip not showing at right position when using css float
+            // addTooltip(
+                `<a role='button' class='btn btn-outline-light halftoggle' href="#">½</a>`,
+            //     "Toggle ½ Proficiency Display"
+            // )
+        );
+        skillsnode.prepend(halfBtn);
+
+        function toggleHidden() {
+            allHalf.toggleClass(HIDE_CLASS);
+            halfBtn.toggleClass(isHidden);
+        }
+        
+        // setup action
+        halfBtn.click(() => {
+            toggleHidden();
+            _setGMValue(saveName + rowid, halfBtn.hasClass(isHidden));
+        });
+
+        // read saved values if any
+        var hideOnLoad = _getGMValueOrDefault(saveName + rowid, false);
+        if (hideOnLoad) {
+            toggleHidden();
+        }
+    }
 }
 
 function genSkillsArray(skills, isCustom=false) {
