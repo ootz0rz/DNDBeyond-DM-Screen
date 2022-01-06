@@ -11421,12 +11421,30 @@ textarea.form-control-lg {
   font-size: 0.5rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_smallest .deficon, #gmstats table.font_smallest svg.deficon {
+#gmstats table.font_smallest .btn.btn-outline-info {
+  color: #0dcaf0 !important;
+}
+#gmstats table.font_smallest .btn.btn-outline-info:hover {
+  color: #000 !important;
+}
+#gmstats table.font_smallest .btn.btn-outline-secondary {
+  color: #6c757d !important;
+}
+#gmstats table.font_smallest .btn.btn-outline-secondary:hover {
+  color: #fff !important;
+}
+#gmstats table.font_smallest .btn.btn-outline-light {
+  color: #f8f9fa !important;
+}
+#gmstats table.font_smallest .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.font_smallest .deficon, #gmstats table.font_smallest svg.deficon, #gmstats table.font_smallest .deficon svg {
   width: 7px;
   height: 7px;
   margin-top: -0.25rem;
 }
-#gmstats table.font_smallest .deficon.white, #gmstats table.font_smallest svg.deficon.white {
+#gmstats table.font_smallest .deficon.white, #gmstats table.font_smallest svg.deficon.white, #gmstats table.font_smallest .deficon svg.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_small {
@@ -11439,12 +11457,30 @@ textarea.form-control-lg {
   font-size: 0.75rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_small .deficon, #gmstats table.font_small svg.deficon {
+#gmstats table.font_small .btn.btn-outline-info {
+  color: #0dcaf0 !important;
+}
+#gmstats table.font_small .btn.btn-outline-info:hover {
+  color: #000 !important;
+}
+#gmstats table.font_small .btn.btn-outline-secondary {
+  color: #6c757d !important;
+}
+#gmstats table.font_small .btn.btn-outline-secondary:hover {
+  color: #fff !important;
+}
+#gmstats table.font_small .btn.btn-outline-light {
+  color: #f8f9fa !important;
+}
+#gmstats table.font_small .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.font_small .deficon, #gmstats table.font_small svg.deficon, #gmstats table.font_small .deficon svg {
   width: 10.5px;
   height: 10.5px;
   margin-top: -0.25rem;
 }
-#gmstats table.font_small .deficon.white, #gmstats table.font_small svg.deficon.white {
+#gmstats table.font_small .deficon.white, #gmstats table.font_small svg.deficon.white, #gmstats table.font_small .deficon svg.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_normal {
@@ -11457,12 +11493,30 @@ textarea.form-control-lg {
   font-size: 1rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_normal .deficon, #gmstats table.font_normal svg.deficon {
+#gmstats table.font_normal .btn.btn-outline-info {
+  color: #0dcaf0 !important;
+}
+#gmstats table.font_normal .btn.btn-outline-info:hover {
+  color: #000 !important;
+}
+#gmstats table.font_normal .btn.btn-outline-secondary {
+  color: #6c757d !important;
+}
+#gmstats table.font_normal .btn.btn-outline-secondary:hover {
+  color: #fff !important;
+}
+#gmstats table.font_normal .btn.btn-outline-light {
+  color: #f8f9fa !important;
+}
+#gmstats table.font_normal .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.font_normal .deficon, #gmstats table.font_normal svg.deficon, #gmstats table.font_normal .deficon svg {
   width: 14px;
   height: 14px;
   margin-top: -0.25rem;
 }
-#gmstats table.font_normal .deficon.white, #gmstats table.font_normal svg.deficon.white {
+#gmstats table.font_normal .deficon.white, #gmstats table.font_normal svg.deficon.white, #gmstats table.font_normal .deficon svg.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_big {
@@ -11475,12 +11529,30 @@ textarea.form-control-lg {
   font-size: 1.25rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_big .deficon, #gmstats table.font_big svg.deficon {
+#gmstats table.font_big .btn.btn-outline-info {
+  color: #0dcaf0 !important;
+}
+#gmstats table.font_big .btn.btn-outline-info:hover {
+  color: #000 !important;
+}
+#gmstats table.font_big .btn.btn-outline-secondary {
+  color: #6c757d !important;
+}
+#gmstats table.font_big .btn.btn-outline-secondary:hover {
+  color: #fff !important;
+}
+#gmstats table.font_big .btn.btn-outline-light {
+  color: #f8f9fa !important;
+}
+#gmstats table.font_big .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.font_big .deficon, #gmstats table.font_big svg.deficon, #gmstats table.font_big .deficon svg {
   width: 17.5px;
   height: 17.5px;
   margin-top: -0.25rem;
 }
-#gmstats table.font_big .deficon.white, #gmstats table.font_big svg.deficon.white {
+#gmstats table.font_big .deficon.white, #gmstats table.font_big svg.deficon.white, #gmstats table.font_big .deficon svg.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.font_biggest {
@@ -11493,12 +11565,30 @@ textarea.form-control-lg {
   font-size: 1.5rem !important;
   padding: 0.28125rem 0.5625rem;
 }
-#gmstats table.font_biggest .deficon, #gmstats table.font_biggest svg.deficon {
+#gmstats table.font_biggest .btn.btn-outline-info {
+  color: #0dcaf0 !important;
+}
+#gmstats table.font_biggest .btn.btn-outline-info:hover {
+  color: #000 !important;
+}
+#gmstats table.font_biggest .btn.btn-outline-secondary {
+  color: #6c757d !important;
+}
+#gmstats table.font_biggest .btn.btn-outline-secondary:hover {
+  color: #fff !important;
+}
+#gmstats table.font_biggest .btn.btn-outline-light {
+  color: #f8f9fa !important;
+}
+#gmstats table.font_biggest .btn.btn-outline-light:hover {
+  color: #000 !important;
+}
+#gmstats table.font_biggest .deficon, #gmstats table.font_biggest svg.deficon, #gmstats table.font_biggest .deficon svg {
   width: 21px;
   height: 21px;
   margin-top: -0.25rem;
 }
-#gmstats table.font_biggest .deficon.white, #gmstats table.font_biggest svg.deficon.white {
+#gmstats table.font_biggest .deficon.white, #gmstats table.font_biggest svg.deficon.white, #gmstats table.font_biggest .deficon svg.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
 #gmstats table.stattable, #gmstats table.detailstable {
@@ -11522,6 +11612,25 @@ textarea.form-control-lg {
 }
 #gmstats table.primary {
   width: 99.8%;
+}
+#gmstats table.detailstable tr, #gmstats table.detailstable td, #gmstats table.detailstable th, #gmstats table.detailstable div, #gmstats table.detailstable span {
+  white-space: normal;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+#gmstats table.detailstable .togglebtn {
+  font-weight: bold;
+  zoom: 0.7;
+}
+#gmstats table.detailstable .togglebtn.deactivebtn {
+  text-decoration: underline;
+}
+#gmstats table.detailstable .togglebtn.activebtn {
+  text-decoration: underline;
+}
+#gmstats table.detailstable .col_toggles .col_actions .action {
+  display: inline-block;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 #gmstats table.stattable th {
   color: grey;
@@ -11574,7 +11683,7 @@ textarea.form-control-lg {
 #gmstats table.table td, #gmstats table.table th {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages {
+#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td .col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td .col_skills, #gmstats table.table tfoot td.col_languages {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 #gmstats table.table td.hover_col, #gmstats table.table tr.hover_col, #gmstats table.table th.hover_col {
@@ -11608,7 +11717,7 @@ textarea.form-control-lg {
 #gmstats table.table tbody tr.active_row td.col_name .profbonus {
   display: inline-block;
 }
-#gmstats table.table tbody tr.active_row td.col_skills span.noprof {
+#gmstats table.table tbody tr.active_row td.col_skills span.noprof, #gmstats table.table tbody tr.active_row td .col_skills span.noprof {
   display: inline !important;
   visibility: visible;
   opacity: 1;
@@ -11799,73 +11908,73 @@ textarea.form-control-lg {
 #gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc {
   white-space: nowrap;
 }
-#gmstats table.table th.col_skills, #gmstats table.table td.col_skills {
+#gmstats table.table th.col_skills, #gmstats table.table th .col_skills, #gmstats table.table td.col_skills, #gmstats table.table td .col_skills {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_skills .btn.btn-outline-light, #gmstats table.table td.col_skills .btn.btn-outline-light {
+#gmstats table.table th.col_skills .btn.btn-outline-light, #gmstats table.table th .col_skills .btn.btn-outline-light, #gmstats table.table td.col_skills .btn.btn-outline-light, #gmstats table.table td .col_skills .btn.btn-outline-light {
   color: #f8f9fa !important;
   zoom: 0.7;
 }
-#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:hover {
+#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table th .col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:hover, #gmstats table.table td .col_skills .btn.btn-outline-light:hover {
   color: #000 !important;
 }
-#gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.halftoggle {
+#gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table th .col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.halftoggle, #gmstats table.table td .col_skills .btn.halftoggle {
   float: right;
 }
-#gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
+#gmstats table.table th.col_skills span, #gmstats table.table th .col_skills span, #gmstats table.table td.col_skills span, #gmstats table.table td .col_skills span {
   white-space: normal;
 }
-#gmstats table.table th.col_skills span span.value, #gmstats table.table td.col_skills span span.value {
+#gmstats table.table th.col_skills span span.value, #gmstats table.table th .col_skills span span.value, #gmstats table.table td.col_skills span span.value, #gmstats table.table td .col_skills span span.value {
   white-space: normal;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table th.col_skills span.normal, #gmstats table.table td.col_skills span.normal {
+#gmstats table.table th.col_skills span.normal, #gmstats table.table th .col_skills span.normal, #gmstats table.table td.col_skills span.normal, #gmstats table.table td .col_skills span.normal {
   color: grey;
 }
-#gmstats table.table th.col_skills span.normal span.value, #gmstats table.table td.col_skills span.normal span.value {
+#gmstats table.table th.col_skills span.normal span.value, #gmstats table.table th .col_skills span.normal span.value, #gmstats table.table td.col_skills span.normal span.value, #gmstats table.table td .col_skills span.normal span.value {
   color: grey;
 }
-#gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value {
+#gmstats table.table th.col_skills span.high span.value, #gmstats table.table th .col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value, #gmstats table.table td .col_skills span.high span.value {
   color: #afffb6;
 }
-#gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value {
+#gmstats table.table th.col_skills span.low span.value, #gmstats table.table th .col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value, #gmstats table.table td .col_skills span.low span.value {
   color: #ffafaf;
 }
-#gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof {
+#gmstats table.table th.col_skills span.prof, #gmstats table.table th .col_skills span.prof, #gmstats table.table td.col_skills span.prof, #gmstats table.table td .col_skills span.prof {
   color: white;
 }
-#gmstats table.table th.col_skills span.expert, #gmstats table.table td.col_skills span.expert {
+#gmstats table.table th.col_skills span.expert, #gmstats table.table th .col_skills span.expert, #gmstats table.table td.col_skills span.expert, #gmstats table.table td .col_skills span.expert {
   color: #ffdc41;
 }
-#gmstats table.table th.col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof {
+#gmstats table.table th.col_skills span.halfprof, #gmstats table.table th .col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof, #gmstats table.table td .col_skills span.halfprof {
   color: silver;
 }
-#gmstats table.table th.col_skills span.noprof, #gmstats table.table td.col_skills span.noprof {
+#gmstats table.table th.col_skills span.noprof, #gmstats table.table th .col_skills span.noprof, #gmstats table.table td.col_skills span.noprof, #gmstats table.table td .col_skills span.noprof {
   color: grey;
   display: none;
   visibility: hidden;
   opacity: 0;
   transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
 }
-#gmstats table.table th.col_skills span.advdisadv, #gmstats table.table td.col_skills span.advdisadv {
+#gmstats table.table th.col_skills span.advdisadv, #gmstats table.table th .col_skills span.advdisadv, #gmstats table.table td.col_skills span.advdisadv, #gmstats table.table td .col_skills span.advdisadv {
   display: inline !important;
   visibility: visible;
   opacity: 1;
   transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
 }
-#gmstats table.table th.col_skills span.advdisadv.adv, #gmstats table.table td.col_skills span.advdisadv.adv {
+#gmstats table.table th.col_skills span.advdisadv.adv, #gmstats table.table th .col_skills span.advdisadv.adv, #gmstats table.table td.col_skills span.advdisadv.adv, #gmstats table.table td .col_skills span.advdisadv.adv {
   text-decoration: underline;
   text-decoration-color: lime;
 }
-#gmstats table.table th.col_skills span.advdisadv.disadv, #gmstats table.table td.col_skills span.advdisadv.disadv {
+#gmstats table.table th.col_skills span.advdisadv.disadv, #gmstats table.table th .col_skills span.advdisadv.disadv, #gmstats table.table td.col_skills span.advdisadv.disadv, #gmstats table.table td .col_skills span.advdisadv.disadv {
   text-decoration: underline;
   text-decoration-color: red;
 }
-#gmstats table.table th.col_skills span.custom, #gmstats table.table td.col_skills span.custom {
+#gmstats table.table th.col_skills span.custom, #gmstats table.table th .col_skills span.custom, #gmstats table.table td.col_skills span.custom, #gmstats table.table td .col_skills span.custom {
   font-style: italic;
 }
-#gmstats table.table th.col_skills span.c:not(:last-child):after, #gmstats table.table td.col_skills span.c:not(:last-child):after {
+#gmstats table.table th.col_skills span.c:not(:last-child):after, #gmstats table.table th .col_skills span.c:not(:last-child):after, #gmstats table.table td.col_skills span.c:not(:last-child):after, #gmstats table.table td .col_skills span.c:not(:last-child):after {
   color: white !important;
   content: ",";
 }
@@ -11890,7 +11999,7 @@ textarea.form-control-lg {
 #gmstats table.table th.col_languages .inactiveset, #gmstats table.table td.col_languages .inactiveset {
   display: none;
 }
-#gmstats table.table td.col_skills span {
+#gmstats table.table td.col_skills span, #gmstats table.table .col_skills span {
   white-space: nowrap;
 }
 #gmstats table.table tfoot td.col_name {

@@ -68,6 +68,40 @@ const fontSizeMap = {
     4: 'font_biggest',
 }
 
+const actionTypeMap = {
+    UNKNOWN: "Unknown",
+    ACTION: "Action",
+    ATTACK: "Attack",
+    SPELL: "Spell",
+    ITEM: "Item",
+    CLASS_FEAT: "Class",
+    RACE_FEAT: "Race",
+    INVENTORY: 'Inventory',
+}
+
+const actionTypeOrderMap = {
+    'Unknown': 999,
+    'Action': 15,
+    'Attack': 10,
+    'Spell': 30,
+    'Item': 20,
+    'Class': 40,
+    'Race': 50,
+    'Inventory': 100,
+}
+
+const activationTypeMap = {
+    ACTION: 'action',
+    BONUS: 'bonus',
+}
+
+const activationIdToType = {
+    1: activationTypeMap.ACTION,
+    3: activationTypeMap.BONUS,
+};
+
+const UNITS_FT = 'ft.';
+
 const showAbilitiesDefault = true;
 const showSavingThrowsDefault = true;
 const showSensesDefault = true;
@@ -197,17 +231,17 @@ function GET_AOE_ICON_FROM_ID(id, color = SVG_CLASS_ICON_WHITE) {
 // -------------------------------------------------------
 const SVG_DMG_ACID = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.91 17.92" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--acid"><path fill="#242528" d="M6.84,10.62q.65,0,.65-.8a.69.69,0,0,0-.16-.5.64.64,0,0,0-.48-.16q-.67,0-.67.72T6.84,10.62Z"></path><path fill="#242528" d="M4.53,10.62q.66,0,.66-.8t-.64-.66A.66.66,0,0,0,4,9.33a.76.76,0,0,0-.17.54Q3.87,10.62,4.53,10.62Z"></path><path fill="#242528" d="M5.49.65V0a3.3,3.3,0,0,1,0,.34,3.3,3.3,0,0,1,0-.34V.65C4.8,3.87,0,8.34,0,12.08c0,4,2,5.8,5.42,5.83h.07c3.47,0,5.42-1.86,5.42-5.83C10.91,8.34,6.11,3.87,5.49.65ZM3.69,6.91a2.93,2.93,0,0,1,2-.65,2.93,2.93,0,0,1,2,.65A2.12,2.12,0,0,1,8.39,8.6a3.45,3.45,0,0,1-.5,1.75,1,1,0,0,0-.08.28l-.1.65-1.09.52-.16.4a2.54,2.54,0,0,1-.8.1,3.37,3.37,0,0,1-.45,0,2.09,2.09,0,0,1-.35-.07l-.16-.4-1.1-.52-.1-.65a2.67,2.67,0,0,0-.34-.73,2.65,2.65,0,0,1-.24-1.3A2.12,2.12,0,0,1,3.69,6.91ZM8.08,16q-.3.36-.49.36t-.45-.61l-.07-.19a10,10,0,0,0-1.63-1.13,8.87,8.87,0,0,0-1.65,1.19q-.1.73-.44.73t-.49-.41q-.66,0-.66-.36a.4.4,0,0,1,.25-.39,4.29,4.29,0,0,1,1-.24,11.71,11.71,0,0,1,1.4-.87,7,7,0,0,0-1.78-.67,1.57,1.57,0,0,1-.3.21.55.55,0,0,1-.25.07.4.4,0,0,1-.26-.07.25.25,0,0,1-.09-.21,1.24,1.24,0,0,1,.29-.5,1.86,1.86,0,0,1-.06-.4.45.45,0,0,1,.08-.29.28.28,0,0,1,.23-.09.7.7,0,0,1,.39.19,4.73,4.73,0,0,1,.58.59,15.64,15.64,0,0,1,1.79.8q.42-.23,1.48-.68l.27-.12a6.63,6.63,0,0,1,.62-.57.75.75,0,0,1,.36-.19.24.24,0,0,1,.2.08.42.42,0,0,1,.06.26,2.75,2.75,0,0,1,0,.42,1,1,0,0,1,.28.52.29.29,0,0,1-.08.22.33.33,0,0,1-.23.07.6.6,0,0,1-.24-.08l-.4-.24A7.2,7.2,0,0,0,6,14.1l.21.12q.39.22,1,.59l.32.19q1.18.14,1.18.6Q8.72,15.9,8.08,16Z"></path><path fill="#242528" d="M5.51,11.67a.36.36,0,0,0,.19-.06.36.36,0,0,0,.19.06q.29,0,.29-.26A.6.6,0,0,0,6,11.09a3.06,3.06,0,0,1-.29-.41,3.38,3.38,0,0,1-.29.41.6.6,0,0,0-.19.33.23.23,0,0,0,.07.19A.32.32,0,0,0,5.51,11.67Z"></path></svg>`;
 const SVG_DMG_BLUDGEON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.29 19.76" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--bludgeoning"><polygon fill="#242528" points="5.88 14.95 0.45 15.85 4.14 12.74 0.15 9.36 4.26 9.36 0 0 5.52 4.58 4.61 1.05 6.75 2.8 8.19 0.43 9.93 3.57 11.67 0.68 10.68 13.56 5.88 14.95"></polygon><polygon fill="#242528" points="5.17 19.26 8.62 13.3 8.09 12.99 8.71 11.92 7.2 11.05 6.71 11.9 4.16 10.44 7.91 3.95 10.45 5.41 9.97 6.25 11.46 7.11 13.53 4.75 16.22 7.44 14.9 9.09 16.58 10.06 17.06 9.23 19.6 10.7 15.86 17.19 13.31 15.72 13.81 14.86 12.13 13.89 11.51 14.96 10.99 14.66 8.35 19.26 5.17 19.26"></polygon><path fill="#fff" d="M8.09,4.63l1.68,1L6.52,11.22l-1.68-1L8.09,4.63m5.46.85,2,2L14.5,8.79,11.95,7.32l1.61-1.84M9.78,6.71l6.5,3.75L14,14.4,7.5,10.64,9.78,6.71m7.47,3.2,1.68,1L15.67,16.5l-1.68-1,3.25-5.63h0M9.12,12.22h0m0,0,2.55,1.47-.34.59L8.78,12.81l.34-.59M9,13.6l1.51.87-2.47,4.3H6L9,13.6H9M7.73,3.26l-.5.87L4,9.75l-.5.87.87.5,1.68,1,.87.5.5-.86L8,12.1l-.12.21-.5.87.53.3L5.17,18.26l-.87,1.5H8.63l.29-.5,2.25-3.92.52.3.5-.87.12-.21.81.47-.5.86.87.5,1.68,1,.87.5.5-.87,3.25-5.63.5-.87-.87-.5L17.74,9l-.87-.5-.48.83-.74-.43.68-.84.56-.7-.63-.63-2-2L13.5,4l-.7.81L11.36,6.47l-.7-.41.48-.83-.87-.5-1.68-1-.87-.5Z"></path></svg>`;
-const SVG_DMG_COLD = ``;
-const SVG_DMG_FIRE = ``;
-const SVG_DMG_FORCE = ``;
-const SVG_DMG_LIGHTNING = ``;
-const SVG_DMG_NECROTIC = ``;
+const SVG_DMG_COLD = `cold`;
+const SVG_DMG_FIRE = `fire`;
+const SVG_DMG_FORCE = `force`;
+const SVG_DMG_LIGHTNING = `lightning`;
+const SVG_DMG_NECROTIC = `necrotic`;
 const SVG_DMG_PIERCING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#242528" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#242528" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#fff" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg>`;
-const SVG_DMG_POISON = ``;
-const SVG_DMG_PSYCHIC = ``;
-const SVG_DMG_RADIANT = ``;
-const SVG_DMG_SLASHING = ``;
-const SVG_DMG_THUNDER = ``;
+const SVG_DMG_POISON = `poison`;
+const SVG_DMG_PSYCHIC = `psychic`;
+const SVG_DMG_RADIANT = `radiant`;
+const SVG_DMG_SLASHING = `slashing`;
+const SVG_DMG_THUNDER = `thunder`;
 
 const DMG_ID_TO_SVG = {
 
@@ -412,7 +446,36 @@ var tableSecondRowHTML = `
                 <table class="table detailstable font_normal secondary">
                     <tbody>
                         <tr>
-                            <td class='col_skills' colspan="2"></td>
+                            <td class="col_toggles" colspan="2">
+                                <div class="toggleset skills">
+                                    <a class="btn btn-outline-light togglebtn skills" href="#">Skills</a>
+                                    <span class="col_skills collapse show">                                        
+                                    </span>
+                                </div>
+                                <div class="toggleset actions">
+                                    <a class="btn btn-outline-light togglebtn actions" href="#">Actions</a>
+                                    <span class="col_actions collapse show">
+                                        <span class="action">
+                                            <span class="name">Crossbow, Light</span>
+                                            <span class="details">Ranged Weapon</span>
+                                            <span class="range">80<span class="units">ft.</span><span class="max">(320)</span></span>
+                                            <span class="area">10<span class="units">ft.</span><span class="aoetype deficon white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18.06" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--sphere"><path fill="#242528" d="M9,1A8,8,0,1,1,1,9,8,8,0,0,1,9,1M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z"></path><path fill="#242528" d="M9,18.06a.5.5,0,0,1,0-1c2,0,3.65-3.68,3.65-8S11,1,9,1A.5.5,0,0,1,9,0c2.61,0,4.65,4,4.65,9S11.61,18.06,9,18.06Z"></path><path fill="#242528" d="M9.48,11.44A18.11,18.11,0,0,1,.28,8.84.5.5,0,0,1,.78,8c9,5.25,16.37.49,16.44.44a.5.5,0,0,1,.56.83A16.25,16.25,0,0,1,9.48,11.44Z"></path></svg></span></span>
+                                            <span class="hit_dc">+5</span>
+                                            <span class="damage">1d8+3 <span class="dmgtype deficon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#b0b7bd" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#b0b7bd" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#242528" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg></span></span>
+                                            <span class="notes">Simple, Ammunition, Loading, Range, Two-Handed, Range (80/320)</span>
+                                        </span>
+                                        <span class="action">
+                                            <span class="name">Gnoll Longbow</span>
+                                            <span class="details">Ranged Weapon, Customized</span>
+                                            <span class="range">150<span class="units">ft.</span><span class="max">(600)</span></span>
+                                            <span class="area"></span>
+                                            <span class="hit_dc">+5</span>
+                                            <span class="damage">1d8+3 <span class="dmgtype deficon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#b0b7bd" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#b0b7bd" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#242528" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg></span></span>
+                                            <span class="notes">Martial, Ammunition, Heavy, Range, Two-Handed, Range (150/600), This longbow grants</span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -931,8 +994,7 @@ function updateCharData(url, activeType) {
                         var charData = window.moduleExport.getCharData(charactersData[charId].state);
                         charactersData[charId].data = charData;
                         updateElementData(charactersData[charId], charId);
-                        console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
-                        console.log(charactersData[charId]);
+                        console.log("Retrived Char Data for char (" + charId + ") aka " + charactersData[charId].data.name, charactersData[charId]);
                         resolve();
                     });
                 } else {
@@ -1298,6 +1360,269 @@ function updateElementData(allCharData, charId) {
     updateSkillProfs(parent, parent_secondrow, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
     updateDefenses(parent, character);
+
+    updateDetails(parent, parent_secondrow, allCharData, character, charId);
+}
+
+function updateDetails(parent, parent_secondrow, allCharData, character, charId) {
+    updateActions(parent_secondrow, character);
+}
+
+function updateActions(parent, character) {
+    var all_actions = [];
+
+    const col_actions = $(".col_actions", parent);
+    col_actions.empty();
+
+    function appendActionIfNotNull(o) {
+        if (o != null) { all_actions.push(o); }
+    }
+
+    // attacks
+    character.attacks.forEach((item, idx) => {
+        console.log("updateActions character attacks({0}): {1}".format(item.data.name, item.type), item);
+
+        if (item.type == "ITEM") {
+            appendActionIfNotNull(_genActionNodeFromItem(item));
+        } else if (item.type == "SPELL") {
+            appendActionIfNotNull(_genActionNodeFromSpell(item));
+        } else if (item.type == "ACTION") {
+            appendActionIfNotNull(_genActionNodeFromAction(item));
+        } else {
+            appendActionIfNotNull(_genActionNode(
+                item.data.name,
+                details = item.data.key + " type: " + item.type,
+                type = actionTypeMap.UNKNOWN,
+            ));
+        }
+    });
+
+    // classes
+    character.classes.forEach((c, cidx) => {
+        c.actions.forEach((action, aidx) => {
+            console.log("updateActions class action({0})".format(action.name), action);
+            appendActionIfNotNull(_genActionNode(
+                action.name,
+                type = actionTypeMap.CLASS_FEAT
+            ));
+        })
+    });
+
+    // race
+    character.race.actions.forEach((action, aidx) => {
+        console.log("updateActions race action({0})".format(action.name), action);
+        appendActionIfNotNull(_genActionNode(
+            action.name,
+            type = actionTypeMap.RACE_FEAT
+        ));
+    });
+
+    // items that aren't already displayed as attacks, but may have things like charges or spells or w/e we can use
+    /*
+    // TODO this should go into its own inventory section
+    function _genLimitedUseInventoryItemData(item) {
+        console.log("_genLimitedUseInventoryItemData({0})".format(item.name));
+
+        var limUse = null;
+        if (item.limitedUse !== null) {
+            limUse = {
+                'used': item.limitedUse.numberUsed,
+                'max': item.limitedUse.maxUses,
+            };
+        }
+
+        return limUse;
+    }
+
+    const inventoryTags = ['Consumable', 'Combat', 'Damage', 'Healing'];
+    character.inventory.forEach((item, idx) => {
+        if (item.isDisplayAsAttack) {
+            return;
+        }
+
+        if (item.canEquip && !item.equipped) {
+            return;
+        }
+
+        var hasTag = false;
+        item.definition.tags.forEach((tag, tidx) => {
+            // console.log('tag:', tag, 'in:', inventoryTags, ' => ', tag in inventoryTags);
+            if (inventoryTags.indexOf(tag) != -1) {
+                hasTag = true;
+                return;
+            }
+        });
+
+        console.log(
+            "updateActions inventory action<tags>({0}) => hasTag:{1}".format(item.name, hasTag), item.definition.tags, 'from', inventoryTags
+        );
+
+        // if (!hasTag) {
+        //     return;
+        // }
+
+        // limited use item?
+        var limUse = _genLimitedUseInventoryItemData(item);
+
+        console.log(
+            "updateActions inventory action({0})".format(item.name), item,
+            '\n', 'limuse: ', limUse,
+        );
+
+        // TODO final check for if we have any data we can use to add this to actions list...
+
+        appendActionIfNotNull(_genActionNode(
+            item.name,
+            type = actionTypeMap.INVENTORY
+        ));
+    });
+    */
+
+    // finally sort + append all attacks to our main node
+    function defSort(a, b, sameFunc = null) {
+        // console.log("-> defSort", a, b, !(sameFunc === null && typeof sameFunc !== 'function'));
+
+        if (a < b) return -1;
+        if (a > b) return 1;
+        
+        if (sameFunc === null && typeof sameFunc !== 'function') {
+            return 0;
+        }
+
+        return sameFunc(a, b);
+    }
+    
+    function actionSort(x, y) {
+        var $x = $(x);
+        var $y = $(y);
+
+        function actionSortName() {
+            $xName = $(".name", $x).html();
+            $yName = $(".name", $y).html();
+
+            return defSort($xName, $yName);
+        }
+
+        $xType = $x.attr('action-type');
+        $yType = $y.attr('action-type');
+
+        return defSort(actionTypeOrderMap[$xType], actionTypeOrderMap[$yType], actionSortName);
+    }
+
+    all_actions.sort(actionSort);
+
+    col_actions.append(all_actions);
+}
+
+function _genActionNodeFromAction(action) {
+    console.log("_genActionNodeFromAction({0})".format(action.data.name));
+
+    return _genActionNode(
+        action.data.name,
+        type = actionTypeMap.ACTION,
+    );
+}
+
+function _genActionNodeFromSpell(spell) {
+    console.log("_genActionNodeFromSpell({0})".format(spell.data.name));
+
+    return _genActionNode(
+        spell.data.name,
+        type = actionTypeMap.SPELL,
+    );
+}
+
+function _genActionNodeFromItem(item) {
+    console.log("_genActionNodeFromItem({0})".format(item.data.name));
+
+    var itemData = item.data;
+    var itemDef = itemData.definition;    
+
+    // details
+    // ------------------------------
+    var detailsArr = [];
+    if (itemData.hasOwnProperty('categoryInfo')) {
+        detailsArr.push(itemData.categoryInfo.name); // simple, martial, etc..
+    }
+    itemData.properties.forEach((prop, pidx) => {
+        detailsArr.push(prop.name);
+    });
+
+    // gen and return node
+    // ------------------------------
+    return _genActionNode(
+        itemData.name,
+
+        type = actionTypeMap.ITEM,
+        actionTypeId = item.activation,
+        details = detailsArr.join(', '),
+
+        reach = tryGetMapValue(itemData, 'reach'), reachUnits = UNITS_FT,
+        range = tryGetMapValue(itemDef, 'range'), rangeUnits = UNITS_FT, rangeLong = tryGetMapValue(itemDef, 'longRange'),
+    );
+}
+
+function _genActionNode(
+    name,
+
+    type = actionTypeMap.UNKNOWN,
+    actionTypeId = 1, // action by default
+    details = "",
+
+    reach = "", reachUnits = UNITS_FT,
+    range = "", rangeUnits = UNITS_FT, rangeLong = "",
+
+    area = "", areaUnits = UNITS_FT, areaType = "",
+    
+    hitDC = "",
+    damage = "", damageType = "",
+
+    notes = ""
+) {
+    // /*
+    const sep = '\n';
+    const div = ' | ';
+    console.log(
+        'gen action node: ', 
+        name, 'type: ', type, 'actiontypeid: ', actionTypeId, sep,
+        'reach: ', reach, div, reachUnits, sep,
+        'range: ', range, div, rangeUnits, div, rangeLong, sep,
+        'area: ', area, div, areaUnits, div, areaType, sep,
+        'hitDC: ', hitDC, sep,
+        'damage: ', damage, div, damageType, sep,
+        'notes: ', notes,
+    );
+    // */
+
+    var actionTypeName = '';
+    if (actionTypeId in activationIdToType) {
+        actionTypeName = activationIdToType[actionTypeId];
+    } else {
+        actionTypeName += actionTypeId;
+    }
+    var aNode = $("<span class='action {0} {1}' action-type='{0}' activation-type='{1}'></span>".format(
+        type,
+        actionTypeName
+    ));
+    
+    aNode.append("<span class='name'>{0}</span>".format(name));
+    aNode.append("<span class='details'>{0}</span>".format(details));
+
+    // range
+    var rangeNode = $(`<span class="range"></span>`);
+    if (!isStrEmpty(range)) {
+        rangeNode.append(`<span class='rangeval'>{0}</span>`.format(range));
+
+        if (!isStrEmpty(rangeUnits)) rangeNode.append(`<span class="units">{0}</span>`.format(rangeUnits));
+        if (!isStrEmpty(rangeLong)) rangeNode.append(`<span class="long">({0})</span>`.format(rangeLong));
+    }
+    if (!isStrEmpty(reach)) {
+        rangeNode.addClass('reach');
+        rangeNode.append(`<span class='reachval'>{0}</span>`.format(reach));
+    }
+    aNode.append(rangeNode);
+
+    return aNode;
 }
 
 function updateRowIfShouldBeActive(primaryRow) {
@@ -1778,7 +2103,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
 
     // copy to details row as well
     var skillsnode_details = $(".col_skills", parent_secondrow);
-    skillsnode_details.html('<span class="{0}">Skills:</span> {1}'.format(ACTIVE_ROW_TITLE_CLASS, skillsnode.html()));
+    skillsnode_details.html('{0}'.format(skillsnode.html()));
 
     // add 1/2 skill toggle
     var allHalf = $(".halfprof", skillsnode);
@@ -2354,4 +2679,16 @@ function getStatScoreNameFromID(dataAbilities, id) {
     });
     
     return stat;
+}
+
+function isStrEmpty(str) {
+    return !(!!str);
+}
+
+function tryGetMapValue(map, key, defaultValue = '') {
+    if (map.hasOwnProperty(key)) {
+        return map[key];
+    }
+
+    return defaultValue;
 }

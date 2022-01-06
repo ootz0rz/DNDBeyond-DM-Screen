@@ -1,3 +1,7 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
@@ -488,7 +492,37 @@
                 <table class="table detailstable font_normal secondary">
                     <tbody>
                         <tr>
-                            <td class='col_skills' colspan="2"></td>
+                            <td class="col_toggles" colspan="2">
+                                <div class="toggleset skills">
+                                    <a class="btn btn-outline-secondary togglebtn skills deactivebtn" href="#">Skills</a>
+                                    <span class="col_skills collapse" id="toggle_skills">
+                                        <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Acrobatics<sup></sup> <span class="value">+3</span></span></span> <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Animal Handling<sup></sup> <span class="value">+4</span></span></span> <span class="c noprof normal"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Arcana<sup></sup> <span class="value">+0</span></span></span> <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Athletics<sup></sup> <span class="value">+1</span></span></span> <span class="c noprof low"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Deception<sup></sup> <span class="value">-1</span></span></span> <span class="c prof high"><span role="tooltip" data-microtip-position="top" aria-label="Proficiency">History<sup></sup> <span class="value">+2</span></span></span> <span class="c prof high"><span role="tooltip" data-microtip-position="top" aria-label="Proficiency">Insight<sup></sup> <span class="value">+6</span></span></span> <span class="c noprof low"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Intimidation<sup></sup> <span class="value">-1</span></span></span> <span class="c noprof normal"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Investigation<sup></sup> <span class="value">+0</span></span></span> <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Medicine<sup></sup> <span class="value">+4</span></span></span> <span class="c noprof normal"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Nature<sup></sup> <span class="value">+0</span></span></span> <span class="c prof high"><span role="tooltip" data-microtip-position="top" aria-label="Proficiency">Perception<sup></sup> <span class="value">+6</span></span></span> <span class="c noprof low"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Performance<sup></sup> <span class="value">-1</span></span></span> <span class="c noprof low"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Persuasion<sup></sup> <span class="value">-1</span></span></span> <span class="c noprof normal"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Religion<sup></sup> <span class="value">+0</span></span></span> <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Sleight of Hand<sup></sup> <span class="value">+3</span></span></span> <span class="c noprof high"><span role="tooltip" data-microtip-position="top" aria-label="Not Proficient">Stealth<sup></sup> <span class="value">+3</span></span></span> <span class="c prof high"><span role="tooltip" data-microtip-position="top" aria-label="Proficiency">Survival<sup></sup> <span class="value">+6</span></span></span>
+                                    </span>
+                                </div>
+                                <div class="toggleset actions">
+                                    <a class="btn btn-outline-light togglebtn actions deactivebtn" href="#">Actions</a>
+                                    <span class="col_actions collapse show" id="toggle_actions">
+                                        <span class="action">
+                                            <span class="name">Crossbow, Light</span>
+                                            <span class="details">Ranged Weapon</span>
+                                            <span class="range">80<span class="units">ft.</span><span class="max">(320)</span></span>
+                                            <span class="area">10<span class="units">ft.</span><span class="aoetype deficon white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18.06" class="ddbc-svg ct-action-detail__range-icon ddbc-aoe-type-icon ddbc-aoe-type-icon--sphere"><path fill="#242528" d="M9,1A8,8,0,1,1,1,9,8,8,0,0,1,9,1M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z"></path><path fill="#242528" d="M9,18.06a.5.5,0,0,1,0-1c2,0,3.65-3.68,3.65-8S11,1,9,1A.5.5,0,0,1,9,0c2.61,0,4.65,4,4.65,9S11.61,18.06,9,18.06Z"></path><path fill="#242528" d="M9.48,11.44A18.11,18.11,0,0,1,.28,8.84.5.5,0,0,1,.78,8c9,5.25,16.37.49,16.44.44a.5.5,0,0,1,.56.83A16.25,16.25,0,0,1,9.48,11.44Z"></path></svg></span></span>
+                                            <span class="hit_dc">+5</span>
+                                            <span class="damage">1d8+3 <span class="dmgtype deficon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#b0b7bd" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#b0b7bd" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#242528" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg></span></span>
+                                            <span class="notes">Simple, Ammunition, Loading, Range, Two-Handed, Range (80/320)</span>
+                                        </span>
+                                        <span class="action">
+                                            <span class="name">Gnoll Longbow</span>
+                                            <span class="details">Ranged Weapon, Customized</span>
+                                            <span class="range">150<span class="units">ft.</span><span class="max">(600)</span></span>
+                                            <span class="area"></span>
+                                            <span class="hit_dc">+5</span>
+                                            <span class="damage">1d8+3 <span class="dmgtype deficon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.17 18.95" class="ddbc-svg ddbc-damage-type-icon__img ddbc-damage-type-icon__img--piercing"><polygon fill="#b0b7bd" points="10.63 9.48 13.07 3.78 7.76 6.5 9.98 1.47 6.26 5.16 6.26 0 1.73 9.48 6.26 18.95 6.26 13.8 9.98 17.48 7.76 12.45 13.07 15.17 10.63 9.48"></polygon><path fill="#b0b7bd" d="M13.31,12.64c-2.59,0-8.5-.75-11.1-2.55l-.89-.62.89-.62c2.6-1.8,8.51-2.55,11.1-2.55h7.11v6.33Z"></path><path fill="#242528" d="M19.67,7.06v4.83H13.31c-2.55,0-8.29-.76-10.67-2.41C5,7.82,10.75,7.06,13.31,7.06h6.36m1.5-1.5H13.31c-2.67,0-8.79.79-11.53,2.68L0,9.48l1.78,1.23c2.73,1.89,8.86,2.68,11.53,2.68h7.86V5.56Z"></path></svg></span></span>
+                                            <span class="notes">Martial, Ammunition, Heavy, Range, Two-Handed, Range (150/600), This longbow grants</span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -573,11 +607,6 @@
     </tfoot>
 </table>
 </div>
-
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     /*
