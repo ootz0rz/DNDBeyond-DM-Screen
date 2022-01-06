@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.3
+// @version         1.1.4
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -327,7 +327,7 @@ var mainTableHTML = `
                         <span class="text_progress">
                             <span class="curr"></span><span class="total">0</span>s<span class="pct"></span>
                         </span>
-                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%;"></span></span>
+                        <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%; transform: scaleX(0);"></span></span>
                     </span>
                 </span>
             </td>
@@ -1119,7 +1119,9 @@ function refreshTimer_updatePbar() {
 }
 
 function refreshTimer_setPbar(pct, minTime, curTime) {
-    refresh_progressBarContents.attr('style', "width: {0}%;".format(pct))
+    // use scale instead of width for performance https://developers.google.com/web/updates/2017/03/performant-expand-and-collapse
+    // TODO if i care about maing the edges un-squished with scale: https://pqina.nl/blog/animating-width-and-height-without-the-squish-effect/
+    refresh_progressBarContents.attr('style', "width: 100%; transform: scaleX({0});".format(pct/100))
     // refresh_progressBarCurr.html(Math.round(curTime / 1000));
     // refresh_progressBarCurr.html();
     refresh_progressBarTotal.html(Math.round((minTime - curTime) / 1000));

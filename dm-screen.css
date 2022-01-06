@@ -11968,7 +11968,8 @@ textarea.form-control-lg {
   height: 3px;
   border-radius: 3px;
   background-color: #ffdc41;
-  transition: width 1000ms linear;
+  transition: width 1000ms linear, transform 1000ms linear;
+  transform-origin: left;
 }
 #gmstats .progress-wrapper .text_progress {
   margin-left: 1em;

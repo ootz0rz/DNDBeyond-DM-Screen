@@ -810,7 +810,8 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
 
             background-color: $row_highlight_color;
             
-            transition: width 1000ms linear;
+            transition: width 1000ms linear, transform 1000ms linear;
+            transform-origin: left;
         }
 
         .text_progress {
