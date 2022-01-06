@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.1
+// @version         1.1.2
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -115,6 +115,7 @@ var refresh_progressBarContents = null;
 var refresh_progressBarCurr = null;
 var refresh_progressBarTotal = null;
 var refresh_progressBarPct = null;
+var refresh_isForceRefresh = false;
 
 // string format check
 if (!String.prototype.format) {
@@ -846,7 +847,7 @@ function insertElements() {
     // force data refresh on click
     $("#force_refresh", node).click(function () {
         console.log("Force Refresh...");
-        updateAllCharData();
+        refreshTimer_startForceRefresh();
     });
 }
 
@@ -1032,6 +1033,8 @@ function refreshTimer__checkShouldStart(node) {
     } else {
         refreshTimer_end();
     }
+
+    refreshTimer_endForceRefresh($node, val);
 }
 
 function refreshTimer_start() {
@@ -1112,11 +1115,38 @@ function refreshTimer_updatePbar() {
     var curTime = refresh_timeSinceLastRefresh;
     var pct = Math.floor(curTime / minTime * 100);
 
+    refreshTimer_setPbar(pct, minTime, curTime);
+}
+
+function refreshTimer_setPbar(pct, minTime, curTime) {
     refresh_progressBarContents.attr('style', "width: {0}%;".format(pct))
     // refresh_progressBarCurr.html(Math.round(curTime / 1000));
     // refresh_progressBarCurr.html();
     refresh_progressBarTotal.html(Math.round((minTime - curTime) / 1000));
     // refresh_progressBarPct.html("{0}%".format(Math.round(pct)));
+}
+
+function refreshTimer_startForceRefresh() {
+    if (refresh_isForceRefresh) {
+        return;
+    }
+
+    refresh_isForceRefresh = true;
+    updateAllCharData();
+
+    refreshTimer_setPbar(100, 0, 0);
+    $("#force_refresh").attr('disabled', 'disabled');
+}
+
+function refreshTimer_endForceRefresh($node, isAutoRefreshActive) {
+    if (refresh_isForceRefresh) {
+        refresh_isForceRefresh = false;
+        $("#force_refresh").removeAttr('disabled', 'disabled');
+
+        if (!isAutoRefreshActive) {
+            refreshTimer_setPbar(0, 0, 0);
+        }
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
