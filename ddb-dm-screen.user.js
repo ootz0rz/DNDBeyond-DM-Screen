@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.2
+// @version         1.1.3
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1028,13 +1028,13 @@ function refreshTimer__checkShouldStart(node) {
 
     // console.log('refreshTimer__checkShouldStart', $node, val);
 
+    refreshTimer_endForceRefresh($node, val);
+
     if (val) {
         refreshTimer_start();
     } else {
         refreshTimer_end();
     }
-
-    refreshTimer_endForceRefresh($node, val);
 }
 
 function refreshTimer_start() {
