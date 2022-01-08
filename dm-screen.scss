@@ -1,96 +1,112 @@
 @use "node_modules/microtip/microtip.css";
 
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* main */
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------------------------------------- */
-
-@import "../node_modules/bootstrap/scss/bootstrap";
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins";
-@import 'encode';
-
-// https://getbootstrap.com/docs/5.0/utilities/colors/
-// main data
-$gm_primary_font_color: whitesmoke;
-$gm_background: $gray-900;
-$gm_background_hover_row: rgb(44, 44, 44);
-$gm_background_hover_col: darken($gm_background,5%);
-$gm_table_border: $secondary;
-$gm_inactive_cells: $gray-600;
-
-// main colors
-$gm_c_black: black;
-$gm_c_bright_white: white;
-$gm_c_bright_black: grey;
-$gm_c_red: red;
-$gm_c_green: rgb(0, 255, 0);
-$gm_c_cyan: cyan;
-$gm_c_yellow: yellow;
-$gm_c_bright_yellow: rgb(255, 220, 65);
-$gm_c_dark_gold: rgb(65, 44, 7);
-$gm_c_light_steel_blue: rgb(175,175,255);
-$gm_c_teal: rgb(42, 151, 128);
-$gm_c_silver: silver;
-
-$gm_level: 	desaturate(rgb(255,135,0), 30%);
-
-// hp
-$gm_hp_overheal: $gm_c_cyan;
-$gm_hp_good: $gm_c_green;
-$gm_hp_hurt: $gm_c_yellow;
-$gm_hp_bad: $gm_c_red;
-$gm_hp_normal: $gm_c_bright_black;
-
-// money
-$gm_money_cp: rgb(230, 162, 99);
-$gm_money_sp: silver;
-$gm_money_gp: gold;
-$gm_money_ep: rgb(95, 201, 209);
-$gm_money_pp: rgb(98, 171, 255);
-
-// skills
-$gm_skill_high: rgb(175, 255, 182);
-$gm_skill_low: rgb(255, 175, 175);
-
-$cell_padding: 5;
-$cell_margin: 0;
-.table>tbody>tr>td, 
-.table>tbody>tr>th, 
-.table>tfoot>tr>td, 
-.table>tfoot>tr>th, 
-.table>thead>tr>td, 
-.table>thead>tr>th {
-    padding: $cell_padding;
-    margin: $cell_margin;
-}
-
-$font_smallest: $font-size-base * 0.5;
-$font_small: $font-size-base * 0.75;
-$font_normal: $font-size-base * 1.0;
-$font_big: $font-size-base * 1.25;
-$font_biggest: $font-size-base * 1.5;
-
-$btnzoomamt: .7;
-
-// assets
-$viewIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
-$editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
-
-// tooltips and hover highlights
-$tooltip-base-color: rgb(49, 108, 218);
-$tooltip-border-color: $tooltip-base-color;//lighten($gm_c_dark_gold, 10%);
-$tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
-
-// active row
-$row_highlight_color: $gm_c_bright_yellow;
-$faded_border_color: rgba($row_highlight_color, 0.5);
-
 #gmstats {
+    /* ----------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------------------------------------------------- */
+    /* main */
+    /* ----------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------------------------------------------------------------------------- */
+
+    // ------------------------
+    // bootstrap
+    // ------------------------
+    @import "../node_modules/bootstrap/scss/bootstrap";
+    @import "../node_modules/bootstrap/scss/functions";
+    @import "../node_modules/bootstrap/scss/variables";
+    @import "../node_modules/bootstrap/scss/mixins";
+    @import 'encode';
+
+    // ------------------------
+    // config
+    // ------------------------
+
+    // https://getbootstrap.com/docs/5.0/utilities/colors/
+    // main data
+    $gm_primary_font_color: whitesmoke;
+    $gm_background: $gray-900;
+    $gm_background_hover_row: rgb(44, 44, 44);
+    $gm_background_hover_col: darken($gm_background,5%);
+    $gm_table_border: $secondary;
+    $gm_inactive_cells: $gray-600;
+
+    // main colors
+    $gm_c_black: black;
+    $gm_c_bright_white: white;
+    $gm_c_bright_black: grey;
+    $gm_c_red: red;
+    $gm_c_green: rgb(0, 255, 0);
+    $gm_c_cyan: cyan;
+    $gm_c_yellow: yellow;
+    $gm_c_bright_yellow: rgb(255, 220, 65);
+    $gm_c_dark_gold: rgb(65, 44, 7);
+    $gm_c_light_steel_blue: rgb(175,175,255);
+    $gm_c_teal: rgb(42, 151, 128);
+    $gm_c_silver: silver;
+
+    $gm_level: 	desaturate(rgb(255,135,0), 30%);
+
+    // hp
+    $gm_hp_overheal: $gm_c_cyan;
+    $gm_hp_good: $gm_c_green;
+    $gm_hp_hurt: $gm_c_yellow;
+    $gm_hp_bad: $gm_c_red;
+    $gm_hp_normal: $gm_c_bright_black;
+
+    // money
+    $gm_money_cp: rgb(230, 162, 99);
+    $gm_money_sp: silver;
+    $gm_money_gp: gold;
+    $gm_money_ep: rgb(95, 201, 209);
+    $gm_money_pp: rgb(98, 171, 255);
+
+    // skills
+    $gm_skill_high: rgb(175, 255, 182);
+    $gm_skill_low: rgb(255, 175, 175);
+
+    $cell_padding: 5;
+    $cell_margin: 0;
+
+    $font_smallest: $font-size-base * 0.5;
+    $font_small: $font-size-base * 0.75;
+    $font_normal: $font-size-base * 1.0;
+    $font_big: $font-size-base * 1.25;
+    $font_biggest: $font-size-base * 1.5;
+
+    $btnzoomamt: .7;
+
+    // assets
+    $viewIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
+    $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
+
+    // tooltips and hover highlights
+    $tooltip-base-color: rgb(49, 108, 218);
+    $tooltip-border-color: $tooltip-base-color;//lighten($gm_c_dark_gold, 10%);
+    $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
+
+    // active row
+    $row_highlight_color: $gm_c_bright_yellow;
+    $faded_border_color: rgba($row_highlight_color, 0.5);
+
+    // ------------------------
+    // start styles
+    // ------------------------
+
+    .table>tbody>tr>td, 
+    .table>tbody>tr>th, 
+    .table>tfoot>tr>td, 
+    .table>tfoot>tr>th, 
+    .table>thead>tr>td, 
+    .table>thead>tr>th {
+        padding: $cell_padding;
+        margin: $cell_margin;
+    }
+
+    background-color: $gm_background;
+    color: $gm_primary_font_color;
+    line-height: 1.2;
+
     .hide {
         visibility: hidden;
         opacity: 0;
@@ -101,11 +117,6 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
         opacity: 1;
         transition: visibility 0.3s linear,opacity 0.3s linear;
     }
-
-    background-color: $gm_background;
-    color: $gm_primary_font_color;
-
-    line-height: 1.2;
 
     table {
         tr,td,th {
@@ -822,7 +833,6 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
             }
         }
     }
-}
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -832,26 +842,25 @@ $faded_border_color: rgba($row_highlight_color, 0.5);
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
 
-// these svgs via /node_modules/microtip/microtip.css
-// Note: fill-color should be rgba
-@function svg-factory-top($fill-color) {
-    @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(0)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-}
-@function svg-factory-bottom($fill-color) {
-    @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(180 18 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-}
-@function svg-factory-left($fill-color) {
-    @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(-90 18 18)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-}
-@function svg-factory-right($fill-color) {
-    @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(90 6 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-}
+    // these svgs via /node_modules/microtip/microtip.css
+    // Note: fill-color should be rgba
+    @function svg-factory-top($fill-color) {
+        @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(0)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
+    }
+    @function svg-factory-bottom($fill-color) {
+        @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(180 18 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
+    }
+    @function svg-factory-left($fill-color) {
+        @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(-90 18 18)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
+    }
+    @function svg-factory-right($fill-color) {
+        @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(90 6 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
+    }
 
-@function get-background-svg($svg) {
-    @return url("data:image/svg+xml;charset=utf-8," + svg-encode($svg)) no-repeat;
-}
+    @function get-background-svg($svg) {
+        @return url("data:image/svg+xml;charset=utf-8," + svg-encode($svg)) no-repeat;
+    }
 
-#gmstats {
     [aria-label][role~="tooltip"]::after {
         background: $tooltip-background-color;
         color: $gm_primary_font_color;
