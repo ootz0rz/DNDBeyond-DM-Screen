@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.4
+// @version         1.1.5
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -39,9 +39,9 @@ const optionalRules = {
 const senseToName = {
     'blindsight': 'bs',
     'darkvision': 'dv',
-    'tremorsense': 'ts',
-    'truesight': 'true',
-    'passive-perception': 'pass-perc',
+    'tremorsense': 'tms',
+    'truesight': 'ts',
+    'passive-perception': 'pp',
 }
 
 const scriptVarPrefix = "DMScreen-";
