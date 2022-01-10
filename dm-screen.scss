@@ -106,6 +106,7 @@
     background-color: $gm_background;
     color: $gm_primary_font_color;
     line-height: 1.2;
+    padding-bottom: 1rem;
 
     .hide {
         visibility: hidden;
@@ -797,13 +798,28 @@
                     .btn, .form-select, .form-control, label {
                         zoom: $btnzoomamt;
 
-                        &.btn-outline-info {
-                            // make sure the color sticks even after clicked
-                            color: $info !important;
-                            &:hover {
-                                color: color-contrast($info) !important;
+                        @mixin btnFixes($btnType, $baseColor) {
+                            &.btn-outline-#{$btnType} {
+                                color: $baseColor !important;
+                                &:hover {
+                                    color: color-contrast($baseColor) !important;
+                                }
+
+                                &.active {
+                                    // and while we're active, keep some state here too
+                                    color: color-contrast($baseColor) !important;
+
+                                    &:hover {
+                                        $darker: desaturate(darken($baseColor, 30), 10);
+                                        color: color-contrast($darker) !important;
+                                        border-color: color-contrast($darker) !important;
+                                        background-color: $darker;
+                                    }
+                                }
                             }
                         }
+                        @include btnFixes('info', $info);
+                        @include btnFixes('warning', $warning);
                     }
                 }
             }
@@ -937,5 +953,19 @@
     }
     [role~="tooltip"][data-microtip-position="right"]::before {
         background: get-background-svg(svg-factory-right($tooltip-border-color));
+    }
+}
+
+// overrides for the site itself
+#site-main.gm-dark-mode {
+    background-color: #212529;
+
+    h1,
+    .ddb-campaigns-detail-header-secondary-description p,
+    .ddb-campaigns-detail-body-listing-header-primary,
+    .ddb-campaigns-detail-body-listing-header-secondary,
+    #content
+    {
+        color: whitesmoke !important;
     }
 }

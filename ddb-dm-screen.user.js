@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.6
+// @version         1.1.7
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -323,7 +323,10 @@ var mainTableHTML = `
         </tr>
         <tr>
             <td colspan="15" class="gs-controls gs-bottom">
-                <span class='update'><a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a></span>
+                <span class='update'>
+                    <a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a>
+                    <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">toggle site dark mode</a>
+                </span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
                         <span class="text_progress">
@@ -851,6 +854,27 @@ function insertElements() {
         console.log("Force Refresh...");
         refreshTimer_startForceRefresh();
     });
+
+    // toggle dark style for the rest of the site
+    const siteNode = $("#site-main");
+    const gm_dark_mode = 'gm-dark-mode';
+    const darkBtn = $("#dark_mode_toggle", node);
+    darkBtn.click(function () {
+        var isDark = siteNode.hasClass(gm_dark_mode);
+        console.log("Toggle dark mode... Is Already Dark?", isDark);
+
+        siteNode.toggleClass(gm_dark_mode);
+        isDark = !isDark;
+
+        _setGMValue(gm_dark_mode, isDark);
+        updateButtonToggleState(isDark, darkBtn);
+    });
+
+    var startDarkVal = _getGMValueOrDefault(gm_dark_mode, false);
+    if (startDarkVal) {
+        siteNode.addClass(gm_dark_mode);
+        updateButtonToggleState(startDarkVal, darkBtn);
+    }
 }
 
 function retriveRules(charIDs) {
@@ -1198,6 +1222,7 @@ function insertControls(parent) {
     onDisplayTypeChange('deactivated', displayDeactiveSettingLoaded);
     onDisplayTypeChange('unassigned', displayUnassignedSettingLoaded);
 
+    updateSiblingLabelToggleState(autoUpdateLoaded, autoUpdate);
     autoUpdate.change(function () {
         var $this = $(this);
         let val = parseBool($this.prop("checked"));
@@ -1205,6 +1230,8 @@ function insertControls(parent) {
         _setGMValue("-autoUpdate", val);
 
         refreshTimer__checkShouldStart($this);
+
+        updateSiblingLabelToggleState(val, autoUpdate);
     });
     autoDuration.change(function () {
         let val = parseIntSafe($(this).val());
@@ -1226,17 +1253,24 @@ function insertControls(parent) {
         onFontSizeChange($("table.secondary", mainTable), val);
     });
 
+    updateSiblingLabelToggleState(displayDeactiveSettingLoaded, displayDeactive);
     displayDeactive.change(function () {
         let val = parseBool($(this).prop("checked"));
         _setGMValue("-displaydeactive", val);
 
         onDisplayTypeChange('deactivated', val);
+
+        updateSiblingLabelToggleState(val, displayDeactive);
     });
+
+    updateSiblingLabelToggleState(displayUnassignedSettingLoaded, displayUnassigned);
     displayUnassigned.change(function () {
         let val = parseBool($(this).prop("checked"));
         _setGMValue("-displayunassigned", val);
 
         onDisplayTypeChange('unassigned', val);
+
+        updateSiblingLabelToggleState(val, displayUnassigned);
     });
 }
 
@@ -2396,4 +2430,19 @@ function getStatScoreNameFromID(dataAbilities, id) {
     });
     
     return stat;
+}
+
+function updateButtonToggleState(newState, btnNode) {
+    if (newState) {
+        btnNode.attr('data-bs-toggle', 'button');
+        btnNode.attr('aria-pressed', 'true');
+        btnNode.addClass('active');
+    } else {
+        btnNode.removeAttr('data-bs-toggle');
+        btnNode.removeAttr('aria-pressed');
+        btnNode.removeClass('active');
+    }
+}
+function updateSiblingLabelToggleState(newState, btnNode) {
+    return updateButtonToggleState(newState, btnNode.siblings("label.btn"));
 }
