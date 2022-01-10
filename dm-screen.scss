@@ -956,9 +956,12 @@
     }
 }
 
-// overrides for the site itself
+// overrides for the site itself to reduce some of the damned glare
 #site-main.gm-dark-mode {
-    background-color: #212529;
+    $fontcolor: whitesmoke;
+    $bgcolor: #212529;
+
+    background-color: $bgcolor;
 
     h1,
     .ddb-campaigns-detail-header-secondary-description p,
@@ -966,6 +969,13 @@
     .ddb-campaigns-detail-body-listing-header-secondary,
     #content
     {
-        color: whitesmoke !important;
+        color: $fontcolor !important;
+    }
+
+    .b-breadcrumb-a {
+        background-color: lighten($bgcolor, 5) !important;
+        .b-breadcrumb-item span {
+            color: $fontcolor;
+        }
     }
 }

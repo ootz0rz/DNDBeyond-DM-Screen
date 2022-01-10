@@ -10338,5 +10338,11 @@ a > #gmstats code {
 #site-main.gm-dark-mode #content {
   color: whitesmoke !important;
 }
+#site-main.gm-dark-mode .b-breadcrumb-a {
+  background-color: #2c3237 !important;
+}
+#site-main.gm-dark-mode .b-breadcrumb-a .b-breadcrumb-item span {
+  color: whitesmoke;
+}
 
 /*# sourceMappingURL=dm-screen.css.map */
