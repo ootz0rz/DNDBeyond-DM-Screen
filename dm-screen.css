@@ -9789,9 +9789,6 @@ a > #gmstats code {
 #gmstats table.table th.col_stat .statscore span.letter, #gmstats table.table th.col_stat .bonus span.letter, #gmstats table.table th.col_stat .save span.letter {
   color: grey;
 }
-#gmstats table.primary {
-  width: 99.8%;
-}
 #gmstats table.stattable th {
   color: grey;
 }
@@ -9839,6 +9836,7 @@ a > #gmstats code {
 }
 #gmstats table.table {
   color: whitesmoke;
+  margin-bottom: 0;
 }
 #gmstats table.table td, #gmstats table.table th {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -9863,7 +9861,8 @@ a > #gmstats code {
   color: #6c757d !important;
 }
 #gmstats table.table tbody tr.active_row {
-  border-width: 2px;
+  border-bottom-width: 2px;
+  border-top-width: 2px;
   border-color: #ffdc41;
 }
 #gmstats table.table tbody tr.active_row .activetitle {
@@ -9871,17 +9870,30 @@ a > #gmstats code {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   text-decoration: underline;
 }
+#gmstats table.table tbody tr.active_row td.col_name {
+  border-left-width: 1px;
+  border-right-width: 2px;
+  border-color: #ffdc41;
+}
 #gmstats table.table tbody tr.active_row td.col_name .name {
   color: #ffdc41;
 }
 #gmstats table.table tbody tr.active_row td.col_name .profbonus {
   display: inline-block;
 }
+#gmstats table.table tbody tr.active_row td.col_skills {
+  border-right-width: 1px;
+  border-right-color: #ffdc41;
+}
 #gmstats table.table tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
   visibility: visible;
   opacity: 1;
   transition: display 0.3s linear, visibility 0.3s linear, opacity 0.3s linear;
+}
+#gmstats table.table tbody tr.active_row td.col_languages {
+  border-right-width: 1px;
+  border-right-color: #ffdc41;
 }
 #gmstats table.table tbody tr.active_row.first_row tr tr, #gmstats table.table tbody tr.active_row.first_row tr td, #gmstats table.table tbody tr.active_row.first_row tr th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td tr, #gmstats table.table tbody tr.active_row.first_row td td, #gmstats table.table tbody tr.active_row.first_row td th, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th tr, #gmstats table.table tbody tr.active_row.first_row th td, #gmstats table.table tbody tr.active_row.first_row th th, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row {
   border-bottom-width: 1px;
@@ -10280,7 +10292,7 @@ a > #gmstats code {
 #gmstats [aria-label][role~=tooltip]:hover {
   background-color: #142544;
 }
-#gmstats [role~=tooltip][data-microtip-position=top]::before {
+#gmstats [role~=tooltip][data-microtip-position|=top]::before {
   background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22%23316cda%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
 }
 #gmstats [role~=tooltip][data-microtip-position|=bottom]::before {

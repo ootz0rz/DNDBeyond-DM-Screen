@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.5
+// @version         1.1.6
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -88,6 +88,8 @@ const HIDE_CLASS = 'hide';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
 const DEFAULT_TOOLTIP_PLACEMENT = 'top';
+const DEFAULT_TOOLTIP_TAG = 'span';
+const TOOLTIP_PLACEMENT_TOPLEFT = 'top-left';
 const ACTIVE_FIRST_ROW_CLASS = 'first_row';
 const ACTIVE_SECOND_ROW_CLASS = 'second_row';
 const ACTIVE_ROW_TITLE_CLASS = 'activetitle';
@@ -382,30 +384,30 @@ var tableRowHTML = `
             <td class="col_skills"></td>
             <td class="col_languages">
                 <div class="langset">
-                    <span class="activetitle langstitle" role="tooltip" data-microtip-position="{0}" aria-label="Languages">Langs:</span>
+                    <span class="activetitle langstitle" role="tooltip" data-microtip-position="{1}" aria-label="Languages">Langs:</span>
                     <span class="langs"></span>
                 </div>
                 <hr class="langshr" />
                 <div class="resset">
-                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{0}" aria-label="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
+                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{1}" aria-label="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
                     <span class="resists"></span>
                 </div>
                 <div class="immset">
-                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
+                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{1}" aria-label="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
                     <span class="immunities"></span>
                 </div>
                 <div class="vulnset">
-                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{0}" aria-label="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
+                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{1}" aria-label="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
                     <span class="vulnerabilities"></span>
                 </div>
                 <div class="saveset">
-                    <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{0}" aria-label="Save Modifiers">Saves:</span>
+                    <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{1}" aria-label="Save Modifiers">Saves:</span>
                     <br />
                     <span class="savemods"></span>
                 </div>
             </td>
         </tr>
-`.format(DEFAULT_TOOLTIP_PLACEMENT);
+`.format(DEFAULT_TOOLTIP_PLACEMENT, TOOLTIP_PLACEMENT_TOPLEFT);
 
 var tableSecondRowHTML = `
         <tr id="_details" class="active_row second_row">
@@ -1919,7 +1921,9 @@ function genSkillsArray(skills, isCustom=false) {
                         sup,
                         advIcon
                     ),
-                    tooltipText
+                    tooltipText,
+                    DEFAULT_TOOLTIP_TAG,
+                    TOOLTIP_PLACEMENT_TOPLEFT
                 )
             );
         }
@@ -1955,7 +1959,12 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
     profGroups.forEach((item, idx) => {
         if (item.label == "Languages") {
             item.modifierGroups.forEach((lang, lidx) => {
-                var l = "<span class='item' {1}>{0}</span>".format(lang.label, insertTooltipAttributes(lang.sources.join(', ')));
+                var l = "<span class='item' {1}>{0}</span>".format(
+                    lang.label,
+                    insertTooltipAttributes(
+                        lang.sources.join(', '),
+                        TOOLTIP_PLACEMENT_TOPLEFT)
+                );
 
                 if (!langs.includes(l)) {
                     langs.push(l);
@@ -1994,15 +2003,15 @@ function updateDefenses(parent, character) {
 
     // populate arrays
     character.resistances.forEach((item, idx) => {
-        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
     });
 
     character.immunities.forEach((item, idx) => {
-        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
     });
 
     character.vulnerabilities.forEach((item, idx) => {
-        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
     });
 
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
@@ -2024,7 +2033,8 @@ function updateDefenses(parent, character) {
             "<span class='item_long' {1}>{2} {3}{0}</span>".format(
                 item.restriction,
                 insertTooltipAttributes(
-                    "{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type)
+                    "{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type),
+                    TOOLTIP_PLACEMENT_TOPLEFT
                 ),
                 icon,
                 stat
@@ -2327,7 +2337,7 @@ function parseBool(x) {
     return x ? true : false;
 }
 
-function addTooltip(inStr, tiptext, tag = "span", placement = DEFAULT_TOOLTIP_PLACEMENT) {
+function addTooltip(inStr, tiptext, tag = DEFAULT_TOOLTIP_TAG, placement = DEFAULT_TOOLTIP_PLACEMENT) {
     // https://github.com/ghosh/microtip#usage
     return "<{1} {2}>{0}</{1}>".format(inStr, tag, insertTooltipAttributes(tiptext, placement));
 }
