@@ -958,7 +958,7 @@
 }
 
 // overrides for the site itself to reduce some of the damned glare
-#site-main.gm-dark-mode {
+#site-main.gm-dark-mode,.gm-dark-mode {
     $fontcolor: whitesmoke;
     $bgcolor: #212529;
 
@@ -982,10 +982,15 @@
 }
 
 // hide scrollbar but allow scrolling
-body.gm-no-scroll {
+body.gm-no-scroll,.gm-no-scroll,html.gm-no-scroll {
     // overflow-y: hidden;
     &::-webkit-scrollbar {
         display: none;
+
+        // safari
+        -webkit-appearance: none;
+        width: 0;
+        height: 0;
     }
 
     -ms-overflow-style: none;

@@ -10332,29 +10332,36 @@ a > #gmstats code {
   background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22%23316cda%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
 }
 
-#site-main.gm-dark-mode {
+#site-main.gm-dark-mode, .gm-dark-mode {
   background-color: #212529;
 }
-#site-main.gm-dark-mode h1, #site-main.gm-dark-mode #gmstats .h1, #gmstats #site-main.gm-dark-mode .h1,
+#site-main.gm-dark-mode h1,
 #site-main.gm-dark-mode .ddb-campaigns-detail-header-secondary-description p,
 #site-main.gm-dark-mode .ddb-campaigns-detail-body-listing-header-primary,
 #site-main.gm-dark-mode .ddb-campaigns-detail-body-listing-header-secondary,
-#site-main.gm-dark-mode #content {
+#site-main.gm-dark-mode #content, .gm-dark-mode h1, .gm-dark-mode #gmstats .h1, #gmstats .gm-dark-mode .h1,
+.gm-dark-mode .ddb-campaigns-detail-header-secondary-description p,
+.gm-dark-mode .ddb-campaigns-detail-body-listing-header-primary,
+.gm-dark-mode .ddb-campaigns-detail-body-listing-header-secondary,
+.gm-dark-mode #content {
   color: whitesmoke !important;
 }
-#site-main.gm-dark-mode .b-breadcrumb-a {
+#site-main.gm-dark-mode .b-breadcrumb-a, .gm-dark-mode .b-breadcrumb-a {
   background-color: #2c3237 !important;
 }
-#site-main.gm-dark-mode .b-breadcrumb-a .b-breadcrumb-item span {
+#site-main.gm-dark-mode .b-breadcrumb-a .b-breadcrumb-item span, .gm-dark-mode .b-breadcrumb-a .b-breadcrumb-item span {
   color: whitesmoke;
 }
 
-body.gm-no-scroll {
+body.gm-no-scroll, .gm-no-scroll, html.gm-no-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-body.gm-no-scroll::-webkit-scrollbar {
+body.gm-no-scroll::-webkit-scrollbar, .gm-no-scroll::-webkit-scrollbar, html.gm-no-scroll::-webkit-scrollbar {
   display: none;
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
 }
 
 /*# sourceMappingURL=dm-screen.css.map */
