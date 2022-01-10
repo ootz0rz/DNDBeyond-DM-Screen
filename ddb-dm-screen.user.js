@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.8
+// @version         1.1.9
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -324,9 +324,10 @@ var mainTableHTML = `
         <tr>
             <td colspan="15" class="gs-controls gs-bottom">
                 <span class='update'>
-                    <a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a>
-                    <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">toggle site dark mode</a>
-                    <a id='scroll_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">toggle hide scroll</a>
+                    <a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for script update</a>
+                    <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">site dark mode</a>
+                    <a id='scroll_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide scroll</a>
+                    <a id='log_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide log</a>
                 </span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
@@ -867,6 +868,11 @@ function insertElements() {
     const gm_no_scroll = 'gm-no-scroll';
     const scrollBtn = $("#scroll_toggle", node);
     initSimpleStyleToggleButton(bodyNode, scrollBtn, gm_no_scroll);
+
+    // toggle game log
+    const sideBarNode = $("div.sidebar");
+    const sideBarBtn = $('#log_toggle', node);
+    initSimpleStyleToggleButton(sideBarNode, sideBarBtn, HIDE_CLASS);
 }
 
 function initSimpleStyleToggleButton(targetNode, btnNode, className) {
