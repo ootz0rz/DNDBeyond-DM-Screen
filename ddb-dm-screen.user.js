@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.9
+// @version         1.1.10
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -103,6 +103,13 @@ var rulesData = {},
     editableChars = {};
 var mainTable = null;
 var colStatsSubTable = null;
+
+// browser user agents
+const IS_CHROME = navigator.userAgent.indexOf('Chrome') > -1;
+const IS_IE = navigator.userAgent.indexOf('MSIE') > -1;
+const IS_FIREFOX = navigator.userAgent.indexOf('Firefox') > -1;
+const IS_SAFARI = navigator.userAgent.indexOf("Safari") > -1;
+const IS_OPERA = navigator.userAgent.toLowerCase().indexOf("op") > -1;
 
 // refresh timer
 // config
@@ -867,7 +874,20 @@ function insertElements() {
     const bodyNode = $("body");
     const gm_no_scroll = 'gm-no-scroll';
     const scrollBtn = $("#scroll_toggle", node);
-    initSimpleStyleToggleButton(bodyNode, scrollBtn, gm_no_scroll);
+    initSimpleStyleToggleButton(bodyNode, scrollBtn, gm_no_scroll, (newVal) => {
+        if (newVal) {
+            // safari is dumb and we have to force a refresh to get the scrollbar to hide -.-
+            if (IS_SAFARI && !IS_CHROME) {
+                console.log('Safari Shenanigans Start');
+                $("html").css('display', 'none');
+
+                setTimeout(function () {
+                    $("html").css('display', '');
+                    console.log('Safari Shenanigans End');
+                }, 100);
+            }
+        }
+    });
 
     // toggle game log
     const sideBarNode = $("div.sidebar");
@@ -875,7 +895,7 @@ function insertElements() {
     initSimpleStyleToggleButton(sideBarNode, sideBarBtn, HIDE_CLASS);
 }
 
-function initSimpleStyleToggleButton(targetNode, btnNode, className) {
+function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null) {
     btnNode.click(function () {
         var isActive = targetNode.hasClass(className);
 
@@ -884,12 +904,20 @@ function initSimpleStyleToggleButton(targetNode, btnNode, className) {
 
         _setGMValue(className, isActive);
         updateButtonToggleState(isActive, btnNode);
+
+        if (func !== null) {
+            func(isActive);
+        }
     });
 
     var isStartActiveVal = _getGMValueOrDefault(className, false);
     if (isStartActiveVal) {
         targetNode.addClass(className);
         updateButtonToggleState(isStartActiveVal, btnNode);
+    }
+
+    if (func) {
+        func(isStartActiveVal);
     }
 }
 
