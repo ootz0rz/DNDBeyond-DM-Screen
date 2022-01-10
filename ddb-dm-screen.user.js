@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.10
+// @version         1.1.11
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -875,17 +875,15 @@ function insertElements() {
     const gm_no_scroll = 'gm-no-scroll';
     const scrollBtn = $("#scroll_toggle", node);
     initSimpleStyleToggleButton(bodyNode, scrollBtn, gm_no_scroll, (newVal) => {
-        if (newVal) {
-            // safari is dumb and we have to force a refresh to get the scrollbar to hide -.-
-            if (IS_SAFARI && !IS_CHROME) {
-                console.log('Safari Shenanigans Start');
-                $("html").css('display', 'none');
+        // safari is dumb and we have to force a refresh to get the scrollbar to hide -.-
+        if (IS_SAFARI && !IS_CHROME) {
+            console.log('Safari Shenanigans Start');
+            $("html").css('display', 'none');
 
-                setTimeout(function () {
-                    $("html").css('display', '');
-                    console.log('Safari Shenanigans End');
-                }, 100);
-            }
+            setTimeout(function () {
+                $("html").css('display', '');
+                console.log('Safari Shenanigans End');
+            }, 100);
         }
     });
 
