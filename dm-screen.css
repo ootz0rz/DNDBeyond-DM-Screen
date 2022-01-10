@@ -9904,6 +9904,10 @@ a > #gmstats code {
   border-top-width: 1px;
   border-top-style: dotted !important;
 }
+#gmstats table.table tbody tr.second_row .col_details {
+  border-right-width: 1px;
+  border-right-color: #ffdc41;
+}
 #gmstats table.table tbody tr td.col_name .name:hover {
   cursor: pointer;
   color: black !important;
@@ -10343,6 +10347,14 @@ a > #gmstats code {
 }
 #site-main.gm-dark-mode .b-breadcrumb-a .b-breadcrumb-item span {
   color: whitesmoke;
+}
+
+body.gm-no-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+body.gm-no-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /*# sourceMappingURL=dm-screen.css.map */

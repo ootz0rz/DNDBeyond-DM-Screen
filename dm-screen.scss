@@ -408,7 +408,8 @@
                 }
                 &.second_row {
                     .col_details {
-                        
+                        border-right-width: $border_slim;
+                        border-right-color: $border_color;
                     }
                 }
 
@@ -978,4 +979,15 @@
             color: $fontcolor;
         }
     }
+}
+
+// hide scrollbar but allow scrolling
+body.gm-no-scroll {
+    // overflow-y: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

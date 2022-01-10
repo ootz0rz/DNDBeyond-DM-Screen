@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.7
+// @version         1.1.8
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -326,6 +326,7 @@ var mainTableHTML = `
                 <span class='update'>
                     <a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for gm screen extension update</a>
                     <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">toggle site dark mode</a>
+                    <a id='scroll_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">toggle hide scroll</a>
                 </span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
@@ -859,21 +860,30 @@ function insertElements() {
     const siteNode = $("#site-main");
     const gm_dark_mode = 'gm-dark-mode';
     const darkBtn = $("#dark_mode_toggle", node);
-    darkBtn.click(function () {
-        var isDark = siteNode.hasClass(gm_dark_mode);
-        console.log("Toggle dark mode... Is Already Dark?", isDark);
+    initSimpleStyleToggleButton(siteNode, darkBtn, gm_dark_mode);
 
-        siteNode.toggleClass(gm_dark_mode);
-        isDark = !isDark;
+    // toggle vertical scrollbar
+    const bodyNode = $("body");
+    const gm_no_scroll = 'gm-no-scroll';
+    const scrollBtn = $("#scroll_toggle", node);
+    initSimpleStyleToggleButton(bodyNode, scrollBtn, gm_no_scroll);
+}
 
-        _setGMValue(gm_dark_mode, isDark);
-        updateButtonToggleState(isDark, darkBtn);
+function initSimpleStyleToggleButton(targetNode, btnNode, className) {
+    btnNode.click(function () {
+        var isActive = targetNode.hasClass(className);
+
+        targetNode.toggleClass(className);
+        isActive = !isActive;
+
+        _setGMValue(className, isActive);
+        updateButtonToggleState(isActive, btnNode);
     });
 
-    var startDarkVal = _getGMValueOrDefault(gm_dark_mode, false);
-    if (startDarkVal) {
-        siteNode.addClass(gm_dark_mode);
-        updateButtonToggleState(startDarkVal, darkBtn);
+    var isStartActiveVal = _getGMValueOrDefault(className, false);
+    if (isStartActiveVal) {
+        targetNode.addClass(className);
+        updateButtonToggleState(isStartActiveVal, btnNode);
     }
 }
 
