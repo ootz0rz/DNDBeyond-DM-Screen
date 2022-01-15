@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.11
+// @version         1.1.12
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1399,7 +1399,7 @@ function updateElementData(allCharData, charId) {
 
     updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
-    updateArmorClass(parent, character.armorClass, character.initiative);
+    updateArmorClass(parent, character.armorClass, character.initiative, character.hasInitiativeAdvantage);
     updateSpeeds(parent, character);
 
     updateAbilties(parent, character.abilities);
@@ -1693,10 +1693,20 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
     );
 }
 
-function updateArmorClass(parent, armorClass, init) {
+function updateArmorClass(parent, armorClass, init, hastInitAdv) {
     var node = parent.find('td.col_ac');
     $(".acval", node).html(armorClass);
-    $(".initval", node).html("{0}{1}".format(getSign(init), Math.abs(init)));
+
+    var initAdv = '';
+    if (hastInitAdv) {
+        initAdv = "<br />{0}".format(GET_SVG_AS_ICON(SVG_ADVANTAGE));
+    }
+    $(".initval", node).html(
+        "{0}{1}{2}".format(
+            getSign(init),
+            Math.abs(init),
+            initAdv
+        ));
 }
 
 /*
