@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.12
+// @version         1.1.13
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -93,6 +93,8 @@ const TOOLTIP_PLACEMENT_TOPLEFT = 'top-left';
 const ACTIVE_FIRST_ROW_CLASS = 'first_row';
 const ACTIVE_SECOND_ROW_CLASS = 'second_row';
 const ACTIVE_ROW_TITLE_CLASS = 'activetitle';
+const TOOLTIP_INIT_NORMAL = "Initiative";
+const TOOLTIP_INIT_ADV = "Initiative, Advantage";
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -1701,12 +1703,16 @@ function updateArmorClass(parent, armorClass, init, hastInitAdv) {
     if (hastInitAdv) {
         initAdv = "<br />{0}".format(GET_SVG_AS_ICON(SVG_ADVANTAGE));
     }
-    $(".initval", node).html(
+
+    var initValNode = $(".initval", node);
+    initValNode.html(
         "{0}{1}{2}".format(
             getSign(init),
             Math.abs(init),
             initAdv
         ));
+    
+    updateTooltipText(initValNode, hastInitAdv ? TOOLTIP_INIT_ADV : TOOLTIP_INIT_NORMAL);
 }
 
 /*
@@ -2431,6 +2437,12 @@ function addTooltip(inStr, tiptext, tag = DEFAULT_TOOLTIP_TAG, placement = DEFAU
 function insertTooltipAttributes(tiptext, placement = DEFAULT_TOOLTIP_PLACEMENT) {
     // title='{0}' removed to avoid double tooltip popups
     return "role='tooltip' data-microtip-position='{1}' aria-label='{0}'".format(tiptext, placement);
+}
+
+function updateTooltipText(toolNode, newToolText) {
+    if (toolNode[0].hasAttribute("aria-label")) {
+        toolNode.attr('aria-label', newToolText);
+    }
 }
 
 function editTooltipLabel(node, newText) {
