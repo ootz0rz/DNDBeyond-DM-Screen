@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.13
+// @version         1.1.14
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -121,6 +121,7 @@ var tockDuration = 1; // in seconds
 var refresh_timeSinceLastRefresh = 0;
 var refresh_currentTimer = null;
 var refresh_autoUpdateNode = null;
+var refresh_minTimeNode = null;
 var refresh_isTimerActive = false;
 var refresh_progressBarContents = null;
 var refresh_progressBarCurr = null;
@@ -318,11 +319,13 @@ var mainTableHTML = `
                 <span class="autoupdateset">
                     <span class="set">
                         <span class="">
-                            <label for="gs-auto-duration">Duration (sec):</label>
+                            <label for="gs-auto-duration">seconds:</label>
                             <input class="form-control auto_duration" type="number" name="gs-auto-duration" id="gs-auto-duration" value="60" placeholder="secs">
                         </span>
                     </span>
                     <span class="gs-form-field gs-row-container set">
+                        <a id="time_short" role='button' class='btn btn-outline-info' href="#">30s</a>
+                        <a id="time_long" role='button' class='btn btn-outline-info' href="#">90s</a>
                         <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                         <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
                         <a id="force_refresh" role='button' class='btn btn-outline-info' href="#">Force Refresh</a>
@@ -976,7 +979,7 @@ function _updateAllCharDataAfterRules() {
     Promise.all(promises)
         .then(() => {
             updateCampaignData();
-            refreshTimer__checkShouldStart(refresh_autoUpdateNode);
+            refreshTimer__checkShouldStart(refreshTimer__getAutoUpdateChecked());
         }).catch((error) => {
             console.log(error);
         });
@@ -1075,7 +1078,7 @@ function initRefreshTimer() {
     var controls = $(".gs-controls");
 
     refresh_autoUpdateNode = $('input[name ="gs-auto-update"]', controls);
-    minTimeNode = $('input[name ="gs-auto-duration"]', controls);
+    refresh_minTimeNode = $('input[name ="gs-auto-duration"]', controls);
 
     var pbar = $(".progress-wrapper", controls);
     refresh_progressBarContents = $(".progress-bar-fill", pbar);
@@ -1084,21 +1087,20 @@ function initRefreshTimer() {
     refresh_progressBarPct = $(".pct", pbar);
 
     console.log('[1] init refresh timer',
-        '\ninputs', autoUpdateNode, minTimeNode,
+        '\ninputs', refresh_autoUpdateNode, refresh_minTimeNode,
         '\npbar contents', refresh_progressBarContents,
         '\npbar curr/total', refresh_progressBarCurr, refresh_progressBarTotal
     );
 
-    refreshTimer__checkShouldStart(refresh_autoUpdateNode);
+    refreshTimer__checkShouldStart(refreshTimer__getAutoUpdateChecked());
 }
 
-function refreshTimer__checkShouldStart(node) {
-    var $node = $(node);
-    let val = parseBool($node.prop("checked"));
+function refreshTimer__getAutoUpdateChecked() {
+    return parseBool($(refresh_autoUpdateNode).prop("checked"));
+}
 
-    // console.log('refreshTimer__checkShouldStart', $node, val);
-
-    refreshTimer_endForceRefresh($node, val);
+function refreshTimer__checkShouldStart(val) {
+    refreshTimer_endForceRefresh(val);
 
     if (val) {
         refreshTimer_start();
@@ -1210,7 +1212,7 @@ function refreshTimer_startForceRefresh() {
     $("#force_refresh").attr('disabled', 'disabled');
 }
 
-function refreshTimer_endForceRefresh($node, isAutoRefreshActive) {
+function refreshTimer_endForceRefresh(isAutoRefreshActive) {
     if (refresh_isForceRefresh) {
         refresh_isForceRefresh = false;
         $("#force_refresh").removeAttr('disabled', 'disabled');
@@ -1241,6 +1243,8 @@ function insertControls(parent) {
 
     let autoUpdate = controlsNode.find('input[name ="gs-auto-update"]');
     let autoDuration = controlsNode.find('input[name ="gs-auto-duration"]');
+    let shortDuration = controlsNode.find('#time_short');
+    let longDuration = controlsNode.find('#time_long');
     let fontSize = controlsNode.find('select[name ="gs-font-size"]');
 
     let displayDeactive = controlsNode.find('input[name ="gs-display-deactive"]');
@@ -1270,12 +1274,14 @@ function insertControls(parent) {
     autoUpdate.change(function () {
         var $this = $(this);
         let val = parseBool($this.prop("checked"));
-        
+
         _setGMValue("-autoUpdate", val);
+        
+        if (refreshTimer_isActive() != val) {
+            refreshTimer__checkShouldStart(val);
+        }
 
-        refreshTimer__checkShouldStart($this);
-
-        updateSiblingLabelToggleState(val, autoUpdate);
+        updateSiblingLabelToggleState(val, $this);
     });
     autoDuration.change(function () {
         let val = parseIntSafe($(this).val());
@@ -1288,6 +1294,18 @@ function insertControls(parent) {
 
         _setGMValue("-updateDuration", val);
     });
+
+    // duration buttons
+    function onDurationClick(e) {
+        var time = e.data.time;
+        console.log("Set Timer: ", time);
+        autoDuration.prop('value', time).change();
+        autoUpdate.prop('checked', true).change();
+    }
+    shortDuration.click({ time: 30 }, onDurationClick);
+    longDuration.click({ time: 90 }, onDurationClick);
+    // end duration buttons
+
     fontSize.change(function () {
         let val = parseIntSafe($(this).val());
         _setGMValue("-fontSize", val);
