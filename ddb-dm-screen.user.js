@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.14
+// @version         1.1.15
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -847,9 +847,15 @@ function insertElements() {
     */
 
     // set row as active when character name is clicked
-    $('td.col_name .name', tableBody).click(function () {
-        var node = $(this);
-        var row = node.parent().parent();
+    $('td.col_name', tableBody).click(function (e) {
+        var node = $(this, node);
+        var nameNode = $(".name", node)[0];
+        if (e.target !== this && e.target !== nameNode) {
+            // don't exec this if we click on a child element other than the name
+            return;
+        }
+
+        var row = node.parent();
 
         // toggle right away on click to check active status for everything else
         row.toggleClass(ACTIVE_ROW_CLASS);

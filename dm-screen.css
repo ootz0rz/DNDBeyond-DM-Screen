@@ -9908,8 +9908,13 @@ a > #gmstats code {
   border-right-width: 1px;
   border-right-color: #ffdc41;
 }
-#gmstats table.table tbody tr td.col_name .name:hover {
+#gmstats table.table tbody tr td.col_name {
   cursor: pointer;
+}
+#gmstats table.table tbody tr td.col_name:hover {
+  cursor: pointer;
+}
+#gmstats table.table tbody tr td.col_name:hover .name {
   color: black !important;
   background-color: #ffdc41;
 }
