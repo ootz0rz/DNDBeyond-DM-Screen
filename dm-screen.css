@@ -9911,10 +9911,10 @@ a > #gmstats code {
 #gmstats table.table tbody tr td.col_name {
   cursor: pointer;
 }
-#gmstats table.table tbody tr td.col_name:hover, #gmstats table.table tbody tr td.col_name:focus, #gmstats table.table tbody tr td.col_name:active {
+#gmstats table.table tbody tr td.col_name:hover, #gmstats table.table tbody tr td.col_name:active {
   cursor: pointer;
 }
-#gmstats table.table tbody tr td.col_name:hover .name, #gmstats table.table tbody tr td.col_name:focus .name, #gmstats table.table tbody tr td.col_name:active .name {
+#gmstats table.table tbody tr td.col_name:hover .name, #gmstats table.table tbody tr td.col_name:active .name {
   color: black !important;
   background-color: #ffdc41;
 }
@@ -9983,7 +9983,7 @@ a > #gmstats code {
   background-size: cover;
   margin-right: 3px;
 }
-#gmstats table.table th.col_name .links .view:hover::before, #gmstats table.table th.col_name .links .view:focus::before, #gmstats table.table th.col_name .links .view:active::before, #gmstats table.table th.col_name .links .edit:hover::before, #gmstats table.table th.col_name .links .edit:focus::before, #gmstats table.table th.col_name .links .edit:active::before, #gmstats table.table td.col_name .links .view:hover::before, #gmstats table.table td.col_name .links .view:focus::before, #gmstats table.table td.col_name .links .view:active::before, #gmstats table.table td.col_name .links .edit:hover::before, #gmstats table.table td.col_name .links .edit:focus::before, #gmstats table.table td.col_name .links .edit:active::before {
+#gmstats table.table th.col_name .links .view:hover::before, #gmstats table.table th.col_name .links .view:active::before, #gmstats table.table th.col_name .links .edit:hover::before, #gmstats table.table th.col_name .links .edit:active::before, #gmstats table.table td.col_name .links .view:hover::before, #gmstats table.table td.col_name .links .view:active::before, #gmstats table.table td.col_name .links .edit:hover::before, #gmstats table.table td.col_name .links .edit:active::before {
   filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
 }
 #gmstats table.table th.col_name .name, #gmstats table.table td.col_name .name {
@@ -10098,7 +10098,7 @@ a > #gmstats code {
   color: #f8f9fa !important;
   zoom: 0.7;
 }
-#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table th.col_skills .btn.btn-outline-light:focus, #gmstats table.table th.col_skills .btn.btn-outline-light:active, #gmstats table.table td.col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:focus, #gmstats table.table td.col_skills .btn.btn-outline-light:active {
+#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table th.col_skills .btn.btn-outline-light:active, #gmstats table.table td.col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:active {
   color: #000 !important;
 }
 #gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.halftoggle {
@@ -10233,13 +10233,13 @@ a > #gmstats code {
 #gmstats table.table tfoot td .btn.btn-outline-info, #gmstats table.table tfoot td .form-select.btn-outline-info, #gmstats table.table tfoot td .form-control.btn-outline-info, #gmstats table.table tfoot td label.btn-outline-info {
   color: #0dcaf0 !important;
 }
-#gmstats table.table tfoot td .btn.btn-outline-info:hover, #gmstats table.table tfoot td .btn.btn-outline-info:focus, #gmstats table.table tfoot td .btn.btn-outline-info:active, #gmstats table.table tfoot td .form-select.btn-outline-info:hover, #gmstats table.table tfoot td .form-select.btn-outline-info:focus, #gmstats table.table tfoot td .form-select.btn-outline-info:active, #gmstats table.table tfoot td .form-control.btn-outline-info:hover, #gmstats table.table tfoot td .form-control.btn-outline-info:focus, #gmstats table.table tfoot td .form-control.btn-outline-info:active, #gmstats table.table tfoot td label.btn-outline-info:hover, #gmstats table.table tfoot td label.btn-outline-info:focus, #gmstats table.table tfoot td label.btn-outline-info:active {
+#gmstats table.table tfoot td .btn.btn-outline-info:hover, #gmstats table.table tfoot td .btn.btn-outline-info:active, #gmstats table.table tfoot td .form-select.btn-outline-info:hover, #gmstats table.table tfoot td .form-select.btn-outline-info:active, #gmstats table.table tfoot td .form-control.btn-outline-info:hover, #gmstats table.table tfoot td .form-control.btn-outline-info:active, #gmstats table.table tfoot td label.btn-outline-info:hover, #gmstats table.table tfoot td label.btn-outline-info:active {
   color: #000 !important;
 }
 #gmstats table.table tfoot td .btn.btn-outline-info.active, #gmstats table.table tfoot td .form-select.btn-outline-info.active, #gmstats table.table tfoot td .form-control.btn-outline-info.active, #gmstats table.table tfoot td label.btn-outline-info.active {
   color: #000 !important;
 }
-#gmstats table.table tfoot td .btn.btn-outline-info.active:hover, #gmstats table.table tfoot td .btn.btn-outline-info.active:focus, #gmstats table.table tfoot td .btn.btn-outline-info.active:active, #gmstats table.table tfoot td .form-select.btn-outline-info.active:hover, #gmstats table.table tfoot td .form-select.btn-outline-info.active:focus, #gmstats table.table tfoot td .form-select.btn-outline-info.active:active, #gmstats table.table tfoot td .form-control.btn-outline-info.active:hover, #gmstats table.table tfoot td .form-control.btn-outline-info.active:focus, #gmstats table.table tfoot td .form-control.btn-outline-info.active:active, #gmstats table.table tfoot td label.btn-outline-info.active:hover, #gmstats table.table tfoot td label.btn-outline-info.active:focus, #gmstats table.table tfoot td label.btn-outline-info.active:active {
+#gmstats table.table tfoot td .btn.btn-outline-info.active:hover, #gmstats table.table tfoot td .btn.btn-outline-info.active:active, #gmstats table.table tfoot td .form-select.btn-outline-info.active:hover, #gmstats table.table tfoot td .form-select.btn-outline-info.active:active, #gmstats table.table tfoot td .form-control.btn-outline-info.active:hover, #gmstats table.table tfoot td .form-control.btn-outline-info.active:active, #gmstats table.table tfoot td label.btn-outline-info.active:hover, #gmstats table.table tfoot td label.btn-outline-info.active:active {
   color: #fff !important;
   border-color: #fff !important;
   background-color: #0a4d5a;
@@ -10247,13 +10247,13 @@ a > #gmstats code {
 #gmstats table.table tfoot td .btn.btn-outline-warning, #gmstats table.table tfoot td .form-select.btn-outline-warning, #gmstats table.table tfoot td .form-control.btn-outline-warning, #gmstats table.table tfoot td label.btn-outline-warning {
   color: #ffc107 !important;
 }
-#gmstats table.table tfoot td .btn.btn-outline-warning:hover, #gmstats table.table tfoot td .btn.btn-outline-warning:focus, #gmstats table.table tfoot td .btn.btn-outline-warning:active, #gmstats table.table tfoot td .form-select.btn-outline-warning:hover, #gmstats table.table tfoot td .form-select.btn-outline-warning:focus, #gmstats table.table tfoot td .form-select.btn-outline-warning:active, #gmstats table.table tfoot td .form-control.btn-outline-warning:hover, #gmstats table.table tfoot td .form-control.btn-outline-warning:focus, #gmstats table.table tfoot td .form-control.btn-outline-warning:active, #gmstats table.table tfoot td label.btn-outline-warning:hover, #gmstats table.table tfoot td label.btn-outline-warning:focus, #gmstats table.table tfoot td label.btn-outline-warning:active {
+#gmstats table.table tfoot td .btn.btn-outline-warning:hover, #gmstats table.table tfoot td .btn.btn-outline-warning:active, #gmstats table.table tfoot td .form-select.btn-outline-warning:hover, #gmstats table.table tfoot td .form-select.btn-outline-warning:active, #gmstats table.table tfoot td .form-control.btn-outline-warning:hover, #gmstats table.table tfoot td .form-control.btn-outline-warning:active, #gmstats table.table tfoot td label.btn-outline-warning:hover, #gmstats table.table tfoot td label.btn-outline-warning:active {
   color: #000 !important;
 }
 #gmstats table.table tfoot td .btn.btn-outline-warning.active, #gmstats table.table tfoot td .form-select.btn-outline-warning.active, #gmstats table.table tfoot td .form-control.btn-outline-warning.active, #gmstats table.table tfoot td label.btn-outline-warning.active {
   color: #000 !important;
 }
-#gmstats table.table tfoot td .btn.btn-outline-warning.active:hover, #gmstats table.table tfoot td .btn.btn-outline-warning.active:focus, #gmstats table.table tfoot td .btn.btn-outline-warning.active:active, #gmstats table.table tfoot td .form-select.btn-outline-warning.active:hover, #gmstats table.table tfoot td .form-select.btn-outline-warning.active:focus, #gmstats table.table tfoot td .form-select.btn-outline-warning.active:active, #gmstats table.table tfoot td .form-control.btn-outline-warning.active:hover, #gmstats table.table tfoot td .form-control.btn-outline-warning.active:focus, #gmstats table.table tfoot td .form-control.btn-outline-warning.active:active, #gmstats table.table tfoot td label.btn-outline-warning.active:hover, #gmstats table.table tfoot td label.btn-outline-warning.active:focus, #gmstats table.table tfoot td label.btn-outline-warning.active:active {
+#gmstats table.table tfoot td .btn.btn-outline-warning.active:hover, #gmstats table.table tfoot td .btn.btn-outline-warning.active:active, #gmstats table.table tfoot td .form-select.btn-outline-warning.active:hover, #gmstats table.table tfoot td .form-select.btn-outline-warning.active:active, #gmstats table.table tfoot td .form-control.btn-outline-warning.active:hover, #gmstats table.table tfoot td .form-control.btn-outline-warning.active:active, #gmstats table.table tfoot td label.btn-outline-warning.active:hover, #gmstats table.table tfoot td label.btn-outline-warning.active:active {
   color: #fff !important;
   border-color: #fff !important;
   background-color: #684f05;
