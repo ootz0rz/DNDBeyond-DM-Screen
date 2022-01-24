@@ -419,7 +419,9 @@
                 td {
                     &.col_name {
                         cursor: pointer;
-                        &:hover {
+                        // XXX note we do hover, focus, active for touchscreens
+                        // via https://stackoverflow.com/a/22560108
+                        &:hover, &:focus, &:active {
                             cursor: pointer;
                             .name {
                                 color: $gm_c_black !important;
@@ -501,7 +503,7 @@
                                 background-size: cover;
                                 margin-right: 3px;
                             }
-                            &:hover::before {
+                            &:hover::before, &:focus::before, &:active::before {
                                 // https://stackoverflow.com/a/60167530
                                 // https://codepen.io/sosuke/pen/Pjoqqp
                                 filter: brightness(0) saturate(100%) invert(90%) sepia(22%) saturate(2579%) hue-rotate(349deg) brightness(91%) contrast(94%);
@@ -623,7 +625,7 @@
                         &.btn-outline-light {
                             color: $light !important;
                             zoom: $btnzoomamt;
-                            &:hover {
+                            &:hover, &:focus, &:active {
                                 color: color-contrast($light) !important;
                             }
                         }
@@ -803,7 +805,7 @@
                         @mixin btnFixes($btnType, $baseColor) {
                             &.btn-outline-#{$btnType} {
                                 color: $baseColor !important;
-                                &:hover {
+                                &:hover, &:focus, &:active {
                                     color: color-contrast($baseColor) !important;
                                 }
 
@@ -811,7 +813,7 @@
                                     // and while we're active, keep some state here too
                                     color: color-contrast($baseColor) !important;
 
-                                    &:hover {
+                                    &:hover, &:focus, &:active {
                                         $darker: desaturate(darken($baseColor, 30), 10);
                                         color: color-contrast($darker) !important;
                                         border-color: color-contrast($darker) !important;
