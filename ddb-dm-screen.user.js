@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.16
+// @version         1.1.17
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -326,6 +326,7 @@ var mainTableHTML = `
                     <span class="gs-form-field gs-row-container set">
                         <a id="time_short" role='button' class='btn btn-outline-info' href="#">30s</a>
                         <a id="time_long" role='button' class='btn btn-outline-info' href="#">90s</a>
+                        <a id="time_verylong" role='button' class='btn btn-outline-info' href="#">150s</a>
                         <input class="btn-check" type="checkbox" name="gs-auto-update" id="gs-auto-update" value="false">
                         <label class="btn btn-outline-warning" for="gs-auto-update">Auto Update</label>
                         <a id="force_refresh" role='button' class='btn btn-outline-info' href="#">Force Refresh</a>
@@ -1252,6 +1253,7 @@ function insertControls(parent) {
     let autoDuration = controlsNode.find('input[name ="gs-auto-duration"]');
     let shortDuration = controlsNode.find('#time_short');
     let longDuration = controlsNode.find('#time_long');
+    let verylongDuration = controlsNode.find('#time_verylong');
     let fontSize = controlsNode.find('select[name ="gs-font-size"]');
 
     let displayDeactive = controlsNode.find('input[name ="gs-display-deactive"]');
@@ -1311,6 +1313,7 @@ function insertControls(parent) {
     }
     shortDuration.click({ time: 30 }, onDurationClick);
     longDuration.click({ time: 90 }, onDurationClick);
+    verylongDuration.click({ time: 150 }, onDurationClick);
     // end duration buttons
 
     fontSize.change(function () {
