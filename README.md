@@ -10,4 +10,10 @@ https://userstyles.org/styles/227989/dnd-beyond-carm-sheet => https://github.com
 
 # Dev
 
+## compile css
+
 `sass --watch .:.`
+
+## for testing css via `http://localhost:8000/dm-screen.cs`
+
+`python serve.py`

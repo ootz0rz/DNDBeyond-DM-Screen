@@ -9676,7 +9676,13 @@ a > #gmstats code {
   transition: visibility 0.3s linear, opacity 0.3s linear;
 }
 #gmstats table {
+  border-spacing: 0;
   margin-bottom: 0;
+}
+@-moz-document url-prefix() {
+  #gmstats table {
+    border-collapse: initial;
+  }
 }
 #gmstats table tr, #gmstats table td, #gmstats table th {
   background-color: #212529 !important;
@@ -9898,11 +9904,31 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr.active_row.first_row tr tr, #gmstats table.table tbody tr.active_row.first_row tr td, #gmstats table.table tbody tr.active_row.first_row tr th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td tr, #gmstats table.table tbody tr.active_row.first_row td td, #gmstats table.table tbody tr.active_row.first_row td th, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th tr, #gmstats table.table tbody tr.active_row.first_row th td, #gmstats table.table tbody tr.active_row.first_row th th, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row {
   border-bottom-width: 1px;
-  border-bottom-style: dotted !important;
+  border-bottom-style: dotted;
+}
+#gmstats table.table tbody tr.active_row.first_row tr.col_name, #gmstats table.table tbody tr.active_row.first_row td.col_name, #gmstats table.table tbody tr.active_row.first_row th.col_name, #gmstats table.table tbody tr.active_row.first_row.col_name {
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+#gmstats table.table tbody tr.active_row.first_row td {
+  border-top-width: 2px;
+  border-top-color: #ffdc41;
+}
+#gmstats table.table tbody tr.active_row.first_row td.col_name {
+  border-bottom-width: 2px;
+  border-bottom-color: #ffdc41;
 }
 #gmstats table.table tbody tr.active_row.second_row tr tr, #gmstats table.table tbody tr.active_row.second_row tr td, #gmstats table.table tbody tr.active_row.second_row tr th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td tr, #gmstats table.table tbody tr.active_row.second_row td td, #gmstats table.table tbody tr.active_row.second_row td th, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th tr, #gmstats table.table tbody tr.active_row.second_row th td, #gmstats table.table tbody tr.active_row.second_row th th, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row {
   border-top-width: 1px;
-  border-top-style: dotted !important;
+  border-top-style: dotted;
+}
+#gmstats table.table tbody tr.active_row.second_row tr.col_name, #gmstats table.table tbody tr.active_row.second_row td.col_name, #gmstats table.table tbody tr.active_row.second_row th.col_name, #gmstats table.table tbody tr.active_row.second_row.col_name {
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+#gmstats table.table tbody tr.active_row.second_row td {
+  border-bottom-width: 2px;
+  border-bottom-color: #ffdc41;
 }
 #gmstats table.table tbody tr.second_row .col_details {
   border-right-width: 1px;
