@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.17
+// @version         1.1.18
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2170,7 +2170,7 @@ function updateDefenses(parent, character) {
 
     // hide/show as appropriate
     var hideclass = 'inactiveset';
-    _hideIfNoElements([...res, ...imm, ...vuln], hr, hideClass=hideclass);
+    _hideIfNoElements([...res, ...imm, ...vuln, ...save], hr, hideClass=hideclass);
     _hideIfNoElements(res, resset, hideClass=hideclass);
     _hideIfNoElements(imm, immset, hideClass=hideclass);
     _hideIfNoElements(vuln, vulnset, hideClass=hideclass);
