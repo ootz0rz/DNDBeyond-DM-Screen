@@ -1013,8 +1013,7 @@ function updateCharData(url, activeType) {
                         var charData = window.moduleExport.getCharData(charactersData[charId].state);
                         charactersData[charId].data = charData;
                         updateElementData(charactersData[charId], charId);
-                        console.log("Retrived Char Data for char " + charId + " aka " + charactersData[charId].data.name);
-                        console.log(charactersData[charId]);
+                        console.log("{0} [{1}]:\n\nCharacter Data Returned! \n".format(charactersData[charId].data.name, charId), charactersData[charId])
                         resolve();
                     });
                 } else {
@@ -1850,7 +1849,8 @@ function updatePassives(parent, passPerception, passInvestigation, passInsight) 
 }
 
 function updateMoney(parent, currencies, showSumOnly=false) {
-    console.log('updateMoney', 'parent:', parent, 'showSumOnly:', showSumOnly);
+    // console.log('updateMoney', 'parent:', parent, 'showSumOnly:', showSumOnly);
+
     // individual vals
     var ppc = $(".ppc", parent);
     var epc = $(".epc", parent);
@@ -1900,7 +1900,7 @@ function updateMoney(parent, currencies, showSumOnly=false) {
 }
 
 function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
-    console.log('updateCurrencyVis forcehide:', forceHide);
+    // console.log('updateCurrencyVis forcehide:', forceHide);
     if (forceHide) {
         c.addClass(hideClass);
         return;
@@ -2372,7 +2372,7 @@ function getJSONfromURLs(urls, body, headers, cookies) {
         Promise.all(proms)
             .then(ps => Promise.all(ps.map(p => p.json()))) // p.json() also returns a promise
             .then(jsons => {
-                console.log("JSON Data Retrived");
+                console.log("JSON Data Retrived", urls);
                 resolve(jsons);
             })
             .catch((error) => {
