@@ -303,7 +303,7 @@
 
             // let these be normal fonts to horizontal conserve space where possible
             tbody td, tfoot td {
-                &.col_name .name, &.col_skills, &.col_languages {
+                &.col_name .name, &.col_skills, &.col_languages, &.col_jump {
                     font-family: $font-family-sans-serif !important;
                 }
             }
@@ -766,6 +766,11 @@
                         display: none;
                     }
                 }
+
+                &.col_jump {
+                    width: auto;
+                    white-space: normal;
+                }
             }
 
             td.col_skills span { white-space: nowrap; }
@@ -853,6 +858,90 @@
                         @include btnFixes('info', $info);
                         @include btnFixes('warning', $warning);
                     }
+                }
+            }
+        }
+    }
+
+    // customizeable panels
+    $panel_behind_bg: $gm_background;
+    $panel_bg: lighten($gm_background, 10);
+    $panel_border: lighten($panel_bg, 20);
+
+    $panel_border_radius: 4px;
+
+    $panel_topbot_padding: 0.2em;
+    $panel_leftright_padding: 0.3em;
+    $panel_lineheight: 2em;
+
+    .panelblock {
+        padding: 0em;
+        margin: 0em;
+        margin-left: .5em;
+        margin-right: .5em;
+
+        line-height: $panel_lineheight;
+
+        position: relative;
+        white-space: nowrap;
+
+        .value {
+            .num, .units {
+                font-family: $font-family-monospace;
+            }
+            .num {
+                // margin-right: 0.25em;
+            }
+            .units {
+                // vertical-align: sub;
+                font-size: 75%;
+            }
+        }
+
+        > .title, > .body {
+            // padding: 0.15em 0.3em;
+        }
+
+        @mixin panel_base_look($bg_color, $border-radius-side, $border-remove-side) {
+            background-color: $bg_color;
+            border: 1px solid $panel_border;
+            border-#{$border-remove-side}-width: 0;
+            -webkit-box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+            border-top-#{$border-radius-side}-radius: $panel_border_radius;
+            border-bottom-#{$border-radius-side}-radius: $panel_border_radius;
+        }
+
+        > .title {
+            color: $gm_c_silver;
+
+            @include panel_base_look($panel_bg, left, right);
+
+            padding: $panel_topbot_padding $panel_leftright_padding;
+            // padding-left: $panel_leftright_padding;
+            // padding-top: $panel_topbot_padding;
+            // padding-bottom: $panel_topbot_padding;
+            // padding-right: $panel_leftright_padding;
+
+            &::after {
+                content: ' '; // dirty hack to get the title/body 'boxes' to link together
+            }
+        }
+
+        > .body {
+            @include panel_base_look($panel_behind_bg, right, left);
+
+            padding: $panel_topbot_padding $panel_leftright_padding;
+
+            .group {
+                > .title {
+                    color: $gm_c_bright_black;
+                    // text-decoration: underline;
+                    font-variant: small-caps;
+                    // &::after { content: ":"; }
+                }
+                > .body {
+
                 }
             }
         }

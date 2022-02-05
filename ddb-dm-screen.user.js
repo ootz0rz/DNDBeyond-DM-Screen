@@ -84,6 +84,8 @@ const currenciesTypeDefault = {
 };
 const currenciesMainDefault = 'gold';
 
+const regexNumberLetterBoundary = new RegExp(/(?<=[\D\.,])(?=[\d\.,])|(?<=[\d\.,])(?=[\D\.,])/g);
+
 const HIDE_CLASS = 'hide';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
@@ -95,6 +97,22 @@ const ACTIVE_SECOND_ROW_CLASS = 'second_row';
 const ACTIVE_ROW_TITLE_CLASS = 'activetitle';
 const TOOLTIP_INIT_NORMAL = "Initiative";
 const TOOLTIP_INIT_ADV = "Initiative, Advantage";
+
+const STR_STAT = 'str';
+const DEX_STAT = 'dex';
+const CON_STAT = 'con';
+const INT_STAT = 'int';
+const WIS_STAT = 'wis';
+const CHA_STAT = 'cha';
+
+/** map from *_STAT name => dndbeyond ID for the stat */
+const abilityMap = {};
+abilityMap[STR_STAT] = 1;
+abilityMap[DEX_STAT] = 2;
+abilityMap[CON_STAT] = 3;
+abilityMap[INT_STAT] = 4;
+abilityMap[WIS_STAT] = 5;
+abilityMap[CHA_STAT] = 6;
 
 var $ = window.jQuery;
 var rulesData = {},
@@ -434,6 +452,55 @@ var tableSecondRowHTML = `
                     <tbody>
                         <tr>
                             <td class='col_skills' colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col_jump" colspan="2">
+                                <span class="activetitle">Jump:</span>
+                                <span class="jumpstats">
+                                    <span class="panelblock stand">
+                                        <span class="title">Standing</span>
+                                        <span class="body">
+                                            <span class="group long">
+                                                <span class="title">long</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                            <span class="group high">
+                                                <span class="title">high</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                            <span class="group grab">
+                                                <span class="title">reach</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="panelblock run">
+                                        <span class="title">Running <span class="value"><span class="num">10</span><span class="units">ft</span></span></span>
+                                        <span class="body">
+                                            <span class="group long">
+                                                <span class="title">long</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                            <span class="group high">
+                                                <span class="title">high</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                            <span class="group grab">
+                                                <span class="title">reach</span>
+                                                <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="panelblock obstacle">
+                                        <span class="title">Max Obstacle</span>
+                                        <span class="body"><span class="value"><span class="num"></span><span class="units">ft</span></span></span>
+                                    </span>
+                                    <span class="panelblock reach">
+                                        <span class="title">Jump Reach</span>
+                                        <span class="body"><span class="value"><span class="num">½</span> char height</span></span>
+                                    </span>
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1437,6 +1504,8 @@ function updateElementData(allCharData, charId) {
     updateSkillProfs(parent, parent_secondrow, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
     updateDefenses(parent, character);
+
+    updateJump(parent_secondrow, character);
 }
 
 function updateRowIfShouldBeActive(primaryRow) {
@@ -2186,6 +2255,268 @@ function _addSortedListToNode(arr, node, sep = ', ') {
     node.html(arr.join(sep));
 }
 
+function updateJump(parent_secondrow, character) {
+    // math based on http://fexlabs.com/5ejump/
+    var reach = null;
+    var height = null;
+    height = tryParseHeightToFeet(character.height);
+
+    if (height === null) {
+        height = 0;
+    } else {
+        reach = height * 1.5;
+        console.log("set reach: ", reach, "from height: ", height);
+    }
+
+    var str = getStatValue(STR_STAT, character.abilities);
+    // var dex = getStatValue(DEX_STAT, character.abilities);
+    var str_mod = getStatMod(STR_STAT, character.abilities);
+    var dex_mod = getStatMod(DEX_STAT, character.abilities);;
+
+    var lateLongMod = 0;
+    var lateHighMod = 0;
+    var runningLongMod = 0;
+    var runningHighMod = 0;
+    var globalMultiplier = 1;
+
+    var minRunFeet = 10;
+
+    // calc intermediate values based on char options and such
+    if (isTigerTotemBarbarian(character)) {
+        lateLongMod += 10;
+        lateHighMod += 3;
+    }
+
+    if (isFighterChampionWithRemarkableAthelete(character)) {
+        runningLongMod += str_mod;
+    }
+
+    if (false /* step of the wind */) {
+        // TODO is there any way to detect if this is active?
+        globalMultiplier *= 2;
+    }
+
+    if (false /* jump spell */) {
+        // TODO is there any way to detect if this is active?
+        globalMultiplier *= 3;
+    }
+
+    if (doesCharacterHaveItemWithDefinitionId(character, 4590 /* def id: Boots of Striding and Springing */)) {
+        globalMultiplier *= 3;
+    }
+
+    if (doesCharacterHaveAthleteFeat(character)) {
+        minRunFeet = 5;
+    }
+
+    if (isRogueThiefWithSecondStory(character)) {
+        runningLongMod += dex_mod;
+        runningHighMod += dex_mod;
+    }
+
+    console.log(
+        'input vals:\n',
+        '\n\t', 'str: ', str,
+        '\n\t', 'str_mod: ', str_mod,
+        '\n\t', 'dex_mod: ', dex_mod,
+        '\n\t',
+        '\n\t', 'lateLongMod: ', lateLongMod,
+        '\n\t', 'lateHighMod: ', lateHighMod,
+        '\n\t', 'runningLongMod: ', runningLongMod,
+        '\n\t', 'runningHighMod: ', runningHighMod,
+        '\n\t',
+        '\n\t', 'globalMultiplier: ', globalMultiplier,
+        '\n\t',
+        '\n\t', 'minRunFeet: ', minRunFeet,
+    );
+
+    // compute final values for display
+    var obstacle = globalMultiplier * Math.floor(str * 2.5) / 10;
+
+    var run_long = globalMultiplier * Math.floor(str * 1 + lateLongMod + runningLongMod);
+    var run_high = globalMultiplier * (3 + str_mod + lateHighMod + runningHighMod);
+    var run_grab = Math.floor((run_high + height * 1.5) * 10) / 10;
+
+    var stand_long = globalMultiplier * Math.floor(str * 0.5 + lateLongMod);
+    var stand_high = globalMultiplier * ((3 + str_mod) / 2 + lateHighMod);
+    var stand_grab = Math.floor((stand_high + height * 1.5) * 10) / 10;
+
+    console.log(
+        'computed vals:\n',
+        '\n\t', 'obstacle: ', obstacle,
+        '\n\t',
+        '\n\t', 'run_long: ', run_long, 'global', globalMultiplier, 'str', str, 'latelong', lateLongMod, 'runninglongmod', runningLongMod,
+        '\n\t', 'run_high: ', run_high, 'global', globalMultiplier, 'str * 0.5', str * 0.5, 'latelong', lateLongMod,
+        '\n\t', 'run_grab: ', run_grab,
+        '\n\t',
+        '\n\t', 'stand_long: ', lateLongMod,
+        '\n\t', 'stand_high: ', lateHighMod,
+        '\n\t', 'stand_grab: ', runningLongMod,
+    );
+
+    // grab nodes and set data
+    var nColJump = $(".col_jump", parent_secondrow);
+    var nJumpStats = $(".jumpstats", nColJump);
+
+    var nStand = $(".stand", nJumpStats);
+    var nRun = $(".run", nJumpStats);
+    var nObstacle = $(".obstacle", nJumpStats);
+    var nReach = $(".reach", nJumpStats);
+
+    var hasReach = reach !== null;
+
+    // standing start values
+    var nStandLong = $(".long > .body > .value > .num", nStand);
+    var nStandHigh = $(".high > .body > .value > .num", nStand);
+    var nStandGrabVal = $(".grab > .body > .value > .num", nStand);
+    var nStandGrab = $(".grab", nStand);
+    nStandLong.html(stand_long);
+    nStandHigh.html(stand_high);
+    if (hasReach) {
+        nStandGrab.removeClass('hide');
+        nStandGrabVal.html(stand_grab);
+    } else {
+        nStandGrab.addClass('hide');
+    }
+
+    console.log(
+        'standing vals:\n',
+        '\n\t', 'hasReach: ', hasReach,
+        '\n\t',
+        '\n\t', 'nStandLong: ', nStandLong,
+        '\n\t', 'nStandHigh: ', nStandHigh,
+        '\n\t', 'nStandGrabVal: ', nStandGrabVal,
+        '\n\t', 'nStandGrab: ', nStandGrab,
+        '\n\t',
+        '\n\t', 'nStandLong.html: ', stand_long,
+        '\n\t', 'nStandHigh.html: ', stand_high,
+        '\n\t', 'nStandGrabVal.html: ', stand_grab,
+    );
+
+    // running start values
+    var nRunMinMove = $(".title > .value > .num", nRun);
+    var nRunLong = $(".long > .body > .value > .num", nRun);
+    var nRunHigh = $(".high > .body > .value > .num", nRun);
+    var nRunGrabVal = $(".grab > .body > .value > .num", nRun);
+    var nRunGrab = $(".grab", nRun);
+    nRunMinMove.html(minRunFeet);
+    nRunLong.html(run_long);
+    nRunHigh.html(run_high);
+    if (hasReach) {
+        nRunGrab.removeClass('hide');
+        nRunGrabVal.html(run_grab);
+    } else {
+        nRunGrab.addClass('hide');
+    }
+
+    console.log(
+        'running vals:\n',
+        '\n\t', 'hasReach: ', hasReach,
+        '\n\t',
+        '\n\t', 'nRunMinMove: ', nRunMinMove,
+        '\n\t', 'nRunLong: ', nRunLong,
+        '\n\t', 'nRunHigh: ', nRunHigh,
+        '\n\t', 'nRunGrabVal: ', nRunGrabVal,
+        '\n\t', 'nRunGrab: ', nRunGrab,
+        '\n\t',
+        '\n\t', 'nRunMinMove.html: ', minRunFeet,
+        '\n\t', 'nRunLong.html: ', run_long,
+        '\n\t', 'nRunHigh.html: ', run_high,
+        '\n\t', 'nRunGrabVal.html: ', run_grab,
+    );
+
+    // obstacles
+    var nObstacleMax = $(".body > .value > .num", nObstacle);
+    nObstacleMax.html(obstacle);
+
+    // reach
+    var nReachBody = $(".body", nReach);
+    if (hasReach) {
+        nReachBody.html(
+            `
+                <span class="group high">
+                    <span class="title"><span class="value"><span class="num">1.5×</span></span><span class="value"><span class="num">{0}</span></span> =</span>
+                    <span class="body"><span class="value"><span class="num">{1}</span><span class="units">ft</span></span></span>
+                </span>
+            `.format(
+                character.height,
+                Math.round(reach * 10) / 10
+            ));
+    } else {
+        nReachBody.html(
+            `
+                <span class="group high">
+                    <span class="title"><span class="value"><span class="num">1.5×</span></span></span>
+                    <span class="body"><span class="value"><span class="num">{0}</span></span></span>
+                </span>
+            `.format(
+                character.height !== null && character.height.length > 0
+                    ? character.height
+                    : "height"
+            ));
+    }
+}
+
+function isTigerTotemBarbarian(character) {
+    var outVal = false;
+    character.classes.forEach((c, idx) => {
+        if (c.activeId != 27 /* barbarian id */) {
+            return;
+        }
+
+        // we're a barb, but are we rocking the tiger totem spirit?
+        c.activeClassFeatures.forEach((f, fidx) => {
+            if (f.definition.id != 100 /* totem spirit id */) {
+                return;
+            }
+
+            outVal = f.options.some(o => o.definition.id == 181 /* tiger spirit id */);
+        });
+    });
+
+    return outVal;
+}
+
+function isFighterChampionWithRemarkableAthelete(character) {
+    var outVal = false;
+    character.classes.forEach((c, idx) => {
+        if (c.activeId != 16 /* fighter id */) {
+            return;
+        }
+
+        // does this fighter have remarkable athlete?
+        outVal = c.activeClassFeatures.some(f => f.definition.id == 216 /* remarkable athlete id */);
+    });
+
+    return outVal;
+}
+
+function doesCharacterHaveItemWithDefinitionId(character, itemId) {
+    return character.inventory.some(i => i.definition.id == itemId);
+}
+
+function doesCharacterHaveAthleteFeat(character) {
+    return doesCharacterHaveFeatWithDefinitionId(character, 13 /* athlete id */);
+}
+
+function doesCharacterHaveFeatWithDefinitionId(character, defId) {
+    return character.feats.some(f => f.definition.id == defId);
+}
+
+function isRogueThiefWithSecondStory(character) {
+    var outVal = false;
+    character.classes.forEach((c, idx) => {
+        if (c.activeId != 23 /* rogue id */) {
+            return;
+        }
+
+        // does this fighter have remarkable athlete?
+        outVal = c.activeClassFeatures.some(f => f.definition.id == 365 /* second-story work id */);
+    });
+
+    return outVal;
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        D&DBeyond Module Loader
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2535,6 +2866,228 @@ function updateButtonToggleState(newState, btnNode) {
         btnNode.removeClass('active');
     }
 }
+
 function updateSiblingLabelToggleState(newState, btnNode) {
     return updateButtonToggleState(newState, btnNode.siblings("label.btn"));
+}
+
+function tryParseHeightToFeet(hStr) {
+    outHeight = null;
+
+    // check if we're already just a number of some sort...
+    outHeight = Number(hStr);
+    if (isNum(hStr)) {
+        // maybe we can do something smart here, but without knowing what the value 
+        // actually means... gotta just get rid of it
+        return null;
+    }
+
+    outHeight = __parseHeightVal(hStr);
+
+    return outHeight;
+}
+
+/** 
+ * Parse the string and if possible return final value in terms of number of inches 
+ * 
+ * Returns null if can't parse
+ * */
+function __parseHeightVal(hStr) {
+    console.log("\n\n__parseHeightVal :: input: ", hStr);
+    // var hLower = hStr.toLowerCase();
+
+    // tokenize
+    var tokens = hStr.split(regexNumberLetterBoundary);
+
+    console.log("__parseHeightVal :: ", "tokens: ", tokens);
+
+    // we assume that things are laid out in some reasonable format, ex:
+    // 1 [unit] 53 [other unit]
+    // That is, the unit is to the right of the value
+
+    var finalVal = 0;
+
+    function cl1(t, v, n, a) {
+        console.log("__parseHeightVal :: ", "\t\t units?", "add " + a + " as " + t + " [" + n + "]: ", v);
+    }
+
+    var i = 0;
+    var wasFeet = false;
+    while (true) {
+        var t = tokens[i].trim();
+
+        console.log(
+            "__parseHeightVal :: ",
+            "\t loop head -- ",
+            "final val: ", finalVal,
+            "{0} / {1}".format(i, tokens.length),
+            "t: ", t
+        );
+
+        if (t.length == 0) {
+            console.log("__parseHeightVal :: ", "\t -> skip empty t");
+            // empty, skip
+            i++;
+            continue;
+        }
+
+        if (isNum(t)) {
+            t = Number(t);
+
+            console.log("__parseHeightVal :: ", "\t -> is num...", t);
+            // we got a number, do we have units afterwards?
+            var tNext = null;
+            while (tNext === null) {
+                console.log(
+                    "__parseHeightVal :: ",
+                    "\t\t units?",
+                    "tNext", tNext,
+                    "wasFeet?", wasFeet,
+                    "{0} / {1}".format(i, tokens.length));
+                
+                if ((i + 1) >= tokens.length && !wasFeet) {
+                    break;
+                }
+
+                if (wasFeet) {
+                    cl1("default[" + wasFeet + "]", finalVal, 0, t);
+                    // if the previous units were in feet, we assume this next one is in inches
+                    wasFeet = false;
+                    finalVal += t / 12;
+
+                    i++;
+                    cl1("default[" + wasFeet + "]", finalVal, 1, t);
+                    continue;
+                }
+
+                var tNext = tokens[i + 1].trim().toLowerCase();
+                if (!isNum(tNext)) {
+                    switch (tNext) {
+                        // metric
+                        case 'km':
+                            cl1(tNext, finalVal, 0, t);
+                            wasFeet = false;
+                            finalVal += t * 0.03281 * 100000;
+                            cl1(tNext, finalVal, 1, t);
+                            break;
+                        case 'm':
+                            cl1(tNext, finalVal, 0, t);
+                            wasFeet = false;
+                            finalVal += t * 0.03281 * 100;
+                            cl1(tNext, finalVal, 1, t);
+                            break;
+                        case 'cm':
+                            cl1(tNext, finalVal, 0, t);
+                            wasFeet = false;
+                            finalVal += t * 0.03281;
+                            cl1(tNext, finalVal, 1, t);
+                            break;
+                        case 'mm':
+                            cl1(tNext, finalVal, 0, t);
+                            wasFeet = false;
+                            finalVal += t * 0.03281 / 10;
+                            cl1(tNext, finalVal, 1, t);
+                            break;
+                        
+                        // imperial
+                        case 'feet':
+                        case 'ft':
+                        case 'f':
+                        case "'":
+                        case '′':
+                        case "`":
+                            cl1("feet[" + tNext + "]", finalVal, 0, t);
+                            wasFeet = true;
+                            finalVal += t;
+                            cl1("feet[" + tNext + "]", finalVal, 1, t);
+                            break;
+                        
+                        case 'inches':
+                        case 'inch':
+                        case 'in':
+                        case '"':
+                        case "″":
+                            cl1("inch[" + tNext + "]", finalVal, 0, t);
+                            wasFeet = false;
+                            finalVal += t / 12;
+                            cl1("inch[" + tNext + "]", finalVal, 1, t);
+                            break;
+                    
+                        default:
+                            cl1("default[" + wasFeet + "]", finalVal, 10, t);
+                            if (wasFeet) {
+                                // if the previous units were in feet, we assume this is in inches
+                                wasFeet = false;
+                                finalVal += t / 12;
+                            } else {
+                                // we've encountered an unknown unit type... abort
+                                console.log("__parseHeightVal :: ", "unsupported units: ", tNext);
+                                return null;
+                            }
+                            cl1("default[" + wasFeet + "]", finalVal, 11, t);
+                            break;
+                    }
+
+                    i++;
+                    continue;
+                } else {
+                    // we got another number :/ get us outta this thing
+                    console.log("__parseHeightVal :: ", "invalid double numbers, exit with null");
+                    return null;
+                }
+            }
+        }
+
+        i++;
+        if (i >= tokens.length) {
+            break;
+        }
+    }
+
+    console.log("__parseHeightVal :: ", "final val: ", finalVal);
+
+    return finalVal;
+}
+
+function isNum(str) {
+    var n = Number(str);
+    return !isNaN(n) && n !== null;
+}
+
+function anyValInString(array, str) {
+    array.forEach(function (item, idx) {
+        if (str.includes(item)) {
+            return true;
+        }
+    });
+
+    return false;
+}
+
+function getStatValue(stat, charAbilities) {
+    var statid = abilityMap[stat];
+    var outVal = 0;
+    charAbilities.forEach(function (item, index) {
+        if (item.id !== statid) {
+            return;
+        }
+
+        outVal = item.totalScore;
+    });
+
+    return outVal;
+}
+
+function getStatMod(stat, charAbilities) {
+    var statid = abilityMap[stat];
+    var outVal = 0;
+    charAbilities.forEach(function (item, index) {
+        if (item.id !== statid) {
+            return;
+        }
+
+        outVal = item.modifier;
+    });
+
+    return outVal;
 }

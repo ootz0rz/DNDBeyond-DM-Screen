@@ -9848,7 +9848,7 @@ a > #gmstats code {
 #gmstats table.table td, #gmstats table.table th {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages {
+#gmstats table.table tbody td.col_name .name, #gmstats table.table tbody td.col_skills, #gmstats table.table tbody td.col_languages, #gmstats table.table tbody td.col_jump, #gmstats table.table tfoot td.col_name .name, #gmstats table.table tfoot td.col_skills, #gmstats table.table tfoot td.col_languages, #gmstats table.table tfoot td.col_jump {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 #gmstats table.table td.hover_col, #gmstats table.table tr.hover_col, #gmstats table.table th.hover_col {
@@ -10207,6 +10207,10 @@ a > #gmstats code {
 #gmstats table.table th.col_languages .inactiveset, #gmstats table.table td.col_languages .inactiveset {
   display: none;
 }
+#gmstats table.table th.col_jump, #gmstats table.table td.col_jump {
+  width: auto;
+  white-space: normal;
+}
 #gmstats table.table td.col_skills span {
   white-space: nowrap;
 }
@@ -10283,6 +10287,49 @@ a > #gmstats code {
   color: #fff !important;
   border-color: #fff !important;
   background-color: #684f05;
+}
+#gmstats .panelblock {
+  padding: 0em;
+  margin: 0em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  line-height: 2em;
+  position: relative;
+  white-space: nowrap;
+}
+#gmstats .panelblock .value .num, #gmstats .panelblock .value .units {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+#gmstats .panelblock .value .units {
+  font-size: 75%;
+}
+#gmstats .panelblock > .title {
+  color: silver;
+  background-color: #383f45;
+  border: 1px solid #65727e;
+  border-right-width: 0;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 0.2em 0.3em;
+}
+#gmstats .panelblock > .title::after {
+  content: " ";
+}
+#gmstats .panelblock > .body {
+  background-color: #212529;
+  border: 1px solid #65727e;
+  border-left-width: 0;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 0.2em 0.3em;
+}
+#gmstats .panelblock > .body .group > .title {
+  color: grey;
+  font-variant: small-caps;
 }
 #gmstats .progress-wrapper {
   margin-top: 0.5em;
