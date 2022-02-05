@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.19
+// @version         1.1.20
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -493,10 +493,10 @@ var tableSecondRowHTML = `
                                     </span>
                                     <span class="panelblock obstacle">
                                         <span class="title">Max Obstacle</span>
-                                        <span class="body"><span class="value"><span class="num"></span><span class="units">ft</span></span></span>
+                                        <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
                                     </span>
                                     <span class="panelblock reach">
-                                        <span class="title">Jump Reach</span>
+                                        <span class="title">Reach</span>
                                         <span class="body"><span class="value"><span class="num">½</span> char height</span></span>
                                     </span>
                                 </span>
@@ -2375,7 +2375,7 @@ function updateJump(parent_secondrow, character) {
         nReachBody.html(
             `
                 <span class="group">
-                    <span class="title"><span class="value"><span class="num">1.5×</span></span><span class="value"><span class="num">{0}</span></span> =</span>
+                    <span class="title"><span class="value"><span class="num">{0}</span></span><span class="value"><span class="num"> ×1.5</span></span> =</span>
                     <span class="body"><span class="value"><span class="num">{1}</span><span class="units">ft</span></span></span>
                 </span>
             `.format(
@@ -2386,8 +2386,7 @@ function updateJump(parent_secondrow, character) {
         nReachBody.html(
             `
                 <span class="group">
-                    <span class="title"><span class="value"><span class="num">1.5×</span></span></span>
-                    <span class="body"><span class="value"><span class="num">{0}</span></span></span>
+                    <span class="title"><span class="value"><span class="num">{0} ×1.5</span></span></span>
                 </span>
             `.format(
                 character.height !== null && character.height.length > 0
