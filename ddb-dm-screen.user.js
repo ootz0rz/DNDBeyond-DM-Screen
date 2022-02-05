@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.18
+// @version         1.1.19
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2265,7 +2265,6 @@ function updateJump(parent_secondrow, character) {
         height = 0;
     } else {
         reach = height * 1.5;
-        console.log("set reach: ", reach, "from height: ", height);
     }
 
     var str = getStatValue(STR_STAT, character.abilities);
@@ -2314,22 +2313,6 @@ function updateJump(parent_secondrow, character) {
         runningHighMod += dex_mod;
     }
 
-    console.log(
-        'input vals:\n',
-        '\n\t', 'str: ', str,
-        '\n\t', 'str_mod: ', str_mod,
-        '\n\t', 'dex_mod: ', dex_mod,
-        '\n\t',
-        '\n\t', 'lateLongMod: ', lateLongMod,
-        '\n\t', 'lateHighMod: ', lateHighMod,
-        '\n\t', 'runningLongMod: ', runningLongMod,
-        '\n\t', 'runningHighMod: ', runningHighMod,
-        '\n\t',
-        '\n\t', 'globalMultiplier: ', globalMultiplier,
-        '\n\t',
-        '\n\t', 'minRunFeet: ', minRunFeet,
-    );
-
     // compute final values for display
     var obstacle = globalMultiplier * Math.floor(str * 2.5) / 10;
 
@@ -2340,19 +2323,6 @@ function updateJump(parent_secondrow, character) {
     var stand_long = globalMultiplier * Math.floor(str * 0.5 + lateLongMod);
     var stand_high = globalMultiplier * ((3 + str_mod) / 2 + lateHighMod);
     var stand_grab = Math.floor((stand_high + height * 1.5) * 10) / 10;
-
-    console.log(
-        'computed vals:\n',
-        '\n\t', 'obstacle: ', obstacle,
-        '\n\t',
-        '\n\t', 'run_long: ', run_long, 'global', globalMultiplier, 'str', str, 'latelong', lateLongMod, 'runninglongmod', runningLongMod,
-        '\n\t', 'run_high: ', run_high, 'global', globalMultiplier, 'str * 0.5', str * 0.5, 'latelong', lateLongMod,
-        '\n\t', 'run_grab: ', run_grab,
-        '\n\t',
-        '\n\t', 'stand_long: ', lateLongMod,
-        '\n\t', 'stand_high: ', lateHighMod,
-        '\n\t', 'stand_grab: ', runningLongMod,
-    );
 
     // grab nodes and set data
     var nColJump = $(".col_jump", parent_secondrow);
@@ -2379,20 +2349,6 @@ function updateJump(parent_secondrow, character) {
         nStandGrab.addClass('hide');
     }
 
-    console.log(
-        'standing vals:\n',
-        '\n\t', 'hasReach: ', hasReach,
-        '\n\t',
-        '\n\t', 'nStandLong: ', nStandLong,
-        '\n\t', 'nStandHigh: ', nStandHigh,
-        '\n\t', 'nStandGrabVal: ', nStandGrabVal,
-        '\n\t', 'nStandGrab: ', nStandGrab,
-        '\n\t',
-        '\n\t', 'nStandLong.html: ', stand_long,
-        '\n\t', 'nStandHigh.html: ', stand_high,
-        '\n\t', 'nStandGrabVal.html: ', stand_grab,
-    );
-
     // running start values
     var nRunMinMove = $(".title > .value > .num", nRun);
     var nRunLong = $(".long > .body > .value > .num", nRun);
@@ -2409,22 +2365,6 @@ function updateJump(parent_secondrow, character) {
         nRunGrab.addClass('hide');
     }
 
-    console.log(
-        'running vals:\n',
-        '\n\t', 'hasReach: ', hasReach,
-        '\n\t',
-        '\n\t', 'nRunMinMove: ', nRunMinMove,
-        '\n\t', 'nRunLong: ', nRunLong,
-        '\n\t', 'nRunHigh: ', nRunHigh,
-        '\n\t', 'nRunGrabVal: ', nRunGrabVal,
-        '\n\t', 'nRunGrab: ', nRunGrab,
-        '\n\t',
-        '\n\t', 'nRunMinMove.html: ', minRunFeet,
-        '\n\t', 'nRunLong.html: ', run_long,
-        '\n\t', 'nRunHigh.html: ', run_high,
-        '\n\t', 'nRunGrabVal.html: ', run_grab,
-    );
-
     // obstacles
     var nObstacleMax = $(".body > .value > .num", nObstacle);
     nObstacleMax.html(obstacle);
@@ -2434,7 +2374,7 @@ function updateJump(parent_secondrow, character) {
     if (hasReach) {
         nReachBody.html(
             `
-                <span class="group high">
+                <span class="group">
                     <span class="title"><span class="value"><span class="num">1.5×</span></span><span class="value"><span class="num">{0}</span></span> =</span>
                     <span class="body"><span class="value"><span class="num">{1}</span><span class="units">ft</span></span></span>
                 </span>
@@ -2445,7 +2385,7 @@ function updateJump(parent_secondrow, character) {
     } else {
         nReachBody.html(
             `
-                <span class="group high">
+                <span class="group">
                     <span class="title"><span class="value"><span class="num">1.5×</span></span></span>
                     <span class="body"><span class="value"><span class="num">{0}</span></span></span>
                 </span>
@@ -2888,18 +2828,17 @@ function tryParseHeightToFeet(hStr) {
 }
 
 /** 
- * Parse the string and if possible return final value in terms of number of inches 
+ * Parse the string and if possible return final value in terms of number of feet 
  * 
  * Returns null if can't parse
  * */
 function __parseHeightVal(hStr) {
-    console.log("\n\n__parseHeightVal :: input: ", hStr);
-    // var hLower = hStr.toLowerCase();
+    // console.log("\n\n__parseHeightVal :: input: ", hStr);
 
     // tokenize
     var tokens = hStr.split(regexNumberLetterBoundary);
 
-    console.log("__parseHeightVal :: ", "tokens: ", tokens);
+    // console.log("__parseHeightVal :: ", "tokens: ", tokens);
 
     // we assume that things are laid out in some reasonable format, ex:
     // 1 [unit] 53 [other unit]
@@ -2916,16 +2855,16 @@ function __parseHeightVal(hStr) {
     while (true) {
         var t = tokens[i].trim();
 
-        console.log(
-            "__parseHeightVal :: ",
-            "\t loop head -- ",
-            "final val: ", finalVal,
-            "{0} / {1}".format(i, tokens.length),
-            "t: ", t
-        );
+        // console.log(
+        //     "__parseHeightVal :: ",
+        //     "\t loop head -- ",
+        //     "final val: ", finalVal,
+        //     "{0} / {1}".format(i, tokens.length),
+        //     "t: ", t
+        // );
 
         if (t.length == 0) {
-            console.log("__parseHeightVal :: ", "\t -> skip empty t");
+            // console.log("__parseHeightVal :: ", "\t -> skip empty t");
             // empty, skip
             i++;
             continue;
@@ -2934,29 +2873,29 @@ function __parseHeightVal(hStr) {
         if (isNum(t)) {
             t = Number(t);
 
-            console.log("__parseHeightVal :: ", "\t -> is num...", t);
+            // console.log("__parseHeightVal :: ", "\t -> is num...", t);
             // we got a number, do we have units afterwards?
             var tNext = null;
             while (tNext === null) {
-                console.log(
-                    "__parseHeightVal :: ",
-                    "\t\t units?",
-                    "tNext", tNext,
-                    "wasFeet?", wasFeet,
-                    "{0} / {1}".format(i, tokens.length));
+                // console.log(
+                //     "__parseHeightVal :: ",
+                //     "\t\t units?",
+                //     "tNext", tNext,
+                //     "wasFeet?", wasFeet,
+                //     "{0} / {1}".format(i, tokens.length));
                 
                 if ((i + 1) >= tokens.length && !wasFeet) {
                     break;
                 }
 
                 if (wasFeet) {
-                    cl1("default[" + wasFeet + "]", finalVal, 0, t);
+                    // cl1("default[" + wasFeet + "]", finalVal, 0, t);
                     // if the previous units were in feet, we assume this next one is in inches
                     wasFeet = false;
                     finalVal += t / 12;
 
                     i++;
-                    cl1("default[" + wasFeet + "]", finalVal, 1, t);
+                    // cl1("default[" + wasFeet + "]", finalVal, 1, t);
                     continue;
                 }
 
@@ -2965,28 +2904,28 @@ function __parseHeightVal(hStr) {
                     switch (tNext) {
                         // metric
                         case 'km':
-                            cl1(tNext, finalVal, 0, t);
+                            // cl1(tNext, finalVal, 0, t);
                             wasFeet = false;
                             finalVal += t * 0.03281 * 100000;
-                            cl1(tNext, finalVal, 1, t);
+                            // cl1(tNext, finalVal, 1, t);
                             break;
                         case 'm':
-                            cl1(tNext, finalVal, 0, t);
+                            // cl1(tNext, finalVal, 0, t);
                             wasFeet = false;
                             finalVal += t * 0.03281 * 100;
-                            cl1(tNext, finalVal, 1, t);
+                            // cl1(tNext, finalVal, 1, t);
                             break;
                         case 'cm':
-                            cl1(tNext, finalVal, 0, t);
+                            // cl1(tNext, finalVal, 0, t);
                             wasFeet = false;
                             finalVal += t * 0.03281;
-                            cl1(tNext, finalVal, 1, t);
+                            // cl1(tNext, finalVal, 1, t);
                             break;
                         case 'mm':
-                            cl1(tNext, finalVal, 0, t);
+                            // cl1(tNext, finalVal, 0, t);
                             wasFeet = false;
                             finalVal += t * 0.03281 / 10;
-                            cl1(tNext, finalVal, 1, t);
+                            // cl1(tNext, finalVal, 1, t);
                             break;
                         
                         // imperial
@@ -2996,10 +2935,10 @@ function __parseHeightVal(hStr) {
                         case "'":
                         case '′':
                         case "`":
-                            cl1("feet[" + tNext + "]", finalVal, 0, t);
+                            // cl1("feet[" + tNext + "]", finalVal, 0, t);
                             wasFeet = true;
                             finalVal += t;
-                            cl1("feet[" + tNext + "]", finalVal, 1, t);
+                            // cl1("feet[" + tNext + "]", finalVal, 1, t);
                             break;
                         
                         case 'inches':
@@ -3007,14 +2946,14 @@ function __parseHeightVal(hStr) {
                         case 'in':
                         case '"':
                         case "″":
-                            cl1("inch[" + tNext + "]", finalVal, 0, t);
+                            // cl1("inch[" + tNext + "]", finalVal, 0, t);
                             wasFeet = false;
                             finalVal += t / 12;
-                            cl1("inch[" + tNext + "]", finalVal, 1, t);
+                            // cl1("inch[" + tNext + "]", finalVal, 1, t);
                             break;
                     
                         default:
-                            cl1("default[" + wasFeet + "]", finalVal, 10, t);
+                            // cl1("default[" + wasFeet + "]", finalVal, 10, t);
                             if (wasFeet) {
                                 // if the previous units were in feet, we assume this is in inches
                                 wasFeet = false;
@@ -3024,7 +2963,7 @@ function __parseHeightVal(hStr) {
                                 console.log("__parseHeightVal :: ", "unsupported units: ", tNext);
                                 return null;
                             }
-                            cl1("default[" + wasFeet + "]", finalVal, 11, t);
+                            // cl1("default[" + wasFeet + "]", finalVal, 11, t);
                             break;
                     }
 
@@ -3044,7 +2983,7 @@ function __parseHeightVal(hStr) {
         }
     }
 
-    console.log("__parseHeightVal :: ", "final val: ", finalVal);
+    // console.log("__parseHeightVal :: ", "final val: ", finalVal);
 
     return finalVal;
 }
