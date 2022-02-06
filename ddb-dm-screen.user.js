@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.1.20
+// @version         1.2.0
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -10,6 +10,7 @@
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
 // @require         https://media.dndbeyond.com/character-tools/vendors~characterTools.bundle.dec3c041829e401e5940.min.js
 // @require         https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV
+// @require         https://cdn.jsdelivr.net/npm/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js
 // @grant           GM_setValue
 // @grant           GM_getValue
 // @license         MIT; https://github.com/ootz0rz/DNDBeyond-DM-Screen/blob/master/LICENSE
@@ -263,9 +264,9 @@ var mainTableHTML = `
                 <span class="fail">D</span>eath <span class="save">S</span>aves
             </th>
             <th class="col_ac" rowspan="2">
-                <span role="tooltip" data-microtip-position="right" aria-label="Armor Class">AC</span>
+                <span role="tooltip" title="Armor Class">AC</span>
                 <hr />
-                <div class="init" role="tooltip" data-microtip-position="right" aria-label="Initiative">Init</div>
+                <div class="init" role="tooltip" title="Initiative">Init</div>
             </th>
             <th class="col_speed" rowspan="2">
                 <span>Sp</span>eed<hr />
@@ -277,9 +278,9 @@ var mainTableHTML = `
                 <div class="save"><span class='letter'>S</span>ave/<span class="prof">Proficient</span></div>
             </th>
             <th class="col_passives" rowspan="2">
-                <div role="tooltip" data-microtip-position="right" aria-label="Passive Perception"><span>per</span>cept</div>
-                <div role="tooltip" data-microtip-position="right" aria-label="Passive Investigation"><span>inv</span>est</div>
-                <div role="tooltip" data-microtip-position="right" aria-label="Passive Insight"><span>ins</span>ight</div>
+                <div role="tooltip" title="Passive Perception"><span>per</span>cept</div>
+                <div role="tooltip" title="Passive Investigation"><span>inv</span>est</div>
+                <div role="tooltip" title="Passive Insight"><span>ins</span>ight</div>
             </th>
             <th class="col_money" rowspan="2"><span class="pp">$</span><span class="ep">$</span><span class="gp">$</span><span class="sp">$</span><span class="cp">$</span></th>
             <th class="col_skills" rowspan="2"><span class="prof high">Skill Proficiences <span class="value">(+bonus)</span></span></th>
@@ -304,7 +305,7 @@ var mainTableHTML = `
             <td class="col_stat"></td>
             <td class="col_stat b_right"></td>
             <td class="col_money" colspan="2">
-                <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
+                <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
                 <span class="gpc"><span class="gp"></span> gp </span>
@@ -372,32 +373,32 @@ var mainTableHTML = `
         </tr>
     </tfoot>
 </table>
-`.format(DEFAULT_TOOLTIP_PLACEMENT);
+`;
 
 var tableRowHTML = `
         <tr>
             <td class="col_name">
-                <span class="name" role="tooltip" data-microtip-position="right" aria-label="Toggle Detail View"></span><span class="inspiration hide" role="tooltip" data-microtip-position="{0}" aria-label="Inspiration">🎲</span>
-                <span class="links"><span role="tooltip" data-microtip-position="{0}" aria-label="Edit"><a href="#" class="edit hide"></a></span><span role="tooltip" data-microtip-position="{0}" aria-label="View"><a href="#" class="view hide"></a></span></span><br/>
+                <span class="name" role="tooltip" title="Toggle Detail View"></span><span class="inspiration hide" role="tooltip" title="Inspiration">🎲</span>
+                <span class="links"><span role="tooltip" title="Edit"><a href="#" class="edit hide"></a></span><span role="tooltip" title="View"><a href="#" class="view hide"></a></span></span><br/>
                 <div class="exhaust"><span></span>- - - - - -</div>
                 <div class="spellsavedc"><span></span></div>
                 <div class="classes"></div>
-                <div class="profbonus"><hr /><span class="pb" role="tooltip" data-microtip-position="right" aria-label="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
+                <div class="profbonus"><hr /><span class="pb" role="tooltip" title="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
             </td>
             <td class="col_hp">
                 <span class="hurt"></span>
             </td>
             <td class="col_ac">
-                <span class="acval" role="tooltip" data-microtip-position="{0}" aria-label="Armor Class"></span>
+                <span class="acval" role="tooltip" title="Armor Class"></span>
                 <hr />
-                <span class="initval" role="tooltip" data-microtip-position="{0}" aria-label="Initiative"></span>
+                <span class="initval" role="tooltip" title="Initiative"></span>
             </td>
             <td class="col_speed"></td>
             <td class="col_stat col_titles b_left">
                 <div class="stat_title">&nbsp;</div>
-                <span role="tooltip" data-microtip-position="{0}" aria-label="Ability Score">A</span><br/>
-                <span role="tooltip" data-microtip-position="{0}" aria-label="Bonus">B</span><br/>
-                <span role="tooltip" data-microtip-position="{0}" aria-label="Save">S</span></td>
+                <span role="tooltip" title="Ability Score">A</span><br/>
+                <span role="tooltip" title="Bonus">B</span><br/>
+                <span role="tooltip" title="Save">S</span></td>
             <td class="col_stat col_str"></td>
             <td class="col_stat col_dex"></td>
             <td class="col_stat col_con"></td>
@@ -410,7 +411,7 @@ var tableRowHTML = `
                 ins: <span></span>
             </td>
             <td class="col_money">
-                <span class="total" role="tooltip" data-microtip-position="{0}" aria-label="Approx Total in GP"></span><hr />
+                <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
                 <span class="gpc"><span class="gp"></span> gp </span>
@@ -420,30 +421,30 @@ var tableRowHTML = `
             <td class="col_skills"></td>
             <td class="col_languages">
                 <div class="langset">
-                    <span class="activetitle langstitle" role="tooltip" data-microtip-position="{1}" aria-label="Languages">Langs:</span>
+                    <span class="activetitle langstitle" role="tooltip" title="Languages">Langs:</span>
                     <span class="langs"></span>
                 </div>
                 <hr class="langshr" />
                 <div class="resset">
-                    <span class="activetitle resstitle" role="tooltip" data-microtip-position="{1}" aria-label="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
+                    <span class="activetitle resstitle" role="tooltip" title="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
                     <span class="resists"></span>
                 </div>
                 <div class="immset">
-                    <span class="activetitle immsstitle" role="tooltip" data-microtip-position="{1}" aria-label="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
+                    <span class="activetitle immsstitle" role="tooltip" title="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
                     <span class="immunities"></span>
                 </div>
                 <div class="vulnset">
-                    <span class="activetitle vulnsstitle" role="tooltip" data-microtip-position="{1}" aria-label="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
+                    <span class="activetitle vulnsstitle" role="tooltip" title="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
                     <span class="vulnerabilities"></span>
                 </div>
                 <div class="saveset">
-                    <span class="activetitle savesstitle" role="tooltip" data-microtip-position="{1}" aria-label="Save Modifiers">Saves:</span>
+                    <span class="activetitle savesstitle" role="tooltip" title="Save Modifiers">Saves:</span>
                     <br />
                     <span class="savemods"></span>
                 </div>
             </td>
         </tr>
-`.format(DEFAULT_TOOLTIP_PLACEMENT, TOOLTIP_PLACEMENT_TOPLEFT);
+`;
 
 var tableSecondRowHTML = `
         <tr id="_details" class="active_row second_row">
@@ -457,7 +458,7 @@ var tableSecondRowHTML = `
                             <td class="col_jump" colspan="2">
                                 <span class="activetitle">Jump:</span>
                                 <span class="jumpstats">
-                                    <span class="panelblock stand">
+                                    <span class="panelblock stand" title="Jump distances in <code>ft</code> from a <b><u><code>standing</code></u></b> start">
                                         <span class="title">Standing</span>
                                         <span class="body">
                                             <span class="group long">
@@ -474,7 +475,7 @@ var tableSecondRowHTML = `
                                             </span>
                                         </span>
                                     </span>
-                                    <span class="panelblock run">
+                                    <span class="panelblock run" title="Jump distances in <code>ft</code> from a <b><u><code>running</code></u></b> start">
                                         <span class="title">Running <span class="value"><span class="num">10</span><span class="units">ft</span></span></span>
                                         <span class="body">
                                             <span class="group long">
@@ -491,7 +492,7 @@ var tableSecondRowHTML = `
                                             </span>
                                         </span>
                                     </span>
-                                    <span class="panelblock obstacle">
+                                    <span class="panelblock obstacle" title="Maximum height of an obstacle in <code>ft</code> that can be cleared without a <code>DC10 STR/Athletics</code> check">
                                         <span class="title">Max Obstacle</span>
                                         <span class="body"><span class="value"><span class="num"></span><span class="units hide">ft</span></span></span>
                                     </span>
@@ -506,7 +507,7 @@ var tableSecondRowHTML = `
                 </table>
             </td>
         </tr>
-`.format(DEFAULT_TOOLTIP_PLACEMENT);
+`;
 
 var a = $("<script>", { type: 'text/javascript', src: 'https://www.googletagmanager.com/gtag/js?id=G-XDQBBDCJJV' });
 a[0].setAttribute("async", "");
@@ -733,6 +734,8 @@ var initalModules = {
     findTargets();
     insertElements();
     insertCampaignElements();
+
+    applyTooltips(parentNode = mainTable);
 
     updateAllCharData();
 
@@ -1037,7 +1040,7 @@ function updateAllCharData() {
         console.log("authHeaders: ", headers);
         retriveRules().then(() => {
             _updateAllCharDataAfterRules();
-        }).catch((error) => {
+        }).catch ((error) => {
             console.log(error);
         });
     }));
@@ -1053,8 +1056,10 @@ function _updateAllCharDataAfterRules() {
 
     Promise.all(promises)
         .then(() => {
-            updateCampaignData();
+            var totalsRow = updateCampaignData();
             refreshTimer__checkShouldStart(refreshTimer__getAutoUpdateChecked());
+
+            applyTooltips(parentNode = totalsRow);
         }).catch((error) => {
             console.log(error);
         });
@@ -1080,7 +1085,10 @@ function updateCharData(url, activeType) {
                         var charData = window.moduleExport.getCharData(charactersData[charId].state);
                         charactersData[charId].data = charData;
                         updateElementData(charactersData[charId], charId);
-                        console.log("{0} [{1}]:\n\nCharacter Data Returned! \n".format(charactersData[charId].data.name, charId), charactersData[charId])
+                        console.log("{0} [{1}]:\n\nCharacter Data Returned! \n".format(charactersData[charId].data.name, charId), charactersData[charId]);
+
+                        applyTooltips(parentNode = charactersData[charId].node);
+                        applyTooltips(parentNode = charactersData[charId].node_details);
                         resolve();
                     });
                 } else {
@@ -1413,14 +1421,26 @@ function insertControls(parent) {
 }
 
 function onFontSizeChange(table, updatedFontSize) {
+    var $b = $("body");
+
+    function bodyClass(c) {
+        return "tooltipster-carm__{0}".format(c)
+    }
+
     for (const idx in fontSizeMap) {
         if (table.hasClass(fontSizeMap[idx])) {
             table.removeClass(fontSizeMap[idx]);
+        }
+
+        var bc = bodyClass(fontSizeMap[idx]);
+        if ($b.hasClass(bc)) {
+            $b.removeClass(bc);
         }
     }
 
     var newFontClass = fontSizeMap[updatedFontSize];
     table.addClass(newFontClass);
+    $b.addClass(bodyClass(newFontClass));
 }
 
 function onDisplayTypeChange(type, newval) {
@@ -1481,6 +1501,8 @@ function updateCampaignData() {
 
         idx++;
     }
+
+    return totalsRow;
 }
 
 
@@ -2065,11 +2087,11 @@ function genSkillsArray(skills, isCustom=false) {
             if (hasAdv) {
                 var a = [];
                 item.advantageAdjustments.forEach((item, idx) => {
-                    a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
+                    a.push("<li>{0}: {1}</li>".format(item.type.toLowerCase(), item.restriction));
                 });
 
                 adv = GET_SVG_AS_ICON(SVG_ADVANTAGE);
-                advText += a.join(', ');
+                advText += "<ul>{0}</ul>".format(a.join(''));
 
                 color += " advdisadv adv";
             }
@@ -2077,11 +2099,11 @@ function genSkillsArray(skills, isCustom=false) {
             if (hasDisadv) {
                 var a = [];
                 item.disadvantageAdjustments.forEach((item, idx) => {
-                    a.push("{0}: {1}".format(item.type.toLowerCase(), item.restriction));
+                    a.push("<li>{0}: {1}</li>".format(item.type.toLowerCase(), item.restriction));
                 });
 
                 adv = GET_SVG_AS_ICON(SVG_DISADVANTAGE);
-                advText += a.join(', ');
+                advText += "<ul>{0}</ul>".format(a.join(''));
 
                 color += " advdisadv disadv";
             }
@@ -2096,7 +2118,7 @@ function genSkillsArray(skills, isCustom=false) {
             // ::after same as our commas between skills at the moment :/ 
 
             if (advString.length > 0) {
-                tooltipText += " | " + advString;
+                tooltipText = "<b>{0}</b>:<br />{1}".format(tooltipText, advString);
             }
             
             return "<span class='c {0} {1}'>{2}</span>".format(
@@ -2111,8 +2133,7 @@ function genSkillsArray(skills, isCustom=false) {
                         advIcon
                     ),
                     tooltipText,
-                    DEFAULT_TOOLTIP_TAG,
-                    TOOLTIP_PLACEMENT_TOPLEFT
+                    DEFAULT_TOOLTIP_TAG
                 )
             );
         }
@@ -2150,9 +2171,7 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
             item.modifierGroups.forEach((lang, lidx) => {
                 var l = "<span class='item' {1}>{0}</span>".format(
                     lang.label,
-                    insertTooltipAttributes(
-                        lang.sources.join(', '),
-                        TOOLTIP_PLACEMENT_TOPLEFT)
+                    insertTooltipAttributes(lang.sources.join(', '))
                 );
 
                 if (!langs.includes(l)) {
@@ -2192,15 +2211,15 @@ function updateDefenses(parent, character) {
 
     // populate arrays
     character.resistances.forEach((item, idx) => {
-        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
+        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.immunities.forEach((item, idx) => {
-        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
+        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.vulnerabilities.forEach((item, idx) => {
-        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '), TOOLTIP_PLACEMENT_TOPLEFT)));
+        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
     });
 
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
@@ -2221,10 +2240,7 @@ function updateDefenses(parent, character) {
         save.push(
             "<span class='item_long' {1}>{2} {3}{0}</span>".format(
                 item.restriction,
-                insertTooltipAttributes(
-                    "{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type),
-                    TOOLTIP_PLACEMENT_TOPLEFT
-                ),
+                insertTooltipAttributes("{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type)),
                 icon,
                 stat
             )
@@ -2375,8 +2391,8 @@ function updateJump(parent_secondrow, character) {
         nReachBody.html(
             `
                 <span class="group">
-                    <span class="title"><span class="value"><span class="num">{0}</span></span><span class="value"><span class="num"> ×1.5</span></span> =</span>
-                    <span class="body"><span class="value"><span class="num">{1}</span><span class="units">ft</span></span></span>
+                    <span class="title"><span class="value" title="Character height"><span class="num">{0}</span></span><span class="value" title="Height multiplier for reach while jumping"><span class="num"> ×1.5</span></span> =</span>
+                    <span class="body"><span class="value" title="Reach on top of a jump"><span class="num">{1}</span><span class="units">ft</span></span></span>
                 </span>
             `.format(
                 character.height,
@@ -2386,7 +2402,7 @@ function updateJump(parent_secondrow, character) {
         nReachBody.html(
             `
                 <span class="group">
-                    <span class="title"><span class="value"><span class="num">{0} ×1.5</span></span></span>
+                    <span class="title"><span class="value" title="The multiplier to apply to the character height for reach on top of a jump"><span class="num">{0} ×1.5</span></span></span>
                 </span>
             `.format(
                 character.height !== null && character.height.length > 0
@@ -2727,24 +2743,29 @@ function parseBool(x) {
     return x ? true : false;
 }
 
-function addTooltip(inStr, tiptext, tag = DEFAULT_TOOLTIP_TAG, placement = DEFAULT_TOOLTIP_PLACEMENT) {
+function addTooltip(inStr, tiptext, tag = DEFAULT_TOOLTIP_TAG) {
     // https://github.com/ghosh/microtip#usage
-    return "<{1} {2}>{0}</{1}>".format(inStr, tag, insertTooltipAttributes(tiptext, placement));
+    return "<{1} {2}>{0}</{1}>".format(inStr, tag, insertTooltipAttributes(tiptext));
 }
 
-function insertTooltipAttributes(tiptext, placement = DEFAULT_TOOLTIP_PLACEMENT) {
+function insertTooltipAttributes(tiptext) {
     // title='{0}' removed to avoid double tooltip popups
-    return "role='tooltip' data-microtip-position='{1}' aria-label='{0}'".format(tiptext, placement);
+    return "role='tooltip' title='{0}'".format(tiptext);
 }
 
 function updateTooltipText(toolNode, newToolText) {
     if (toolNode[0].hasAttribute("aria-label")) {
         toolNode.attr('aria-label', newToolText);
     }
+
+    if (toolNode[0].hasAttribute("title")) {
+        toolNode.attr('title', newToolText);
+    }
 }
 
 function editTooltipLabel(node, newText) {
     node.attr('aria-label', newText);
+    node.attr('title', newText);
 }
 
 function sortTable(table, order) {
@@ -3028,4 +3049,21 @@ function getStatMod(stat, charAbilities) {
     });
 
     return outVal;
+}
+
+function applyTooltips(parentNode) {
+    var els = $('[title]', parentNode);
+    els.tooltipster({
+        theme: ['tooltipster-carm'],
+
+        contentCloning: true,
+        contentAsHTML: true,
+
+        animation: 'grow',
+        delay: 0,
+        animationDuration: 180,
+
+        // interactive: true,
+        // delay: 100,
+    });
 }

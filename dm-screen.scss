@@ -1,4 +1,19 @@
-@use "node_modules/microtip/microtip.css";
+/* --- tooltipster --- */
+@use 'node_modules/tooltipster/dist/css/tooltipster.bundle.min.css';
+
+// tooltips and hover highlights
+$tooltip-primary-color: whitesmoke; 
+$tooltip-base-color: rgb(49, 108, 218);
+$tooltip-border-color: lighten(desaturate($tooltip-base-color, 5), 15);//desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
+$tooltip-background-color: darken(desaturate($tooltip-base-color, 10), 25);//lighten($gm_c_dark_gold, 10%);
+
+// global font sizes
+$fbase: 1;//$font-size-base;
+$font_smallest: $fbase * 0.5;
+$font_small: $fbase * 0.75;
+$font_normal: $fbase * 1.0;
+$font_big: $fbase * 1.25;
+$font_biggest: $fbase * 1.5;
 
 #gmstats {
     /* ----------------------------------------------------------------------------------------------------------------- */
@@ -10,7 +25,7 @@
     /* ----------------------------------------------------------------------------------------------------------------- */
 
     // ------------------------
-    // bootstrap
+    // bootstrap et al
     // ------------------------
     @import "../node_modules/bootstrap/scss/bootstrap";
     @import "../node_modules/bootstrap/scss/functions";
@@ -68,22 +83,11 @@
     $cell_padding: 5;
     $cell_margin: 0;
 
-    $font_smallest: $font-size-base * 0.5;
-    $font_small: $font-size-base * 0.75;
-    $font_normal: $font-size-base * 1.0;
-    $font_big: $font-size-base * 1.25;
-    $font_biggest: $font-size-base * 1.5;
-
     $btnzoomamt: .7;
 
     // assets
     $viewIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/sheet-icon-dark.svg);
     $editIconUrl: url(https://www.dndbeyond.com/content/1-0-1836-0/skins/waterdeep/images/icons/menu_items/dark/builders.svg);
-
-    // tooltips and hover highlights
-    $tooltip-base-color: rgb(49, 108, 218);
-    $tooltip-border-color: $tooltip-base-color;//lighten($gm_c_dark_gold, 10%);
-    $tooltip-background-color: desaturate(darken($tooltip-base-color, 35%), 15%);//$gm_c_dark_gold;
 
     // active row
     $row_highlight_color: $gm_c_bright_yellow;
@@ -141,12 +145,12 @@
         @mixin progress-font-size($sizename, $orig_size, $progress_multi) {
             $curMulti: calc($orig_size / $font_normal);
             &.font_#{$sizename} {
-                font-size: $orig_size;
+                font-size: #{$orig_size}rem;
                 .progress-wrapper {
-                    font-size: $orig_size * $progress_multi;
+                    font-size: #{$orig_size * $progress_multi}rem;
                 }
                 .btn {
-                    font-size: $orig_size !important;
+                    font-size: #{$orig_size}rem !important;
                     padding: 0.375rem * $progress_multi 0.75rem * $progress_multi;
                 }
 
@@ -994,66 +998,12 @@
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
-/* customize microtip */
+/* customize tooltips */
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------------- */
-
-    // these svgs via /node_modules/microtip/microtip.css
-    // Note: fill-color should be rgba
-    @function svg-factory-top($fill-color) {
-        @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(0)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-    }
-    @function svg-factory-bottom($fill-color) {
-        @return '<svg xmlns="http://www.w3.org/2000/svg" width="36px" height="12px"><path fill="' + $fill-color + '" transform="rotate(180 18 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-    }
-    @function svg-factory-left($fill-color) {
-        @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(-90 18 18)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-    }
-    @function svg-factory-right($fill-color) {
-        @return '<svg xmlns="http://www.w3.org/2000/svg" width="12px" height="36px"><path fill="' + $fill-color + '" transform="rotate(90 6 6)" d="M2.658,0.000 C-13.615,0.000 50.938,0.000 34.662,0.000 C28.662,0.000 23.035,12.002 18.660,12.002 C14.285,12.002 8.594,0.000 2.658,0.000 Z"/></svg>';
-    }
-
-    @function get-background-svg($svg) {
-        @return url("data:image/svg+xml;charset=utf-8," + svg-encode($svg)) no-repeat;
-    }
-
-    [aria-label][role~="tooltip"]::after {
-        background: $tooltip-background-color;
-        color: $gm_primary_font_color;
-
-        border-color: $tooltip-border-color;
-        border-width: 1px;
-        border-style: solid;
-
-        // make sure we don't have any parent text effects applied here...
-        font-weight: normal !important;
-        text-decoration: none !important;
-        font-style: normal !important;
-        font-family: $font-family-sans-serif !important;
-    }
-
-    // vary font-size depending on table setting
-    @mixin tooltipFontSize($size) {
-        [aria-label][role~="tooltip"]::after {
-            font-size: $size;
-
-            padding: $size*.375 $size*.75;
-        }
-    }
-    table {
-        &.font_smallest { @include tooltipFontSize($font_smallest); }
-        &.font_small { @include tooltipFontSize($font_small); }
-        &.font_normal { @include tooltipFontSize($font_normal); }
-        &.font_big { @include tooltipFontSize($font_big); }
-        &.font_biggest { @include tooltipFontSize($font_biggest); }
-    }
-
-    // [aria-label][role~="tooltip"] {
-    //     padding-left: 0.2em;
-    //     padding-right: 0.2em;
-    // }
-    [aria-label][role~="tooltip"]:hover {
+    .tooltipstered:hover {
+        // color: $tooltip-primary-color;
         // cursor: crosshair;
         background-color: $tooltip-background-color;//$gm_c_dark_gold;
         // border-style: solid;
@@ -1061,19 +1011,115 @@
         // border-width: 1px;
         // border-color: $tooltip-border-color;//lighten($gm_c_dark_gold, 10%);
     }
-    // background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%28255%2C%20255%2C%20255%2C%201%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658%2C0.000%20C-13.615%2C0.000%2050.938%2C0.000%2034.662%2C0.000%20C28.662%2C0.000%2023.035%2C12.002%2018.660%2C12.002%20C14.285%2C12.002%208.594%2C0.000%202.658%2C0.000%20Z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
+}
 
-    [role~="tooltip"][data-microtip-position|="top"]::before {
-        background: get-background-svg(svg-factory-top($tooltip-border-color));
+// vary font-size depending on table setting
+@mixin tooltipFontSize($size) {
+    .tooltipster-content {
+        font-size: #{$size}rem !important;
+        padding: $size*.375 $size*.75 !important;
     }
-    [role~="tooltip"][data-microtip-position|="bottom"]::before {
-        background: get-background-svg(svg-factory-bottom($tooltip-border-color));
+
+    .tooltipster-base {
+        max-width: 300px * $size;
     }
-    [role~="tooltip"][data-microtip-position="left"]::before {
-        background: get-background-svg(svg-factory-left($tooltip-border-color));
+}
+.tooltipster-carm__ {
+    &font_smallest { @include tooltipFontSize($font_smallest); }
+    &font_small { @include tooltipFontSize($font_small); }
+    &font_normal { @include tooltipFontSize($font_normal); }
+    &font_big { @include tooltipFontSize($font_big); }
+    &font_biggest { @include tooltipFontSize($font_biggest); }
+}
+
+// tooltipster main theme
+.tooltipster-sidetip.tooltipster-carm {
+    .tooltipster-box {
+        background: $tooltip-background-color;
+
+        border-color: $tooltip-border-color;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 4px;
     }
-    [role~="tooltip"][data-microtip-position="right"]::before {
-        background: get-background-svg(svg-factory-right($tooltip-border-color));
+
+    .tooltipster-content {
+        color: $tooltip-primary-color;
+        // padding: 0.5em 0.75em;
+
+        // make sure we don't have any parent text effects applied here...
+        font-weight: normal !important;
+        text-decoration: none !important;
+        font-style: normal !important;
+        // font-family: $font-family-sans-serif !important;
+
+        line-height: 1.1em;
+    }
+
+    .tooltipster-arrow {
+        height: 9px;
+        margin-left: -9px;
+        width: 18px;
+    }
+
+    &.tooltipster-left .tooltipster-arrow,
+    &.tooltipster-right .tooltipster-arrow {
+        height: 18px;
+        margin-left: 0;
+        margin-top: -9px;
+        width: 9px;
+    }
+
+    .tooltipster-arrow-background {
+        border: 9px solid transparent;
+    }
+
+    &.tooltipster-bottom .tooltipster-arrow-background {
+        border-bottom-color: $tooltip-background-color;
+        top: 1px;
+    }
+
+    &.tooltipster-left .tooltipster-arrow-background {
+        border-left-color: $tooltip-background-color;
+        left: -1px;
+    }
+
+    &.tooltipster-right .tooltipster-arrow-background {
+        border-right-color: $tooltip-background-color;
+        left: 1px;
+    }
+
+    &.tooltipster-top .tooltipster-arrow-background {
+        border-top-color: $tooltip-background-color;
+        top: -1px;
+    }
+
+    .tooltipster-arrow-border {
+        border: 9px solid transparent;
+    }
+
+    &.tooltipster-bottom .tooltipster-arrow-border {
+        border-bottom-color: $tooltip-border-color;
+    }
+
+    &.tooltipster-left .tooltipster-arrow-border {
+        border-left-color: $tooltip-border-color;
+    }
+
+    &.tooltipster-right .tooltipster-arrow-border {
+        border-right-color: $tooltip-border-color;
+    }
+
+    &.tooltipster-top .tooltipster-arrow-border {
+        border-top-color: $tooltip-border-color;
+    }
+
+    &.tooltipster-bottom .tooltipster-arrow-uncropped {
+        top: -9px;
+    }
+
+    &.tooltipster-right .tooltipster-arrow-uncropped {
+        left: -9px;
     }
 }
 
