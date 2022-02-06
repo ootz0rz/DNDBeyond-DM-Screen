@@ -15,6 +15,25 @@ $font_normal: $fbase * 1.0;
 $font_big: $fbase * 1.25;
 $font_biggest: $fbase * 1.5;
 
+// main colors
+$gm_c_black: black;
+$gm_c_bright_white: white;
+$gm_c_bright_black: grey;
+$gm_c_red: red;
+$gm_c_green: rgb(0, 255, 0);
+$gm_c_cyan: cyan;
+$gm_c_yellow: yellow;
+$gm_c_bright_yellow: rgb(255, 220, 65);
+$gm_c_dark_gold: rgb(65, 44, 7);
+$gm_c_light_steel_blue: rgb(175,175,255);
+$gm_c_teal: rgb(42, 151, 128);
+$gm_c_silver: silver;
+
+$gm_level: 	desaturate(rgb(255,135,0), 30%);
+
+$gm_adv: $gm_c_green;
+$gm_disadv: $gm_c_red;
+
 #gmstats {
     /* ----------------------------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------------------------- */
@@ -45,22 +64,6 @@ $font_biggest: $fbase * 1.5;
     $gm_background_hover_col: darken($gm_background,5%);
     $gm_table_border: $secondary;
     $gm_inactive_cells: $gray-600;
-
-    // main colors
-    $gm_c_black: black;
-    $gm_c_bright_white: white;
-    $gm_c_bright_black: grey;
-    $gm_c_red: red;
-    $gm_c_green: rgb(0, 255, 0);
-    $gm_c_cyan: cyan;
-    $gm_c_yellow: yellow;
-    $gm_c_bright_yellow: rgb(255, 220, 65);
-    $gm_c_dark_gold: rgb(65, 44, 7);
-    $gm_c_light_steel_blue: rgb(175,175,255);
-    $gm_c_teal: rgb(42, 151, 128);
-    $gm_c_silver: silver;
-
-    $gm_level: 	desaturate(rgb(255,135,0), 30%);
 
     // hp
     $gm_hp_overheal: $gm_c_cyan;
@@ -713,11 +716,11 @@ $font_biggest: $fbase * 1.5;
 
                             &.adv {
                                 text-decoration: underline;
-                                text-decoration-color: $gm_c_green;
+                                text-decoration-color: $gm_adv;
                             }
                             &.disadv {
                                 text-decoration: underline;
-                                text-decoration-color: $gm_c_red;
+                                text-decoration-color: $gm_disadv;
                             }
                         }
                         &.custom {
@@ -763,6 +766,9 @@ $font_biggest: $fbase * 1.5;
                         }
                         .item_long {
                             white-space: normal;
+                        }
+                        .code {
+                            font-family: $font-family-monospace;
                         }
                     }
 
@@ -1017,7 +1023,7 @@ $font_biggest: $fbase * 1.5;
 @mixin tooltipFontSize($size) {
     .tooltipster-content {
         font-size: #{$size}rem !important;
-        padding: $size*.375 $size*.75 !important;
+        padding: #{$size*.375}rem #{$size*.75}rem !important;
     }
 
     .tooltipster-base {
@@ -1054,6 +1060,31 @@ $font_biggest: $fbase * 1.5;
         // font-family: $font-family-sans-serif !important;
 
         line-height: 1.1em;
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+
+            li {
+                padding-left: 1rem;
+                text-indent: -1rem;
+
+                &:before {
+                    content: '•';
+                    padding-right: 0.5rem;
+                }
+            }
+        }
+
+        .adv {
+            text-decoration: underline;
+            text-decoration-color: $gm_adv;
+        }
+        .disadv {
+            text-decoration: underline;
+            text-decoration-color: $gm_disadv;
+        }
     }
 
     .tooltipster-arrow {

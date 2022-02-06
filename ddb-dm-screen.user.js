@@ -2087,7 +2087,7 @@ function genSkillsArray(skills, isCustom=false) {
             if (hasAdv) {
                 var a = [];
                 item.advantageAdjustments.forEach((item, idx) => {
-                    a.push("<li>{0}: {1}</li>".format(item.type.toLowerCase(), item.restriction));
+                    a.push(`<li><span class="adv">{0}</span>: {1}</li>`.format(item.type.toLowerCase(), item.restriction));
                 });
 
                 adv = GET_SVG_AS_ICON(SVG_ADVANTAGE);
@@ -2099,7 +2099,7 @@ function genSkillsArray(skills, isCustom=false) {
             if (hasDisadv) {
                 var a = [];
                 item.disadvantageAdjustments.forEach((item, idx) => {
-                    a.push("<li>{0}: {1}</li>".format(item.type.toLowerCase(), item.restriction));
+                    a.push(`<li><span class="disadv">{0}</span>: {1}</li>`.format(item.type.toLowerCase(), item.restriction));
                 });
 
                 adv = GET_SVG_AS_ICON(SVG_DISADVANTAGE);
@@ -2224,23 +2224,37 @@ function updateDefenses(parent, character) {
 
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
         var icon = "";
+        var advClass = "";
         if (item.type == "ADVANTAGE") {
             icon = GET_SVG_AS_ICON(SVG_ADVANTAGE);
+            advClass = "adv";
         } else if (item.type == "DISADVANTAGE") {
             icon = GET_SVG_AS_ICON(SVG_DISADVANTAGE);
+            advClass = "disadv";
         } else {
             icon = "<span class='type'>{0}</span>".format(item.type);
         }
 
         var stat = '';
         if (item.statId != null && Number.isFinite(item.statId)) {
-            stat = "on {0} ".format(getStatScoreNameFromID(character.abilities, item.statId).toUpperCase());
+            stat = "on <span class='code'>{0}</span> ".format(getStatScoreNameFromID(character.abilities, item.statId).toUpperCase());
+        }
+
+        var tooltipFormat = "";
+        if (advClass.length > 0) {
+            tooltipFormat = `<span class="{2}">{0}</span>: {1}`;
+        } else {
+            tooltipFormat = "{0}: {1}";
         }
 
         save.push(
             "<span class='item_long' {1}>{2} {3}{0}</span>".format(
                 item.restriction,
-                insertTooltipAttributes("{0}: {1}".format(item.type.toLowerCase(), item.dataOrigin.type)),
+                insertTooltipAttributes(tooltipFormat.format(
+                    item.type.toLowerCase(),
+                    item.dataOrigin.type,
+                    advClass
+                )),
                 icon,
                 stat
             )

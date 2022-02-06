@@ -10272,6 +10272,9 @@ a > #gmstats code {
 #gmstats table.table th.col_languages .langset .item_long, #gmstats table.table th.col_languages .resset .item_long, #gmstats table.table th.col_languages .immset .item_long, #gmstats table.table th.col_languages .vulnset .item_long, #gmstats table.table th.col_languages .saveset .item_long, #gmstats table.table td.col_languages .langset .item_long, #gmstats table.table td.col_languages .resset .item_long, #gmstats table.table td.col_languages .immset .item_long, #gmstats table.table td.col_languages .vulnset .item_long, #gmstats table.table td.col_languages .saveset .item_long {
   white-space: normal;
 }
+#gmstats table.table th.col_languages .langset .code, #gmstats table.table th.col_languages .resset .code, #gmstats table.table th.col_languages .immset .code, #gmstats table.table th.col_languages .vulnset .code, #gmstats table.table th.col_languages .saveset .code, #gmstats table.table td.col_languages .langset .code, #gmstats table.table td.col_languages .resset .code, #gmstats table.table td.col_languages .immset .code, #gmstats table.table td.col_languages .vulnset .code, #gmstats table.table td.col_languages .saveset .code {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
 #gmstats table.table th.col_languages .inactiveset, #gmstats table.table td.col_languages .inactiveset {
   display: none;
 }
@@ -10437,35 +10440,35 @@ a > #gmstats code {
 
 .tooltipster-carm__font_smallest .tooltipster-content {
   font-size: 0.5rem !important;
-  padding: 0.1875 0.375 !important;
+  padding: 0.1875rem 0.375rem !important;
 }
 .tooltipster-carm__font_smallest .tooltipster-base {
   max-width: 150px;
 }
 .tooltipster-carm__font_small .tooltipster-content {
   font-size: 0.75rem !important;
-  padding: 0.28125 0.5625 !important;
+  padding: 0.28125rem 0.5625rem !important;
 }
 .tooltipster-carm__font_small .tooltipster-base {
   max-width: 225px;
 }
 .tooltipster-carm__font_normal .tooltipster-content {
   font-size: 1rem !important;
-  padding: 0.375 0.75 !important;
+  padding: 0.375rem 0.75rem !important;
 }
 .tooltipster-carm__font_normal .tooltipster-base {
   max-width: 300px;
 }
 .tooltipster-carm__font_big .tooltipster-content {
   font-size: 1.25rem !important;
-  padding: 0.46875 0.9375 !important;
+  padding: 0.46875rem 0.9375rem !important;
 }
 .tooltipster-carm__font_big .tooltipster-base {
   max-width: 375px;
 }
 .tooltipster-carm__font_biggest .tooltipster-content {
   font-size: 1.5rem !important;
-  padding: 0.5625 1.125 !important;
+  padding: 0.5625rem 1.125rem !important;
 }
 .tooltipster-carm__font_biggest .tooltipster-base {
   max-width: 450px;
@@ -10484,6 +10487,27 @@ a > #gmstats code {
   text-decoration: none !important;
   font-style: normal !important;
   line-height: 1.1em;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content ul li {
+  padding-left: 1rem;
+  text-indent: -1rem;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content ul li:before {
+  content: "•";
+  padding-right: 0.5rem;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .adv {
+  text-decoration: underline;
+  text-decoration-color: lime;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .disadv {
+  text-decoration: underline;
+  text-decoration-color: red;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-arrow {
   height: 9px;
