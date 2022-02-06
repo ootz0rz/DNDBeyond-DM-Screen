@@ -10261,7 +10261,6 @@ a > #gmstats code {
 #gmstats table.table th.col_languages .langset, #gmstats table.table th.col_languages .resset, #gmstats table.table th.col_languages .immset, #gmstats table.table th.col_languages .vulnset, #gmstats table.table th.col_languages .saveset, #gmstats table.table td.col_languages .langset, #gmstats table.table td.col_languages .resset, #gmstats table.table td.col_languages .immset, #gmstats table.table td.col_languages .vulnset, #gmstats table.table td.col_languages .saveset {
   vertical-align: top;
   display: inline-block;
-  padding-right: 1em;
 }
 #gmstats table.table th.col_languages .langset .item, #gmstats table.table th.col_languages .resset .item, #gmstats table.table th.col_languages .immset .item, #gmstats table.table th.col_languages .vulnset .item, #gmstats table.table th.col_languages .saveset .item, #gmstats table.table td.col_languages .langset .item, #gmstats table.table td.col_languages .resset .item, #gmstats table.table td.col_languages .immset .item, #gmstats table.table td.col_languages .vulnset .item, #gmstats table.table td.col_languages .saveset .item {
   white-space: nowrap;
@@ -10270,6 +10269,7 @@ a > #gmstats code {
   text-transform: capitalize;
 }
 #gmstats table.table th.col_languages .langset .item_long, #gmstats table.table th.col_languages .resset .item_long, #gmstats table.table th.col_languages .immset .item_long, #gmstats table.table th.col_languages .vulnset .item_long, #gmstats table.table th.col_languages .saveset .item_long, #gmstats table.table td.col_languages .langset .item_long, #gmstats table.table td.col_languages .resset .item_long, #gmstats table.table td.col_languages .immset .item_long, #gmstats table.table td.col_languages .vulnset .item_long, #gmstats table.table td.col_languages .saveset .item_long {
+  margin-right: 0.5em;
   white-space: normal;
 }
 #gmstats table.table th.col_languages .langset .code, #gmstats table.table th.col_languages .resset .code, #gmstats table.table th.col_languages .immset .code, #gmstats table.table th.col_languages .vulnset .code, #gmstats table.table th.col_languages .saveset .code, #gmstats table.table td.col_languages .langset .code, #gmstats table.table td.col_languages .resset .code, #gmstats table.table td.col_languages .immset .code, #gmstats table.table td.col_languages .vulnset .code, #gmstats table.table td.col_languages .saveset .code {

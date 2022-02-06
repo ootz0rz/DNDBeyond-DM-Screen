@@ -756,7 +756,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     .langset,.resset,.immset,.vulnset,.saveset {
                         vertical-align: top;
                         display: inline-block;
-                        padding-right: 1em;
+                        // padding-right: 1em;
 
                         .item {
                             white-space: nowrap;
@@ -766,6 +766,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                             }
                         }
                         .item_long {
+                            margin-right: 0.5em;
                             white-space: normal;
                         }
                         .code {
