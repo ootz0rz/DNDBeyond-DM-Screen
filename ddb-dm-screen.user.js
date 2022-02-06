@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.1
+// @version         1.2.2
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -3100,6 +3100,19 @@ function applyTooltips(parentNode) {
         animation: 'grow',
         delay: 0,
         animationDuration: 180,
+
+        trigger: 'custom',
+        triggerOpen: {
+            mouseenter: true,
+            touchstart: true,
+            tap: true,
+        },
+        triggerClose: {
+            mouseleave: true,
+            originClick: true,
+            touchleave: true,
+            tap: true,
+        },
 
         // interactive: true,
         // delay: 100,
