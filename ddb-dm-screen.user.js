@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.0
+// @version         1.2.1
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -188,6 +188,12 @@ const SVG_CLASS_ICON_WHITE = SVG_CLASS_ICON + ` white`;
 function GET_SVG_AS_ICON(icon, color = SVG_CLASS_ICON) {
     return icon.format(` class="{0}"`.format(color));
 }
+
+// saves
+// -------
+const SVG_RESISTANCE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg>`;
+const SVG_IMMUNITY = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg>`;
+const SVG_VULNERABILITY = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg>`;
 
 // advantage/disadvantage
 // -------------------------------------------------------
@@ -421,25 +427,19 @@ var tableRowHTML = `
             <td class="col_skills"></td>
             <td class="col_languages">
                 <div class="langset">
-                    <span class="activetitle langstitle" role="tooltip" title="Languages">Langs:</span>
                     <span class="langs"></span>
                 </div>
                 <hr class="langshr" />
                 <div class="resset">
-                    <span class="activetitle resstitle" role="tooltip" title="Resistances"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg></span>
                     <span class="resists"></span>
                 </div>
                 <div class="immset">
-                    <span class="activetitle immsstitle" role="tooltip" title="Immunities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg></span>
                     <span class="immunities"></span>
                 </div>
                 <div class="vulnset">
-                    <span class="activetitle vulnsstitle" role="tooltip" title="Vulnerabilities"><svg class='deficon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg></span>
                     <span class="vulnerabilities"></span>
                 </div>
                 <div class="saveset">
-                    <span class="activetitle savesstitle" role="tooltip" title="Save Modifiers">Saves:</span>
-                    <br />
                     <span class="savemods"></span>
                 </div>
             </td>
@@ -1926,15 +1926,15 @@ function updatePassives(parent, passPerception, passInvestigation, passInsight) 
     parent.find("td.col_passives").html("{0}{1}{2}".format(
         addTooltip(
             "per: <span>{0}</span><br />".format(passPerception),
-            "perception",
+            "Passive Perception",
             tag = "div"),
         addTooltip(
             "inv: <span>{0}</span><br />".format(passInvestigation),
-            "investigation",
+            "Passive Investigation",
             tag = "div"),
         addTooltip(
             "ins: <span>{0}</span>".format(passInsight),
-            "insight",
+            "Passive Insight",
             tag = "div")
     ));
 }
@@ -2117,8 +2117,18 @@ function genSkillsArray(skills, isCustom=false) {
             // NOTE: we have to push the tooltip within the container for the skill, because the tooltip stuff uses
             // ::after same as our commas between skills at the moment :/ 
 
+            var titleClass = "title";
+            if (classType.length > 0) {
+                if (classType == 'expert') titleClass += " gmcarm_highlight";
+                if (classType == 'prof') titleClass += " gmcarm_normal";
+                if (classType == 'halfprof') titleClass += " gmcarm_faded";
+                if (classType == 'noprof') titleClass += " gmcarm_dark";
+            }
+
             if (advString.length > 0) {
-                tooltipText = "<b>{0}</b>:<br />{1}".format(tooltipText, advString);
+                tooltipText = `<span class="{1}">{0}</span>:<br />{2}`.format(tooltipText, titleClass, advString);
+            } else {
+                tooltipText = `<span class="{1}">{0}</span>`.format(tooltipText, titleClass);
             }
             
             return "<span class='c {0} {1}'>{2}</span>".format(
@@ -2151,7 +2161,7 @@ function genSkillsArray(skills, isCustom=false) {
             supText = "";
         } else if (item.halfProficiency) {
             classType = 'halfprof';
-            tipText = "½ Proficiency";
+            tipText = "Half Proficiency";
             supText = "½";
         } else {
             classType = 'noprof';
@@ -2171,7 +2181,9 @@ function updateLanguages(parent, profGroups, langs = [], updateHtml = true) {
             item.modifierGroups.forEach((lang, lidx) => {
                 var l = "<span class='item' {1}>{0}</span>".format(
                     lang.label,
-                    insertTooltipAttributes(lang.sources.join(', '))
+                    insertTooltipAttributes(
+                        `<span class="title">language</span> via {0}`.format(lang.sources.join(', '))
+                    )
                 );
 
                 if (!langs.includes(l)) {
@@ -2211,15 +2223,27 @@ function updateDefenses(parent, character) {
 
     // populate arrays
     character.resistances.forEach((item, idx) => {
-        res.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        res.push("<span class='item_long' {1}>{2} {0}</span>".format(
+            item.name,
+            insertTooltipAttributes(`<span class="title adv">resistance</span> via {0}`.format(item.sources.join(', '))),
+            GET_SVG_AS_ICON(SVG_RESISTANCE)
+        ));
     });
 
     character.immunities.forEach((item, idx) => {
-        imm.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        imm.push("<span class='item_long' {1}>{2} {0}</span>".format(
+            item.name,
+            insertTooltipAttributes(`<span class="title adv">immunity</span> via {0}`.format(item.sources.join(', '))),
+            GET_SVG_AS_ICON(SVG_IMMUNITY)
+        ));
     });
 
     character.vulnerabilities.forEach((item, idx) => {
-        vuln.push("<span class='item_long' {1}>{0}</span>".format(item.name, insertTooltipAttributes(item.sources.join(', '))));
+        vuln.push("<span class='item_long' {1}>{2} {0}</span>".format(
+            item.name,
+            insertTooltipAttributes(`<span class="title disadv">vulnerability</span> via {0}`.format(item.sources.join(', '))),
+            GET_SVG_AS_ICON(SVG_VULNERABILITY)
+        ));
     });
 
     character.savingThrowDiceAdjustments.forEach((item, idx) => {
@@ -2242,7 +2266,7 @@ function updateDefenses(parent, character) {
 
         var tooltipFormat = "";
         if (advClass.length > 0) {
-            tooltipFormat = `<span class="{2}">{0}</span>: {1}`;
+            tooltipFormat = `<span class="{2}">{0}</span> via {1}`;
         } else {
             tooltipFormat = "{0}: {1}";
         }
@@ -2262,10 +2286,10 @@ function updateDefenses(parent, character) {
     });
 
     // set html
-    _addSortedListToNode(res, resNode);
-    _addSortedListToNode(imm, immNode);
-    _addSortedListToNode(vuln, vulnNode);
-    _addSortedListToNode(save, saveNode, sep='<br />');
+    _addSortedListToNode(res, resNode, sep=' ');
+    _addSortedListToNode(imm, immNode, sep=' ');
+    _addSortedListToNode(vuln, vulnNode, sep=' ');
+    _addSortedListToNode(save, saveNode, sep=' ');
 
     // hide/show as appropriate
     var hideclass = 'inactiveset';
