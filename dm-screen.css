@@ -10446,12 +10446,20 @@ a > #gmstats code {
 .tooltipster-carm__font_smallest .tooltipster-base {
   max-width: 150px;
 }
+.tooltipster-carm__font_smallest .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
+  border-width: 1px;
+  border-radius: 0.3em;
+}
 .tooltipster-carm__font_small .tooltipster-content {
   font-size: 0.75rem !important;
   padding: 0.28125rem 0.5625rem !important;
 }
 .tooltipster-carm__font_small .tooltipster-base {
   max-width: 225px;
+}
+.tooltipster-carm__font_small .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
+  border-width: 1.5px;
+  border-radius: 0.45em;
 }
 .tooltipster-carm__font_normal .tooltipster-content {
   font-size: 1rem !important;
@@ -10460,12 +10468,20 @@ a > #gmstats code {
 .tooltipster-carm__font_normal .tooltipster-base {
   max-width: 300px;
 }
+.tooltipster-carm__font_normal .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
+  border-width: 2px;
+  border-radius: 0.6em;
+}
 .tooltipster-carm__font_big .tooltipster-content {
   font-size: 1.25rem !important;
   padding: 0.46875rem 0.9375rem !important;
 }
 .tooltipster-carm__font_big .tooltipster-base {
   max-width: 375px;
+}
+.tooltipster-carm__font_big .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
+  border-width: 2.5px;
+  border-radius: 0.75em;
 }
 .tooltipster-carm__font_biggest .tooltipster-content {
   font-size: 1.5rem !important;
@@ -10474,13 +10490,15 @@ a > #gmstats code {
 .tooltipster-carm__font_biggest .tooltipster-base {
   max-width: 450px;
 }
+.tooltipster-carm__font_biggest .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
+  border-width: 3px;
+  border-radius: 0.9em;
+}
 
 .tooltipster-sidetip.tooltipster-carm .tooltipster-box {
   background: #101b2f;
   border-color: #7e9ed9;
-  border-width: 1px;
   border-style: solid;
-  border-radius: 4px;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content {
   color: whitesmoke;
@@ -10545,19 +10563,19 @@ a > #gmstats code {
   border: 9px solid transparent;
 }
 .tooltipster-sidetip.tooltipster-carm.tooltipster-bottom .tooltipster-arrow-background {
-  border-bottom-color: #101b2f;
+  border-bottom-color: #7e9ed9;
   top: 1px;
 }
 .tooltipster-sidetip.tooltipster-carm.tooltipster-left .tooltipster-arrow-background {
-  border-left-color: #101b2f;
+  border-left-color: #7e9ed9;
   left: -1px;
 }
 .tooltipster-sidetip.tooltipster-carm.tooltipster-right .tooltipster-arrow-background {
-  border-right-color: #101b2f;
+  border-right-color: #7e9ed9;
   left: 1px;
 }
 .tooltipster-sidetip.tooltipster-carm.tooltipster-top .tooltipster-arrow-background {
-  border-top-color: #101b2f;
+  border-top-color: #7e9ed9;
   top: -1px;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-arrow-border {

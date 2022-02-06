@@ -1031,6 +1031,13 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     .tooltipster-base {
         max-width: 300px * $size;
     }
+
+    .tooltipster-sidetip.tooltipster-carm {
+        .tooltipster-box {
+            border-width: 2px * $size;
+            border-radius: 0.6em * $size;
+        }
+    }
 }
 .tooltipster-carm__ {
     &font_smallest { @include tooltipFontSize($font_smallest); }
@@ -1046,9 +1053,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
         background: $tooltip-background-color;
 
         border-color: $tooltip-border-color;
-        border-width: 1px;
         border-style: solid;
-        border-radius: 4px;
     }
 
     .tooltipster-content {
@@ -1132,22 +1137,22 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     }
 
     &.tooltipster-bottom .tooltipster-arrow-background {
-        border-bottom-color: $tooltip-background-color;
+        border-bottom-color: $tooltip-border-color;
         top: 1px;
     }
 
     &.tooltipster-left .tooltipster-arrow-background {
-        border-left-color: $tooltip-background-color;
+        border-left-color: $tooltip-border-color;
         left: -1px;
     }
 
     &.tooltipster-right .tooltipster-arrow-background {
-        border-right-color: $tooltip-background-color;
+        border-right-color: $tooltip-border-color;
         left: 1px;
     }
 
     &.tooltipster-top .tooltipster-arrow-background {
-        border-top-color: $tooltip-background-color;
+        border-top-color: $tooltip-border-color;
         top: -1px;
     }
 
