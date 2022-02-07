@@ -169,6 +169,11 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                         filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
                     }
                 }
+                .deficon_large {
+                    width: 14px * $curMulti * 1.5;
+                    height: 14px * $curMulti * 1.5;
+                    // margin-top: -0.25rem;
+                }
             }
         }
 
@@ -377,8 +382,8 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                                 color: $row_highlight_color;
                             }
 
-                            .profbonus {
-                                display: inline-block;
+                            .profbonus, .conditions {
+                                display: block;
                             }
                         }
                         &.col_skills {
@@ -515,7 +520,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                 &.col_name {
                     position: relative;
                     white-space: nowrap;
-                    width: auto;
+                    // width: auto;
 
                     $linkiconsize: 1em;
 
@@ -560,13 +565,15 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     }
 
                     .inspiration {
-                        padding-right: $linkiconsize*1.5;
+                        margin-right: $linkiconsize*1.7;
+                        padding-left: $linkiconsize*0.2;
+                        padding-right: $linkiconsize*0.2;
                     }
 
                     .exhaust {
                         color: $gm_c_bright_black;
 
-                        span { 
+                        span.ex { 
                             color: $gm_c_red; 
                         }
                     }
@@ -585,8 +592,16 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                         }
                     }
 
-                    .profbonus {
+                    .profbonus,.conditions {
                         display: none;
+                    }
+
+                    .conditions {
+                        white-space: normal;
+                        .cond {
+                            padding-left: 0.25em;
+                            padding-right: 0.25em;
+                        }
                     }
                 }
 
@@ -1081,6 +1096,12 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     content: '•';
                     padding-right: 0.5rem;
                 }
+
+                &.nob {
+                    &:before {
+                        content: '';
+                    }
+                }
             }
         }
 
@@ -1089,7 +1110,20 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
             text-transform: lowercase;
             font-variant: small-caps;
             text-decoration: underline;
-            font-size: 135%;
+            font-size: 115%;
+            line-height: 115%;
+        }
+
+        .title {
+            &.upper {
+                text-transform: uppercase;
+            }
+            &.cap {
+                text-transform: capitalize;
+            }
+            &.normal {
+                font-variant: normal;
+            }
         }
         
         .adv {

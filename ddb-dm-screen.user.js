@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.2
+// @version         1.2.3
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -190,7 +190,7 @@ function GET_SVG_AS_ICON(icon, color = SVG_CLASS_ICON) {
 }
 
 // saves
-// -------
+// -------------------------------------------------------
 const SVG_RESISTANCE = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-resistance-icon"><path fill="#2C9400" d="M21.18969,15.5h-4.12v7.44h4.12a3.68142,3.68142,0,0,0,2.79-.97,3.75732,3.75732,0,0,0,.94-2.73,3.81933,3.81933,0,0,0-.95-2.74A3.638,3.638,0,0,0,21.18969,15.5Z"></path><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-8.11,29.51h-6.97l-4.77-9.56h-3.53v9.56h-6.51V10.49h10.63c3.2,0,5.71.71,7.51,2.13a7.21618,7.21618,0,0,1,2.71,6.03,8.78153,8.78153,0,0,1-1.14,4.67005,8.14932,8.14932,0,0,1-3.57,3l5.64,10.91Z"></path></svg>`;
 const SVG_IMMUNITY = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-immunity-icon"><path fill="#2C9400" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.75,29.42h-6.5V10.4h6.5Z"></path></svg>`;
 const SVG_VULNERABILITY = `<svg{0} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.89941 48" class="ddbc-svg  ddbc-vulnerability-icon"><path fill="#b00000" d="M40.4497,8c-11,0-20-6-20-8,0,2-9,8-20,8-4,35,20,40,20,40S44.4497,43,40.4497,8Zm-16.63,30.42h-7.12l-9.02-27.02h7.22L20.2597,31.07l5.38-19.67h7.27Z"></path></svg>`;
@@ -390,6 +390,23 @@ var tableRowHTML = `
                 <div class="spellsavedc"><span></span></div>
                 <div class="classes"></div>
                 <div class="profbonus"><hr /><span class="pb" role="tooltip" title="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
+                <div class="conditions">
+                    <hr />
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/blinded.svg" class="deficon_large cond_blinded"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/charmed.svg" class="deficon_large cond_charmed"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/deafened.svg" class="deficon_large cond_deafened"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/frightened.svg" class="deficon_large cond_frightened"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/grappled.svg" class="deficon_large cond_grappled"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/incapacitated.svg" class="deficon_large cond_incapacitated"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/invisible.svg" class="deficon_large cond_invisible"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/paralyzed.svg" class="deficon_large cond_paralyzed"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/petrified.svg" class="deficon_large cond_petrified"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/poisoned.svg" class="deficon_large cond_poisoned"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/prone.svg" class="deficon_large cond_prone"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/restrained.svg" class="deficon_large cond_restrained"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/stunned.svg" class="deficon_large cond_stunned"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/unconscious.svg" class="deficon_large cond_unconscious"></span> 
+                </div>
             </td>
             <td class="col_hp">
                 <span class="hurt"></span>
@@ -1605,6 +1622,8 @@ function updateNameBlock(parent, allCharData, character) {
     updateNameBlockInspiration(character, nameblock);
 
     updateNameBlockProfBonus(character, nameblock);
+
+    updateNameBlockConditions(character, nameblock);
 }
 
 function updateNameBlockViewEditLinks(allCharData, nameblock) {
@@ -1648,6 +1667,48 @@ function updateNameBlockProfBonus(character, nameblock) {
     );
 }
 
+function updateNameBlockConditions(character, nameblock) {
+    var condNode = $(".conditions", nameblock);
+    var conditions = [];
+
+    // figure out which non-exhaust conditions are effecting us if any
+    character.conditions.forEach((item, idx) => {
+        if (item.definition.slug == 'exhaustion') {
+            return;
+        }
+
+        conditions.push(item.definition);
+    });
+
+    if (conditions.length == 0) {
+        condNode.addClass(HIDE_CLASS);
+        return;
+    } 
+    
+    // unhide the overall block, and then individual conditions
+    condNode.removeClass(HIDE_CLASS);
+
+    function getCondClassName(name) {
+        return "cond_" + name.toLowerCase();
+    }
+
+    $(".cond", condNode).addClass(HIDE_CLASS);
+
+    conditions.forEach((c, idx) => {
+        var name = c.name;
+        var desc = c.description;
+
+        var cond = $("." + getCondClassName(name), condNode);
+
+        var condSpan = cond.parent();
+        condSpan.removeClass(HIDE_CLASS);
+
+        // we apply the tooltip/title here because we want to always be up to date with the backend,
+        // instead of hard-coding it in the html above
+        condSpan.attr('title', `<span class="title cap normal">{0}</span>:{1}`.format(name, desc));
+    });
+}
+
 function updateNameBlockExhaust(character, nameblock) {
     const maxExhaust = 6;
 
@@ -1655,10 +1716,13 @@ function updateNameBlockExhaust(character, nameblock) {
     var isExhausted = false;
     var exhaustLevel = 0;
 
+    var exhaustData = null;
     conditions.forEach((item, idx) => {
         if (item.definition.slug == 'exhaustion') {
             isExhausted = true;
             exhaustLevel = item.level;
+
+            exhaustData = item;
         }
     });
 
@@ -1674,8 +1738,28 @@ function updateNameBlockExhaust(character, nameblock) {
             restStr += "- ";
         }
 
+        // build tooltip text
+        var tipStr = `<div class="title cap">Exhaustion Lvl <code>{0}</code></div>`.format(exhaustLevel);
+        if (exhaustData !== null) {
+            var exhaustItems = "";
+
+            exhaustData.levels.forEach((item, idx) => { 
+                if (item.definition.level <= exhaustLevel) {
+                    exhaustItems += `<li class="nob"><span class="disadv">{0}</span>: {1}</li>`.format(item.definition.level, item.definition.effect);
+                }
+            });
+
+            tipStr += `<ul>{0}</ul>`.format(exhaustItems);
+        }
+
         exhaustBlock.removeClass(HIDE_CLASS);
-        exhaustBlock.html("<span>{0}</span>{1}".format(exhaustStr, restStr));
+        exhaustBlock.html(
+            `<span {2}><span class="ex">{0}</span>{1}</span>`.format(
+                exhaustStr,
+                restStr,
+                insertTooltipAttributes(tipStr)
+                //, GET_SVG_URI_AS_OBJECT(SVG_C_EXHAUSTION) 
+            ));
     } else {
         exhaustBlock.addClass(HIDE_CLASS);
         exhaustBlock.html('');

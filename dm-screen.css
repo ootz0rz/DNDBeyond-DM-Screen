@@ -9773,6 +9773,10 @@ a > #gmstats code {
 #gmstats table.font_smallest .deficon.white, #gmstats table.font_smallest svg.deficon.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
+#gmstats table.font_smallest .deficon_large {
+  width: 10.5px;
+  height: 10.5px;
+}
 #gmstats table.font_small {
   font-size: 0.75rem;
 }
@@ -9790,6 +9794,10 @@ a > #gmstats code {
 }
 #gmstats table.font_small .deficon.white, #gmstats table.font_small svg.deficon.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
+}
+#gmstats table.font_small .deficon_large {
+  width: 15.75px;
+  height: 15.75px;
 }
 #gmstats table.font_normal {
   font-size: 1rem;
@@ -9809,6 +9817,10 @@ a > #gmstats code {
 #gmstats table.font_normal .deficon.white, #gmstats table.font_normal svg.deficon.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
+#gmstats table.font_normal .deficon_large {
+  width: 21px;
+  height: 21px;
+}
 #gmstats table.font_big {
   font-size: 1.25rem;
 }
@@ -9827,6 +9839,10 @@ a > #gmstats code {
 #gmstats table.font_big .deficon.white, #gmstats table.font_big svg.deficon.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
 }
+#gmstats table.font_big .deficon_large {
+  width: 26.25px;
+  height: 26.25px;
+}
 #gmstats table.font_biggest {
   font-size: 1.5rem;
 }
@@ -9844,6 +9860,10 @@ a > #gmstats code {
 }
 #gmstats table.font_biggest .deficon.white, #gmstats table.font_biggest svg.deficon.white {
   filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(25%) hue-rotate(64deg) brightness(107%) contrast(105%);
+}
+#gmstats table.font_biggest .deficon_large {
+  width: 31.5px;
+  height: 31.5px;
 }
 #gmstats table.stattable, #gmstats table.detailstable {
   background-color: #212529;
@@ -9953,8 +9973,8 @@ a > #gmstats code {
 #gmstats table.table tbody tr.active_row td.col_name .name {
   color: #ffdc41;
 }
-#gmstats table.table tbody tr.active_row td.col_name .profbonus {
-  display: inline-block;
+#gmstats table.table tbody tr.active_row td.col_name .profbonus, #gmstats table.table tbody tr.active_row td.col_name .conditions {
+  display: block;
 }
 #gmstats table.table tbody tr.active_row td.col_skills {
   border-right-width: 1px;
@@ -10052,7 +10072,6 @@ a > #gmstats code {
 #gmstats table.table th.col_name, #gmstats table.table td.col_name {
   position: relative;
   white-space: nowrap;
-  width: auto;
 }
 #gmstats table.table th.col_name .links, #gmstats table.table td.col_name .links {
   position: absolute;
@@ -10090,12 +10109,14 @@ a > #gmstats code {
   font-style: italic;
 }
 #gmstats table.table th.col_name .inspiration, #gmstats table.table td.col_name .inspiration {
-  padding-right: 1.5em;
+  margin-right: 1.7em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
 }
 #gmstats table.table th.col_name .exhaust, #gmstats table.table td.col_name .exhaust {
   color: grey;
 }
-#gmstats table.table th.col_name .exhaust span, #gmstats table.table td.col_name .exhaust span {
+#gmstats table.table th.col_name .exhaust span.ex, #gmstats table.table td.col_name .exhaust span.ex {
   color: red;
 }
 #gmstats table.table th.col_name .spellsavedc, #gmstats table.table td.col_name .spellsavedc {
@@ -10109,8 +10130,15 @@ a > #gmstats code {
   font-weight: bold;
   color: white;
 }
-#gmstats table.table th.col_name .profbonus, #gmstats table.table td.col_name .profbonus {
+#gmstats table.table th.col_name .profbonus, #gmstats table.table th.col_name .conditions, #gmstats table.table td.col_name .profbonus, #gmstats table.table td.col_name .conditions {
   display: none;
+}
+#gmstats table.table th.col_name .conditions, #gmstats table.table td.col_name .conditions {
+  white-space: normal;
+}
+#gmstats table.table th.col_name .conditions .cond, #gmstats table.table td.col_name .conditions .cond {
+  padding-left: 0.25em;
+  padding-right: 0.25em;
 }
 #gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
   color: grey;
@@ -10520,12 +10548,25 @@ a > #gmstats code {
   content: "•";
   padding-right: 0.5rem;
 }
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content ul li.nob:before {
+  content: "";
+}
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .adv, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .disadv, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .title {
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
   text-decoration: underline;
-  font-size: 135%;
+  font-size: 115%;
+  line-height: 115%;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .title.upper {
+  text-transform: uppercase;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .title.cap {
+  text-transform: capitalize;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .title.normal {
+  font-variant: normal;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .adv {
   text-decoration-color: lime;
