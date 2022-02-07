@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.3
+// @version         1.2.4
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -297,20 +297,8 @@ var mainTableHTML = `
     </tbody>
     <tfoot>
         <tr id="totals">
-            <td class="col_name">
-                Totals:
-            </td>
-            <td class="col_hp"></td>
-            <td class="col_ac"></td>
-            <td class="col_speed"></td>
-            <td class="col_stat b_left"></td>
-            <td class="col_stat"></td>
-            <td class="col_stat"></td>
-            <td class="col_stat"></td>
-            <td class="col_stat"></td>
-            <td class="col_stat"></td>
-            <td class="col_stat b_right"></td>
-            <td class="col_money" colspan="2">
+            <td class="col_name" colspan="12">Party Total Money:</td>
+            <td class="col_money" colspan="3">
                 <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
                 <span class="ppc"><span class="pp"></span> pp</span>
                 <span class="epc"><span class="ep"></span> ep </span>
@@ -318,7 +306,6 @@ var mainTableHTML = `
                 <span class="spc"><span class="sp"></span> sp </span>
                 <span class="cpc"><span class="cp"></span> cp </span>
             </td>
-            <td class="col_languages" colspan="2"></td>
         </tr>
         <tr>
             <td colspan="15" class='gs-controls'>
