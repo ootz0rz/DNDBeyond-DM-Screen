@@ -10589,6 +10589,27 @@ a > #gmstats code {
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .gmcarm_dark {
   color: grey;
 }
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .cp {
+  color: #e6a263;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .sp {
+  color: silver;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .gp {
+  color: gold;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .ep {
+  color: #5fc9d1;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .pp {
+  color: #62abff;
+}
+.tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .ppc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .epc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .gpc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .spc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .cpc {
+  white-space: nowrap;
+}
 .tooltipster-sidetip.tooltipster-carm .tooltipster-arrow {
   height: 9px;
   margin-left: -9px;

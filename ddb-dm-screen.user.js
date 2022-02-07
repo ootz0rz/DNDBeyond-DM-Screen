@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.4
+// @version         1.2.5
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -35,6 +35,33 @@ const gameCollectionUrl = {prefix :"https://character-service.dndbeyond.com/char
 const optionalRules = {
     "optionalOrigins": {category:"racial-trait", id:"racialTraitId" },
     "optionalClassFeatures": {category:"class-feature", id:"classFeatureId" },
+};
+
+const toolTipsterSettings = {
+    theme: ['tooltipster-carm'],
+
+    contentCloning: true,
+    contentAsHTML: true,
+
+    animation: 'grow',
+    delay: 0,
+    animationDuration: 180,
+
+    trigger: 'custom',
+    triggerOpen: {
+        mouseenter: true,
+        touchstart: true,
+        tap: true,
+    },
+    triggerClose: {
+        mouseleave: true,
+        originClick: true,
+        touchleave: true,
+        tap: true,
+    },
+
+    // interactive: true,
+    // delay: 100,
 };
 
 const senseToName = {
@@ -300,7 +327,7 @@ var mainTableHTML = `
             <td class="col_name" colspan="12">Party Total Money:</td>
             <td class="col_money" colspan="3">
                 <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
-                <span class="ppc"><span class="pp"></span> pp</span>
+                <span class="ppc"><span class="pp"></span> pp </span>
                 <span class="epc"><span class="ep"></span> ep </span>
                 <span class="gpc"><span class="gp"></span> gp </span>
                 <span class="spc"><span class="sp"></span> sp </span>
@@ -1492,7 +1519,7 @@ function updateCampaignData() {
 
             var isLastChar = idx == len - 1;
             if (isLastChar) {
-                updateMoney(totalsRow, globalCurrencies, showSumOnly=true);
+                updateMoney(totalsRow, globalCurrencies, showSumOnly=true, updateTotalsTooltip=true);
             }
 
             // languages
@@ -2010,7 +2037,8 @@ function updatePassives(parent, passPerception, passInvestigation, passInsight) 
     ));
 }
 
-function updateMoney(parent, currencies, showSumOnly=false) {
+const GP_TOTAL_TOOLTIP = "Approx Total in GP";
+function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=false, totalTooltipDefault=GP_TOTAL_TOOLTIP) {
     // console.log('updateMoney', 'parent:', parent, 'showSumOnly:', showSumOnly);
 
     // individual vals
@@ -2058,7 +2086,38 @@ function updateMoney(parent, currencies, showSumOnly=false) {
             hr.addClass(HIDE_CLASS);
             total.empty();
         }
-    } 
+    }
+
+    if (updateTotalsTooltip) {
+        genMoneyTooltip(total, currencies);
+    } else {
+        editTooltipLabel(total, totalTooltipDefault);
+    }
+}
+
+function genMoneyTooltip(total, currencies) {
+    var parent = $(`<span class="money"><span class="ppc"><span class="pp"></span> pp </span><span class="epc"><span class="ep"></span> ep </span><span class="gpc"><span class="gp"></span> gp </span><span class="spc"><span class="sp"></span> sp </span><span class="cpc"><span class="cp"></span> cp </span></span>`);
+
+    var ppc = $(".ppc", parent);
+    var epc = $(".epc", parent);
+    var gpc = $(".gpc", parent);
+    var spc = $(".spc", parent);
+    var cpc = $(".cpc", parent);
+
+    var pp = $(".pp", ppc);
+    var ep = $(".ep", epc);
+    var gp = $(".gp", gpc);
+    var sp = $(".sp", spc);
+    var cp = $(".cp", cpc);
+
+    updateCurrencyVis(ppc, pp, currencies.pp, false);
+    updateCurrencyVis(epc, ep, currencies.ep, false);
+    updateCurrencyVis(gpc, gp, currencies.gp, false);
+    updateCurrencyVis(spc, sp, currencies.sp, false);
+    updateCurrencyVis(cpc, cp, currencies.cp, false);
+
+    console.log('money tooltip: ', parent, '\n', parent.prop('outerHTML'));
+    editTooltipLabel(total, parent.prop('outerHTML'));
 }
 
 function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
@@ -2873,8 +2932,17 @@ function updateTooltipText(toolNode, newToolText) {
 }
 
 function editTooltipLabel(node, newText) {
-    node.attr('aria-label', newText);
+    // kinda hacky work-around to updating tooltips w/ tooltipstered afaik
+    node.removeClass('tooltipstered');
     node.attr('title', newText);
+    
+    var bk = node.clone();
+    var parent = node.parent();
+
+    node.after(bk);
+    node.remove();
+
+    applyTooltips(parent);
 }
 
 function sortTable(table, order) {
@@ -3162,30 +3230,5 @@ function getStatMod(stat, charAbilities) {
 
 function applyTooltips(parentNode) {
     var els = $('[title]', parentNode);
-    els.tooltipster({
-        theme: ['tooltipster-carm'],
-
-        contentCloning: true,
-        contentAsHTML: true,
-
-        animation: 'grow',
-        delay: 0,
-        animationDuration: 180,
-
-        trigger: 'custom',
-        triggerOpen: {
-            mouseenter: true,
-            touchstart: true,
-            tap: true,
-        },
-        triggerClose: {
-            mouseleave: true,
-            originClick: true,
-            touchleave: true,
-            tap: true,
-        },
-
-        // interactive: true,
-        // delay: 100,
-    });
+    els.tooltipster(toolTipsterSettings);
 }

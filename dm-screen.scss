@@ -29,6 +29,21 @@ $gm_level: 	desaturate(rgb(255,135,0), 30%);
 $gm_adv: $gm_c_green;
 $gm_disadv: $gm_c_red;
 
+// money
+$gm_money_cp: rgb(230, 162, 99);
+$gm_money_sp: silver;
+$gm_money_gp: gold;
+$gm_money_ep: rgb(95, 201, 209);
+$gm_money_pp: rgb(98, 171, 255);
+
+@mixin money() {
+    .cp {color: $gm_money_cp;}
+    .sp {color: $gm_money_sp;}
+    .gp {color: $gm_money_gp;}
+    .ep {color: $gm_money_ep;}
+    .pp {color: $gm_money_pp;}
+}
+
 // tooltips and hover highlights
 $tooltip-primary-color: $gm_primary_font_color; 
 $tooltip-base-color: rgb(49, 108, 218);
@@ -72,13 +87,6 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     $gm_hp_hurt: $gm_c_yellow;
     $gm_hp_bad: $gm_c_red;
     $gm_hp_normal: $gm_c_bright_black;
-
-    // money
-    $gm_money_cp: rgb(230, 162, 99);
-    $gm_money_sp: silver;
-    $gm_money_gp: gold;
-    $gm_money_ep: rgb(95, 201, 209);
-    $gm_money_pp: rgb(98, 171, 255);
 
     // skills
     $gm_skill_high: rgb(175, 255, 182);
@@ -651,12 +659,8 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     width: auto;
                     color: $gm_c_bright_black;
                     white-space: normal;
-                    
-                    .cp {color: $gm_money_cp;}
-                    .sp {color: $gm_money_sp;}
-                    .gp {color: $gm_money_gp;}
-                    .ep {color: $gm_money_ep;}
-                    .pp {color: $gm_money_pp;}
+
+                    @include money();
 
                     .total span, .gponly {
                         color: $gm_c_green;// $gm_money_gp;
@@ -1149,6 +1153,15 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
             &dark {
                 color: $gm_c_bright_black;
             }
+        }
+
+        .money {
+            @include money();
+            .ppc, .epc, .gpc, .spc, .cpc {
+                white-space: nowrap;
+            }
+
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         }
     }
 
