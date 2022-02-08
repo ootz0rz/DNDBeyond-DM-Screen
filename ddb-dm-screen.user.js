@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.8
+// @version         1.2.9
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -326,12 +326,15 @@ var mainTableHTML = `
         <tr id="totals">
             <td class="col_name" colspan="12">Party Total Money:</td>
             <td class="col_money" colspan="3">
-                <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
-                <span class="ppc"><span class="pp"></span> pp </span>
-                <span class="epc"><span class="ep"></span> ep </span>
-                <span class="gpc"><span class="gp"></span> gp </span>
-                <span class="spc"><span class="sp"></span> sp </span>
-                <span class="cpc"><span class="cp"></span> cp </span>
+                <span class="total" role="tooltip" title="Approx Total in GP"></span>
+                <span class="expanded">
+                    <hr />
+                    <span class="ppc"><span class="pp"></span> pp </span>
+                    <span class="epc"><span class="ep"></span> ep </span>
+                    <span class="gpc"><span class="gp"></span> gp </span>
+                    <span class="spc"><span class="sp"></span> sp </span>
+                    <span class="cpc"><span class="cp"></span> cp </span>
+                </span>
             </td>
         </tr>
         <tr>
@@ -449,12 +452,15 @@ var tableRowHTML = `
                 ins: <span></span>
             </td>
             <td class="col_money">
-                <span class="total" role="tooltip" title="Approx Total in GP"></span><hr />
-                <span class="ppc"><span class="pp"></span> pp</span>
-                <span class="epc"><span class="ep"></span> ep </span>
-                <span class="gpc"><span class="gp"></span> gp </span>
-                <span class="spc"><span class="sp"></span> sp </span>
-                <span class="cpc"><span class="cp"></span> cp </span>
+                <span class="total" role="tooltip" title="Approx Total in GP"></span>
+                <span class="expanded">
+                    <hr />
+                    <span class="ppc"><span class="pp"></span> pp</span>
+                    <span class="epc"><span class="ep"></span> ep </span>
+                    <span class="gpc"><span class="gp"></span> gp </span>
+                    <span class="spc"><span class="sp"></span> sp </span>
+                    <span class="cpc"><span class="cp"></span> cp </span>
+                </span>
             </td>
             <td class="col_skills"></td>
             <td class="col_languages">
@@ -1555,8 +1561,6 @@ function updateElementData(allCharData, charId) {
 
     console.log('update info: ', charId, character);
 
-    updateRowIfShouldBeActive(parent);
-
     updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
     updateArmorClass(parent, character.armorClass, character.initiative, character.hasInitiativeAdvantage);
@@ -1564,12 +1568,14 @@ function updateElementData(allCharData, charId) {
 
     updateAbilties(parent, character.abilities);
     updatePassives(parent, character.passivePerception, character.passiveInvestigation, character.passiveInsight);
-    updateMoney(parent, character.currencies);
+    updateMoney(parent, character.currencies, showSumOnly=false, updateTotalsTooltip=true);
     updateSkillProfs(parent, parent_secondrow, character.skills, character.customSkills);
     updateLanguages(parent, character.proficiencyGroups);
     updateDefenses(parent, character);
 
     updateJump(parent_secondrow, character);
+
+    updateRowIfShouldBeActive(parent);
 }
 
 function updateRowIfShouldBeActive(primaryRow) {
@@ -1579,6 +1585,7 @@ function updateRowIfShouldBeActive(primaryRow) {
     var col_name = $('td.col_name', primaryRow);
     var col_skills = $('td.col_skills', primaryRow);
     var col_langs = $('td.col_languages', primaryRow);
+    var col_money = $('td.col_money', primaryRow);
 
     var col_langs_title = $("." + ACTIVE_ROW_TITLE_CLASS, col_langs);
     var col_langs_hr = $(".langshr", col_langs);
@@ -1586,6 +1593,9 @@ function updateRowIfShouldBeActive(primaryRow) {
     var col_langs_immset = $(".immset", col_langs);
     var col_langs_vulnset = $(".vulnset", col_langs);
     var col_langs_saveset = $(".saveset", col_langs);
+
+    var col_money_expanded = $(".expanded", col_money);
+    var col_money_total = $(".total", col_money);
     
     var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
 
@@ -1607,6 +1617,8 @@ function updateRowIfShouldBeActive(primaryRow) {
         col_langs_immset.removeClass(HIDE_CLASS);
         col_langs_vulnset.removeClass(HIDE_CLASS);
         col_langs_saveset.removeClass(HIDE_CLASS);
+
+        col_money_expanded.removeClass(HIDE_CLASS);
     } else {
         // hide details
         primaryRow.removeClass(ACTIVE_ROW_CLASS);
@@ -1624,6 +1636,12 @@ function updateRowIfShouldBeActive(primaryRow) {
         col_langs_immset.addClass(HIDE_CLASS);
         col_langs_vulnset.addClass(HIDE_CLASS);
         col_langs_saveset.addClass(HIDE_CLASS);
+        
+        // only hide the money expanded section, if we have no 'total' summary calculated
+        var cmtHtml = col_money_total.html();
+        if (cmtHtml.length > 0) {
+            col_money_expanded.addClass(HIDE_CLASS);
+        }
     }
 
     updateNameTooltip($(".name", primaryRow), isActive);
@@ -2185,7 +2203,7 @@ function genMoneyTooltip(total, currencies) {
     updateCurrencyVis(spc, sp, currencies.sp, false);
     updateCurrencyVis(cpc, cp, currencies.cp, false);
 
-    console.log('money tooltip: ', parent, '\n', parent.prop('outerHTML'));
+    // console.log('money tooltip: ', parent, '\n', parent.prop('outerHTML'));
     editTooltipLabel(total, parent.prop('outerHTML'));
 }
 
