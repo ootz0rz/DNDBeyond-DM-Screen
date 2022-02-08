@@ -23,6 +23,7 @@ $gm_c_dark_gold: rgb(65, 44, 7);
 $gm_c_light_steel_blue: rgb(175,175,255);
 $gm_c_teal: rgb(42, 151, 128);
 $gm_c_silver: silver;
+$gm_c_dark_black: darken($gm_c_bright_black, 15%);
 
 $gm_level: 	desaturate(rgb(255,135,0), 30%);
 
@@ -271,7 +272,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     }
                     
                     .same {
-                        color: darken($gm_c_bright_black, 15%) !important;
+                        color: $gm_c_dark_black !important;
                         // &.high {color: darken($gm_c_bright_white,30%) !important;}
                         // &.low {color: darken($gm_c_bright_black,20%) !important;}
                     }
@@ -626,6 +627,28 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     .fail { color: $gm_c_red; }
                     .save { color: $gm_c_green; }
                     .stable { color: $gm_c_green; }
+
+                    .hitdice {
+                        white-space: normal;
+                        &.unused {
+                            color: $gm_c_dark_black;
+                        }
+                        &.empty {
+                            color: $gm_hp_bad;
+                        }
+                        &.used {
+                            color: $gm_c_silver;
+                        }
+
+                        .diceleft {
+                            vertical-align: super;
+                            // font-size: 75%;
+                        }
+                        .dicetotal {
+                            vertical-align: sub;
+                            // font-size: 75%;
+                        }
+                    }
                 }
 
                 &.col_ac {

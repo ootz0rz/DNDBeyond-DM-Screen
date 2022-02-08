@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.5
+// @version         1.2.6
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1897,16 +1897,74 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
         }
     }
 
+    // hit dice display
+    var hitDiceStr = "<br />";
+    var hitDiceMap = {}; // dice type -> count
+    var hitDiceUsed = {}; // dice type -> # used
+    var hitDiceClasses = {}; // dice type -> [class1, class2, ...]
+    hitPointInfo.classesHitDice.forEach((item, idx) => {
+        var val = item.dice.diceValue;
+        var total = item.dice.diceCount;
+        var used = item.charClass.hitDiceUsed;
+
+        if (!(val in hitDiceMap)) { hitDiceMap[val] = 0; }
+        if (!(val in hitDiceUsed)) { hitDiceUsed[val] = 0; }
+        if (!(val in hitDiceClasses)) { hitDiceClasses[val] = []; }
+
+        hitDiceMap[val] += total;
+        hitDiceUsed[val] += used;
+        hitDiceClasses[val].push(item.charClass.definition.name);
+    });
+
+    var hdArr = []
+    for (const [key, val] of Object.entries(hitDiceMap)) {
+        var numLeft = val - hitDiceUsed[key];
+
+        var color = '';
+        if (numLeft == val) {
+            color = ' unused';
+        } else if (numLeft == 0) {
+            color = ' empty';
+        } else {
+            color = ' used';
+        }
+
+        var diceVal = '';
+        if (numLeft == val) {
+            diceVal = '{0}'.format(numLeft);
+        } else {
+            diceVal = '{0}&frasl;{1}'.format(numLeft, val);
+        }
+        
+        var fStr = `<span class='hitdice{2}'>{0} × <span class='dicetype'>d{1}</span></span>`.format(
+            diceVal,
+            key,
+            color
+        );
+
+        hdArr.push(addTooltip(
+            fStr,
+            "<code>{0}d{1}</code> Hit Dice via {2}".format(
+                val,
+                key,
+                hitDiceClasses[key].join(', ')
+            )
+        ));
+    }
+
+    hitDiceStr += hdArr.join('<br />');
+
     // put it all together
 
     hp.html(
-        `<span class="{0}">{1}</span>{2}{3}{4}`
+        `<span class="{0}">{1}</span>{2}{3}{4}{5}`
         .format(
             color,
             "{0}/{1} {2}%".format(remaining, max, Math.round(pct_left)),
             bonus_str,
             temp_str,
-            dsstr
+            dsstr,
+            hitDiceStr
         )
     );
 }

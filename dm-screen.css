@@ -10170,6 +10170,24 @@ a > #gmstats code {
 #gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
   color: lime;
 }
+#gmstats table.table th.col_hp .hitdice, #gmstats table.table td.col_hp .hitdice {
+  white-space: normal;
+}
+#gmstats table.table th.col_hp .hitdice.unused, #gmstats table.table td.col_hp .hitdice.unused {
+  color: #5a5a5a;
+}
+#gmstats table.table th.col_hp .hitdice.empty, #gmstats table.table td.col_hp .hitdice.empty {
+  color: red;
+}
+#gmstats table.table th.col_hp .hitdice.used, #gmstats table.table td.col_hp .hitdice.used {
+  color: silver;
+}
+#gmstats table.table th.col_hp .hitdice .diceleft, #gmstats table.table td.col_hp .hitdice .diceleft {
+  vertical-align: super;
+}
+#gmstats table.table th.col_hp .hitdice .dicetotal, #gmstats table.table td.col_hp .hitdice .dicetotal {
+  vertical-align: sub;
+}
 #gmstats table.table th.col_ac, #gmstats table.table td.col_ac {
   width: 0%;
 }
