@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.7
+// @version         1.2.8
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -380,6 +380,7 @@ var mainTableHTML = `
                     <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">site dark mode</a>
                     <a id='scroll_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide scroll</a>
                     <a id='log_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide log</a>
+                    <a id='header_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide header</a>
                 </span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
@@ -1005,16 +1006,26 @@ function insertElements() {
     const sideBarNode = $("div.sidebar");
     const sideBarBtn = $('#log_toggle', node);
     initSimpleStyleToggleButton(sideBarNode, sideBarBtn, HIDE_CLASS);
+
+    // toggle table header
+    const tableHeaderNode = $("table.primary > thead", node);
+    const tableHeaderBtn = $("#header_toggle", node);
+    initSimpleStyleToggleButton(tableHeaderNode, tableHeaderBtn, HIDE_CLASS);
 }
 
+/**
+ * Note: btnNode requires an id attribute for gmvalue saving/loading to work properly!
+ */
 function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null) {
+    var varName = `{0}__{1}`.format(btnNode.attr('id'), className);
+
     btnNode.click(function () {
         var isActive = targetNode.hasClass(className);
 
         targetNode.toggleClass(className);
         isActive = !isActive;
 
-        _setGMValue(className, isActive);
+        _setGMValue(varName, isActive);
         updateButtonToggleState(isActive, btnNode);
 
         if (func !== null) {
@@ -1022,7 +1033,7 @@ function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null
         }
     });
 
-    var isStartActiveVal = _getGMValueOrDefault(className, false);
+    var isStartActiveVal = _getGMValueOrDefault(varName, false);
     if (isStartActiveVal) {
         targetNode.addClass(className);
         updateButtonToggleState(isStartActiveVal, btnNode);
