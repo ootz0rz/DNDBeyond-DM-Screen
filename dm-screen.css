@@ -9730,7 +9730,7 @@ a > #gmstats code {
 #gmstats .table > tfoot > tr > th,
 #gmstats .table > thead > tr > td,
 #gmstats .table > thead > tr > th {
-  padding: 5;
+  padding: 0.5rem;
   margin: 0;
 }
 #gmstats .hide {
@@ -10018,6 +10018,12 @@ a > #gmstats code {
   border-bottom-width: 2px;
   border-bottom-color: #ffdc41;
 }
+#gmstats table.table tbody tr.active_row.second_row td.col_skills {
+  padding-bottom: 0.2rem;
+}
+#gmstats table.table tbody tr.active_row.second_row td.col_jump {
+  padding-top: 0.2rem;
+}
 #gmstats table.table tbody tr.second_row .col_details {
   border-right-width: 1px;
   border-right-color: #ffdc41;
@@ -10170,23 +10176,23 @@ a > #gmstats code {
 #gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
   color: lime;
 }
-#gmstats table.table th.col_hp .hitdice, #gmstats table.table td.col_hp .hitdice {
+#gmstats table.table th.col_hp .hitdicecontainer .hitdice, #gmstats table.table td.col_hp .hitdicecontainer .hitdice {
   white-space: normal;
 }
-#gmstats table.table th.col_hp .hitdice.unused, #gmstats table.table td.col_hp .hitdice.unused {
+#gmstats table.table th.col_hp .hitdicecontainer .hitdice.unused, #gmstats table.table td.col_hp .hitdicecontainer .hitdice.unused {
   color: #5a5a5a;
 }
-#gmstats table.table th.col_hp .hitdice.empty, #gmstats table.table td.col_hp .hitdice.empty {
+#gmstats table.table th.col_hp .hitdicecontainer .hitdice.empty, #gmstats table.table td.col_hp .hitdicecontainer .hitdice.empty {
   color: red;
 }
-#gmstats table.table th.col_hp .hitdice.used, #gmstats table.table td.col_hp .hitdice.used {
+#gmstats table.table th.col_hp .hitdicecontainer .hitdice.used, #gmstats table.table td.col_hp .hitdicecontainer .hitdice.used {
   color: silver;
 }
-#gmstats table.table th.col_hp .hitdice .diceleft, #gmstats table.table td.col_hp .hitdice .diceleft {
-  vertical-align: super;
+#gmstats table.table th.col_hp, #gmstats table.table td.col_hp {
+  height: 100%;
 }
-#gmstats table.table th.col_hp .hitdice .dicetotal, #gmstats table.table td.col_hp .hitdice .dicetotal {
-  vertical-align: sub;
+#gmstats table.table th.col_hp .hitdicecontainer, #gmstats table.table td.col_hp .hitdicecontainer {
+  display: table-footer-group;
 }
 #gmstats table.table th.col_ac, #gmstats table.table td.col_ac {
   width: 0%;
@@ -10408,8 +10414,8 @@ a > #gmstats code {
 #gmstats .panelblock {
   padding: 0em;
   margin: 0em;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
   line-height: 2em;
   position: relative;
   white-space: nowrap;
@@ -10429,7 +10435,7 @@ a > #gmstats code {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  padding: 0.2em 0.3em;
+  padding: 0.2em 0.2em;
 }
 #gmstats .panelblock > .title::after {
   content: " ";
@@ -10442,7 +10448,7 @@ a > #gmstats code {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  padding: 0.2em 0.3em;
+  padding: 0.2em 0.2em;
 }
 #gmstats .panelblock > .body .group > .title {
   color: grey;

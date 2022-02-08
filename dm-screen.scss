@@ -93,7 +93,7 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     $gm_skill_high: rgb(175, 255, 182);
     $gm_skill_low: rgb(255, 175, 175);
 
-    $cell_padding: 5;
+    $cell_padding: 0.5rem;
     $cell_margin: 0;
 
     $btnzoomamt: .7;
@@ -453,6 +453,14 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                         td {
                             border-bottom-width: $border_thick;
                             border-bottom-color: $row_highlight_color;
+
+                            // spacing between rows while a character is active
+                            &.col_skills {
+                                padding-bottom: 0.2rem;
+                            }
+                            &.col_jump {
+                                padding-top: 0.2rem;
+                            }
                         }
                     }
                 }
@@ -628,26 +636,30 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     .save { color: $gm_c_green; }
                     .stable { color: $gm_c_green; }
 
-                    .hitdice {
-                        white-space: normal;
-                        &.unused {
-                            color: $gm_c_dark_black;
+                    .hitdicecontainer {
+                        .hitdice {
+                            white-space: normal;
+                            &.unused {
+                                color: $gm_c_dark_black;
+                            }
+                            &.empty {
+                                color: $gm_hp_bad;
+                            }
+                            &.used {
+                                color: $gm_c_silver;
+                            }
                         }
-                        &.empty {
-                            color: $gm_hp_bad;
-                        }
-                        &.used {
-                            color: $gm_c_silver;
-                        }
+                    }
+                }
 
-                        .diceleft {
-                            vertical-align: super;
-                            // font-size: 75%;
-                        }
-                        .dicetotal {
-                            vertical-align: sub;
-                            // font-size: 75%;
-                        }
+                // stick hit dice to bottom of the hp cell
+                &.col_hp {
+                    height: 100%;
+                    // border-collapse: collapse;
+                    // display : table;
+
+                    .hitdicecontainer {
+                        display: table-footer-group;
                     }
                 }
 
@@ -925,14 +937,14 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     $panel_border_radius: 4px;
 
     $panel_topbot_padding: 0.2em;
-    $panel_leftright_padding: 0.3em;
+    $panel_leftright_padding: 0.2em;
     $panel_lineheight: 2em;
 
     .panelblock {
         padding: 0em;
         margin: 0em;
-        margin-left: .5em;
-        margin-right: .5em;
+        margin-left: .25em;
+        margin-right: .25em;
 
         line-height: $panel_lineheight;
 

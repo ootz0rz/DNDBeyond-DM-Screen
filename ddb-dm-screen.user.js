@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.6
+// @version         1.2.7
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -1862,12 +1862,12 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
 
     var pct_left = remaining / max * 100;
 
-    var color = 'normal';
-    if (pct_left < 50) color = 'bad';
-    else if (pct_left < 75) color = 'hurt';
-    else if (pct_left < 100) color = 'good';
-    else if (pct_left > 100) color = 'overheal';
-    else color = 'normal';
+    var hpColor = 'normal';
+    if (pct_left < 50) hpColor = 'bad';
+    else if (pct_left < 75) hpColor = 'hurt';
+    else if (pct_left < 100) hpColor = 'good';
+    else if (pct_left > 100) hpColor = 'overheal';
+    else hpColor = 'normal';
 
     var bonus_str = "";
     if (hasbonus) {
@@ -1898,7 +1898,7 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
     }
 
     // hit dice display
-    var hitDiceStr = "<br />";
+    var hitDiceStr = "";
     var hitDiceMap = {}; // dice type -> count
     var hitDiceUsed = {}; // dice type -> # used
     var hitDiceClasses = {}; // dice type -> [class1, class2, ...]
@@ -1920,13 +1920,13 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
     for (const [key, val] of Object.entries(hitDiceMap)) {
         var numLeft = val - hitDiceUsed[key];
 
-        var color = '';
+        var diceColor = '';
         if (numLeft == val) {
-            color = ' unused';
+            diceColor = ' unused';
         } else if (numLeft == 0) {
-            color = ' empty';
+            diceColor = ' empty';
         } else {
-            color = ' used';
+            diceColor = ' used';
         }
 
         var diceVal = '';
@@ -1936,10 +1936,10 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
             diceVal = '{0}&frasl;{1}'.format(numLeft, val);
         }
         
-        var fStr = `<span class='hitdice{2}'>{0} × <span class='dicetype'>d{1}</span></span>`.format(
+        var fStr = `<span class='hitdice{2}'><span class='num'>{0}</span> × <span class='dicetype'>d{1}</span></span>`.format(
             diceVal,
             key,
-            color
+            diceColor
         );
 
         hdArr.push(addTooltip(
@@ -1952,14 +1952,14 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
         ));
     }
 
-    hitDiceStr += hdArr.join('<br />');
+    hitDiceStr += "<div class='hitdicecontainer'>{0}</div>".format(hdArr.join('<br />'));
 
     // put it all together
 
     hp.html(
         `<span class="{0}">{1}</span>{2}{3}{4}{5}`
         .format(
-            color,
+            hpColor,
             "{0}/{1} {2}%".format(remaining, max, Math.round(pct_left)),
             bonus_str,
             temp_str,
@@ -2617,8 +2617,8 @@ function updateJump(parent_secondrow, character) {
         nReachBody.html(
             `
                 <span class="group">
-                    <span class="title"><span class="value" title="Character height"><span class="num">{0}</span></span><span class="value" title="Height multiplier for reach while jumping"><span class="num"> ×1.5</span></span> =</span>
-                    <span class="body"><span class="value" title="Reach on top of a jump"><span class="num">{1}</span><span class="units">ft</span></span></span>
+                    <span class="title"><span class="value" title="Character height"><span class="num">{0}</span></span><span class="value" title="Height multiplier for reach while jumping"><span class="num">×1.5</span></span> =</span>
+                    <span class="body"><span class="value" title="Reach on top of a jump"><span class="num">{1}</span><span class="units hide">ft</span></span></span>
                 </span>
             `.format(
                 character.height,
