@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.9
+// @version         1.2.10
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -384,6 +384,7 @@ var mainTableHTML = `
                     <a id='scroll_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide scroll</a>
                     <a id='log_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide log</a>
                     <a id='header_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide header</a>
+                    <a id='banner_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">hide banners</a>
                 </span>
                 <span class='pbarwrap'>
                     <span class='progress-wrapper set'>
@@ -1017,6 +1018,11 @@ function insertElements() {
     const tableHeaderNode = $("table.primary > thead", node);
     const tableHeaderBtn = $("#header_toggle", node);
     initSimpleStyleToggleButton(tableHeaderNode, tableHeaderBtn, HIDE_CLASS);
+
+    // hide site banners
+    const bannerNode = $("body > .ddb-site-banner");
+    const bannerBtn = $("#banner_toggle", node);
+    initSimpleStyleToggleButton(bannerNode, bannerBtn, HIDE_CLASS);
 }
 
 /**
