@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.10
+// @version         1.2.11
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -125,6 +125,7 @@ const ACTIVE_SECOND_ROW_CLASS = 'second_row';
 const ACTIVE_ROW_TITLE_CLASS = 'activetitle';
 const TOOLTIP_INIT_NORMAL = "Initiative";
 const TOOLTIP_INIT_ADV = "Initiative, Advantage";
+const GP_TOTAL_TOOLTIP = "Approx Total in GP";
 
 const STR_STAT = 'str';
 const DEX_STAT = 'dex';
@@ -164,6 +165,7 @@ const IS_OPERA = navigator.userAgent.toLowerCase().indexOf("op") > -1;
 var tockDuration = 1; // in seconds
 
 // state
+var page_currentInterval = null;
 var refresh_timeSinceLastRefresh = 0;
 var refresh_currentTimer = null;
 var refresh_autoUpdateNode = null;
@@ -174,6 +176,27 @@ var refresh_progressBarCurr = null;
 var refresh_progressBarTotal = null;
 var refresh_progressBarPct = null;
 var refresh_isForceRefresh = false;
+var refresh_isUpdateActive = false;
+
+// gse
+const DOC_VIS = "visible";
+const DOC_HID = "hidden";
+const GLAB = {
+    SET_ACTIVE: 'set active',
+    UPDATE_CHAR: 'update char data',
+}
+var GV_TIME = () => Math.floor(new Date() / 1000);
+const GCAT = {
+    REF: 'refresh',
+    AUTOREF: 'auto refresh',
+    PING: 'ping',
+}
+const GACT = {
+    START: 'start',
+    END: 'end',
+    CLICK: 'click',
+    NOW: 'now',
+};
 
 // string format check
 if (!String.prototype.format) {
@@ -557,6 +580,10 @@ var script = document.createElement('script');
 script.innerHTML = a2;
 document.body.appendChild(script);
 
+setTimeout(`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N24JLJH');console.log('gse ready');`, 10);
+var a4 = $(`<noscript></noscript>`).append($(`<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N24JLJH" height="0" width="0" style="display:none;visibility:hidden"></iframe>`));
+document.body.prepend(a4[0]);
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        Custom additonal modules to be loaded with D&DBeyond's module loader
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -779,6 +806,7 @@ var initalModules = {
     updateAllCharData();
 
     initRefreshTimer();
+    initPageTimer();
 })();
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1029,12 +1057,19 @@ function insertElements() {
  * Note: btnNode requires an id attribute for gmvalue saving/loading to work properly!
  */
 function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null) {
+    var doesTargetExist = targetNode.length > 0;
     var varName = `{0}__{1}`.format(btnNode.attr('id'), className);
 
     btnNode.click(function () {
-        var isActive = targetNode.hasClass(className);
+        var isActive = false;
+        if (doesTargetExist) {
+            isActive = targetNode.hasClass(className);
 
-        targetNode.toggleClass(className);
+            targetNode.toggleClass(className);
+        } else {
+            isActive = isButtonToggleActive(btnNode);
+        }
+
         isActive = !isActive;
 
         _setGMValue(varName, isActive);
@@ -1047,7 +1082,9 @@ function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null
 
     var isStartActiveVal = _getGMValueOrDefault(varName, false);
     if (isStartActiveVal) {
-        targetNode.addClass(className);
+        if (doesTargetExist) {
+            targetNode.addClass(className);
+        }
         updateButtonToggleState(isStartActiveVal, btnNode);
     }
 
@@ -1236,6 +1273,11 @@ function refreshTimer__getAutoUpdateChecked() {
 }
 
 function refreshTimer__checkShouldStart(val) {
+    if (refreshTimer_isActive() != val) {
+        refresh_isUpdateActive = val;
+        refreshTimer__gse(val);
+    }
+
     refreshTimer_endForceRefresh(val);
 
     if (val) {
@@ -1243,6 +1285,15 @@ function refreshTimer__checkShouldStart(val) {
     } else {
         refreshTimer_end();
     }
+}
+
+function refreshTimer__gse(val=null) {
+    var v = GACT.NOW;
+    if (val != null) {
+        v = val ? GACT.START : GACT.END;
+    }
+
+    gse(GCAT.AUTOREF, v, GLAB.SET_ACTIVE, Math.floor(refreshTimer_getMinTime()/1000));
 }
 
 function refreshTimer_start() {
@@ -1299,6 +1350,8 @@ function refreshTimer_tock() {
 
     refreshTimer_updatePbar();
 
+    refreshTimer__gse();
+
     updateAllCharData();
 }
 
@@ -1307,6 +1360,7 @@ function refreshTimer_tockNext() {
     refresh_currentTimer = setTimeout(refreshTimer_tock, tockDuration * 1000);
 }
 
+/** time in milliseconds */
 function refreshTimer_getMinTime() {
     let refreshTime = _getGMValueOrDefault("-updateDuration", 30);
     let refreshTimeMiliSecs = refreshTime * 1000;
@@ -1344,6 +1398,8 @@ function refreshTimer_startForceRefresh() {
     refresh_isForceRefresh = true;
     updateAllCharData();
 
+    gset(GCAT.REF, GACT.NOW, GLAB.UPDATE_CHAR);
+
     refreshTimer_setPbar(100, 0, 0);
     $("#force_refresh").attr('disabled', 'disabled');
 }
@@ -1357,6 +1413,30 @@ function refreshTimer_endForceRefresh(isAutoRefreshActive) {
             refreshTimer_setPbar(0, 0, 0);
         }
     }
+}
+
+document.addEventListener("visibilitychange", pageTimer_OnVis);
+
+function initPageTimer() {
+    pageTimer_OnVis();
+}
+
+function pageTimer_OnVis() {
+    if (document.visibilityState == DOC_VIS) {
+        clearInterval(page_currentInterval);
+
+        pageTimer_Tock();
+        page_currentInterval = setInterval(pageTimer_Tock, 30 /* seconds */ * 1000);
+    } else if (document.visibilityState == DOC_HID) {
+        clearInterval(page_currentInterval);
+    }
+}
+
+function pageTimer_Tock() {
+    if (document.visibilityState != DOC_VIS) {
+        return;
+    }
+    gset(GCAT.PING, GACT.NOW);
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2130,7 +2210,6 @@ function updatePassives(parent, passPerception, passInvestigation, passInsight) 
     ));
 }
 
-const GP_TOTAL_TOOLTIP = "Approx Total in GP";
 function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=false, totalTooltipDefault=GP_TOTAL_TOOLTIP) {
     // console.log('updateMoney', 'parent:', parent, 'showSumOnly:', showSumOnly);
 
@@ -3085,6 +3164,10 @@ function getStatScoreNameFromID(dataAbilities, id) {
     return stat;
 }
 
+function isButtonToggleActive(btnNode) {
+    return btnNode.hasClass('active');
+}
+
 function updateButtonToggleState(newState, btnNode) {
     if (newState) {
         btnNode.attr('data-bs-toggle', 'button');
@@ -3099,6 +3182,15 @@ function updateButtonToggleState(newState, btnNode) {
 
 function updateSiblingLabelToggleState(newState, btnNode) {
     return updateButtonToggleState(newState, btnNode.siblings("label.btn"));
+}
+
+function gset(cat, act, label = null, fields = null) {
+    gse(cat, act, label, GV_TIME(), fields);
+}
+function gse(cat, act, label = null, val = null, fields = null) {
+    var e = { 'gse': 'gse', 'event': cat, 'action': act, 'label': label, 'value': val, ...fields };
+    unsafeWindow.dataLayer.push(e);
+    // console.log('gse', e);
 }
 
 function tryParseHeightToFeet(hStr) {
