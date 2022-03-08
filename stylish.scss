@@ -1,27 +1,112 @@
 @import "a11y-color";
 
+$padding_tb: 0.2em;
+$padding_lr: 0.3em / 2;
+
 @mixin main_style($bgcolor) {
     background-color: $bgcolor;
     color: a11y-color($bgcolor, $bgcolor, 'AAA');
 
     font-weight: bold;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: $padding_tb;
+    padding-bottom: $padding_tb;
+    padding-left: $padding_lr;
+    padding-right: $padding_lr;
+
     margin-right: 1.1rem;
-    padding-left: 0.3rem;
 }
 
 @-moz-document regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
-    .ddbc-combat-attack__tohit, 
-    .ddbc-combat-attack--item .ddbc-combat-attack__damage .ddbc-damage,
-    .ddbc-spell-damage-effect__damages,
-    .ddbc-damage 
+    // dmg 
+    // ---------------------------------------
+    $dmg_bg: #581212;
+    $dmg_light_text: desaturate(lighten(a11y-color($dmg_bg, $dmg_bg, 'AAA'), 10), 10);
+    $dmg_dark_text: desaturate(darken(a11y-color($dmg_bg, $dmg_bg, 'AAA'), 5), 35);
+
+    // to-hit
+    .ddbc-combat-attack__action,
+    .ct-spells-spell__attacking
     {
-        @include main_style(#6b1818);
+        // attacks bg
+        .ddbc-combat-attack__tohit .ddbc-signed-number,
+        .ddbc-combat-attack__save,
+
+        // spells bg
+        .ct-spells-spell__tohit .ddbc-signed-number,
+        .ct-spells-spell__save
+        {
+            @include main_style($dmg_bg);
+        }
+
+        // attacks font
+        .ddbc-signed-number,
+        .ddbc-combat-attack__save 
+        {
+            .ddbc-signed-number__sign,
+            .ddbc-combat-attack__save-label
+            {
+                color: $dmg_dark_text;
+            }
+            .ddbc-signed-number__number,
+            .ddbc-combat-attack__save-value
+            {
+                color: $dmg_light_text;
+            }
+        }
+
+        // spells font
+        .ct-spells-spell__tohit {
+            .ddbc-signed-number__sign {
+                color: $dmg_dark_text;
+            }
+            .ddbc-signed-number__number {
+                color: $dmg_light_text;
+            }
+        }
+        .ct-spells-spell__save {
+            .ct-spells-spell__save-label {
+                color: $dmg_dark_text;
+            }
+            .ct-spells-spell__save-value {
+                color: $dmg_light_text;
+            }
+        }
     }
 
-    .ddbc-spell-damage-effect__healing,
-    .ddbc-spell-damage-effect__healing--hp 
+    // damage
+    .ddbc-combat-attack__damage,
+    .ct-spells-spell__damage
+    {
+        .ddbc-combat-item-attack__damage,
+        .ddbc-spell-damage-effect__damages
+        {
+            @include main_style($dmg_bg);
+        }
+
+        .ddbc-combat-item-attack__damage {
+            .ddbc-damage__value {
+                color: $dmg_light_text;
+            }
+        }
+        .ddbc-spell-damage-effect__damages {
+            .ddbc-damage__value {
+                color: $dmg_light_text;
+            }
+        }
+    }
+
+
+    // heal
+    // ---------------------------------------
+    $heal_bg: #225811;
+    $heal_light_text: desaturate(lighten(a11y-color($heal_bg, $heal_bg, 'AAA'), 10), 10);
+    $heal_dark_text: desaturate(darken(a11y-color($heal_bg, $heal_bg, 'AAA'), 5), 35);
+
+    // attack page
+    .ddbc-combat-attack__damage .ddbc-spell-damage-effect__healing,
+
+    // spells page
+    .ct-spells-spell__damage .ddbc-spell-damage-effect__healing
     {
         @include main_style(#225811);
     }
