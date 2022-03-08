@@ -1,12 +1,28 @@
+@import "a11y-color";
+
+@mixin main_style($bgcolor) {
+    background-color: $bgcolor;
+    color: a11y-color($bgcolor, $bgcolor, 'AAA');
+
+    font-weight: bold;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-right: 1.1rem;
+    padding-left: 0.3rem;
+}
+
 @-moz-document regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
     .ddbc-combat-attack__tohit, 
     .ddbc-combat-attack--item .ddbc-combat-attack__damage .ddbc-damage,
     .ddbc-spell-damage-effect__damages,
-    .ddbc-damage {
-        background-color: #6b4618;
-        padding-top: 0.2rem;
-        padding-bottom: 0.2rem;
-        margin-right: 1.1rem;
-        padding-left: 0.3rem;
+    .ddbc-damage 
+    {
+        @include main_style(#6b4618);
+    }
+
+    .ddbc-spell-damage-effect__healing,
+    .ddbc-spell-damage-effect__healing--hp 
+    {
+        @include main_style(#225811);
     }
 }

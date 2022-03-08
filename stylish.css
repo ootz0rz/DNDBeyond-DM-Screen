@@ -4,6 +4,19 @@
 .ddbc-spell-damage-effect__damages,
 .ddbc-damage {
     background-color: #6b4618;
+    color: #171310;
+    font-weight: bold;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-right: 1.1rem;
+    padding-left: 0.3rem;
+  }
+
+  .ddbc-spell-damage-effect__healing,
+.ddbc-spell-damage-effect__healing--hp {
+    background-color: #225811;
+    color: #9bf87e;
+    font-weight: bold;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
     margin-right: 1.1rem;
