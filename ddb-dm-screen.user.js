@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.12
+// @version         1.2.13
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2239,12 +2239,14 @@ function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=
     gpnum += currencies.sp / 10.0;
     gpnum += currencies.cp / 100.0;
 
+    gpnum_disp = getFormattedShortNum(gpnum);
+
     var total = $(".total", $(".col_money", parent));
     var hr = $("hr", $(".col_money", parent));
 
     if (showSumOnly) {
         hr.addClass(HIDE_CLASS);
-        total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
+        total.html("~<span>{0}</span> gp".format(gpnum_disp));
     } else {
         gp.removeClass(HIDE_CLASS);
         hr.removeClass(HIDE_CLASS);
@@ -2252,7 +2254,7 @@ function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=
         if (gpnum > 0 && gpnum % 1 != 0) {
             gp.removeClass("gponly");
             hr.removeClass(HIDE_CLASS);
-            total.html("~<span>{0}</span> gp".format(roundDown(gpnum)));
+            total.html("~<span>{0}</span> gp".format(gpnum_disp));
         } else {
             gp.addClass("gponly");
             hr.addClass(HIDE_CLASS);
@@ -2282,17 +2284,17 @@ function genMoneyTooltip(total, currencies) {
     var sp = $(".sp", spc);
     var cp = $(".cp", cpc);
 
-    updateCurrencyVis(ppc, pp, currencies.pp, false);
-    updateCurrencyVis(epc, ep, currencies.ep, false);
-    updateCurrencyVis(gpc, gp, currencies.gp, false);
-    updateCurrencyVis(spc, sp, currencies.sp, false);
-    updateCurrencyVis(cpc, cp, currencies.cp, false);
+    updateCurrencyVis(ppc, pp, currencies.pp, false, false);
+    updateCurrencyVis(epc, ep, currencies.ep, false, false);
+    updateCurrencyVis(gpc, gp, currencies.gp, false, false);
+    updateCurrencyVis(spc, sp, currencies.sp, false, false);
+    updateCurrencyVis(cpc, cp, currencies.cp, false, false);
 
     // console.log('money tooltip: ', parent, '\n', parent.prop('outerHTML'));
     editTooltipLabel(total, parent.prop('outerHTML'));
 }
 
-function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
+function updateCurrencyVis(c, cval, val, forceHide, shorten = true, hideClass = HIDE_CLASS) {
     // console.log('updateCurrencyVis forcehide:', forceHide);
     if (forceHide) {
         c.addClass(hideClass);
@@ -2301,7 +2303,23 @@ function updateCurrencyVis(c, cval, val, forceHide, hideClass = HIDE_CLASS) {
 
     if (val > 0) { c.removeClass(hideClass); }
     else { c.addClass(hideClass); }
-    cval.html(val);
+
+    short_num = getFormattedNum(val);
+    if (shorten) {
+        disp_num = getFormattedShortNum(val);
+    } else {
+        disp_num = short_num;
+    }
+
+    
+
+    if (disp_num != short_num) {
+        cval.html(short_num);
+        var d = cval.parent().html();
+        cval.html(addTooltip(disp_num, `<span class="money">{0}</span>`.format(d)));
+    } else {
+        cval.html(disp_num);
+    }
 }
 
 function updateSkillProfs(parent, parent_secondrow, skills, customs) {
@@ -3050,6 +3068,39 @@ function roundUp(input) {
         return NaN;
     }
     return Math.ceil(input);
+}
+
+function getFormattedNum(num, fractionDigits=0) {
+    return num.toLocaleString(undefined, { maximumFractionDigits: fractionDigits });
+}
+
+function getFormattedShortNum(num) {
+    // display as # of k's or m's for larger numbers
+    gpnum_unit = "";
+    gpnum_disp = roundDown(num);
+    if (gpnum_disp >= 1000) {
+        gpnum_disp /= 1000;
+        gpnum_unit = "K";
+    }
+
+    if (gpnum_disp >= 1000) {
+        gpnum_disp /= 1000;
+        gpnum_unit = "M";
+    }
+
+    // decide if we want fractions...
+    // if we have say like 10.9k, then the .9k is still relatively significant
+    // but if we get up to say 90.9k, the .9k isn't much of anything anymore
+    // so choosing an arbitrary cut-off of 50? *shrug* at that point, 0.9k => 0.9/50 => ~1.8%
+    // seems good enough to be under 2% of the true value and save display space/clutter
+    num_decimals = 0;
+    if (gpnum_disp < 50) {
+        num_decimals = 1;
+    }
+
+    gpnum_disp = "{0}{1}".format(getFormattedNum(gpnum_disp, num_decimals), gpnum_unit);
+
+    return gpnum_disp;
 }
 
 function divide(numeratorInput, denominatorInput) {
