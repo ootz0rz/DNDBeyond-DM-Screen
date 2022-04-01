@@ -20,7 +20,7 @@ $padding_lr: 0.3em / 2;
     // dmg 
     // ---------------------------------------
     $dmg_bg: #581212;
-    $dmg_light_text: desaturate(lighten(a11y-color($dmg_bg, $dmg_bg, 'AAA'), 10), 10);
+    $dmg_light_text: desaturate(lighten(a11y-color($dmg_bg, $dmg_bg, 'AAA'), 15), 15);
     $dmg_dark_text: desaturate(darken(a11y-color($dmg_bg, $dmg_bg, 'AAA'), 5), 35);
 
     // to-hit

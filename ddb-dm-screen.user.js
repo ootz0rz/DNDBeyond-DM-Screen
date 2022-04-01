@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.11
+// @version         1.2.12
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2180,10 +2180,10 @@ function updateAbilties(parent, abilities) {
         color = "";
 
         if (isprof) { color = "prof"; }
-        else if (mod > 0) { color = "high"; }
-        else if (mod < 0) { color = "low"; }
+        else if (save > 0) { color = "high"; }
+        else if (save < 0) { color = "low"; }
 
-        if (!isprof || mod == save) {
+        if (!isprof && mod == save) {
             color += " same";
         }
 
