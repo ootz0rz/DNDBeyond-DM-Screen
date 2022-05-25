@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.13
+// @version         1.2.14
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2163,7 +2163,7 @@ function updateAbilties(parent, abilities) {
         cell.append('<div class="stat_title">{0}</div>'.format(abilityKey))
 
         // stat
-        cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore));//, insertTooltipAttributes(abilityKey + ' score')));
+        cell.append("<span class='high' {1}>{0}</span><br />".format(item.totalScore === null ? -1 : item.totalScore));//, insertTooltipAttributes(abilityKey + ' score')));
 
         // bonus
         var mod = item.modifier;
