@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.15
+// @version         1.2.16
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2134,6 +2134,12 @@ function updateSpeeds(parent, character) {
 
         if (s.distance > 0) {
             var name = senseToName[s.key];
+
+            if (s.key == 'passive-perception') {
+                // no need to display passive perception since it'll
+                // get rolled up into the column with all the other passives
+                continue;
+            }
 
             // var distUnits = distanceUnit(s.distance);
             sensearr.push(
