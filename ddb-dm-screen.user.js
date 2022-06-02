@@ -2251,10 +2251,15 @@ function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=
         gp.removeClass(HIDE_CLASS);
         hr.removeClass(HIDE_CLASS);
 
-        if (gpnum > 0 && gpnum % 1 != 0) {
+        if (gpnum != currencies.gp) {
             gp.removeClass("gponly");
             hr.removeClass(HIDE_CLASS);
-            total.html("~<span>{0}</span> gp".format(gpnum_disp));
+
+            var symbol = "≡"; // ⋍
+            if (gpnum > 0 && gpnum % 1 != 0) {
+                symbol = "~";
+            }
+            total.html("{1}<span>{0}</span> gp".format(gpnum_disp, symbol));
         } else {
             gp.addClass("gponly");
             hr.addClass(HIDE_CLASS);
