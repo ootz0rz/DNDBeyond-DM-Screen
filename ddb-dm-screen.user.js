@@ -1620,17 +1620,17 @@ function updateCampaignData() {
                 }
             });
 
-            var isLastChar = idx == len - 1;
-            if (isLastChar) {
-                updateMoney(totalsRow, globalCurrencies, showSumOnly=true, updateTotalsTooltip=true);
-            }
-
             // languages
             updateLanguages(
                 totalsRow,
                 charData.proficiencyGroups,
                 globalLanguages,
                 updateHtml = isLastChar);
+        }
+
+        var isLastChar = idx == len - 1;
+        if (isLastChar) {
+            updateMoney(totalsRow, globalCurrencies, showSumOnly=true, updateTotalsTooltip=true);
         }
 
         idx++;
