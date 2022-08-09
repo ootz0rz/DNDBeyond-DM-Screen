@@ -1,4 +1,4 @@
-@-moz-document regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
+@-moz-document regexp("https://www.dndbeyond.com/characters/.*?"), regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
   .ddbc-combat-attack__action .ddbc-combat-attack__tohit .ddbc-signed-number,
 .ddbc-combat-attack__action .ddbc-combat-attack__save,
 .ddbc-combat-attack__action .ct-spells-spell__tohit .ddbc-signed-number,
@@ -52,7 +52,6 @@
 .ct-spells-spell__attacking .ct-spells-spell__save .ct-spells-spell__save-value {
     color: #efa3a3;
   }
-
   .ddbc-combat-attack__damage .ddbc-combat-item-attack__damage,
 .ddbc-combat-attack__damage .ddbc-spell-damage-effect__damages,
 .ct-spells-spell__damage .ddbc-combat-item-attack__damage,
@@ -74,7 +73,6 @@
 .ct-spells-spell__damage .ddbc-spell-damage-effect__damages .ddbc-damage__value {
     color: #efa3a3;
   }
-
   .ddbc-combat-attack__damage .ddbc-spell-damage-effect__healing,
 .ct-spells-spell__damage .ddbc-spell-damage-effect__healing {
     background-color: #225811;
