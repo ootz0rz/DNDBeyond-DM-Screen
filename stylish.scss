@@ -16,7 +16,22 @@ $padding_lr: 0.3em / 2;
     margin-right: 1.1rem;
 }
 
+// minify via https://www.cleancss.com/css-minify/
+
 @-moz-document regexp("https://www.dndbeyond.com/characters/.*?"), regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
+    // up-cast spells
+    // ---------------------------------------
+    .ddbc-spell-name, .ddbc-spell-name--dark-mode {
+        color: inherit !important; // allow color changes
+    }
+
+    .ct-spells-spell__name {
+        color: #fff !important; // this restores the normal white color to spells
+    }
+    .ct-spells-spell__label--scaled {
+        color: #3c8cc2 !important; // color to use for upscaled spells
+    }
+
     // dmg 
     // ---------------------------------------
     $dmg_bg: #581212;

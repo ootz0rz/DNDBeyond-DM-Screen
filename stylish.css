@@ -1,4 +1,13 @@
 @-moz-document regexp("https://www.dndbeyond.com/characters/.*?"), regexp("https://www.dndbeyond.com/profile/.*?/characters/.*?"), regexp("http://www.dndbeyond.com/profile/.*?/characters/.*?") {
+  .ddbc-spell-name, .ddbc-spell-name--dark-mode {
+    color: inherit !important;
+  }
+  .ct-spells-spell__name {
+    color: #fff !important;
+  }
+  .ct-spells-spell__label--scaled {
+    color: #3c8cc2 !important;
+  }
   .ddbc-combat-attack__action .ddbc-combat-attack__tohit .ddbc-signed-number,
 .ddbc-combat-attack__action .ddbc-combat-attack__save,
 .ddbc-combat-attack__action .ct-spells-spell__tohit .ddbc-signed-number,
