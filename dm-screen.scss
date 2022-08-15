@@ -64,10 +64,10 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
     // ------------------------
     // bootstrap et al
     // ------------------------
-    @import "../node_modules/bootstrap/scss/bootstrap";
-    @import "../node_modules/bootstrap/scss/functions";
-    @import "../node_modules/bootstrap/scss/variables";
-    @import "../node_modules/bootstrap/scss/mixins";
+    @import "node_modules/bootstrap/scss/bootstrap";
+    @import "node_modules/bootstrap/scss/functions";
+    @import "node_modules/bootstrap/scss/variables";
+    @import "node_modules/bootstrap/scss/mixins";
     @import 'encode';
 
     // ------------------------
@@ -353,6 +353,11 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
             }
 
             tbody tr {
+                &.togglehidden {
+                    // used to hide a character row with the bottom toggles
+                    display: none !important;
+                }
+
                 // character state in campaign; active, unassigned, deactivated
                 &.active {
                     // currently unusued, just signifies that a character is active

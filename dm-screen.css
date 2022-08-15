@@ -319,9 +319,7 @@
 
 .tooltipster-sidetip.tooltipster-right .tooltipster-arrow-uncropped {
   left: -10px;
-}
-
-/* --- tooltipster --- */
+} /* --- tooltipster --- */
 #gmstats {
   /* ----------------------------------------------------------------------------------------------------------------- */
   /* ----------------------------------------------------------------------------------------------------------------- */
@@ -9947,7 +9945,10 @@ a > #gmstats code {
   border-right: 1px dashed #e1bb12;
 }
 #gmstats table.table td.hover_row td.col_name .name, #gmstats table.table td.hover_row th.col_name .name, #gmstats table.table tr.hover_row td.col_name .name, #gmstats table.table tr.hover_row th.col_name .name, #gmstats table.table th.hover_row td.col_name .name, #gmstats table.table th.hover_row th.col_name .name {
-  color: #ffdc41;
+  color: rgb(255, 220, 65);
+}
+#gmstats table.table tbody tr.togglehidden {
+  display: none !important;
 }
 #gmstats table.table tbody tr.unassigned, #gmstats table.table tbody tr.deactivated {
   color: #6c757d !important;
@@ -9958,7 +9959,7 @@ a > #gmstats code {
 #gmstats table.table tbody tr.active_row {
   border-bottom-width: 2px;
   border-top-width: 2px;
-  border-color: #ffdc41;
+  border-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row .activetitle {
   padding-right: 0.2em;
@@ -9968,17 +9969,17 @@ a > #gmstats code {
 #gmstats table.table tbody tr.active_row td.col_name {
   border-left-width: 1px;
   border-right-width: 2px;
-  border-color: #ffdc41;
+  border-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row td.col_name .name {
-  color: #ffdc41;
+  color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row td.col_name .profbonus, #gmstats table.table tbody tr.active_row td.col_name .conditions {
   display: block;
 }
 #gmstats table.table tbody tr.active_row td.col_skills {
   border-right-width: 1px;
-  border-right-color: #ffdc41;
+  border-right-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row td.col_skills span.noprof {
   display: inline !important;
@@ -9988,7 +9989,7 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr.active_row td.col_languages {
   border-right-width: 1px;
-  border-right-color: #ffdc41;
+  border-right-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row.first_row tr tr, #gmstats table.table tbody tr.active_row.first_row tr td, #gmstats table.table tbody tr.active_row.first_row tr th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td tr, #gmstats table.table tbody tr.active_row.first_row td td, #gmstats table.table tbody tr.active_row.first_row td th, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th tr, #gmstats table.table tbody tr.active_row.first_row th td, #gmstats table.table tbody tr.active_row.first_row th th, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row tr, #gmstats table.table tbody tr.active_row.first_row td, #gmstats table.table tbody tr.active_row.first_row th, #gmstats table.table tbody tr.active_row.first_row {
   border-bottom-width: 1px;
@@ -10000,11 +10001,11 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr.active_row.first_row td {
   border-top-width: 2px;
-  border-top-color: #ffdc41;
+  border-top-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row.first_row td.col_name {
   border-bottom-width: 2px;
-  border-bottom-color: #ffdc41;
+  border-bottom-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row.second_row tr tr, #gmstats table.table tbody tr.active_row.second_row tr td, #gmstats table.table tbody tr.active_row.second_row tr th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td tr, #gmstats table.table tbody tr.active_row.second_row td td, #gmstats table.table tbody tr.active_row.second_row td th, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th tr, #gmstats table.table tbody tr.active_row.second_row th td, #gmstats table.table tbody tr.active_row.second_row th th, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row tr, #gmstats table.table tbody tr.active_row.second_row td, #gmstats table.table tbody tr.active_row.second_row th, #gmstats table.table tbody tr.active_row.second_row {
   border-top-width: 1px;
@@ -10016,7 +10017,7 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr.active_row.second_row td {
   border-bottom-width: 2px;
-  border-bottom-color: #ffdc41;
+  border-bottom-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr.active_row.second_row td.col_skills {
   padding-bottom: 0.2rem;
@@ -10026,7 +10027,7 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr.second_row .col_details {
   border-right-width: 1px;
-  border-right-color: #ffdc41;
+  border-right-color: rgb(255, 220, 65);
 }
 #gmstats table.table tbody tr td.col_name {
   cursor: pointer;
@@ -10036,7 +10037,7 @@ a > #gmstats code {
 }
 #gmstats table.table tbody tr td.col_name:hover .name, #gmstats table.table tbody tr td.col_name:active .name {
   color: black !important;
-  background-color: #ffdc41;
+  background-color: rgb(255, 220, 65);
 }
 #gmstats table.table hr {
   color: grey;
@@ -10153,7 +10154,7 @@ a > #gmstats code {
   color: cyan;
 }
 #gmstats table.table th.col_hp .good, #gmstats table.table td.col_hp .good {
-  color: lime;
+  color: rgb(0, 255, 0);
 }
 #gmstats table.table th.col_hp .hurt, #gmstats table.table td.col_hp .hurt {
   color: yellow;
@@ -10171,10 +10172,10 @@ a > #gmstats code {
   color: red;
 }
 #gmstats table.table th.col_hp .save, #gmstats table.table td.col_hp .save {
-  color: lime;
+  color: rgb(0, 255, 0);
 }
 #gmstats table.table th.col_hp .stable, #gmstats table.table td.col_hp .stable {
-  color: lime;
+  color: rgb(0, 255, 0);
 }
 #gmstats table.table th.col_hp .hitdicecontainer .hitdice, #gmstats table.table td.col_hp .hitdicecontainer .hitdice {
   white-space: normal;
@@ -10208,7 +10209,7 @@ a > #gmstats code {
   color: white;
 }
 #gmstats table.table th.col_passives span, #gmstats table.table td.col_passives span {
-  color: #ffdc41;
+  color: rgb(255, 220, 65);
 }
 #gmstats table.table th.col_money, #gmstats table.table td.col_money {
   width: auto;
@@ -10216,7 +10217,7 @@ a > #gmstats code {
   white-space: normal;
 }
 #gmstats table.table th.col_money .cp, #gmstats table.table td.col_money .cp {
-  color: #e6a263;
+  color: rgb(230, 162, 99);
 }
 #gmstats table.table th.col_money .sp, #gmstats table.table td.col_money .sp {
   color: silver;
@@ -10225,13 +10226,13 @@ a > #gmstats code {
   color: gold;
 }
 #gmstats table.table th.col_money .ep, #gmstats table.table td.col_money .ep {
-  color: #5fc9d1;
+  color: rgb(95, 201, 209);
 }
 #gmstats table.table th.col_money .pp, #gmstats table.table td.col_money .pp {
-  color: #62abff;
+  color: rgb(98, 171, 255);
 }
 #gmstats table.table th.col_money .total span, #gmstats table.table th.col_money .gponly, #gmstats table.table td.col_money .total span, #gmstats table.table td.col_money .gponly {
-  color: lime;
+  color: rgb(0, 255, 0);
 }
 #gmstats table.table th.col_money .total, #gmstats table.table th.col_money .ppc, #gmstats table.table th.col_money .epc, #gmstats table.table th.col_money .gpc, #gmstats table.table th.col_money .spc, #gmstats table.table th.col_money .cpc, #gmstats table.table td.col_money .total, #gmstats table.table td.col_money .ppc, #gmstats table.table td.col_money .epc, #gmstats table.table td.col_money .gpc, #gmstats table.table td.col_money .spc, #gmstats table.table td.col_money .cpc {
   white-space: nowrap;
@@ -10264,16 +10265,16 @@ a > #gmstats code {
   color: grey;
 }
 #gmstats table.table th.col_skills span.high span.value, #gmstats table.table td.col_skills span.high span.value {
-  color: #afffb6;
+  color: rgb(175, 255, 182);
 }
 #gmstats table.table th.col_skills span.low span.value, #gmstats table.table td.col_skills span.low span.value {
-  color: #ffafaf;
+  color: rgb(255, 175, 175);
 }
 #gmstats table.table th.col_skills span.prof, #gmstats table.table td.col_skills span.prof {
   color: white;
 }
 #gmstats table.table th.col_skills span.expert, #gmstats table.table td.col_skills span.expert {
-  color: #ffdc41;
+  color: rgb(255, 220, 65);
 }
 #gmstats table.table th.col_skills span.halfprof, #gmstats table.table td.col_skills span.halfprof {
   color: silver;
@@ -10293,7 +10294,7 @@ a > #gmstats code {
 }
 #gmstats table.table th.col_skills span.advdisadv.adv, #gmstats table.table td.col_skills span.advdisadv.adv {
   text-decoration: underline;
-  text-decoration-color: lime;
+  text-decoration-color: rgb(0, 255, 0);
 }
 #gmstats table.table th.col_skills span.advdisadv.disadv, #gmstats table.table td.col_skills span.advdisadv.disadv {
   text-decoration: underline;
@@ -10476,7 +10477,7 @@ a > #gmstats code {
   display: inline-block;
   height: 3px;
   border-radius: 3px;
-  background-color: #ffdc41;
+  background-color: rgb(255, 220, 65);
   transition: width 1000ms linear, transform 1000ms linear;
   transform-origin: left;
 }
@@ -10593,7 +10594,7 @@ a > #gmstats code {
   font-variant: normal;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .adv {
-  text-decoration-color: lime;
+  text-decoration-color: rgb(0, 255, 0);
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .disadv {
   text-decoration-color: red;
@@ -10605,7 +10606,7 @@ a > #gmstats code {
   color: whitesmoke;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .gmcarm_highlight {
-  color: #ffdc41;
+  color: rgb(255, 220, 65);
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .gmcarm_faded {
   color: silver;
@@ -10617,7 +10618,7 @@ a > #gmstats code {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .cp {
-  color: #e6a263;
+  color: rgb(230, 162, 99);
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .sp {
   color: silver;
@@ -10626,10 +10627,10 @@ a > #gmstats code {
   color: gold;
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .ep {
-  color: #5fc9d1;
+  color: rgb(95, 201, 209);
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .pp {
-  color: #62abff;
+  color: rgb(98, 171, 255);
 }
 .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .ppc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .epc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .gpc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .spc, .tooltipster-sidetip.tooltipster-carm .tooltipster-content .money .cpc {
   white-space: nowrap;

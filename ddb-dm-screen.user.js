@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.17
+// @version         1.2.18
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -27,7 +27,7 @@ const campaignElementTarget = '.ddb-campaigns-detail-header-secondary';
 const rulesUrls = ["https://character-service.dndbeyond.com/character/v4/rule-data", "https://gamedata-service.dndbeyond.com/vehicles/v3/rule-data"];
 const charJSONurlBase = "https://character-service.dndbeyond.com/character/v4/character/";
 
-const stylesheetUrls = [
+var stylesheetUrls = [
     "https://raw.githack.com/ootz0rz/DNDBeyond-DM-Screen/master/dm-screen.css"
 ]
 
@@ -115,6 +115,7 @@ const currenciesMainDefault = 'gold';
 const regexNumberLetterBoundary = new RegExp(/(?<=[\D\.,])(?=[\d\.,])|(?<=[\d\.,])(?=[\D\.,])/g);
 
 const HIDE_CLASS = 'hide';
+const ROW_TOGGLE_CLASS = 'togglehidden';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
 const DEFAULT_TOOLTIP_PLACEMENT = 'top';
@@ -152,6 +153,7 @@ var rulesData = {},
     editableChars = {};
 var mainTable = null;
 var colStatsSubTable = null;
+var toggleChars = null;
 
 // browser user agents
 const IS_CHROME = navigator.userAgent.indexOf('Chrome') > -1;
@@ -211,22 +213,14 @@ if (!String.prototype.format) {
 }
 
 // XXX temp for dev
-var my_css = "";
-/*
-// @resource        IMPORTED_CSS file:///C:/Users/ootz0/Workspace/git/DNDBeyond-DM-Screen/dm-screen.css
-// @grant           GM_getResourceText
-// @grant           GM_addStyle
-*/
-if (typeof GM_getResourceText === 'function') {
-    my_css = GM_getResourceText("IMPORTED_CSS");
-}
+/* Test Via `python serve.py`
+stylesheetUrls = [
+    "http://localhost:8000/dm-screen.css",
+];
+// */
 
-// load style sheets
-if (my_css.length > 0) {
-    GM_addStyle(my_css);
-} else {
-    stylesheetUrls.forEach(loadStylesheet);
-}
+console.log("CSS Stylesheets to load: ", stylesheetUrls);
+stylesheetUrls.forEach(loadStylesheet);
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        SVGs
@@ -417,6 +411,12 @@ var mainTableHTML = `
                         <span class="progress-bar"><span class="progress-bar-fill" style="width: 0%; transform: scaleX(0);"></span></span>
                     </span>
                 </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="15" class="gs-controls">
+                <label>Toggle Characters: </label>
+                <span id='togglechars'></span>
             </td>
         </tr>
     </tfoot>
@@ -924,6 +924,7 @@ function insertElements() {
     colStatsSubTable = $("table.stattable")
 
     var tableBody = $("#gm_table_body", node);
+    toggleChars = $("#togglechars", node);
 
     for (let id in charactersData) {
         var cdata = charactersData[id].data;
@@ -1646,6 +1647,8 @@ function updateElementData(allCharData, charId) {
     const parent_secondrow = allCharData.node_details;
 
     console.log('update info: ', charId, character);
+
+    addOrUpdateToggleButton(charId, character.name);
 
     updateNameBlock(parent, allCharData, character);
     updateHitPointInfo(parent, character.hitPointInfo, character.deathSaveInfo);
@@ -3478,4 +3481,59 @@ function getStatMod(stat, charAbilities) {
 function applyTooltips(parentNode) {
     var els = $('[title]', parentNode);
     els.tooltipster(toolTipsterSettings);
+}
+
+function genToggleButtonId(playerid, playername) {
+    return "chartoggle__{0}".format(playerid);
+}
+
+function genToggleButton(playerid, playername) {
+    var id = genToggleButtonId(playerid, playername);
+
+    var playerfirstrow = _genPlayerId(playerid);
+    var playersecondrow = _genSecondRowID(playerfirstrow);
+
+    var btn = $(`<a id='{0}' role='button' data-bs-toggle='button' class='btn btn-dark' href="#">{1}</a>`.format(id, playername));
+
+    var frNode = $("#" + playerfirstrow);
+    var srNode = $("#" + playersecondrow);
+
+    initSimpleStyleToggleButton(
+        frNode,
+        btn,
+        ROW_TOGGLE_CLASS,
+        (isActive) => {
+            if (!isActive) {
+                srNode.removeClass(ROW_TOGGLE_CLASS);
+
+                btn.removeClass('btn-dark');
+                btn.addClass('btn-light');
+            } else {
+                srNode.addClass(ROW_TOGGLE_CLASS);
+
+                btn.removeClass('btn-light');
+                btn.addClass('btn-dark');
+            }
+        });
+
+    return btn;
+}
+
+function updateToggleButtonName(playerid, playername) {
+    var id = genToggleButtonId(playerid, playername);
+
+    $("#" + id).text(playername);
+}
+
+function addOrUpdateToggleButton(playerid, playername) {
+    var toggleid = genToggleButtonId(playerid, playername);
+
+    var existCheck = $("#" + toggleid, toggleChars);
+
+    if (existCheck.length == 0) {
+        toggleChars.append(genToggleButton(playerid, playername));
+        toggleChars.append("  ");
+    } else {
+        updateToggleButtonName(playerid, playername);
+    }
 }
