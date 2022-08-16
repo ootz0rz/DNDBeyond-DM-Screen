@@ -10241,15 +10241,21 @@ a > #gmstats code {
   width: auto;
   white-space: normal;
 }
-#gmstats table.table th.col_skills .btn.btn-outline-light, #gmstats table.table td.col_skills .btn.btn-outline-light {
-  color: #f8f9fa !important;
+#gmstats table.table th.col_skills .btn, #gmstats table.table td.col_skills .btn {
   zoom: 0.7;
 }
-#gmstats table.table th.col_skills .btn.btn-outline-light:hover, #gmstats table.table th.col_skills .btn.btn-outline-light:active, #gmstats table.table td.col_skills .btn.btn-outline-light:hover, #gmstats table.table td.col_skills .btn.btn-outline-light:active {
-  color: #000 !important;
+#gmstats table.table th.col_skills .btn.btn-outline-dark, #gmstats table.table td.col_skills .btn.btn-outline-dark {
+  color: #f8f9fa !important;
+  border-color: #4e5862 !important;
 }
-#gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.halftoggle {
+#gmstats table.table th.col_skills .btn.btn-outline-dark:hover, #gmstats table.table th.col_skills .btn.btn-outline-dark:active, #gmstats table.table td.col_skills .btn.btn-outline-dark:hover, #gmstats table.table td.col_skills .btn.btn-outline-dark:active {
+  border-color: #fff !important;
+}
+#gmstats table.table th.col_skills .btn.halftoggle, #gmstats table.table th.col_skills .btn.customtoggle, #gmstats table.table td.col_skills .btn.halftoggle, #gmstats table.table td.col_skills .btn.customtoggle {
   float: right;
+  font-size: 1.2rem !important;
+  padding: 0.3rem;
+  margin-right: 0.2em;
 }
 #gmstats table.table th.col_skills span, #gmstats table.table td.col_skills span {
   white-space: normal;

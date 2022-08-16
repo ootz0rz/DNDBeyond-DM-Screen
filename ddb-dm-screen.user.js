@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.18
+// @version         1.2.19
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -213,11 +213,8 @@ if (!String.prototype.format) {
 }
 
 // XXX temp for dev
-/* Test Via `python serve.py`
-stylesheetUrls = [
-    "http://localhost:8000/dm-screen.css",
-];
-// */
+// Test Via `python serve.py`
+// stylesheetUrls = ["http://localhost:8000/dm-screen.css"];
 
 console.log("CSS Stylesheets to load: ", stylesheetUrls);
 stylesheetUrls.forEach(loadStylesheet);
@@ -2338,7 +2335,10 @@ function updateCurrencyVis(c, cval, val, forceHide, shorten = true, hideClass = 
 
 function updateSkillProfs(parent, parent_secondrow, skills, customs) {
     const isHidden = "ishidden";
-    const saveName = "-arehalfprofshidden-";
+    const btnLightOutline = "btn-outline-light";
+    const btnDarkOutline = "btn-outline-dark";
+    const saveHalfName = "-arehalfprofshidden-";
+    const saveCustName = "-arecustomprofshidden-";
 
     function skillSort(x, y) {
         if (x.name < y.name) return -1;
@@ -2367,7 +2367,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
         var halfBtn = $(
             // TODO fix tooltip not showing at right position when using css float
             // addTooltip(
-                `<a role='button' class='btn btn-outline-light halftoggle' href="#">½</a>`,
+                `<a role='button' class='btn {0} halftoggle' href="#">½</a>`.format(btnLightOutline),
             //     "Toggle ½ Proficiency Display"
             // )
         );
@@ -2376,16 +2376,54 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
         function toggleHidden() {
             allHalf.toggleClass(HIDE_CLASS);
             halfBtn.toggleClass(isHidden);
+
+            halfBtn.toggleClass(btnLightOutline);
+            halfBtn.toggleClass(btnDarkOutline);
         }
         
         // setup action
         halfBtn.click(() => {
             toggleHidden();
-            _setGMValue(saveName + rowid, halfBtn.hasClass(isHidden));
+            _setGMValue(saveHalfName + rowid, halfBtn.hasClass(isHidden));
         });
 
         // read saved values if any
-        var hideOnLoad = _getGMValueOrDefault(saveName + rowid, false);
+        var hideOnLoad = _getGMValueOrDefault(saveHalfName + rowid, false);
+        if (hideOnLoad) {
+            toggleHidden();
+        }
+    }
+
+    // add custom skill toggle
+    var allCustom = $(".custom", skillsnode);
+    if (allCustom.length > 0) {
+        var rowid = parent.attr('id');
+
+        var custBtn = $(
+            // TODO fix tooltip not showing at right position when using css float
+            // addTooltip(
+                `<a role='button' class='btn {0} customtoggle' href="#">✚</a>`.format(btnLightOutline), // ⚒ ⚔ ⛏
+            //     "Toggle Custom Proficiency Display"
+            // )
+        );
+        skillsnode.prepend(custBtn);
+
+        function toggleHidden() {
+            allCustom.toggleClass(HIDE_CLASS);
+            custBtn.toggleClass(isHidden);
+
+            custBtn.toggleClass(btnLightOutline);
+            custBtn.toggleClass(btnDarkOutline);
+        }
+        
+        // setup action
+        custBtn.click(() => {
+            toggleHidden();
+            _setGMValue(saveCustName + rowid, custBtn.hasClass(isHidden));
+        });
+
+        // read saved values if any
+        var hideOnLoad = _getGMValueOrDefault(saveCustName + rowid, false);
         if (hideOnLoad) {
             toggleHidden();
         }

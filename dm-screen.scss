@@ -717,16 +717,31 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
                     white-space: normal;
 
                     .btn {
-                        &.btn-outline-light {
+                        zoom: $btnzoomamt;
+                        // &.btn-outline-light {
+                        //     color: $dark !important;
+                        //     // zoom: $btnzoomamt;
+                        //     &:hover, &:active {
+                        //         color: color-contrast($dark) !important;
+                        //     }
+                        // }
+                        &.btn-outline-dark {
                             color: $light !important;
-                            zoom: $btnzoomamt;
+                            // zoom: $btnzoomamt;
+                            border-color: lighten($dark, 20%) !important;
                             &:hover, &:active {
-                                color: color-contrast($light) !important;
+                                border-color: color-contrast($dark) !important;
                             }
                         }
 
-                        &.halftoggle {
+                        &.halftoggle, &.customtoggle {
                             float: right;
+                            font-size: 1.2rem !important;
+                            padding: 0.3rem;
+                            margin-right: 0.2em;
+                        }
+                        &.customtoggle {
+                            // font-style: italic;
                         }
                     }
                     
