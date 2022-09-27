@@ -130,6 +130,9 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
         opacity: 0;
         transition: visibility 0.3s linear, opacity 0.3s linear;
     }
+    &.nodisplay, .nodisplay {
+        display: none !important;
+    }
     tr,td,th,div,span,hr {
         visibility: visible;
         opacity: 1;
@@ -863,6 +866,14 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
 
             tfoot {
                 td {
+                    &#foot3.charpage {
+                        height: 50px;
+
+                        label,span {
+                            display: none;
+                        }
+                    }
+
                     &.col_name {
                         vertical-align: middle;
                         text-align: right;

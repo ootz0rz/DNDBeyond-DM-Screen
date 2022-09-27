@@ -9736,6 +9736,9 @@ a > #gmstats code {
   opacity: 0;
   transition: visibility 0.3s linear, opacity 0.3s linear;
 }
+#gmstats.nodisplay, #gmstats .nodisplay {
+  display: none !important;
+}
 #gmstats tr, #gmstats td, #gmstats th, #gmstats div, #gmstats span, #gmstats hr {
   visibility: visible;
   opacity: 1;
@@ -10343,6 +10346,12 @@ a > #gmstats code {
 }
 #gmstats table.table td.col_skills span {
   white-space: nowrap;
+}
+#gmstats table.table tfoot td#foot3.charpage {
+  height: 50px;
+}
+#gmstats table.table tfoot td#foot3.charpage label, #gmstats table.table tfoot td#foot3.charpage span {
+  display: none;
 }
 #gmstats table.table tfoot td.col_name {
   vertical-align: middle;

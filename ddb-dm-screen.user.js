@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.2.19
+// @version         1.3.0
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
+// @match           https://www.dndbeyond.com/characters/*
 // @exclude         /^https://www.dndbeyond.com/campaigns/.*?/.*?$/
 // @updateURL       https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
@@ -96,6 +97,8 @@ const fontSizeMap = {
     4: 'font_biggest',
 }
 
+var __isCharPage = null;
+
 const showAbilitiesDefault = true;
 const showSavingThrowsDefault = true;
 const showSensesDefault = true;
@@ -115,6 +118,7 @@ const currenciesMainDefault = 'gold';
 const regexNumberLetterBoundary = new RegExp(/(?<=[\D\.,])(?=[\d\.,])|(?<=[\d\.,])(?=[\D\.,])/g);
 
 const HIDE_CLASS = 'hide';
+const NO_DISPLAY_CLASS = 'nodisplay';
 const ROW_TOGGLE_CLASS = 'togglehidden';
 const ACTIVE_ROW_CLASS = 'active_row';
 const ACTIVE_ROW_VAR_NAME_PREFIX = '-active_row-';
@@ -352,7 +356,7 @@ var mainTableHTML = `
             </td>
         </tr>
         <tr>
-            <td colspan="15" class='gs-controls'>
+            <td id="foot1" colspan="15" class='gs-controls'>
                 <span class="gs-form-field gs-form-field-number gs-row-container set">
                     <label class="" for="gs-font-size">Font:</label>
                     <select name="gs-font-size" id="gs-font-size" class='dropdown selectpicker font_size'>
@@ -391,7 +395,7 @@ var mainTableHTML = `
             </td>
         </tr>
         <tr>
-            <td colspan="15" class="gs-controls gs-bottom">
+            <td id="foot2" colspan="15" class="gs-controls gs-bottom">
                 <span class='update'>
                     <a role='button' class='btn btn-outline-info' target="_blank" href="https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js">check for script update</a>
                     <a id='dark_mode_toggle' role='button' data-bs-toggle='button' class='btn btn-outline-info' href="#">site dark mode</a>
@@ -411,7 +415,7 @@ var mainTableHTML = `
             </td>
         </tr>
         <tr>
-            <td colspan="15" class="gs-controls">
+            <td id="foot3" colspan="15" class="gs-controls">
                 <label>Toggle Characters: </label>
                 <span id='togglechars'></span>
             </td>
@@ -795,6 +799,13 @@ var initalModules = {
 (function () {
     campaignID = window.location.pathname.match(charIDRegex);
     findTargets();
+
+    console.log("Targets: ", charactersData);
+    if (Object.keys(charactersData).length == 0) {
+        console.log("No characters found to display!");
+        return;
+    }
+
     insertElements();
     insertCampaignElements();
 
@@ -810,10 +821,35 @@ var initalModules = {
 //        Functions
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
 function findTargets() {
-    console.log("Locating Characters from Window");
+    if (isCharacterPage()) {
+        findCharacterTargets();
+    } else {
+        findCampaignTargets();
+    }
+}
+
+function findCharacterTargets() {
+    console.log("Locating Characters from Character Window");
+
+    var charID = getCharacterPageCharID();
+    if (charID.length == 0) {
+        return;
+    }
+
+    let editurl = window.location.href + "/builder";
+    editableChars[charID] = {
+        // https://www.dndbeyond.com/characters/.../builder/
+        editurl: editurl,
+    }
+
+    let node = $("div[name='character-app']");
+    populateCharData(charID, node, '', '', 'active');
+}
+
+
+function findCampaignTargets() {
+    console.log("Locating Characters from Campaign Window");
     $(linkUrlEdit).each((index, value) => {
         var url = value.href;
         var charID = getCharIDFromURL(url);
@@ -848,45 +884,49 @@ function findTargets() {
                 console.log("Editable character: ", charID, editurl);
             }
 
-            charactersData[charID] = {
-                node: node,
-                url: charJSONurlBase + charID,
-                viewurl: url,
-                editurl: editurl,
-                state: {
-                    appEnv: {
-                        authEndpoint: "https://auth-service.dndbeyond.com/v1/cobalt-token", characterEndpoint: "", characterId: charID, characterServiceBaseUrl: null, diceEnabled: true, diceFeatureConfiguration: {
-                            apiEndpoint: "https://dice-service.dndbeyond.com", assetBaseLocation: "https://www.dndbeyond.com/dice", enabled: true, menu: true, notification: false, trackingId: ""
-                        }, dimensions: { sheet: { height: 0, width: 1200 }, styleSizeType: 4, window: { height: 571, width: 1920 } }, isMobile: false, isReadonly: false, redirect: undefined, username: "example"
-                    },
-                    appInfo: { error: null },
-                    character: {},
-                    characterEnv: { context: "SHEET", isReadonly: false, loadingStatus: "LOADED" },
-                    confirmModal: { modals: [] },
-                    modal: { open: {} },
-                    ruleData: {},
-                    serviceData: { classAlwaysKnownSpells: {}, classAlwaysPreparedSpells: {}, definitionPool: {}, infusionsMappings: [], knownInfusionsMappings: [], ruleDataPool: {}, vehicleComponentMappings: [], vehicleMappings: [] },
-                    sheet: { initError: null, initFailed: false },
-                    sidebar: { activePaneId: null, alignment: "right", isLocked: false, isVisible: false, panes: [], placement: "overlay", width: 340 },
-                    syncTransaction: { active: false, initiator: null },
-                    toastMessage: {}
-                },
-                data: {},
-                type: type,
-            }
-
-            for (let ruleID in optionalRules) {
-                charactersData[charID].state.serviceData.definitionPool[optionalRules[ruleID].category] = {
-                    accessTypeLookup: {},
-                    definitionLookup: {},
-                };
-            }
+            populateCharData(charID, node, url, editurl, type);
         } else {
             console.warn("warn: skipping " + value.href + " due to ID not found");
         }
     });
     console.log("Finished locating Characters from Window");
     //console.debug(charactersData);
+}
+
+function populateCharData(charID, node, url, editurl, type) {
+    charactersData[charID] = {
+        node: node,
+        url: charJSONurlBase + charID,
+        viewurl: url,
+        editurl: editurl,
+        state: {
+            appEnv: {
+                authEndpoint: "https://auth-service.dndbeyond.com/v1/cobalt-token", characterEndpoint: "", characterId: charID, characterServiceBaseUrl: null, diceEnabled: true, diceFeatureConfiguration: {
+                    apiEndpoint: "https://dice-service.dndbeyond.com", assetBaseLocation: "https://www.dndbeyond.com/dice", enabled: true, menu: true, notification: false, trackingId: ""
+                }, dimensions: { sheet: { height: 0, width: 1200 }, styleSizeType: 4, window: { height: 571, width: 1920 } }, isMobile: false, isReadonly: false, redirect: undefined, username: "example"
+            },
+            appInfo: { error: null },
+            character: {},
+            characterEnv: { context: "SHEET", isReadonly: false, loadingStatus: "LOADED" },
+            confirmModal: { modals: [] },
+            modal: { open: {} },
+            ruleData: {},
+            serviceData: { classAlwaysKnownSpells: {}, classAlwaysPreparedSpells: {}, definitionPool: {}, infusionsMappings: [], knownInfusionsMappings: [], ruleDataPool: {}, vehicleComponentMappings: [], vehicleMappings: [] },
+            sheet: { initError: null, initFailed: false },
+            sidebar: { activePaneId: null, alignment: "right", isLocked: false, isVisible: false, panes: [], placement: "overlay", width: 340 },
+            syncTransaction: { active: false, initiator: null },
+            toastMessage: {}
+        },
+        data: {},
+        type: type,
+    };
+
+    for (let ruleID in optionalRules) {
+        charactersData[charID].state.serviceData.definitionPool[optionalRules[ruleID].category] = {
+            accessTypeLookup: {},
+            definitionLookup: {},
+        };
+    }
 }
 
 function getCharIDFromURL(hrefval) {
@@ -910,10 +950,21 @@ function getCharIDFromURL(hrefval) {
 function insertElements() {
     console.log("Inserting Structual Elements");
 
-    var sitemain = $("#site-main");
     var node = $("<div id='gmstats'></div>");
+    
+    // decide where to insert our elements
+    var sitemain = null;
+    if (isCharacterPage()) {
+        sitemain = $("div[name='character-app']");
+    } else {
+        sitemain = $("#site-main");
+    }
 
-    sitemain.prepend(node);
+    if (isCharacterPage()) {
+        sitemain.append(node);
+    } else {
+        sitemain.prepend(node);
+    }
 
     node.append(mainTableHTML);
 
@@ -1004,12 +1055,16 @@ function insertElements() {
         _setGMValue(ACTIVE_ROW_VAR_NAME_PREFIX + playerid, isActive);
 
         updateRowIfShouldBeActive(row);
+
+        e.preventDefault();
     });
 
     // force data refresh on click
-    $("#force_refresh", node).click(function () {
+    $("#force_refresh", node).click(function ($e) {
         console.log("Force Refresh...");
         refreshTimer_startForceRefresh();
+
+        $e.preventDefault();
     });
 
     // toggle dark style for the rest of the site
@@ -1049,6 +1104,15 @@ function insertElements() {
     const bannerNode = $("body > .ddb-site-banner");
     const bannerBtn = $("#banner_toggle", node);
     initSimpleStyleToggleButton(bannerNode, bannerBtn, HIDE_CLASS);
+
+    // ------------
+    // modify for char page if need be
+    if (isCharacterPage()) {
+        const totals = $("#totals", node);
+        totals.addClass(NO_DISPLAY_CLASS);
+
+        $("#foot3", mainTable).addClass("charpage");
+    }
 }
 
 /**
@@ -1058,7 +1122,7 @@ function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null
     var doesTargetExist = targetNode.length > 0;
     var varName = `{0}__{1}`.format(btnNode.attr('id'), className);
 
-    btnNode.click(function () {
+    btnNode.click(function ($e) {
         var isActive = false;
         if (doesTargetExist) {
             isActive = targetNode.hasClass(className);
@@ -1076,6 +1140,8 @@ function initSimpleStyleToggleButton(targetNode, btnNode, className, func = null
         if (func !== null) {
             func(isActive);
         }
+
+        $e.preventDefault();
     });
 
     var isStartActiveVal = _getGMValueOrDefault(varName, false);
@@ -1237,6 +1303,24 @@ function retriveCharacterRule(charId, ruleID) {
             reject();
         });
     });
+}
+
+function isCharacterPage() {
+    if (__isCharPage == null) {
+        __isCharPage = window.location.href.toLowerCase().includes('characters');
+    }
+
+    return __isCharPage;
+}
+
+function getCharacterPageCharID() {
+    let r = window.location.pathname.match(/\/(\d+).*?$/);
+
+    if (r.length > 1) {
+        return r[1];
+    }
+
+    return '';
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1516,6 +1600,8 @@ function insertControls(parent) {
         console.log("Set Timer: ", time);
         autoDuration.prop('value', time).change();
         autoUpdate.prop('checked', true).change();
+
+        e.preventDefault();
     }
     shortDuration.click({ time: 30 }, onDurationClick);
     longDuration.click({ time: 90 }, onDurationClick);
@@ -3531,16 +3617,29 @@ function genToggleButton(playerid, playername) {
     var playerfirstrow = _genPlayerId(playerid);
     var playersecondrow = _genSecondRowID(playerfirstrow);
 
-    var btn = $(`<a id='{0}' role='button' data-bs-toggle='button' class='btn btn-dark' href="#">{1}</a>`.format(id, playername));
+    var displayName = playername;
+    if (isCharacterPage()) {
+        displayName = 'Stats';
+    }
+
+    var btn = $(`<a id='{0}' role='button' data-bs-toggle='button' class='btn btn-dark' href="#">{1}</a>`.format(id, displayName));
+
+    var btnContainer = btn;
+    if (isCharacterPage()) {
+        btnContainer = $(`<div class="dice-toolbar__dropdown"><div class="dice-toolbar__dropdown-die"><span class='charhide'></span></div></div>`);
+        var charhide = $(".charhide", btnContainer);
+
+        charhide.append(btn);
+    }
 
     var frNode = $("#" + playerfirstrow);
     var srNode = $("#" + playersecondrow);
 
     initSimpleStyleToggleButton(
         frNode,
-        btn,
+        btnContainer,
         ROW_TOGGLE_CLASS,
-        (isActive) => {
+        (isActive, $e) => {
             if (!isActive) {
                 srNode.removeClass(ROW_TOGGLE_CLASS);
 
@@ -3552,25 +3651,54 @@ function genToggleButton(playerid, playername) {
                 btn.removeClass('btn-light');
                 btn.addClass('btn-dark');
             }
+
+            if (isCharacterPage()) {
+                if (!isActive) {
+                    $("#gmstats").removeClass(NO_DISPLAY_CLASS);
+                } else {
+                    $("#gmstats").addClass(NO_DISPLAY_CLASS);
+                }
+            }
         });
 
-    return btn;
+    return btnContainer;
 }
 
 function updateToggleButtonName(playerid, playername) {
     var id = genToggleButtonId(playerid, playername);
 
-    $("#" + id).text(playername);
+    var displayName = playername;
+    if (isCharacterPage()) {
+        displayName = 'Stats';
+    }
+
+    $("#" + id).text(displayName);
 }
 
 function addOrUpdateToggleButton(playerid, playername) {
+    var parent = toggleChars;
+    if (isCharacterPage()) {
+        parent = $("div.dice-toolbar");
+
+        if (parent.length == 0) {
+            // eh... hacky solution but don't feel like implementing all the stuff to sub to changes, we're just
+            // gonna poll until the parent exists
+
+            setTimeout(() => {
+                addOrUpdateToggleButton(playerid, playername);
+            }, 100);
+            return;
+        }
+    }
+
+    console.log('toggle parent:', parent);
+
     var toggleid = genToggleButtonId(playerid, playername);
 
-    var existCheck = $("#" + toggleid, toggleChars);
-
+    var existCheck = $("#" + toggleid, parent);
     if (existCheck.length == 0) {
-        toggleChars.append(genToggleButton(playerid, playername));
-        toggleChars.append("  ");
+        parent.append(genToggleButton(playerid, playername));
+        parent.append("  ");
     } else {
         updateToggleButtonName(playerid, playername);
     }
