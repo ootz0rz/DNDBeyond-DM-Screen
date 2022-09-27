@@ -320,6 +320,10 @@
 .tooltipster-sidetip.tooltipster-right .tooltipster-arrow-uncropped {
   left: -10px;
 } /* --- tooltipster --- */
+.nodisplay {
+  display: none !important;
+}
+
 #gmstats {
   /* ----------------------------------------------------------------------------------------------------------------- */
   /* ----------------------------------------------------------------------------------------------------------------- */
@@ -9735,9 +9739,6 @@ a > #gmstats code {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s linear, opacity 0.3s linear;
-}
-#gmstats.nodisplay, #gmstats .nodisplay {
-  display: none !important;
 }
 #gmstats tr, #gmstats td, #gmstats th, #gmstats div, #gmstats span, #gmstats hr {
   visibility: visible;

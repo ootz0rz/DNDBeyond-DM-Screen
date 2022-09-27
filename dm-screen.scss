@@ -52,6 +52,9 @@ $tooltip-border-color: lighten(desaturate($tooltip-base-color, 15), 15);//desatu
 $tooltip-background-color: darken(desaturate($tooltip-base-color, 20), 40);//lighten($gm_c_dark_gold, 10%);
 $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 5);
 
+.nodisplay {
+    display: none !important;
+}
 #gmstats {
     /* ----------------------------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------------------------- */
@@ -129,9 +132,6 @@ $tooltip-source-highlight-bg-color: darken(desaturate($tooltip-base-color, 10), 
         visibility: hidden;
         opacity: 0;
         transition: visibility 0.3s linear, opacity 0.3s linear;
-    }
-    &.nodisplay, .nodisplay {
-        display: none !important;
     }
     tr,td,th,div,span,hr {
         visibility: visible;
