@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.3.0
+// @version         1.3.1
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
@@ -2330,6 +2330,11 @@ function updateMoney(parent, currencies, showSumOnly=false, updateTotalsTooltip=
     gpnum += currencies.ep / 2.0;
     gpnum += currencies.sp / 10.0;
     gpnum += currencies.cp / 100.0;
+
+    // always show at least something
+    if (gpnum === 0) {
+        gpc.removeClass(HIDE_CLASS);
+    }
 
     gpnum_disp = getFormattedShortNum(gpnum);
 
