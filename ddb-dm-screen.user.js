@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name            Carm DnD Beyond GM Screen
 // @namespace       https://github.com/ootz0rz/DNDBeyond-DM-Screen/
-// @version         1.3.1
+// @version         1.3.2
 // @description     GM screen for D&DBeyond campaigns
 // @author          ootz0rz
 // @match           https://www.dndbeyond.com/campaigns/*
-// @match           https://www.dndbeyond.com/characters/*
 // @exclude         /^https://www.dndbeyond.com/campaigns/.*?/.*?$/
 // @updateURL       https://github.com/ootz0rz/DNDBeyond-DM-Screen/raw/master/ddb-dm-screen.user.js
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js
