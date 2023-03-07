@@ -74,7 +74,7 @@ const senseToName = {
 
 const scriptVarPrefix = "DMScreen-";
 
-const charIDRegex = /\/(\d+).*?$/;
+const charIDRegex = /characters\/(\d+).*?$/;
 const campaignIDRegex = /\/(\d+)\/*$/;
 
 const FEET_IN_MILES = 5280;
