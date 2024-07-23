@@ -74,8 +74,9 @@ const senseToName = {
 
 const scriptVarPrefix = "DMScreen-";
 
-const charIDRegex = /\/(\d+).*?$/;
+const charIDRegex = /characters\/(\d+).*?$/;
 const campaignIDRegex = /\/(\d+)\/*$/;
+const regexNumberLetterBoundary = new RegExp(/(?<=[\D\.,])(?=[\d\.,])|(?<=[\d\.,])(?=[\D\.,])/g);
 
 const FEET_IN_MILES = 5280;
 const POUNDS_IN_TON = 2000;
@@ -113,8 +114,6 @@ const currenciesTypeDefault = {
     copper : { name: 'Copper', conversion: 0.01 },
 };
 const currenciesMainDefault = 'gold';
-
-const regexNumberLetterBoundary = new RegExp(/(?<=[\D\.,])(?=[\d\.,])|(?<=[\d\.,])(?=[\D\.,])/g);
 
 const HIDE_CLASS = 'hide';
 const NO_DISPLAY_CLASS = 'nodisplay';
@@ -434,20 +433,20 @@ var tableRowHTML = `
                 <div class="profbonus"><hr /><span class="pb" role="tooltip" title="Proficiency Bonus">PB: <span class="pbval">+2</span></span></div>
                 <div class="conditions">
                     <hr />
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/blinded.svg" class="deficon_large cond_blinded"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/charmed.svg" class="deficon_large cond_charmed"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/deafened.svg" class="deficon_large cond_deafened"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/frightened.svg" class="deficon_large cond_frightened"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/grappled.svg" class="deficon_large cond_grappled"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/incapacitated.svg" class="deficon_large cond_incapacitated"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/invisible.svg" class="deficon_large cond_invisible"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/paralyzed.svg" class="deficon_large cond_paralyzed"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/petrified.svg" class="deficon_large cond_petrified"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/poisoned.svg" class="deficon_large cond_poisoned"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/prone.svg" class="deficon_large cond_prone"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/restrained.svg" class="deficon_large cond_restrained"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/stunned.svg" class="deficon_large cond_stunned"></span> 
-                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/unconscious.svg" class="deficon_large cond_unconscious"></span> 
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/blinded.svg" class="deficon_large cond_blinded"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/charmed.svg" class="deficon_large cond_charmed"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/deafened.svg" class="deficon_large cond_deafened"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/frightened.svg" class="deficon_large cond_frightened"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/grappled.svg" class="deficon_large cond_grappled"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/incapacitated.svg" class="deficon_large cond_incapacitated"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/invisible.svg" class="deficon_large cond_invisible"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/paralyzed.svg" class="deficon_large cond_paralyzed"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/petrified.svg" class="deficon_large cond_petrified"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/poisoned.svg" class="deficon_large cond_poisoned"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/prone.svg" class="deficon_large cond_prone"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/restrained.svg" class="deficon_large cond_restrained"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/stunned.svg" class="deficon_large cond_stunned"></span>
+                    <span class="cond hide"><img src="https://www.dndbeyond.com/content/1-0-1862-0/skins/waterdeep/images/icons/conditions/white/unconscious.svg" class="deficon_large cond_unconscious"></span>
                 </div>
             </td>
             <td class="col_hp">
@@ -796,7 +795,7 @@ var initalModules = {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (function () {
-    campaignID = window.location.pathname.match(charIDRegex);
+    campaignID = window.location.pathname.match(campaignIDRegex);
     findTargets();
 
     console.log("Targets: ", charactersData);
@@ -830,8 +829,8 @@ function findTargets() {
 
 function findCharacterTargets() {
     console.log("Locating Characters from Character Window");
-
-    var charID = getCharacterPageCharID();
+    var url = window.location.pathname;
+    var charID = getCharIDFromURL(url);
     if (charID.length == 0) {
         return;
     }
@@ -928,10 +927,10 @@ function populateCharData(charID, node, url, editurl, type) {
     }
 }
 
-function getCharIDFromURL(hrefval) {
+function getCharIDFromURL(url) {
     var charID = 0;
 
-    var matchArr = hrefval.match(charIDRegex);
+    var matchArr = url.match(charIDRegex);
     if (matchArr.length > 0) {
         var charIDStr = matchArr[1];
         if (charIDStr == "") {
@@ -940,7 +939,7 @@ function getCharIDFromURL(hrefval) {
             charID = parseInt(charIDStr);
         }
     } else {
-        console.warn("error: no numbers found in " + hrefval);
+        console.warn("error: no numbers found in " + url);
     }
 
     return charID;
@@ -950,7 +949,7 @@ function insertElements() {
     console.log("Inserting Structual Elements");
 
     var node = $("<div id='gmstats'></div>");
-    
+
     // decide where to insert our elements
     var sitemain = null;
     if (isCharacterPage()) {
@@ -1006,7 +1005,7 @@ function insertElements() {
     function isParentTableValid($t) {
         var parentTable = $t.parents('table');
         return (
-            parentTable.length == mainTable.length 
+            parentTable.length == mainTable.length
             && parentTable.length > 0
             && parentTable[0] == mainTable[0]);
     }
@@ -1312,16 +1311,6 @@ function isCharacterPage() {
     return __isCharPage;
 }
 
-function getCharacterPageCharID() {
-    let r = window.location.pathname.match(/\/(\d+).*?$/);
-
-    if (r.length > 1) {
-        return r[1];
-    }
-
-    return '';
-}
-
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //        Refresh timer
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1418,7 +1407,7 @@ function refreshTimer_tock() {
     var minTime = refreshTimer_getMinTime();
     var isActive = refreshTimer_isAutoUpdateActive();
 
-    // console.log('refreshTimer_tock', 
+    // console.log('refreshTimer_tock',
     //     'isActive:', isActive,
     //     'minTime:', minTime / 1000,
     //     'timeSinceLast:', timeSinceLastRefresh / 1000
@@ -1574,7 +1563,7 @@ function insertControls(parent) {
         let val = parseBool($this.prop("checked"));
 
         _setGMValue("-autoUpdate", val);
-        
+
         if (refreshTimer_isActive() != val) {
             refreshTimer__checkShouldStart(val);
         }
@@ -1767,7 +1756,7 @@ function updateRowIfShouldBeActive(primaryRow) {
 
     var col_money_expanded = $(".expanded", col_money);
     var col_money_total = $(".total", col_money);
-    
+
     var isActive = _getGMValueOrDefault(ACTIVE_ROW_VAR_NAME_PREFIX + playerId, false);
 
     // console.log('update row, player:', playerId, '\nprimary', primaryRow, '\nsecond', secondrow, '\nisActive', isActive);
@@ -1807,7 +1796,7 @@ function updateRowIfShouldBeActive(primaryRow) {
         col_langs_immset.addClass(HIDE_CLASS);
         col_langs_vulnset.addClass(HIDE_CLASS);
         col_langs_saveset.addClass(HIDE_CLASS);
-        
+
         // only hide the money expanded section, if we have no 'total' summary calculated
         var cmtHtml = col_money_total.html();
         if (cmtHtml.length > 0) {
@@ -1897,8 +1886,8 @@ function updateNameBlockConditions(character, nameblock) {
     if (conditions.length == 0) {
         condNode.addClass(HIDE_CLASS);
         return;
-    } 
-    
+    }
+
     // unhide the overall block, and then individual conditions
     condNode.removeClass(HIDE_CLASS);
 
@@ -1957,7 +1946,7 @@ function updateNameBlockExhaust(character, nameblock) {
         if (exhaustData !== null) {
             var exhaustItems = "";
 
-            exhaustData.levels.forEach((item, idx) => { 
+            exhaustData.levels.forEach((item, idx) => {
                 if (item.definition.level <= exhaustLevel) {
                     exhaustItems += `<li class="nob"><span class="disadv">{0}</span>: {1}</li>`.format(item.definition.level, item.definition.effect);
                 }
@@ -1972,7 +1961,7 @@ function updateNameBlockExhaust(character, nameblock) {
                 exhaustStr,
                 restStr,
                 insertTooltipAttributes(tipStr)
-                //, GET_SVG_URI_AS_OBJECT(SVG_C_EXHAUSTION) 
+                //, GET_SVG_URI_AS_OBJECT(SVG_C_EXHAUSTION)
             ));
     } else {
         exhaustBlock.addClass(HIDE_CLASS);
@@ -2135,7 +2124,7 @@ function updateHitPointInfo(parent, hitPointInfo, deathSaveInfo) {
         } else {
             diceVal = '{0}&frasl;{1}'.format(numLeft, val);
         }
-        
+
         var fStr = `<span class='hitdice{2}'><span class='num'>{0}</span> × <span class='dicetype'>d{1}</span></span>`.format(
             diceVal,
             key,
@@ -2185,7 +2174,7 @@ function updateArmorClass(parent, armorClass, init, hastInitAdv) {
             Math.abs(init),
             initAdv
         ));
-    
+
     updateTooltipText(initValNode, hastInitAdv ? TOOLTIP_INIT_ADV : TOOLTIP_INIT_NORMAL);
 }
 
@@ -2412,7 +2401,7 @@ function updateCurrencyVis(c, cval, val, forceHide, shorten = true, hideClass = 
         disp_num = short_num;
     }
 
-    
+
 
     if (disp_num != short_num) {
         cval.html(short_num);
@@ -2440,7 +2429,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
     customs.sort(skillSort);
 
     everything = [...genSkillsArray(skills), ...genSkillsArray(customs, isCustom=true)];
-    
+
     var skillsnode = $(".col_skills", parent);
     skillsnode.empty();
     skillsnode.append(everything.join(" "));
@@ -2470,7 +2459,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
             halfBtn.toggleClass(btnLightOutline);
             halfBtn.toggleClass(btnDarkOutline);
         }
-        
+
         // setup action
         halfBtn.click(() => {
             toggleHidden();
@@ -2505,7 +2494,7 @@ function updateSkillProfs(parent, parent_secondrow, skills, customs) {
             custBtn.toggleClass(btnLightOutline);
             custBtn.toggleClass(btnDarkOutline);
         }
-        
+
         // setup action
         custBtn.click(() => {
             toggleHidden();
@@ -2569,7 +2558,7 @@ function genSkillsArray(skills, isCustom=false) {
 
                 color += " advdisadv disadv";
             }
-            
+
             if (hasAdv && hasDisadv) {
                 adv = '';
             }
@@ -2577,7 +2566,7 @@ function genSkillsArray(skills, isCustom=false) {
 
         function getProfText(classtype, tooltipText, name, sign, mod, color, advIcon, advString, sup="") {
             // NOTE: we have to push the tooltip within the container for the skill, because the tooltip stuff uses
-            // ::after same as our commas between skills at the moment :/ 
+            // ::after same as our commas between skills at the moment :/
 
             var titleClass = "title";
             if (classType.length > 0) {
@@ -2592,7 +2581,7 @@ function genSkillsArray(skills, isCustom=false) {
             } else {
                 tooltipText = `<span class="{1}">{0}</span>`.format(tooltipText, titleClass);
             }
-            
+
             return "<span class='c {0} {1}'>{2}</span>".format(
                 classtype,
                 color,
@@ -3300,7 +3289,7 @@ function editTooltipLabel(node, newText) {
     // kinda hacky work-around to updating tooltips w/ tooltipstered afaik
     node.removeClass('tooltipstered');
     node.attr('title', newText);
-    
+
     var bk = node.clone();
     var parent = node.parent();
 
@@ -3353,7 +3342,7 @@ function getStatScoreNameFromID(dataAbilities, id) {
             return;
         }
     });
-    
+
     return stat;
 }
 
@@ -3392,7 +3381,7 @@ function tryParseHeightToFeet(hStr) {
     // check if we're already just a number of some sort...
     outHeight = Number(hStr);
     if (isNum(hStr)) {
-        // maybe we can do something smart here, but without knowing what the value 
+        // maybe we can do something smart here, but without knowing what the value
         // actually means... gotta just get rid of it
         return null;
     }
@@ -3402,9 +3391,9 @@ function tryParseHeightToFeet(hStr) {
     return outHeight;
 }
 
-/** 
- * Parse the string and if possible return final value in terms of number of feet 
- * 
+/**
+ * Parse the string and if possible return final value in terms of number of feet
+ *
  * Returns null if can't parse
  * */
 function __parseHeightVal(hStr) {
@@ -3458,7 +3447,7 @@ function __parseHeightVal(hStr) {
                 //     "tNext", tNext,
                 //     "wasFeet?", wasFeet,
                 //     "{0} / {1}".format(i, tokens.length));
-                
+
                 if ((i + 1) >= tokens.length && !wasFeet) {
                     break;
                 }
@@ -3502,7 +3491,7 @@ function __parseHeightVal(hStr) {
                             finalVal += t * 0.03281 / 10;
                             // cl1(tNext, finalVal, 1, t);
                             break;
-                        
+
                         // imperial
                         case 'feet':
                         case 'ft':
@@ -3515,7 +3504,7 @@ function __parseHeightVal(hStr) {
                             finalVal += t;
                             // cl1("feet[" + tNext + "]", finalVal, 1, t);
                             break;
-                        
+
                         case 'inches':
                         case 'inch':
                         case 'in':
@@ -3526,7 +3515,7 @@ function __parseHeightVal(hStr) {
                             finalVal += t / 12;
                             // cl1("inch[" + tNext + "]", finalVal, 1, t);
                             break;
-                    
+
                         default:
                             // cl1("default[" + wasFeet + "]", finalVal, 10, t);
                             if (wasFeet) {
